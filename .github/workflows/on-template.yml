@@ -1,0 +1,33 @@
+name: On Template
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  npm-publish:
+    name: on template
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+        ## we want to checkout just before replacing and pushing to avoid
+        ## conflict with other actions that push back
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Replace
+        run: node ./on-template.js
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: "chore: replaces template variables"
+          title: "chore: replaces template variables"
+          labels: merge when passing

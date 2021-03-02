@@ -1,0 +1,55 @@
+// Debugging Reference: https://code.visualstudio.com/docs/editor/debugging
+// Variables Reference: https://code.visualstudio.com/docs/editor/variables-reference
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Test",
+      "type": "node",
+      "request": "launch",
+      "args": [
+        "--runInBand",
+        "--no-cache"
+      ],
+      "env": {
+        "CI": "true"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "skipFiles": [
+        // black boxes vendor code from the debugger
+        "${workspaceRoot}/node_modules/**/*.js",
+        "${workspaceRoot}/lib/**/*.js",
+        "async_hooks.js",
+        "inspector_async_hook.js",
+        // https://github.com/nodejs/node/issues/15464#issuecomment-332724821
+        "<node_internals>/**",
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Program",
+      "console": "integratedTerminal",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceFolder}/src"
+      ],
+      "skipFiles": [
+        // black boxes vendor code from the debugger
+        "${workspaceRoot}/node_modules/**/*.js",
+        "${workspaceRoot}/lib/**/*.js",
+        "async_hooks.js",
+        "inspector_async_hook.js",
+        // https://github.com/nodejs/node/issues/15464#issuecomment-332724821
+        "<node_internals>/**",
+      ]
+    }
+  ]
+}

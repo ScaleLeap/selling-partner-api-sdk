@@ -1,0 +1,56 @@
+{
+  "name": "@scaleleap/typescript-template",
+  "description": "TypeScript Project Template",
+  "license": "MIT",
+  "author": {
+    "name": "Roman Filippov",
+    "email": "roman@scaleleap.com",
+    "url": "https://www.scaleleap.com/"
+  },
+  "homepage": "https://github.com/ScaleLeap/typescript-template",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ScaleLeap/typescript-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ScaleLeap/typescript-template/issues"
+  },
+  "version": "0.0.0",
+  "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "tsc --build tsconfig.build.json",
+    "clean": "rimraf lib/*",
+    "dev": "ts-node-dev --respawn --transpileOnly src",
+    "lint": "eslint --ext ts,js src/ test/",
+    "lint:fix": "npm run lint -- --fix",
+    "semantic-release": "npx @scaleleap/semantic-release-config",
+    "start": "ts-node --transpile-only --pretty src",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "types": "lib/index.d.ts",
+  "devDependencies": {
+    "@scaleleap/utils": "1.9.10",
+    "@types/jest": "26.0.20",
+    "@types/node": "13.13.45",
+    "danger": "10.6.3",
+    "jest": "26.6.3",
+    "rimraf": "3.0.2",
+    "ts-jest": "26.5.0",
+    "ts-node": "9.1.1",
+    "ts-node-dev": "1.1.6",
+    "tsconfigs": "4.0.2",
+    "typescript": "4.2.2"
+  },
+  "keywords": [
+    "template",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

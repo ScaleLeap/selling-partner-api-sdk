@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "outDir": "lib"
+  },
+  "exclude": [
+    "src/**/*.test.ts",
+    "**/__test__/**",
+    "test",
+    "dangerfile.ts"
+  ]
+}

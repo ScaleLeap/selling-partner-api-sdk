@@ -1,0 +1,13 @@
+{
+  "extends": "tsconfigs/nodejs-module",
+  "compilerOptions": {
+    "lib": [
+      "ES2019"
+    ],
+    "target": "ES2019"
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ]
+}
