@@ -38,7 +38,7 @@ function generateModel(model: GithubObject) {
   // TODO: run scripts to generate models
 }
 
-async function genrateModels() {
+async function generateModels() {
   const modelFolders = await fetchContentsByPath()
   const modelPromises = modelFolders.map((modelFolder) =>
     fetchContentsByPath(modelFolder.path).then((models) =>
@@ -50,4 +50,4 @@ async function genrateModels() {
   // TODO: export models into src/index.ts and commit files
 }
 
-export default series(genrateModels)
+export default series(generateModels)
