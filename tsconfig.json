@@ -5,6 +5,7 @@
       "ES2019",
       "DOM"
     ],
+    "noImplicitAny": false,
     "target": "ES2019"
   },
   "include": [
