@@ -33,11 +33,21 @@
     "test:watch": "jest --watchAll"
   },
   "types": "lib/index.d.ts",
+  "dependencies": {
+    "axios": "0.21.1",
+    "purify-ts": "0.16.1",
+    "ts-error": "1.0.6"
+  },
   "devDependencies": {
+    "@octokit/rest": "18.3.2",
+    "@octokit/types": "6.11.2",
+    "@openapitools/openapi-generator-cli": "2.1.26",
     "@scaleleap/utils": "1.9.10",
+    "@types/gulp": "4.0.8",
     "@types/jest": "26.0.20",
     "@types/node": "13.13.45",
     "danger": "10.6.3",
+    "gulp": "4.0.2",
     "jest": "26.6.3",
     "rimraf": "3.0.2",
     "ts-jest": "26.5.0",
