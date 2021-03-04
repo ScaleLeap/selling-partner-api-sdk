@@ -2,7 +2,8 @@
   "extends": "tsconfigs/nodejs-module",
   "compilerOptions": {
     "lib": [
-      "ES2019"
+      "ES2019",
+      "DOM"
     ],
     "target": "ES2019"
   },
