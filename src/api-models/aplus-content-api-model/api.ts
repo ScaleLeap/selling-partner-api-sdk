@@ -1657,7 +1657,7 @@ export const AplusContentApiAxiosParamCreator = function (configuration?: Config
             }
 
             if (includedDataSet) {
-                localVarQueryParameter['includedDataSet'] = includedDataSet.join(COLLECTION_FORMATS.csv);
+                localVarQueryParameter['includedDataSet'] = [...includedDataSet].join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -1704,11 +1704,11 @@ export const AplusContentApiAxiosParamCreator = function (configuration?: Config
             }
 
             if (includedDataSet) {
-                localVarQueryParameter['includedDataSet'] = includedDataSet.join(COLLECTION_FORMATS.csv);
+                localVarQueryParameter['includedDataSet'] = [...includedDataSet].join(COLLECTION_FORMATS.csv);
             }
 
             if (asinSet) {
-                localVarQueryParameter['asinSet'] = asinSet.join(COLLECTION_FORMATS.csv);
+                localVarQueryParameter['asinSet'] = [...asinSet].join(COLLECTION_FORMATS.csv);
             }
 
             if (pageToken !== undefined) {
@@ -2017,7 +2017,7 @@ export const AplusContentApiAxiosParamCreator = function (configuration?: Config
             }
 
             if (asinSet) {
-                localVarQueryParameter['asinSet'] = asinSet.join(COLLECTION_FORMATS.csv);
+                localVarQueryParameter['asinSet'] = Array.from(asinSet).join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -2418,5 +2418,3 @@ export class AplusContentApi extends BaseAPI {
         return AplusContentApiFp(this.configuration).validateContentDocumentAsinRelations(marketplaceId, postContentDocumentRequest, asinSet, options).then((request) => request(this.axios, this.basePath));
     }
 }
-
-
