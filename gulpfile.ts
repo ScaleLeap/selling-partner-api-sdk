@@ -39,7 +39,7 @@ async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]>
 function generateAPIModel(model: GithubObject): APIModel {
   const outputFolder = path.basename(path.dirname(model.path))
   const out = `src/api-models/${outputFolder}`
-  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true -o ${out} -i ${model.download_url}`
+  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${out} -i ${model.download_url}`
 
   return {
     ...model,
