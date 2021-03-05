@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for Sales
  * The Selling Partner API for Sales provides APIs related to sales performance.
@@ -13,11 +13,10 @@
  */
 
 
+import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
-// @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -148,21 +147,25 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderMetrics: async (marketplaceIds: Array<string>, interval: string, granularity: 'Hour' | 'Day' | 'Week' | 'Month' | 'Year' | 'Total', granularityTimeZone?: string, buyerType?: 'B2B' | 'B2C' | 'All', fulfillmentNetwork?: string, firstDayOfWeek?: 'Monday' | 'Sunday', asin?: string, sku?: string, options: any = {}): Promise<RequestArgs> => {
+        getOrderMetrics(marketplaceIds: Array<string>, interval: string, granularity: 'Hour' | 'Day' | 'Week' | 'Month' | 'Year' | 'Total', granularityTimeZone?: string, buyerType?: 'B2B' | 'B2C' | 'All', fulfillmentNetwork?: string, firstDayOfWeek?: 'Monday' | 'Sunday', asin?: string, sku?: string, options: any = {}): RequestArgs {
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('getOrderMetrics', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling getOrderMetrics.');
+            }
             // verify required parameter 'interval' is not null or undefined
-            assertParamExists('getOrderMetrics', 'interval', interval)
+            if (interval === null || interval === undefined) {
+                throw new RequiredError('interval','Required parameter interval was null or undefined when calling getOrderMetrics.');
+            }
             // verify required parameter 'granularity' is not null or undefined
-            assertParamExists('getOrderMetrics', 'granularity', granularity)
+            if (granularity === null || granularity === undefined) {
+                throw new RequiredError('granularity','Required parameter granularity was null or undefined when calling getOrderMetrics.');
+            }
             const localVarPath = `/sales/v1/orderMetrics`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -205,12 +208,13 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -222,7 +226,6 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
  * @export
  */
 export const SalesApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = SalesApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns aggregated order metrics for given interval, broken down by granularity, for given buyer type.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -238,9 +241,12 @@ export const SalesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrderMetrics(marketplaceIds: Array<string>, interval: string, granularity: 'Hour' | 'Day' | 'Week' | 'Month' | 'Year' | 'Total', granularityTimeZone?: string, buyerType?: 'B2B' | 'B2C' | 'All', fulfillmentNetwork?: string, firstDayOfWeek?: 'Monday' | 'Sunday', asin?: string, sku?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderMetricsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderMetrics(marketplaceIds, interval, granularity, granularityTimeZone, buyerType, fulfillmentNetwork, firstDayOfWeek, asin, sku, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getOrderMetrics(marketplaceIds: Array<string>, interval: string, granularity: 'Hour' | 'Day' | 'Week' | 'Month' | 'Year' | 'Total', granularityTimeZone?: string, buyerType?: 'B2B' | 'B2C' | 'All', fulfillmentNetwork?: string, firstDayOfWeek?: 'Monday' | 'Sunday', asin?: string, sku?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderMetricsResponse> {
+            const localVarAxiosArgs = SalesApiAxiosParamCreator(configuration).getOrderMetrics(marketplaceIds, interval, granularity, granularityTimeZone, buyerType, fulfillmentNetwork, firstDayOfWeek, asin, sku, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
     }
 };
@@ -250,7 +256,6 @@ export const SalesApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const SalesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = SalesApiFp(configuration)
     return {
         /**
          * Returns aggregated order metrics for given interval, broken down by granularity, for given buyer type.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -266,8 +271,8 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderMetrics(marketplaceIds: Array<string>, interval: string, granularity: 'Hour' | 'Day' | 'Week' | 'Month' | 'Year' | 'Total', granularityTimeZone?: string, buyerType?: 'B2B' | 'B2C' | 'All', fulfillmentNetwork?: string, firstDayOfWeek?: 'Monday' | 'Sunday', asin?: string, sku?: string, options?: any): AxiosPromise<GetOrderMetricsResponse> {
-            return localVarFp.getOrderMetrics(marketplaceIds, interval, granularity, granularityTimeZone, buyerType, fulfillmentNetwork, firstDayOfWeek, asin, sku, options).then((request) => request(axios, basePath));
+        getOrderMetrics(marketplaceIds: Array<string>, interval: string, granularity: 'Hour' | 'Day' | 'Week' | 'Month' | 'Year' | 'Total', granularityTimeZone?: string, buyerType?: 'B2B' | 'B2C' | 'All', fulfillmentNetwork?: string, firstDayOfWeek?: 'Monday' | 'Sunday', asin?: string, sku?: string, options?: any) {
+            return SalesApiFp(configuration).getOrderMetrics(marketplaceIds, interval, granularity, granularityTimeZone, buyerType, fulfillmentNetwork, firstDayOfWeek, asin, sku, options)(axios, basePath);
         },
     };
 };
@@ -295,8 +300,9 @@ export class SalesApi extends BaseAPI {
      * @memberof SalesApi
      */
     public getOrderMetrics(marketplaceIds: Array<string>, interval: string, granularity: 'Hour' | 'Day' | 'Week' | 'Month' | 'Year' | 'Total', granularityTimeZone?: string, buyerType?: 'B2B' | 'B2C' | 'All', fulfillmentNetwork?: string, firstDayOfWeek?: 'Monday' | 'Sunday', asin?: string, sku?: string, options?: any) {
-        return SalesApiFp(this.configuration).getOrderMetrics(marketplaceIds, interval, granularity, granularityTimeZone, buyerType, fulfillmentNetwork, firstDayOfWeek, asin, sku, options).then((request) => request(this.axios, this.basePath));
+        return SalesApiFp(this.configuration).getOrderMetrics(marketplaceIds, interval, granularity, granularityTimeZone, buyerType, fulfillmentNetwork, firstDayOfWeek, asin, sku, options)(this.axios, this.basePath);
     }
+
 }
 
 

@@ -1,5 +1,4 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
 /**
  * Selling Partner API for Product Fees
  * The Selling Partner API for Product Fees lets you programmatically retrieve estimated fees for a product. You can then account for those fees in your pricing.
@@ -15,4 +14,3 @@
 
 export * from "./api";
 export * from "./configuration";
-

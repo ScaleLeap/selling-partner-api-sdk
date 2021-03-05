@@ -1,5 +1,4 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
 /**
  * Selling Partner API for Shipping
  * Provides programmatic access to Amazon Shipping APIs.
@@ -15,4 +14,3 @@
 
 export * from "./api";
 export * from "./configuration";
-

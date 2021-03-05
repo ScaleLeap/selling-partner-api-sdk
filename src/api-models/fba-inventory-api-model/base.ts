@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for FBA Inventory
  * The Selling Partner API for FBA Inventory lets you programmatically retrieve information about inventory in Amazon\'s fulfillment network.

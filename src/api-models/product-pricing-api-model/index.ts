@@ -1,5 +1,4 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
 /**
  * Selling Partner API for Pricing
  * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer information for Amazon Marketplace products.
@@ -15,4 +14,3 @@
 
 export * from "./api";
 export * from "./configuration";
-

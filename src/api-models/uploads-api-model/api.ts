@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for Uploads
  * The Selling Partner API for Uploads provides operations that support uploading files.
@@ -13,11 +13,10 @@
  */
 
 
+import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
-// @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -106,22 +105,26 @@ export const UploadsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUploadDestinationForResource: async (marketplaceIds: Array<string>, contentMD5: string, resource: string, contentType?: string, options: any = {}): Promise<RequestArgs> => {
+        createUploadDestinationForResource(marketplaceIds: Array<string>, contentMD5: string, resource: string, contentType?: string, options: any = {}): RequestArgs {
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createUploadDestinationForResource', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createUploadDestinationForResource.');
+            }
             // verify required parameter 'contentMD5' is not null or undefined
-            assertParamExists('createUploadDestinationForResource', 'contentMD5', contentMD5)
+            if (contentMD5 === null || contentMD5 === undefined) {
+                throw new RequiredError('contentMD5','Required parameter contentMD5 was null or undefined when calling createUploadDestinationForResource.');
+            }
             // verify required parameter 'resource' is not null or undefined
-            assertParamExists('createUploadDestinationForResource', 'resource', resource)
+            if (resource === null || resource === undefined) {
+                throw new RequiredError('resource','Required parameter resource was null or undefined when calling createUploadDestinationForResource.');
+            }
             const localVarPath = `/uploads/2020-11-01/uploadDestinations/{resource}`
                 .replace(`{${"resource"}}`, encodeURIComponent(String(resource)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -140,12 +143,13 @@ export const UploadsApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -157,7 +161,6 @@ export const UploadsApiAxiosParamCreator = function (configuration?: Configurati
  * @export
  */
 export const UploadsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = UploadsApiAxiosParamCreator(configuration)
     return {
         /**
          * Creates an upload destination for a resource that you specify and returns the information required to upload to that destination.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -168,9 +171,12 @@ export const UploadsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUploadDestinationForResource(marketplaceIds: Array<string>, contentMD5: string, resource: string, contentType?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateUploadDestinationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createUploadDestinationForResource(marketplaceIds, contentMD5, resource, contentType, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createUploadDestinationForResource(marketplaceIds: Array<string>, contentMD5: string, resource: string, contentType?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateUploadDestinationResponse> {
+            const localVarAxiosArgs = UploadsApiAxiosParamCreator(configuration).createUploadDestinationForResource(marketplaceIds, contentMD5, resource, contentType, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
     }
 };
@@ -180,7 +186,6 @@ export const UploadsApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const UploadsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = UploadsApiFp(configuration)
     return {
         /**
          * Creates an upload destination for a resource that you specify and returns the information required to upload to that destination.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -191,8 +196,8 @@ export const UploadsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUploadDestinationForResource(marketplaceIds: Array<string>, contentMD5: string, resource: string, contentType?: string, options?: any): AxiosPromise<CreateUploadDestinationResponse> {
-            return localVarFp.createUploadDestinationForResource(marketplaceIds, contentMD5, resource, contentType, options).then((request) => request(axios, basePath));
+        createUploadDestinationForResource(marketplaceIds: Array<string>, contentMD5: string, resource: string, contentType?: string, options?: any) {
+            return UploadsApiFp(configuration).createUploadDestinationForResource(marketplaceIds, contentMD5, resource, contentType, options)(axios, basePath);
         },
     };
 };
@@ -215,8 +220,9 @@ export class UploadsApi extends BaseAPI {
      * @memberof UploadsApi
      */
     public createUploadDestinationForResource(marketplaceIds: Array<string>, contentMD5: string, resource: string, contentType?: string, options?: any) {
-        return UploadsApiFp(this.configuration).createUploadDestinationForResource(marketplaceIds, contentMD5, resource, contentType, options).then((request) => request(this.axios, this.basePath));
+        return UploadsApiFp(this.configuration).createUploadDestinationForResource(marketplaceIds, contentMD5, resource, contentType, options)(this.axios, this.basePath);
     }
+
 }
 
 

@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for Authorization
  * The Selling Partner API for Authorization helps developers manage authorizations and check the specific permissions associated with a given authorization.
