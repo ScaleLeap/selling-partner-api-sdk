@@ -1,5 +1,6 @@
 import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extraneous-dependencies
 import { series } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
+import { flatten } from 'lodash' // eslint-disable-line import/no-extraneous-dependencies
 import path from 'path'
 import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec'
 
@@ -11,6 +12,10 @@ const GithubObject = Codec.interface({
   download_url: oneOf([string, nullType]),
 })
 type GithubObject = GetType<typeof GithubObject>
+
+interface APIModel extends GithubObject {
+  command: string
+}
 
 // Using authentication to increases Github API rate limit.
 const octokit = new Octokit()
@@ -31,23 +36,50 @@ async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]>
     )
 }
 
-function generateModel(model: GithubObject) {
+function generateAPIModel(model: GithubObject): APIModel {
   const outputFolder = path.basename(path.dirname(model.path))
   const out = `src/api-models/${outputFolder}`
-  return `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true -o ${out} -i ${model.download_url}`
-  // TODO: run scripts to generate models
+  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true -o ${out} -i ${model.download_url}`
+
+  return {
+    ...model,
+    command,
+  }
+}
+
+function executeGeneratorCLI(model: APIModel): APIModel {
+  // TODO: generate model from API model
+
+  return model
+}
+
+function removeRedundantObjects(model: APIModel): APIModel {
+  /**
+   * TODO: clean up:
+   *- .openapi-generator
+   *- .gitignore
+   *- .openapi-generator-ignore
+   *- git_push.sh
+   */
+
+  return model
+}
+
+function exportAPIModel(model: APIModel): APIModel {
+  // TODO: export models into src/index.ts and commit files
+
+  return model
 }
 
 async function generateModels() {
-  const modelFolders = await fetchContentsByPath()
-  const modelPromises = modelFolders.map((modelFolder) =>
-    fetchContentsByPath(modelFolder.path).then((models) =>
-      models.map((model) => generateModel(model)),
-    ),
-  )
-  await Promise.all(modelPromises)
+  const githubFolders = await fetchContentsByPath()
+  const githubFilePromises = githubFolders.map((folder) => fetchContentsByPath(folder.path))
 
-  // TODO: export models into src/index.ts and commit files
+  return flatten(await Promise.all(githubFilePromises))
+    .map(generateAPIModel)
+    .map(executeGeneratorCLI)
+    .map(removeRedundantObjects)
+    .map(exportAPIModel)
 }
 
 export default series(generateModels)
