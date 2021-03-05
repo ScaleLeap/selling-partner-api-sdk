@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Catalog Items
  * The Selling Partner API for Catalog Items helps you programmatically retrieve item details for items in the catalog.
@@ -14,3 +15,4 @@
 
 export * from "./api";
 export * from "./configuration";
+

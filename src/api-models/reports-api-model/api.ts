@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Reports
  * The Selling Partner API for Reports lets you retrieve and manage a variety of reports that can help selling partners manage their businesses.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -142,10 +143,10 @@ export interface CreateReportScheduleSpecification {
     period: CreateReportScheduleSpecificationPeriodEnum;
     /**
      * The date and time when the schedule will create its next report, in ISO 8601 date time format.
-     * @type {Date}
+     * @type {string}
      * @memberof CreateReportScheduleSpecification
      */
-    nextReportCreationTime?: Date;
+    nextReportCreationTime?: string;
 }
 
 /**
@@ -153,18 +154,18 @@ export interface CreateReportScheduleSpecification {
     * @enum {string}
     */
 export enum CreateReportScheduleSpecificationPeriodEnum {
-    PT5M = 'PT5M',
-    PT15M = 'PT15M',
-    PT30M = 'PT30M',
-    PT1H = 'PT1H',
-    PT2H = 'PT2H',
-    PT4H = 'PT4H',
-    PT8H = 'PT8H',
-    PT12H = 'PT12H',
+    Pt5M = 'PT5M',
+    Pt15M = 'PT15M',
+    Pt30M = 'PT30M',
+    Pt1H = 'PT1H',
+    Pt2H = 'PT2H',
+    Pt4H = 'PT4H',
+    Pt8H = 'PT8H',
+    Pt12H = 'PT12H',
     P1D = 'P1D',
     P2D = 'P2D',
     P3D = 'P3D',
-    PT84H = 'PT84H',
+    Pt84H = 'PT84H',
     P7D = 'P7D',
     P14D = 'P14D',
     P15D = 'P15D',
@@ -193,16 +194,16 @@ export interface CreateReportSpecification {
     reportType: string;
     /**
      * The start of a date and time range, in ISO 8601 date time format, used for selecting the data to report. The default is now. The value must be prior to or equal to the current date and time. Not all report types make use of this.
-     * @type {Date}
+     * @type {string}
      * @memberof CreateReportSpecification
      */
-    dataStartTime?: Date;
+    dataStartTime?: string;
     /**
      * The end of a date and time range, in ISO 8601 date time format, used for selecting the data to report. The default is now. The value must be prior to or equal to the current date and time. Not all report types make use of this.
-     * @type {Date}
+     * @type {string}
      * @memberof CreateReportSpecification
      */
-    dataEndTime?: Date;
+    dataEndTime?: string;
     /**
      * A list of marketplace identifiers. The report document\'s contents will contain data for all of the specified marketplaces, unless the report type indicates otherwise.
      * @type {Array<string>}
@@ -362,16 +363,16 @@ export interface Report {
     reportType: string;
     /**
      * The start of a date and time range used for selecting the data to report.
-     * @type {Date}
+     * @type {string}
      * @memberof Report
      */
-    dataStartTime?: Date;
+    dataStartTime?: string;
     /**
      * The end of a date and time range used for selecting the data to report.
-     * @type {Date}
+     * @type {string}
      * @memberof Report
      */
-    dataEndTime?: Date;
+    dataEndTime?: string;
     /**
      * The identifier of the report schedule that created this report (if any). This identifier is unique only in combination with a seller ID.
      * @type {string}
@@ -380,10 +381,10 @@ export interface Report {
     reportScheduleId?: string;
     /**
      * The date and time when the report was created.
-     * @type {Date}
+     * @type {string}
      * @memberof Report
      */
-    createdTime: Date;
+    createdTime: string;
     /**
      * The processing status of the report.
      * @type {string}
@@ -392,16 +393,16 @@ export interface Report {
     processingStatus: ReportProcessingStatusEnum;
     /**
      * The date and time when the report processing started, in ISO 8601 date time format.
-     * @type {Date}
+     * @type {string}
      * @memberof Report
      */
-    processingStartTime?: Date;
+    processingStartTime?: string;
     /**
      * The date and time when the report processing completed, in ISO 8601 date time format.
-     * @type {Date}
+     * @type {string}
      * @memberof Report
      */
-    processingEndTime?: Date;
+    processingEndTime?: string;
     /**
      * The identifier for the report document. Pass this into the getReportDocument operation to get the information you will need to retrieve and decrypt the report document\'s contents.
      * @type {string}
@@ -415,11 +416,11 @@ export interface Report {
     * @enum {string}
     */
 export enum ReportProcessingStatusEnum {
-    CANCELLED = 'CANCELLED',
-    DONE = 'DONE',
-    FATAL = 'FATAL',
-    INPROGRESS = 'IN_PROGRESS',
-    INQUEUE = 'IN_QUEUE'
+    Cancelled = 'CANCELLED',
+    Done = 'DONE',
+    Fatal = 'FATAL',
+    InProgress = 'IN_PROGRESS',
+    InQueue = 'IN_QUEUE'
 }
 
 /**
@@ -459,7 +460,7 @@ export interface ReportDocument {
     * @enum {string}
     */
 export enum ReportDocumentCompressionAlgorithmEnum {
-    GZIP = 'GZIP'
+    Gzip = 'GZIP'
 }
 
 /**
@@ -493,7 +494,7 @@ export interface ReportDocumentEncryptionDetails {
     * @enum {string}
     */
 export enum ReportDocumentEncryptionDetailsStandardEnum {
-    AES = 'AES'
+    Aes = 'AES'
 }
 
 /**
@@ -534,10 +535,10 @@ export interface ReportSchedule {
     period: string;
     /**
      * The date and time when the schedule will create its next report, in ISO 8601 date time format.
-     * @type {Date}
+     * @type {string}
      * @memberof ReportSchedule
      */
-    nextReportCreationTime?: Date;
+    nextReportCreationTime?: string;
 }
 
 /**
@@ -552,31 +553,30 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelReport(reportId: string, options: any = {}): RequestArgs {
+        cancelReport: async (reportId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'reportId' is not null or undefined
-            if (reportId === null || reportId === undefined) {
-                throw new RequiredError('reportId','Required parameter reportId was null or undefined when calling cancelReport.');
-            }
+            assertParamExists('cancelReport', 'reportId', reportId)
             const localVarPath = `/reports/2020-09-04/reports/{reportId}`
                 .replace(`{${"reportId"}}`, encodeURIComponent(String(reportId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -586,31 +586,30 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelReportSchedule(reportScheduleId: string, options: any = {}): RequestArgs {
+        cancelReportSchedule: async (reportScheduleId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'reportScheduleId' is not null or undefined
-            if (reportScheduleId === null || reportScheduleId === undefined) {
-                throw new RequiredError('reportScheduleId','Required parameter reportScheduleId was null or undefined when calling cancelReportSchedule.');
-            }
+            assertParamExists('cancelReportSchedule', 'reportScheduleId', reportScheduleId)
             const localVarPath = `/reports/2020-09-04/schedules/{reportScheduleId}`
                 .replace(`{${"reportScheduleId"}}`, encodeURIComponent(String(reportScheduleId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -620,17 +619,17 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport(body: CreateReportSpecification, options: any = {}): RequestArgs {
+        createReport: async (body: CreateReportSpecification, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createReport.');
-            }
+            assertParamExists('createReport', 'body', body)
             const localVarPath = `/reports/2020-09-04/reports`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -639,15 +638,13 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"CreateReportSpecification" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -657,17 +654,17 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReportSchedule(body: CreateReportScheduleSpecification, options: any = {}): RequestArgs {
+        createReportSchedule: async (body: CreateReportScheduleSpecification, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createReportSchedule.');
-            }
+            assertParamExists('createReportSchedule', 'body', body)
             const localVarPath = `/reports/2020-09-04/schedules`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -676,15 +673,13 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"CreateReportScheduleSpecification" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -694,31 +689,30 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReport(reportId: string, options: any = {}): RequestArgs {
+        getReport: async (reportId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'reportId' is not null or undefined
-            if (reportId === null || reportId === undefined) {
-                throw new RequiredError('reportId','Required parameter reportId was null or undefined when calling getReport.');
-            }
+            assertParamExists('getReport', 'reportId', reportId)
             const localVarPath = `/reports/2020-09-04/reports/{reportId}`
                 .replace(`{${"reportId"}}`, encodeURIComponent(String(reportId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -728,31 +722,30 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportDocument(reportDocumentId: string, options: any = {}): RequestArgs {
+        getReportDocument: async (reportDocumentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'reportDocumentId' is not null or undefined
-            if (reportDocumentId === null || reportDocumentId === undefined) {
-                throw new RequiredError('reportDocumentId','Required parameter reportDocumentId was null or undefined when calling getReportDocument.');
-            }
+            assertParamExists('getReportDocument', 'reportDocumentId', reportDocumentId)
             const localVarPath = `/reports/2020-09-04/documents/{reportDocumentId}`
                 .replace(`{${"reportDocumentId"}}`, encodeURIComponent(String(reportDocumentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -762,31 +755,30 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportSchedule(reportScheduleId: string, options: any = {}): RequestArgs {
+        getReportSchedule: async (reportScheduleId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'reportScheduleId' is not null or undefined
-            if (reportScheduleId === null || reportScheduleId === undefined) {
-                throw new RequiredError('reportScheduleId','Required parameter reportScheduleId was null or undefined when calling getReportSchedule.');
-            }
+            assertParamExists('getReportSchedule', 'reportScheduleId', reportScheduleId)
             const localVarPath = `/reports/2020-09-04/schedules/{reportScheduleId}`
                 .replace(`{${"reportScheduleId"}}`, encodeURIComponent(String(reportScheduleId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -796,17 +788,17 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportSchedules(reportTypes: Array<string>, options: any = {}): RequestArgs {
+        getReportSchedules: async (reportTypes: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'reportTypes' is not null or undefined
-            if (reportTypes === null || reportTypes === undefined) {
-                throw new RequiredError('reportTypes','Required parameter reportTypes was null or undefined when calling getReportSchedules.');
-            }
+            assertParamExists('getReportSchedules', 'reportTypes', reportTypes)
             const localVarPath = `/reports/2020-09-04/schedules`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -817,13 +809,12 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -833,19 +824,21 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>} [processingStatuses] A list of processing statuses used to filter reports.
          * @param {Array<string>} [marketplaceIds] A list of marketplace identifiers used to filter reports. The reports returned will match at least one of the marketplaces that you specify.
          * @param {number} [pageSize] The maximum number of reports to return in a single call.
-         * @param {Date} [createdSince] The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
-         * @param {Date} [createdUntil] The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
+         * @param {string} [createdSince] The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
+         * @param {string} [createdUntil] The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
          * @param {string} [nextToken] A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReports(reportTypes?: Array<string>, processingStatuses?: Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>, marketplaceIds?: Array<string>, pageSize?: number, createdSince?: Date, createdUntil?: Date, nextToken?: string, options: any = {}): RequestArgs {
+        getReports: async (reportTypes?: Array<string>, processingStatuses?: Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>, marketplaceIds?: Array<string>, pageSize?: number, createdSince?: string, createdUntil?: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/reports/2020-09-04/reports`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -867,11 +860,15 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (createdSince !== undefined) {
-                localVarQueryParameter['createdSince'] = (createdSince as any).toISOString();
+                localVarQueryParameter['createdSince'] = (createdSince as any instanceof Date) ?
+                    (createdSince as any).toISOString() :
+                    createdSince;
             }
 
             if (createdUntil !== undefined) {
-                localVarQueryParameter['createdUntil'] = (createdUntil as any).toISOString();
+                localVarQueryParameter['createdUntil'] = (createdUntil as any instanceof Date) ?
+                    (createdUntil as any).toISOString() :
+                    createdUntil;
             }
 
             if (nextToken !== undefined) {
@@ -880,13 +877,12 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -898,6 +894,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
  * @export
  */
 export const ReportsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ReportsApiAxiosParamCreator(configuration)
     return {
         /**
          * Cancels the report that you specify. Only reports with processingStatus=IN_QUEUE can be cancelled. Cancelled reports are returned in subsequent calls to the getReport and getReports operations.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -905,12 +902,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelReport(reportId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelReportResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).cancelReport(reportId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async cancelReport(reportId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelReport(reportId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Cancels the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -918,12 +912,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelReportSchedule(reportScheduleId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelReportScheduleResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).cancelReportSchedule(reportScheduleId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async cancelReportSchedule(reportScheduleId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelReportScheduleResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelReportSchedule(reportScheduleId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Creates a report.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -931,12 +922,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport(body: CreateReportSpecification, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReportResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).createReport(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async createReport(body: CreateReportSpecification, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Creates a report schedule. If a report schedule with the same report type and marketplace IDs already exists, it will be cancelled and replaced with this one.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -944,12 +932,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReportSchedule(body: CreateReportScheduleSpecification, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReportScheduleResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).createReportSchedule(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async createReportSchedule(body: CreateReportScheduleSpecification, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReportScheduleResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createReportSchedule(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns report details (including the reportDocumentId, if available) for the report that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2.0 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -957,12 +942,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReport(reportId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).getReport(reportId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getReport(reportId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReport(reportId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the information required for retrieving a report document\'s contents. This includes a presigned URL for the report document as well as the information required to decrypt the document\'s contents.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -970,12 +952,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportDocument(reportDocumentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportDocumentResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).getReportDocument(reportDocumentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getReportDocument(reportDocumentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReportDocument(reportDocumentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns report schedule details for the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -983,12 +962,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportSchedule(reportScheduleId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportScheduleResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).getReportSchedule(reportScheduleId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getReportSchedule(reportScheduleId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportScheduleResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReportSchedule(reportScheduleId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns report schedule details that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -996,12 +972,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportSchedules(reportTypes: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportSchedulesResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).getReportSchedules(reportTypes, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getReportSchedules(reportTypes: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportSchedulesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReportSchedules(reportTypes, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns report details for the reports that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1009,18 +982,15 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>} [processingStatuses] A list of processing statuses used to filter reports.
          * @param {Array<string>} [marketplaceIds] A list of marketplace identifiers used to filter reports. The reports returned will match at least one of the marketplaces that you specify.
          * @param {number} [pageSize] The maximum number of reports to return in a single call.
-         * @param {Date} [createdSince] The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
-         * @param {Date} [createdUntil] The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
+         * @param {string} [createdSince] The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
+         * @param {string} [createdUntil] The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
          * @param {string} [nextToken] A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReports(reportTypes?: Array<string>, processingStatuses?: Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>, marketplaceIds?: Array<string>, pageSize?: number, createdSince?: Date, createdUntil?: Date, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportsResponse> {
-            const localVarAxiosArgs = ReportsApiAxiosParamCreator(configuration).getReports(reportTypes, processingStatuses, marketplaceIds, pageSize, createdSince, createdUntil, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getReports(reportTypes?: Array<string>, processingStatuses?: Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>, marketplaceIds?: Array<string>, pageSize?: number, createdSince?: string, createdUntil?: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReports(reportTypes, processingStatuses, marketplaceIds, pageSize, createdSince, createdUntil, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -1030,6 +1000,7 @@ export const ReportsApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const ReportsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ReportsApiFp(configuration)
     return {
         /**
          * Cancels the report that you specify. Only reports with processingStatus=IN_QUEUE can be cancelled. Cancelled reports are returned in subsequent calls to the getReport and getReports operations.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1037,8 +1008,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelReport(reportId: string, options?: any) {
-            return ReportsApiFp(configuration).cancelReport(reportId, options)(axios, basePath);
+        cancelReport(reportId: string, options?: any): AxiosPromise<CancelReportResponse> {
+            return localVarFp.cancelReport(reportId, options).then((request) => request(axios, basePath));
         },
         /**
          * Cancels the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1046,8 +1017,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelReportSchedule(reportScheduleId: string, options?: any) {
-            return ReportsApiFp(configuration).cancelReportSchedule(reportScheduleId, options)(axios, basePath);
+        cancelReportSchedule(reportScheduleId: string, options?: any): AxiosPromise<CancelReportScheduleResponse> {
+            return localVarFp.cancelReportSchedule(reportScheduleId, options).then((request) => request(axios, basePath));
         },
         /**
          * Creates a report.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1055,8 +1026,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport(body: CreateReportSpecification, options?: any) {
-            return ReportsApiFp(configuration).createReport(body, options)(axios, basePath);
+        createReport(body: CreateReportSpecification, options?: any): AxiosPromise<CreateReportResponse> {
+            return localVarFp.createReport(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Creates a report schedule. If a report schedule with the same report type and marketplace IDs already exists, it will be cancelled and replaced with this one.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1064,8 +1035,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReportSchedule(body: CreateReportScheduleSpecification, options?: any) {
-            return ReportsApiFp(configuration).createReportSchedule(body, options)(axios, basePath);
+        createReportSchedule(body: CreateReportScheduleSpecification, options?: any): AxiosPromise<CreateReportScheduleResponse> {
+            return localVarFp.createReportSchedule(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns report details (including the reportDocumentId, if available) for the report that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2.0 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1073,8 +1044,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReport(reportId: string, options?: any) {
-            return ReportsApiFp(configuration).getReport(reportId, options)(axios, basePath);
+        getReport(reportId: string, options?: any): AxiosPromise<GetReportResponse> {
+            return localVarFp.getReport(reportId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the information required for retrieving a report document\'s contents. This includes a presigned URL for the report document as well as the information required to decrypt the document\'s contents.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1082,8 +1053,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportDocument(reportDocumentId: string, options?: any) {
-            return ReportsApiFp(configuration).getReportDocument(reportDocumentId, options)(axios, basePath);
+        getReportDocument(reportDocumentId: string, options?: any): AxiosPromise<GetReportDocumentResponse> {
+            return localVarFp.getReportDocument(reportDocumentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns report schedule details for the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1091,8 +1062,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportSchedule(reportScheduleId: string, options?: any) {
-            return ReportsApiFp(configuration).getReportSchedule(reportScheduleId, options)(axios, basePath);
+        getReportSchedule(reportScheduleId: string, options?: any): AxiosPromise<GetReportScheduleResponse> {
+            return localVarFp.getReportSchedule(reportScheduleId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns report schedule details that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1100,8 +1071,8 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReportSchedules(reportTypes: Array<string>, options?: any) {
-            return ReportsApiFp(configuration).getReportSchedules(reportTypes, options)(axios, basePath);
+        getReportSchedules(reportTypes: Array<string>, options?: any): AxiosPromise<GetReportSchedulesResponse> {
+            return localVarFp.getReportSchedules(reportTypes, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns report details for the reports that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1109,17 +1080,185 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @param {Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>} [processingStatuses] A list of processing statuses used to filter reports.
          * @param {Array<string>} [marketplaceIds] A list of marketplace identifiers used to filter reports. The reports returned will match at least one of the marketplaces that you specify.
          * @param {number} [pageSize] The maximum number of reports to return in a single call.
-         * @param {Date} [createdSince] The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
-         * @param {Date} [createdUntil] The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
+         * @param {string} [createdSince] The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
+         * @param {string} [createdUntil] The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
          * @param {string} [nextToken] A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReports(reportTypes?: Array<string>, processingStatuses?: Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>, marketplaceIds?: Array<string>, pageSize?: number, createdSince?: Date, createdUntil?: Date, nextToken?: string, options?: any) {
-            return ReportsApiFp(configuration).getReports(reportTypes, processingStatuses, marketplaceIds, pageSize, createdSince, createdUntil, nextToken, options)(axios, basePath);
+        getReports(reportTypes?: Array<string>, processingStatuses?: Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>, marketplaceIds?: Array<string>, pageSize?: number, createdSince?: string, createdUntil?: string, nextToken?: string, options?: any): AxiosPromise<GetReportsResponse> {
+            return localVarFp.getReports(reportTypes, processingStatuses, marketplaceIds, pageSize, createdSince, createdUntil, nextToken, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for cancelReport operation in ReportsApi.
+ * @export
+ * @interface ReportsApiCancelReportRequest
+ */
+export interface ReportsApiCancelReportRequest {
+    /**
+     * The identifier for the report. This identifier is unique only in combination with a seller ID.
+     * @type {string}
+     * @memberof ReportsApiCancelReport
+     */
+    readonly reportId: string
+}
+
+/**
+ * Request parameters for cancelReportSchedule operation in ReportsApi.
+ * @export
+ * @interface ReportsApiCancelReportScheduleRequest
+ */
+export interface ReportsApiCancelReportScheduleRequest {
+    /**
+     * The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
+     * @type {string}
+     * @memberof ReportsApiCancelReportSchedule
+     */
+    readonly reportScheduleId: string
+}
+
+/**
+ * Request parameters for createReport operation in ReportsApi.
+ * @export
+ * @interface ReportsApiCreateReportRequest
+ */
+export interface ReportsApiCreateReportRequest {
+    /**
+     * 
+     * @type {CreateReportSpecification}
+     * @memberof ReportsApiCreateReport
+     */
+    readonly body: CreateReportSpecification
+}
+
+/**
+ * Request parameters for createReportSchedule operation in ReportsApi.
+ * @export
+ * @interface ReportsApiCreateReportScheduleRequest
+ */
+export interface ReportsApiCreateReportScheduleRequest {
+    /**
+     * 
+     * @type {CreateReportScheduleSpecification}
+     * @memberof ReportsApiCreateReportSchedule
+     */
+    readonly body: CreateReportScheduleSpecification
+}
+
+/**
+ * Request parameters for getReport operation in ReportsApi.
+ * @export
+ * @interface ReportsApiGetReportRequest
+ */
+export interface ReportsApiGetReportRequest {
+    /**
+     * The identifier for the report. This identifier is unique only in combination with a seller ID.
+     * @type {string}
+     * @memberof ReportsApiGetReport
+     */
+    readonly reportId: string
+}
+
+/**
+ * Request parameters for getReportDocument operation in ReportsApi.
+ * @export
+ * @interface ReportsApiGetReportDocumentRequest
+ */
+export interface ReportsApiGetReportDocumentRequest {
+    /**
+     * The identifier for the report document.
+     * @type {string}
+     * @memberof ReportsApiGetReportDocument
+     */
+    readonly reportDocumentId: string
+}
+
+/**
+ * Request parameters for getReportSchedule operation in ReportsApi.
+ * @export
+ * @interface ReportsApiGetReportScheduleRequest
+ */
+export interface ReportsApiGetReportScheduleRequest {
+    /**
+     * The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
+     * @type {string}
+     * @memberof ReportsApiGetReportSchedule
+     */
+    readonly reportScheduleId: string
+}
+
+/**
+ * Request parameters for getReportSchedules operation in ReportsApi.
+ * @export
+ * @interface ReportsApiGetReportSchedulesRequest
+ */
+export interface ReportsApiGetReportSchedulesRequest {
+    /**
+     * A list of report types used to filter report schedules.
+     * @type {Array<string>}
+     * @memberof ReportsApiGetReportSchedules
+     */
+    readonly reportTypes: Array<string>
+}
+
+/**
+ * Request parameters for getReports operation in ReportsApi.
+ * @export
+ * @interface ReportsApiGetReportsRequest
+ */
+export interface ReportsApiGetReportsRequest {
+    /**
+     * A list of report types used to filter reports. When reportTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either reportTypes or nextToken is required.
+     * @type {Array<string>}
+     * @memberof ReportsApiGetReports
+     */
+    readonly reportTypes?: Array<string>
+
+    /**
+     * A list of processing statuses used to filter reports.
+     * @type {Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>}
+     * @memberof ReportsApiGetReports
+     */
+    readonly processingStatuses?: Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>
+
+    /**
+     * A list of marketplace identifiers used to filter reports. The reports returned will match at least one of the marketplaces that you specify.
+     * @type {Array<string>}
+     * @memberof ReportsApiGetReports
+     */
+    readonly marketplaceIds?: Array<string>
+
+    /**
+     * The maximum number of reports to return in a single call.
+     * @type {number}
+     * @memberof ReportsApiGetReports
+     */
+    readonly pageSize?: number
+
+    /**
+     * The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
+     * @type {string}
+     * @memberof ReportsApiGetReports
+     */
+    readonly createdSince?: string
+
+    /**
+     * The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
+     * @type {string}
+     * @memberof ReportsApiGetReports
+     */
+    readonly createdUntil?: string
+
+    /**
+     * A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
+     * @type {string}
+     * @memberof ReportsApiGetReports
+     */
+    readonly nextToken?: string
+}
 
 /**
  * ReportsApi - object-oriented interface
@@ -1130,109 +1269,102 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
 export class ReportsApi extends BaseAPI {
     /**
      * Cancels the report that you specify. Only reports with processingStatus=IN_QUEUE can be cancelled. Cancelled reports are returned in subsequent calls to the getReport and getReports operations.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} reportId The identifier for the report. This identifier is unique only in combination with a seller ID.
+     * @param {ReportsApiCancelReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public cancelReport(reportId: string, options?: any) {
-        return ReportsApiFp(this.configuration).cancelReport(reportId, options)(this.axios, this.basePath);
+    public cancelReport(requestParameters: ReportsApiCancelReportRequest, options?: any) {
+        return ReportsApiFp(this.configuration).cancelReport(requestParameters.reportId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Cancels the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} reportScheduleId The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
+     * @param {ReportsApiCancelReportScheduleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public cancelReportSchedule(reportScheduleId: string, options?: any) {
-        return ReportsApiFp(this.configuration).cancelReportSchedule(reportScheduleId, options)(this.axios, this.basePath);
+    public cancelReportSchedule(requestParameters: ReportsApiCancelReportScheduleRequest, options?: any) {
+        return ReportsApiFp(this.configuration).cancelReportSchedule(requestParameters.reportScheduleId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Creates a report.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {CreateReportSpecification} body 
+     * @param {ReportsApiCreateReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public createReport(body: CreateReportSpecification, options?: any) {
-        return ReportsApiFp(this.configuration).createReport(body, options)(this.axios, this.basePath);
+    public createReport(requestParameters: ReportsApiCreateReportRequest, options?: any) {
+        return ReportsApiFp(this.configuration).createReport(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Creates a report schedule. If a report schedule with the same report type and marketplace IDs already exists, it will be cancelled and replaced with this one.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {CreateReportScheduleSpecification} body 
+     * @param {ReportsApiCreateReportScheduleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public createReportSchedule(body: CreateReportScheduleSpecification, options?: any) {
-        return ReportsApiFp(this.configuration).createReportSchedule(body, options)(this.axios, this.basePath);
+    public createReportSchedule(requestParameters: ReportsApiCreateReportScheduleRequest, options?: any) {
+        return ReportsApiFp(this.configuration).createReportSchedule(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns report details (including the reportDocumentId, if available) for the report that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2.0 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} reportId The identifier for the report. This identifier is unique only in combination with a seller ID.
+     * @param {ReportsApiGetReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public getReport(reportId: string, options?: any) {
-        return ReportsApiFp(this.configuration).getReport(reportId, options)(this.axios, this.basePath);
+    public getReport(requestParameters: ReportsApiGetReportRequest, options?: any) {
+        return ReportsApiFp(this.configuration).getReport(requestParameters.reportId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the information required for retrieving a report document\'s contents. This includes a presigned URL for the report document as well as the information required to decrypt the document\'s contents.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} reportDocumentId The identifier for the report document.
+     * @param {ReportsApiGetReportDocumentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public getReportDocument(reportDocumentId: string, options?: any) {
-        return ReportsApiFp(this.configuration).getReportDocument(reportDocumentId, options)(this.axios, this.basePath);
+    public getReportDocument(requestParameters: ReportsApiGetReportDocumentRequest, options?: any) {
+        return ReportsApiFp(this.configuration).getReportDocument(requestParameters.reportDocumentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns report schedule details for the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} reportScheduleId The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
+     * @param {ReportsApiGetReportScheduleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public getReportSchedule(reportScheduleId: string, options?: any) {
-        return ReportsApiFp(this.configuration).getReportSchedule(reportScheduleId, options)(this.axios, this.basePath);
+    public getReportSchedule(requestParameters: ReportsApiGetReportScheduleRequest, options?: any) {
+        return ReportsApiFp(this.configuration).getReportSchedule(requestParameters.reportScheduleId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns report schedule details that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {Array<string>} reportTypes A list of report types used to filter report schedules.
+     * @param {ReportsApiGetReportSchedulesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public getReportSchedules(reportTypes: Array<string>, options?: any) {
-        return ReportsApiFp(this.configuration).getReportSchedules(reportTypes, options)(this.axios, this.basePath);
+    public getReportSchedules(requestParameters: ReportsApiGetReportSchedulesRequest, options?: any) {
+        return ReportsApiFp(this.configuration).getReportSchedules(requestParameters.reportTypes, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns report details for the reports that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {Array<string>} [reportTypes] A list of report types used to filter reports. When reportTypes is provided, the other filter parameters (processingStatuses, marketplaceIds, createdSince, createdUntil) and pageSize may also be provided. Either reportTypes or nextToken is required.
-     * @param {Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>} [processingStatuses] A list of processing statuses used to filter reports.
-     * @param {Array<string>} [marketplaceIds] A list of marketplace identifiers used to filter reports. The reports returned will match at least one of the marketplaces that you specify.
-     * @param {number} [pageSize] The maximum number of reports to return in a single call.
-     * @param {Date} [createdSince] The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
-     * @param {Date} [createdUntil] The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
-     * @param {string} [nextToken] A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
+     * @param {ReportsApiGetReportsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public getReports(reportTypes?: Array<string>, processingStatuses?: Array<'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE'>, marketplaceIds?: Array<string>, pageSize?: number, createdSince?: Date, createdUntil?: Date, nextToken?: string, options?: any) {
-        return ReportsApiFp(this.configuration).getReports(reportTypes, processingStatuses, marketplaceIds, pageSize, createdSince, createdUntil, nextToken, options)(this.axios, this.basePath);
+    public getReports(requestParameters: ReportsApiGetReportsRequest = {}, options?: any) {
+        return ReportsApiFp(this.configuration).getReports(requestParameters.reportTypes, requestParameters.processingStatuses, requestParameters.marketplaceIds, requestParameters.pageSize, requestParameters.createdSince, requestParameters.createdUntil, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

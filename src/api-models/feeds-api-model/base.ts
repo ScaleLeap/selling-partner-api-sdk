@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Feeds
  * The Selling Partner API for Feeds lets you upload data to Amazon on behalf of a selling partner.

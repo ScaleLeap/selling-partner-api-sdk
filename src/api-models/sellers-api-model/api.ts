@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Sellers
  * The Selling Partner API for Sellers lets you retrieve information on behalf of sellers about their seller account, such as the marketplaces they participate in. Along with listing the marketplaces that a seller can sell in, the API also provides additional information about the marketplace such as the default language and the default currency. The API also provides seller-specific information such as whether the seller has suspended listings in that marketplace.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -157,26 +158,27 @@ export const SellersApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMarketplaceParticipations(options: any = {}): RequestArgs {
+        getMarketplaceParticipations: async (options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/sellers/v1/marketplaceParticipations`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -188,18 +190,16 @@ export const SellersApiAxiosParamCreator = function (configuration?: Configurati
  * @export
  */
 export const SellersApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = SellersApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns a list of marketplaces that the seller submitting the request can sell in and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .016 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMarketplaceParticipations(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMarketplaceParticipationsResponse> {
-            const localVarAxiosArgs = SellersApiAxiosParamCreator(configuration).getMarketplaceParticipations(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getMarketplaceParticipations(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMarketplaceParticipationsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMarketplaceParticipations(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -209,14 +209,15 @@ export const SellersApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const SellersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = SellersApiFp(configuration)
     return {
         /**
          * Returns a list of marketplaces that the seller submitting the request can sell in and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .016 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMarketplaceParticipations(options?: any) {
-            return SellersApiFp(configuration).getMarketplaceParticipations(options)(axios, basePath);
+        getMarketplaceParticipations(options?: any): AxiosPromise<GetMarketplaceParticipationsResponse> {
+            return localVarFp.getMarketplaceParticipations(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -235,9 +236,8 @@ export class SellersApi extends BaseAPI {
      * @memberof SellersApi
      */
     public getMarketplaceParticipations(options?: any) {
-        return SellersApiFp(this.configuration).getMarketplaceParticipations(options)(this.axios, this.basePath);
+        return SellersApiFp(this.configuration).getMarketplaceParticipations(options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

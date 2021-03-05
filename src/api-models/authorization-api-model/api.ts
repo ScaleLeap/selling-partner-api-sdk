@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Authorization
  * The Selling Partner API for Authorization helps developers manage authorizations and check the specific permissions associated with a given authorization.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -93,25 +94,21 @@ export const AuthorizationApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthorizationCode(sellingPartnerId: string, developerId: string, mwsAuthToken: string, options: any = {}): RequestArgs {
+        getAuthorizationCode: async (sellingPartnerId: string, developerId: string, mwsAuthToken: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellingPartnerId' is not null or undefined
-            if (sellingPartnerId === null || sellingPartnerId === undefined) {
-                throw new RequiredError('sellingPartnerId','Required parameter sellingPartnerId was null or undefined when calling getAuthorizationCode.');
-            }
+            assertParamExists('getAuthorizationCode', 'sellingPartnerId', sellingPartnerId)
             // verify required parameter 'developerId' is not null or undefined
-            if (developerId === null || developerId === undefined) {
-                throw new RequiredError('developerId','Required parameter developerId was null or undefined when calling getAuthorizationCode.');
-            }
+            assertParamExists('getAuthorizationCode', 'developerId', developerId)
             // verify required parameter 'mwsAuthToken' is not null or undefined
-            if (mwsAuthToken === null || mwsAuthToken === undefined) {
-                throw new RequiredError('mwsAuthToken','Required parameter mwsAuthToken was null or undefined when calling getAuthorizationCode.');
-            }
+            assertParamExists('getAuthorizationCode', 'mwsAuthToken', mwsAuthToken)
             const localVarPath = `/authorization/v1/authorizationCode`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -130,13 +127,12 @@ export const AuthorizationApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -148,6 +144,7 @@ export const AuthorizationApiAxiosParamCreator = function (configuration?: Confi
  * @export
  */
 export const AuthorizationApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AuthorizationApiAxiosParamCreator(configuration)
     return {
         /**
          * With the getAuthorizationCode operation, you can request a Login With Amazon (LWA) authorization code that will allow you to call a Selling Partner API on behalf of a seller who has already authorized you to call Amazon Marketplace Web Service (Amazon MWS). You specify a developer ID, an MWS auth token, and a seller ID. Taken together, these represent the Amazon MWS authorization that the seller previously granted you. The operation returns an LWA authorization code that can be exchanged for a refresh token and access token representing authorization to call the Selling Partner API on the seller\'s behalf. By using this API, sellers who have already authorized you for Amazon MWS do not need to re-authorize you for the Selling Partner API.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -158,12 +155,9 @@ export const AuthorizationApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthorizationCode(sellingPartnerId: string, developerId: string, mwsAuthToken: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAuthorizationCodeResponse> {
-            const localVarAxiosArgs = AuthorizationApiAxiosParamCreator(configuration).getAuthorizationCode(sellingPartnerId, developerId, mwsAuthToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getAuthorizationCode(sellingPartnerId: string, developerId: string, mwsAuthToken: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAuthorizationCodeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAuthorizationCode(sellingPartnerId, developerId, mwsAuthToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -173,6 +167,7 @@ export const AuthorizationApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const AuthorizationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AuthorizationApiFp(configuration)
     return {
         /**
          * With the getAuthorizationCode operation, you can request a Login With Amazon (LWA) authorization code that will allow you to call a Selling Partner API on behalf of a seller who has already authorized you to call Amazon Marketplace Web Service (Amazon MWS). You specify a developer ID, an MWS auth token, and a seller ID. Taken together, these represent the Amazon MWS authorization that the seller previously granted you. The operation returns an LWA authorization code that can be exchanged for a refresh token and access token representing authorization to call the Selling Partner API on the seller\'s behalf. By using this API, sellers who have already authorized you for Amazon MWS do not need to re-authorize you for the Selling Partner API.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -183,11 +178,39 @@ export const AuthorizationApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthorizationCode(sellingPartnerId: string, developerId: string, mwsAuthToken: string, options?: any) {
-            return AuthorizationApiFp(configuration).getAuthorizationCode(sellingPartnerId, developerId, mwsAuthToken, options)(axios, basePath);
+        getAuthorizationCode(sellingPartnerId: string, developerId: string, mwsAuthToken: string, options?: any): AxiosPromise<GetAuthorizationCodeResponse> {
+            return localVarFp.getAuthorizationCode(sellingPartnerId, developerId, mwsAuthToken, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getAuthorizationCode operation in AuthorizationApi.
+ * @export
+ * @interface AuthorizationApiGetAuthorizationCodeRequest
+ */
+export interface AuthorizationApiGetAuthorizationCodeRequest {
+    /**
+     * The seller ID of the seller for whom you are requesting Selling Partner API authorization. This must be the seller ID of the seller who authorized your application on the Marketplace Appstore.
+     * @type {string}
+     * @memberof AuthorizationApiGetAuthorizationCode
+     */
+    readonly sellingPartnerId: string
+
+    /**
+     * Your developer ID. This must be one of the developer ID values that you provided when you registered your application in Developer Central.
+     * @type {string}
+     * @memberof AuthorizationApiGetAuthorizationCode
+     */
+    readonly developerId: string
+
+    /**
+     * The MWS Auth Token that was generated when the seller authorized your application on the Marketplace Appstore.
+     * @type {string}
+     * @memberof AuthorizationApiGetAuthorizationCode
+     */
+    readonly mwsAuthToken: string
+}
 
 /**
  * AuthorizationApi - object-oriented interface
@@ -199,17 +222,14 @@ export class AuthorizationApi extends BaseAPI {
     /**
      * With the getAuthorizationCode operation, you can request a Login With Amazon (LWA) authorization code that will allow you to call a Selling Partner API on behalf of a seller who has already authorized you to call Amazon Marketplace Web Service (Amazon MWS). You specify a developer ID, an MWS auth token, and a seller ID. Taken together, these represent the Amazon MWS authorization that the seller previously granted you. The operation returns an LWA authorization code that can be exchanged for a refresh token and access token representing authorization to call the Selling Partner API on the seller\'s behalf. By using this API, sellers who have already authorized you for Amazon MWS do not need to re-authorize you for the Selling Partner API.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @summary Returns the Login with Amazon (LWA) authorization code for an existing Amazon MWS authorization.
-     * @param {string} sellingPartnerId The seller ID of the seller for whom you are requesting Selling Partner API authorization. This must be the seller ID of the seller who authorized your application on the Marketplace Appstore.
-     * @param {string} developerId Your developer ID. This must be one of the developer ID values that you provided when you registered your application in Developer Central.
-     * @param {string} mwsAuthToken The MWS Auth Token that was generated when the seller authorized your application on the Marketplace Appstore.
+     * @param {AuthorizationApiGetAuthorizationCodeRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthorizationApi
      */
-    public getAuthorizationCode(sellingPartnerId: string, developerId: string, mwsAuthToken: string, options?: any) {
-        return AuthorizationApiFp(this.configuration).getAuthorizationCode(sellingPartnerId, developerId, mwsAuthToken, options)(this.axios, this.basePath);
+    public getAuthorizationCode(requestParameters: AuthorizationApiGetAuthorizationCodeRequest, options?: any) {
+        return AuthorizationApiFp(this.configuration).getAuthorizationCode(requestParameters.sellingPartnerId, requestParameters.developerId, requestParameters.mwsAuthToken, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Uploads
  * The Selling Partner API for Uploads provides operations that support uploading files.
@@ -14,3 +15,4 @@
 
 export * from "./api";
 export * from "./configuration";
+

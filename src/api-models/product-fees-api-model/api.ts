@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Product Fees
  * The Selling Partner API for Product Fees lets you programmatically retrieve estimated fees for a product. You can then account for those fees in your pricing.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -31,37 +32,37 @@ export interface FeeDetail {
      * @type {string}
      * @memberof FeeDetail
      */
-    feeType: string;
+    FeeType: string;
     /**
      * 
      * @type {MoneyType}
      * @memberof FeeDetail
      */
-    feeAmount: MoneyType;
+    FeeAmount: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof FeeDetail
      */
-    feePromotion?: MoneyType;
+    FeePromotion?: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof FeeDetail
      */
-    taxAmount?: MoneyType;
+    TaxAmount?: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof FeeDetail
      */
-    finalFee: MoneyType;
+    FinalFee: MoneyType;
     /**
      * A list of other fees that contribute to a given fee.
      * @type {Array<IncludedFeeDetail>}
      * @memberof FeeDetail
      */
-    includedFeeDetailList?: Array<IncludedFeeDetail>;
+    IncludedFeeDetailList?: Array<IncludedFeeDetail>;
 }
 /**
  * The total estimated fees for an item and a list of details.
@@ -71,22 +72,22 @@ export interface FeeDetail {
 export interface FeesEstimate {
     /**
      * The time at which the fees were estimated. This defaults to the time the request is made.
-     * @type {Date}
+     * @type {string}
      * @memberof FeesEstimate
      */
-    timeOfFeesEstimation: Date;
+    TimeOfFeesEstimation: string;
     /**
      * 
      * @type {MoneyType}
      * @memberof FeesEstimate
      */
-    totalFeesEstimate?: MoneyType;
+    TotalFeesEstimate?: MoneyType;
     /**
      * A list of other fees that contribute to a given fee.
      * @type {Array<FeeDetail>}
      * @memberof FeesEstimate
      */
-    feeDetailList?: Array<FeeDetail>;
+    FeeDetailList?: Array<FeeDetail>;
 }
 /**
  * An unexpected error occurred during this operation.
@@ -99,25 +100,25 @@ export interface FeesEstimateError {
      * @type {string}
      * @memberof FeesEstimateError
      */
-    type: string;
+    Type: string;
     /**
      * An error code that identifies the type of error that occurred.
      * @type {string}
      * @memberof FeesEstimateError
      */
-    code: string;
+    Code: string;
     /**
      * A message that describes the error condition.
      * @type {string}
      * @memberof FeesEstimateError
      */
-    message: string;
+    Message: string;
     /**
      * Additional information that can help the caller understand or fix the issue.
      * @type {Array<object>}
      * @memberof FeesEstimateError
      */
-    detail: Array<object>;
+    Detail: Array<object>;
 }
 /**
  * An item identifier, marketplace, time of request, and other details that identify an estimate.
@@ -130,49 +131,49 @@ export interface FeesEstimateIdentifier {
      * @type {string}
      * @memberof FeesEstimateIdentifier
      */
-    marketplaceId?: string;
+    MarketplaceId?: string;
     /**
      * The seller identifier.
      * @type {string}
      * @memberof FeesEstimateIdentifier
      */
-    sellerId?: string;
+    SellerId?: string;
     /**
      * The type of item identifier specified.
      * @type {string}
      * @memberof FeesEstimateIdentifier
      */
-    idType?: string;
+    IdType?: string;
     /**
      * The item identifier.
      * @type {string}
      * @memberof FeesEstimateIdentifier
      */
-    idValue?: string;
+    IdValue?: string;
     /**
      * When true, the offer is fulfilled by Amazon.
      * @type {boolean}
      * @memberof FeesEstimateIdentifier
      */
-    isAmazonFulfilled?: boolean;
+    IsAmazonFulfilled?: boolean;
     /**
      * 
      * @type {PriceToEstimateFees}
      * @memberof FeesEstimateIdentifier
      */
-    priceToEstimateFees?: PriceToEstimateFees;
+    PriceToEstimateFees?: PriceToEstimateFees;
     /**
      * A unique identifier provided by the caller to track this request.
      * @type {string}
      * @memberof FeesEstimateIdentifier
      */
-    sellerInputIdentifier?: string;
+    SellerInputIdentifier?: string;
     /**
      * 
      * @type {OptionalFulfillmentProgram}
      * @memberof FeesEstimateIdentifier
      */
-    optionalFulfillmentProgram?: OptionalFulfillmentProgram;
+    OptionalFulfillmentProgram?: OptionalFulfillmentProgram;
 }
 /**
  * 
@@ -185,31 +186,31 @@ export interface FeesEstimateRequest {
      * @type {string}
      * @memberof FeesEstimateRequest
      */
-    marketplaceId: string;
+    MarketplaceId: string;
     /**
      * When true, the offer is fulfilled by Amazon.
      * @type {boolean}
      * @memberof FeesEstimateRequest
      */
-    isAmazonFulfilled?: boolean;
+    IsAmazonFulfilled?: boolean;
     /**
      * 
      * @type {PriceToEstimateFees}
      * @memberof FeesEstimateRequest
      */
-    priceToEstimateFees: PriceToEstimateFees;
+    PriceToEstimateFees: PriceToEstimateFees;
     /**
      * A unique identifier provided by the caller to track this request.
      * @type {string}
      * @memberof FeesEstimateRequest
      */
-    identifier: string;
+    Identifier: string;
     /**
      * 
      * @type {OptionalFulfillmentProgram}
      * @memberof FeesEstimateRequest
      */
-    optionalFulfillmentProgram?: OptionalFulfillmentProgram;
+    OptionalFulfillmentProgram?: OptionalFulfillmentProgram;
 }
 /**
  * An item identifier and the estimated fees for the item.
@@ -222,25 +223,25 @@ export interface FeesEstimateResult {
      * @type {string}
      * @memberof FeesEstimateResult
      */
-    status?: string;
+    Status?: string;
     /**
      * 
      * @type {FeesEstimateIdentifier}
      * @memberof FeesEstimateResult
      */
-    feesEstimateIdentifier?: FeesEstimateIdentifier;
+    FeesEstimateIdentifier?: FeesEstimateIdentifier;
     /**
      * 
      * @type {FeesEstimate}
      * @memberof FeesEstimateResult
      */
-    feesEstimate?: FeesEstimate;
+    FeesEstimate?: FeesEstimate;
     /**
      * 
      * @type {FeesEstimateError}
      * @memberof FeesEstimateResult
      */
-    error?: FeesEstimateError;
+    Error?: FeesEstimateError;
 }
 /**
  * Request schema.
@@ -253,7 +254,7 @@ export interface GetMyFeesEstimateRequest {
      * @type {FeesEstimateRequest}
      * @memberof GetMyFeesEstimateRequest
      */
-    feesEstimateRequest?: FeesEstimateRequest;
+    FeesEstimateRequest?: FeesEstimateRequest;
 }
 /**
  * 
@@ -285,7 +286,7 @@ export interface GetMyFeesEstimateResult {
      * @type {FeesEstimateResult}
      * @memberof GetMyFeesEstimateResult
      */
-    feesEstimateResult?: FeesEstimateResult;
+    FeesEstimateResult?: FeesEstimateResult;
 }
 /**
  * The type of fee, fee amount, and other details.
@@ -298,31 +299,31 @@ export interface IncludedFeeDetail {
      * @type {string}
      * @memberof IncludedFeeDetail
      */
-    feeType: string;
+    FeeType: string;
     /**
      * 
      * @type {MoneyType}
      * @memberof IncludedFeeDetail
      */
-    feeAmount: MoneyType;
+    FeeAmount: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof IncludedFeeDetail
      */
-    feePromotion?: MoneyType;
+    FeePromotion?: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof IncludedFeeDetail
      */
-    taxAmount?: MoneyType;
+    TaxAmount?: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof IncludedFeeDetail
      */
-    finalFee: MoneyType;
+    FinalFee: MoneyType;
 }
 /**
  * 
@@ -360,13 +361,13 @@ export interface MoneyType {
      * @type {string}
      * @memberof MoneyType
      */
-    currencyCode?: string;
+    CurrencyCode?: string;
     /**
      * The monetary value.
      * @type {number}
      * @memberof MoneyType
      */
-    amount?: number;
+    Amount?: number;
 }
 /**
  * An optional enrollment program for which to return the estimated fees when the offer is fulfilled by Amazon (IsAmazonFulfilled is set to true).
@@ -374,9 +375,9 @@ export interface MoneyType {
  * @enum {string}
  */
 export enum OptionalFulfillmentProgram {
-    CORE = 'FBA_CORE',
-    SNL = 'FBA_SNL',
-    EFN = 'FBA_EFN'
+    Core = 'FBA_CORE',
+    Snl = 'FBA_SNL',
+    Efn = 'FBA_EFN'
 }
 
 /**
@@ -390,13 +391,13 @@ export interface Points {
      * @type {number}
      * @memberof Points
      */
-    pointsNumber?: number;
+    PointsNumber?: number;
     /**
      * 
      * @type {MoneyType}
      * @memberof Points
      */
-    pointsMonetaryValue?: MoneyType;
+    PointsMonetaryValue?: MoneyType;
 }
 /**
  * Price information for an item, used to estimate fees.
@@ -409,19 +410,19 @@ export interface PriceToEstimateFees {
      * @type {MoneyType}
      * @memberof PriceToEstimateFees
      */
-    listingPrice: MoneyType;
+    ListingPrice: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof PriceToEstimateFees
      */
-    shipping?: MoneyType;
+    Shipping?: MoneyType;
     /**
      * 
      * @type {Points}
      * @memberof PriceToEstimateFees
      */
-    points?: Points;
+    Points?: Points;
 }
 
 /**
@@ -437,22 +438,20 @@ export const FeesApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMyFeesEstimateForASIN(asin: string, body: GetMyFeesEstimateRequest, options: any = {}): RequestArgs {
+        getMyFeesEstimateForASIN: async (asin: string, body: GetMyFeesEstimateRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'asin' is not null or undefined
-            if (asin === null || asin === undefined) {
-                throw new RequiredError('asin','Required parameter asin was null or undefined when calling getMyFeesEstimateForASIN.');
-            }
+            assertParamExists('getMyFeesEstimateForASIN', 'asin', asin)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getMyFeesEstimateForASIN.');
-            }
+            assertParamExists('getMyFeesEstimateForASIN', 'body', body)
             const localVarPath = `/products/fees/v0/items/{Asin}/feesEstimate`
                 .replace(`{${"Asin"}}`, encodeURIComponent(String(asin)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -461,15 +460,13 @@ export const FeesApiAxiosParamCreator = function (configuration?: Configuration)
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"GetMyFeesEstimateRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -480,22 +477,20 @@ export const FeesApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMyFeesEstimateForSKU(sellerSKU: string, body: GetMyFeesEstimateRequest, options: any = {}): RequestArgs {
+        getMyFeesEstimateForSKU: async (sellerSKU: string, body: GetMyFeesEstimateRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerSKU' is not null or undefined
-            if (sellerSKU === null || sellerSKU === undefined) {
-                throw new RequiredError('sellerSKU','Required parameter sellerSKU was null or undefined when calling getMyFeesEstimateForSKU.');
-            }
+            assertParamExists('getMyFeesEstimateForSKU', 'sellerSKU', sellerSKU)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getMyFeesEstimateForSKU.');
-            }
+            assertParamExists('getMyFeesEstimateForSKU', 'body', body)
             const localVarPath = `/products/fees/v0/listings/{SellerSKU}/feesEstimate`
                 .replace(`{${"SellerSKU"}}`, encodeURIComponent(String(sellerSKU)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -504,15 +499,13 @@ export const FeesApiAxiosParamCreator = function (configuration?: Configuration)
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"GetMyFeesEstimateRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -524,6 +517,7 @@ export const FeesApiAxiosParamCreator = function (configuration?: Configuration)
  * @export
  */
 export const FeesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FeesApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns the estimated fees for the item indicated by the specified Asin in the marketplace specified in the request body.  You can call getMyFeesEstimateForASIN for an item on behalf of a seller before the seller sets the item\'s price. They can then take estimated fees into account. With each product fees request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 1 | 1 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -532,12 +526,9 @@ export const FeesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMyFeesEstimateForASIN(asin: string, body: GetMyFeesEstimateRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMyFeesEstimateResponse> {
-            const localVarAxiosArgs = FeesApiAxiosParamCreator(configuration).getMyFeesEstimateForASIN(asin, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getMyFeesEstimateForASIN(asin: string, body: GetMyFeesEstimateRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMyFeesEstimateResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMyFeesEstimateForASIN(asin, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the estimated fees for the item indicated by the specified seller SKU in the marketplace specified in the request body.  You can call getMyFeesEstimateForSKU for an item on behalf of a seller before the seller sets the item\'s price. They can then take estimated fees into account. With each fees estimate request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 1 | 1 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -546,12 +537,9 @@ export const FeesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMyFeesEstimateForSKU(sellerSKU: string, body: GetMyFeesEstimateRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMyFeesEstimateResponse> {
-            const localVarAxiosArgs = FeesApiAxiosParamCreator(configuration).getMyFeesEstimateForSKU(sellerSKU, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getMyFeesEstimateForSKU(sellerSKU: string, body: GetMyFeesEstimateRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMyFeesEstimateResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMyFeesEstimateForSKU(sellerSKU, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -561,6 +549,7 @@ export const FeesApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const FeesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FeesApiFp(configuration)
     return {
         /**
          * Returns the estimated fees for the item indicated by the specified Asin in the marketplace specified in the request body.  You can call getMyFeesEstimateForASIN for an item on behalf of a seller before the seller sets the item\'s price. They can then take estimated fees into account. With each product fees request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 1 | 1 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -569,8 +558,8 @@ export const FeesApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMyFeesEstimateForASIN(asin: string, body: GetMyFeesEstimateRequest, options?: any) {
-            return FeesApiFp(configuration).getMyFeesEstimateForASIN(asin, body, options)(axios, basePath);
+        getMyFeesEstimateForASIN(asin: string, body: GetMyFeesEstimateRequest, options?: any): AxiosPromise<GetMyFeesEstimateResponse> {
+            return localVarFp.getMyFeesEstimateForASIN(asin, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the estimated fees for the item indicated by the specified seller SKU in the marketplace specified in the request body.  You can call getMyFeesEstimateForSKU for an item on behalf of a seller before the seller sets the item\'s price. They can then take estimated fees into account. With each fees estimate request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 1 | 1 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -579,11 +568,53 @@ export const FeesApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMyFeesEstimateForSKU(sellerSKU: string, body: GetMyFeesEstimateRequest, options?: any) {
-            return FeesApiFp(configuration).getMyFeesEstimateForSKU(sellerSKU, body, options)(axios, basePath);
+        getMyFeesEstimateForSKU(sellerSKU: string, body: GetMyFeesEstimateRequest, options?: any): AxiosPromise<GetMyFeesEstimateResponse> {
+            return localVarFp.getMyFeesEstimateForSKU(sellerSKU, body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getMyFeesEstimateForASIN operation in FeesApi.
+ * @export
+ * @interface FeesApiGetMyFeesEstimateForASINRequest
+ */
+export interface FeesApiGetMyFeesEstimateForASINRequest {
+    /**
+     * The Amazon Standard Identification Number (ASIN) of the item.
+     * @type {string}
+     * @memberof FeesApiGetMyFeesEstimateForASIN
+     */
+    readonly asin: string
+
+    /**
+     * 
+     * @type {GetMyFeesEstimateRequest}
+     * @memberof FeesApiGetMyFeesEstimateForASIN
+     */
+    readonly body: GetMyFeesEstimateRequest
+}
+
+/**
+ * Request parameters for getMyFeesEstimateForSKU operation in FeesApi.
+ * @export
+ * @interface FeesApiGetMyFeesEstimateForSKURequest
+ */
+export interface FeesApiGetMyFeesEstimateForSKURequest {
+    /**
+     * Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
+     * @type {string}
+     * @memberof FeesApiGetMyFeesEstimateForSKU
+     */
+    readonly sellerSKU: string
+
+    /**
+     * 
+     * @type {GetMyFeesEstimateRequest}
+     * @memberof FeesApiGetMyFeesEstimateForSKU
+     */
+    readonly body: GetMyFeesEstimateRequest
+}
 
 /**
  * FeesApi - object-oriented interface
@@ -594,28 +625,25 @@ export const FeesApiFactory = function (configuration?: Configuration, basePath?
 export class FeesApi extends BaseAPI {
     /**
      * Returns the estimated fees for the item indicated by the specified Asin in the marketplace specified in the request body.  You can call getMyFeesEstimateForASIN for an item on behalf of a seller before the seller sets the item\'s price. They can then take estimated fees into account. With each product fees request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 1 | 1 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} asin The Amazon Standard Identification Number (ASIN) of the item.
-     * @param {GetMyFeesEstimateRequest} body 
+     * @param {FeesApiGetMyFeesEstimateForASINRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FeesApi
      */
-    public getMyFeesEstimateForASIN(asin: string, body: GetMyFeesEstimateRequest, options?: any) {
-        return FeesApiFp(this.configuration).getMyFeesEstimateForASIN(asin, body, options)(this.axios, this.basePath);
+    public getMyFeesEstimateForASIN(requestParameters: FeesApiGetMyFeesEstimateForASINRequest, options?: any) {
+        return FeesApiFp(this.configuration).getMyFeesEstimateForASIN(requestParameters.asin, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the estimated fees for the item indicated by the specified seller SKU in the marketplace specified in the request body.  You can call getMyFeesEstimateForSKU for an item on behalf of a seller before the seller sets the item\'s price. They can then take estimated fees into account. With each fees estimate request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 1 | 1 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerSKU Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
-     * @param {GetMyFeesEstimateRequest} body 
+     * @param {FeesApiGetMyFeesEstimateForSKURequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FeesApi
      */
-    public getMyFeesEstimateForSKU(sellerSKU: string, body: GetMyFeesEstimateRequest, options?: any) {
-        return FeesApiFp(this.configuration).getMyFeesEstimateForSKU(sellerSKU, body, options)(this.axios, this.basePath);
+    public getMyFeesEstimateForSKU(requestParameters: FeesApiGetMyFeesEstimateForSKURequest, options?: any) {
+        return FeesApiFp(this.configuration).getMyFeesEstimateForSKU(requestParameters.sellerSKU, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

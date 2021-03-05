@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Shipping
  * Provides programmatic access to Amazon Shipping APIs.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -199,7 +200,7 @@ export interface Container {
     * @enum {string}
     */
 export enum ContainerContainerTypeEnum {
-    PACKAGE = 'PACKAGE'
+    Package = 'PACKAGE'
 }
 
 /**
@@ -377,8 +378,8 @@ export interface Dimensions {
     * @enum {string}
     */
 export enum DimensionsUnitEnum {
-    IN = 'IN',
-    CM = 'CM'
+    In = 'IN',
+    Cm = 'CM'
 }
 
 /**
@@ -395,10 +396,10 @@ export interface Event {
     eventCode: string;
     /**
      * The date and time of an event for a shipment.
-     * @type {Date}
+     * @type {string}
      * @memberof Event
      */
-    eventTime: Date;
+    eventTime: string;
     /**
      * 
      * @type {Location}
@@ -451,10 +452,10 @@ export interface GetRatesRequest {
     serviceTypes: Array<ServiceType>;
     /**
      * The start date and time. This defaults to the current date and time.
-     * @type {Date}
+     * @type {string}
      * @memberof GetRatesRequest
      */
-    shipDate?: Date;
+    shipDate?: string;
     /**
      * A list of container specifications.
      * @type {Array<ContainerSpecification>}
@@ -601,7 +602,7 @@ export interface LabelSpecification {
     * @enum {string}
     */
 export enum LabelSpecificationLabelFormatEnum {
-    PNG = 'PNG'
+    Png = 'PNG'
 }
 /**
     * @export
@@ -775,10 +776,10 @@ export interface PurchaseShipmentRequest {
     shipFrom: Address;
     /**
      * The start date and time. This defaults to the current date and time.
-     * @type {Date}
+     * @type {string}
      * @memberof PurchaseShipmentRequest
      */
-    shipDate?: Date;
+    shipDate?: string;
     /**
      * 
      * @type {ServiceType}
@@ -868,10 +869,10 @@ export interface Rate {
     billedWeight?: Weight;
     /**
      * The time after which the offering will expire.
-     * @type {Date}
+     * @type {string}
      * @memberof Rate
      */
-    expirationTime?: Date;
+    expirationTime?: string;
     /**
      * 
      * @type {ServiceType}
@@ -1054,16 +1055,16 @@ export interface ShippingPromiseSet {
 export interface TimeRange {
     /**
      * The start date and time. This defaults to the current date and time.
-     * @type {Date}
+     * @type {string}
      * @memberof TimeRange
      */
-    start?: Date;
+    start?: string;
     /**
      * The end date and time. This must come after the value of start. This defaults to the next business day from the start.
-     * @type {Date}
+     * @type {string}
      * @memberof TimeRange
      */
-    end?: Date;
+    end?: string;
 }
 /**
  * The payload schema for the getTrackingInformation operation.
@@ -1085,10 +1086,10 @@ export interface TrackingInformation {
     summary: TrackingSummary;
     /**
      * The promised delivery date and time of a shipment.
-     * @type {Date}
+     * @type {string}
      * @memberof TrackingInformation
      */
-    promisedDeliveryDate: Date;
+    promisedDeliveryDate: string;
     /**
      * A list of events of a shipment.
      * @type {Array<Event>}
@@ -1153,31 +1154,30 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipment(shipmentId: string, options: any = {}): RequestArgs {
+        cancelShipment: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling cancelShipment.');
-            }
+            assertParamExists('cancelShipment', 'shipmentId', shipmentId)
             const localVarPath = `/shipping/v1/shipments/{shipmentId}/cancel`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1187,17 +1187,17 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createShipment(body: CreateShipmentRequest, options: any = {}): RequestArgs {
+        createShipment: async (body: CreateShipmentRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createShipment.');
-            }
+            assertParamExists('createShipment', 'body', body)
             const localVarPath = `/shipping/v1/shipments`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1206,15 +1206,13 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"CreateShipmentRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1223,26 +1221,27 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAccount(options: any = {}): RequestArgs {
+        getAccount: async (options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/shipping/v1/account`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1252,17 +1251,17 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRates(body: GetRatesRequest, options: any = {}): RequestArgs {
+        getRates: async (body: GetRatesRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getRates.');
-            }
+            assertParamExists('getRates', 'body', body)
             const localVarPath = `/shipping/v1/rates`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1271,15 +1270,13 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"GetRatesRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1289,31 +1286,30 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipment(shipmentId: string, options: any = {}): RequestArgs {
+        getShipment: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling getShipment.');
-            }
+            assertParamExists('getShipment', 'shipmentId', shipmentId)
             const localVarPath = `/shipping/v1/shipments/{shipmentId}`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1323,31 +1319,30 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTrackingInformation(trackingId: string, options: any = {}): RequestArgs {
+        getTrackingInformation: async (trackingId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'trackingId' is not null or undefined
-            if (trackingId === null || trackingId === undefined) {
-                throw new RequiredError('trackingId','Required parameter trackingId was null or undefined when calling getTrackingInformation.');
-            }
+            assertParamExists('getTrackingInformation', 'trackingId', trackingId)
             const localVarPath = `/shipping/v1/tracking/{trackingId}`
                 .replace(`{${"trackingId"}}`, encodeURIComponent(String(trackingId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1358,22 +1353,20 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseLabels(shipmentId: string, body: PurchaseLabelsRequest, options: any = {}): RequestArgs {
+        purchaseLabels: async (shipmentId: string, body: PurchaseLabelsRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling purchaseLabels.');
-            }
+            assertParamExists('purchaseLabels', 'shipmentId', shipmentId)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling purchaseLabels.');
-            }
+            assertParamExists('purchaseLabels', 'body', body)
             const localVarPath = `/shipping/v1/shipments/{shipmentId}/purchaseLabels`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1382,15 +1375,13 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"PurchaseLabelsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1400,17 +1391,17 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseShipment(body: PurchaseShipmentRequest, options: any = {}): RequestArgs {
+        purchaseShipment: async (body: PurchaseShipmentRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling purchaseShipment.');
-            }
+            assertParamExists('purchaseShipment', 'body', body)
             const localVarPath = `/shipping/v1/purchaseShipment`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1419,15 +1410,13 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"PurchaseShipmentRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1439,27 +1428,23 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        retrieveShippingLabel(shipmentId: string, trackingId: string, body: RetrieveShippingLabelRequest, options: any = {}): RequestArgs {
+        retrieveShippingLabel: async (shipmentId: string, trackingId: string, body: RetrieveShippingLabelRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling retrieveShippingLabel.');
-            }
+            assertParamExists('retrieveShippingLabel', 'shipmentId', shipmentId)
             // verify required parameter 'trackingId' is not null or undefined
-            if (trackingId === null || trackingId === undefined) {
-                throw new RequiredError('trackingId','Required parameter trackingId was null or undefined when calling retrieveShippingLabel.');
-            }
+            assertParamExists('retrieveShippingLabel', 'trackingId', trackingId)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling retrieveShippingLabel.');
-            }
+            assertParamExists('retrieveShippingLabel', 'body', body)
             const localVarPath = `/shipping/v1/shipments/{shipmentId}/containers/{trackingId}/label`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)))
                 .replace(`{${"trackingId"}}`, encodeURIComponent(String(trackingId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1468,15 +1453,13 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"RetrieveShippingLabelRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1488,6 +1471,7 @@ export const ShippingApiAxiosParamCreator = function (configuration?: Configurat
  * @export
  */
 export const ShippingApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ShippingApiAxiosParamCreator(configuration)
     return {
         /**
          * Cancel a shipment by the given shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1495,12 +1479,9 @@ export const ShippingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipment(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelShipmentResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).cancelShipment(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async cancelShipment(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelShipment(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Create a new shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1508,24 +1489,18 @@ export const ShippingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createShipment(body: CreateShipmentRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateShipmentResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).createShipment(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async createShipment(body: CreateShipmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createShipment(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Verify if the current account is valid.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAccount(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAccountResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).getAccount(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getAccount(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAccountResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAccount(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Get service rates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1533,12 +1508,9 @@ export const ShippingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRates(body: GetRatesRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetRatesResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).getRates(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getRates(body: GetRatesRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetRatesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getRates(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Return the entire shipment object for the shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1546,12 +1518,9 @@ export const ShippingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipment(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).getShipment(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getShipment(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getShipment(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Return the tracking information of a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1559,12 +1528,9 @@ export const ShippingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTrackingInformation(trackingId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTrackingInformationResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).getTrackingInformation(trackingId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getTrackingInformation(trackingId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTrackingInformationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTrackingInformation(trackingId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Purchase shipping labels based on a given rate.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1573,12 +1539,9 @@ export const ShippingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseLabels(shipmentId: string, body: PurchaseLabelsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseLabelsResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).purchaseLabels(shipmentId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async purchaseLabels(shipmentId: string, body: PurchaseLabelsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseLabelsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseLabels(shipmentId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Purchase shipping labels.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1586,12 +1549,9 @@ export const ShippingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseShipment(body: PurchaseShipmentRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseShipmentResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).purchaseShipment(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async purchaseShipment(body: PurchaseShipmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseShipment(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Retrieve shipping label based on the shipment id and tracking id.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1601,12 +1561,9 @@ export const ShippingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        retrieveShippingLabel(shipmentId: string, trackingId: string, body: RetrieveShippingLabelRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<RetrieveShippingLabelResponse> {
-            const localVarAxiosArgs = ShippingApiAxiosParamCreator(configuration).retrieveShippingLabel(shipmentId, trackingId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async retrieveShippingLabel(shipmentId: string, trackingId: string, body: RetrieveShippingLabelRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RetrieveShippingLabelResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.retrieveShippingLabel(shipmentId, trackingId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -1616,6 +1573,7 @@ export const ShippingApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const ShippingApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ShippingApiFp(configuration)
     return {
         /**
          * Cancel a shipment by the given shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1623,8 +1581,8 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipment(shipmentId: string, options?: any) {
-            return ShippingApiFp(configuration).cancelShipment(shipmentId, options)(axios, basePath);
+        cancelShipment(shipmentId: string, options?: any): AxiosPromise<CancelShipmentResponse> {
+            return localVarFp.cancelShipment(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Create a new shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1632,16 +1590,16 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createShipment(body: CreateShipmentRequest, options?: any) {
-            return ShippingApiFp(configuration).createShipment(body, options)(axios, basePath);
+        createShipment(body: CreateShipmentRequest, options?: any): AxiosPromise<CreateShipmentResponse> {
+            return localVarFp.createShipment(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Verify if the current account is valid.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAccount(options?: any) {
-            return ShippingApiFp(configuration).getAccount(options)(axios, basePath);
+        getAccount(options?: any): AxiosPromise<GetAccountResponse> {
+            return localVarFp.getAccount(options).then((request) => request(axios, basePath));
         },
         /**
          * Get service rates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1649,8 +1607,8 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRates(body: GetRatesRequest, options?: any) {
-            return ShippingApiFp(configuration).getRates(body, options)(axios, basePath);
+        getRates(body: GetRatesRequest, options?: any): AxiosPromise<GetRatesResponse> {
+            return localVarFp.getRates(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Return the entire shipment object for the shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1658,8 +1616,8 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipment(shipmentId: string, options?: any) {
-            return ShippingApiFp(configuration).getShipment(shipmentId, options)(axios, basePath);
+        getShipment(shipmentId: string, options?: any): AxiosPromise<GetShipmentResponse> {
+            return localVarFp.getShipment(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Return the tracking information of a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1667,8 +1625,8 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTrackingInformation(trackingId: string, options?: any) {
-            return ShippingApiFp(configuration).getTrackingInformation(trackingId, options)(axios, basePath);
+        getTrackingInformation(trackingId: string, options?: any): AxiosPromise<GetTrackingInformationResponse> {
+            return localVarFp.getTrackingInformation(trackingId, options).then((request) => request(axios, basePath));
         },
         /**
          * Purchase shipping labels based on a given rate.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1677,8 +1635,8 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseLabels(shipmentId: string, body: PurchaseLabelsRequest, options?: any) {
-            return ShippingApiFp(configuration).purchaseLabels(shipmentId, body, options)(axios, basePath);
+        purchaseLabels(shipmentId: string, body: PurchaseLabelsRequest, options?: any): AxiosPromise<PurchaseLabelsResponse> {
+            return localVarFp.purchaseLabels(shipmentId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Purchase shipping labels.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1686,8 +1644,8 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseShipment(body: PurchaseShipmentRequest, options?: any) {
-            return ShippingApiFp(configuration).purchaseShipment(body, options)(axios, basePath);
+        purchaseShipment(body: PurchaseShipmentRequest, options?: any): AxiosPromise<PurchaseShipmentResponse> {
+            return localVarFp.purchaseShipment(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Retrieve shipping label based on the shipment id and tracking id.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1697,11 +1655,144 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        retrieveShippingLabel(shipmentId: string, trackingId: string, body: RetrieveShippingLabelRequest, options?: any) {
-            return ShippingApiFp(configuration).retrieveShippingLabel(shipmentId, trackingId, body, options)(axios, basePath);
+        retrieveShippingLabel(shipmentId: string, trackingId: string, body: RetrieveShippingLabelRequest, options?: any): AxiosPromise<RetrieveShippingLabelResponse> {
+            return localVarFp.retrieveShippingLabel(shipmentId, trackingId, body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for cancelShipment operation in ShippingApi.
+ * @export
+ * @interface ShippingApiCancelShipmentRequest
+ */
+export interface ShippingApiCancelShipmentRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ShippingApiCancelShipment
+     */
+    readonly shipmentId: string
+}
+
+/**
+ * Request parameters for createShipment operation in ShippingApi.
+ * @export
+ * @interface ShippingApiCreateShipmentRequest
+ */
+export interface ShippingApiCreateShipmentRequest {
+    /**
+     * 
+     * @type {CreateShipmentRequest}
+     * @memberof ShippingApiCreateShipment
+     */
+    readonly body: CreateShipmentRequest
+}
+
+/**
+ * Request parameters for getRates operation in ShippingApi.
+ * @export
+ * @interface ShippingApiGetRatesRequest
+ */
+export interface ShippingApiGetRatesRequest {
+    /**
+     * 
+     * @type {GetRatesRequest}
+     * @memberof ShippingApiGetRates
+     */
+    readonly body: GetRatesRequest
+}
+
+/**
+ * Request parameters for getShipment operation in ShippingApi.
+ * @export
+ * @interface ShippingApiGetShipmentRequest
+ */
+export interface ShippingApiGetShipmentRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ShippingApiGetShipment
+     */
+    readonly shipmentId: string
+}
+
+/**
+ * Request parameters for getTrackingInformation operation in ShippingApi.
+ * @export
+ * @interface ShippingApiGetTrackingInformationRequest
+ */
+export interface ShippingApiGetTrackingInformationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ShippingApiGetTrackingInformation
+     */
+    readonly trackingId: string
+}
+
+/**
+ * Request parameters for purchaseLabels operation in ShippingApi.
+ * @export
+ * @interface ShippingApiPurchaseLabelsRequest
+ */
+export interface ShippingApiPurchaseLabelsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ShippingApiPurchaseLabels
+     */
+    readonly shipmentId: string
+
+    /**
+     * 
+     * @type {PurchaseLabelsRequest}
+     * @memberof ShippingApiPurchaseLabels
+     */
+    readonly body: PurchaseLabelsRequest
+}
+
+/**
+ * Request parameters for purchaseShipment operation in ShippingApi.
+ * @export
+ * @interface ShippingApiPurchaseShipmentRequest
+ */
+export interface ShippingApiPurchaseShipmentRequest {
+    /**
+     * 
+     * @type {PurchaseShipmentRequest}
+     * @memberof ShippingApiPurchaseShipment
+     */
+    readonly body: PurchaseShipmentRequest
+}
+
+/**
+ * Request parameters for retrieveShippingLabel operation in ShippingApi.
+ * @export
+ * @interface ShippingApiRetrieveShippingLabelRequest
+ */
+export interface ShippingApiRetrieveShippingLabelRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ShippingApiRetrieveShippingLabel
+     */
+    readonly shipmentId: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ShippingApiRetrieveShippingLabel
+     */
+    readonly trackingId: string
+
+    /**
+     * 
+     * @type {RetrieveShippingLabelRequest}
+     * @memberof ShippingApiRetrieveShippingLabel
+     */
+    readonly body: RetrieveShippingLabelRequest
+}
 
 /**
  * ShippingApi - object-oriented interface
@@ -1712,24 +1803,24 @@ export const ShippingApiFactory = function (configuration?: Configuration, baseP
 export class ShippingApi extends BaseAPI {
     /**
      * Cancel a shipment by the given shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId 
+     * @param {ShippingApiCancelShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ShippingApi
      */
-    public cancelShipment(shipmentId: string, options?: any) {
-        return ShippingApiFp(this.configuration).cancelShipment(shipmentId, options)(this.axios, this.basePath);
+    public cancelShipment(requestParameters: ShippingApiCancelShipmentRequest, options?: any) {
+        return ShippingApiFp(this.configuration).cancelShipment(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Create a new shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {CreateShipmentRequest} body 
+     * @param {ShippingApiCreateShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ShippingApi
      */
-    public createShipment(body: CreateShipmentRequest, options?: any) {
-        return ShippingApiFp(this.configuration).createShipment(body, options)(this.axios, this.basePath);
+    public createShipment(requestParameters: ShippingApiCreateShipmentRequest, options?: any) {
+        return ShippingApiFp(this.configuration).createShipment(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1739,78 +1830,74 @@ export class ShippingApi extends BaseAPI {
      * @memberof ShippingApi
      */
     public getAccount(options?: any) {
-        return ShippingApiFp(this.configuration).getAccount(options)(this.axios, this.basePath);
+        return ShippingApiFp(this.configuration).getAccount(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get service rates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {GetRatesRequest} body 
+     * @param {ShippingApiGetRatesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ShippingApi
      */
-    public getRates(body: GetRatesRequest, options?: any) {
-        return ShippingApiFp(this.configuration).getRates(body, options)(this.axios, this.basePath);
+    public getRates(requestParameters: ShippingApiGetRatesRequest, options?: any) {
+        return ShippingApiFp(this.configuration).getRates(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Return the entire shipment object for the shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId 
+     * @param {ShippingApiGetShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ShippingApi
      */
-    public getShipment(shipmentId: string, options?: any) {
-        return ShippingApiFp(this.configuration).getShipment(shipmentId, options)(this.axios, this.basePath);
+    public getShipment(requestParameters: ShippingApiGetShipmentRequest, options?: any) {
+        return ShippingApiFp(this.configuration).getShipment(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Return the tracking information of a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} trackingId 
+     * @param {ShippingApiGetTrackingInformationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ShippingApi
      */
-    public getTrackingInformation(trackingId: string, options?: any) {
-        return ShippingApiFp(this.configuration).getTrackingInformation(trackingId, options)(this.axios, this.basePath);
+    public getTrackingInformation(requestParameters: ShippingApiGetTrackingInformationRequest, options?: any) {
+        return ShippingApiFp(this.configuration).getTrackingInformation(requestParameters.trackingId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Purchase shipping labels based on a given rate.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId 
-     * @param {PurchaseLabelsRequest} body 
+     * @param {ShippingApiPurchaseLabelsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ShippingApi
      */
-    public purchaseLabels(shipmentId: string, body: PurchaseLabelsRequest, options?: any) {
-        return ShippingApiFp(this.configuration).purchaseLabels(shipmentId, body, options)(this.axios, this.basePath);
+    public purchaseLabels(requestParameters: ShippingApiPurchaseLabelsRequest, options?: any) {
+        return ShippingApiFp(this.configuration).purchaseLabels(requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Purchase shipping labels.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {PurchaseShipmentRequest} body 
+     * @param {ShippingApiPurchaseShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ShippingApi
      */
-    public purchaseShipment(body: PurchaseShipmentRequest, options?: any) {
-        return ShippingApiFp(this.configuration).purchaseShipment(body, options)(this.axios, this.basePath);
+    public purchaseShipment(requestParameters: ShippingApiPurchaseShipmentRequest, options?: any) {
+        return ShippingApiFp(this.configuration).purchaseShipment(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Retrieve shipping label based on the shipment id and tracking id.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId 
-     * @param {string} trackingId 
-     * @param {RetrieveShippingLabelRequest} body 
+     * @param {ShippingApiRetrieveShippingLabelRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ShippingApi
      */
-    public retrieveShippingLabel(shipmentId: string, trackingId: string, body: RetrieveShippingLabelRequest, options?: any) {
-        return ShippingApiFp(this.configuration).retrieveShippingLabel(shipmentId, trackingId, body, options)(this.axios, this.basePath);
+    public retrieveShippingLabel(requestParameters: ShippingApiRetrieveShippingLabelRequest, options?: any) {
+        return ShippingApiFp(this.configuration).retrieveShippingLabel(requestParameters.shipmentId, requestParameters.trackingId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 
