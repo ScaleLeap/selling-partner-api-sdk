@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for Solicitations
  * With the Solicitations API you can build applications that send non-critical solicitations to buyers. You can get a list of solicitation types that are available for an order that you specify, then call an operation that sends a solicitation to the buyer for that order. Buyers cannot respond to solicitations sent by this API, and these solicitations do not appear in the Messaging section of Seller Central or in the recipient\'s Message Center. The Solicitations API returns responses that are formed according to the <a href=https://tools.ietf.org/html/draft-kelly-json-hal-08>JSON Hypertext Application Language</a> (HAL) standard.
@@ -13,11 +13,10 @@
  */
 
 
+import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
-// @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -45,7 +44,7 @@ export interface GetSchemaResponse {
      * @type {GetSchemaResponseLinks}
      * @memberof GetSchemaResponse
      */
-    _links?: GetSchemaResponseLinks;
+    links?: GetSchemaResponseLinks;
     /**
      * A JSON schema document describing the expected payload of the action. This object can be validated against <a href=http://json-schema.org/draft-04/schema>http://json-schema.org/draft-04/schema</a>.
      * @type {object}
@@ -83,13 +82,13 @@ export interface GetSolicitationActionResponse {
      * @type {GetSolicitationActionResponseLinks}
      * @memberof GetSolicitationActionResponse
      */
-    _links?: GetSolicitationActionResponseLinks;
+    links?: GetSolicitationActionResponseLinks;
     /**
      * 
      * @type {GetSolicitationActionResponseEmbedded}
      * @memberof GetSolicitationActionResponse
      */
-    _embedded?: GetSolicitationActionResponseEmbedded;
+    embedded?: GetSolicitationActionResponseEmbedded;
     /**
      * 
      * @type {SolicitationsAction}
@@ -146,13 +145,13 @@ export interface GetSolicitationActionsForOrderResponse {
      * @type {GetSolicitationActionsForOrderResponseLinks}
      * @memberof GetSolicitationActionsForOrderResponse
      */
-    _links?: GetSolicitationActionsForOrderResponseLinks;
+    links?: GetSolicitationActionsForOrderResponseLinks;
     /**
      * 
      * @type {GetSolicitationActionsForOrderResponseEmbedded}
      * @memberof GetSolicitationActionsForOrderResponse
      */
-    _embedded?: GetSolicitationActionsForOrderResponseEmbedded;
+    embedded?: GetSolicitationActionsForOrderResponseEmbedded;
     /**
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
@@ -263,20 +262,22 @@ export const SolicitationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createProductReviewAndSellerFeedbackSolicitation: async (amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        createProductReviewAndSellerFeedbackSolicitation(amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createProductReviewAndSellerFeedbackSolicitation', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createProductReviewAndSellerFeedbackSolicitation.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createProductReviewAndSellerFeedbackSolicitation', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createProductReviewAndSellerFeedbackSolicitation.');
+            }
             const localVarPath = `/solicitations/v1/orders/{amazonOrderId}/solicitations/productReviewAndSellerFeedback`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -287,12 +288,13 @@ export const SolicitationsApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -303,20 +305,22 @@ export const SolicitationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSolicitationActionsForOrder: async (amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getSolicitationActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('getSolicitationActionsForOrder', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling getSolicitationActionsForOrder.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('getSolicitationActionsForOrder', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling getSolicitationActionsForOrder.');
+            }
             const localVarPath = `/solicitations/v1/orders/{amazonOrderId}`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -327,12 +331,13 @@ export const SolicitationsApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -344,7 +349,6 @@ export const SolicitationsApiAxiosParamCreator = function (configuration?: Confi
  * @export
  */
 export const SolicitationsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = SolicitationsApiAxiosParamCreator(configuration)
     return {
         /**
          * Sends a solicitation to a buyer asking for seller feedback and a product review for the specified order. Send only one productReviewAndSellerFeedback or free form proactive message per order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -353,9 +357,12 @@ export const SolicitationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createProductReviewAndSellerFeedbackSolicitation(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProductReviewAndSellerFeedbackSolicitationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createProductReviewAndSellerFeedbackSolicitation(amazonOrderId, marketplaceIds, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createProductReviewAndSellerFeedbackSolicitation(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProductReviewAndSellerFeedbackSolicitationResponse> {
+            const localVarAxiosArgs = SolicitationsApiAxiosParamCreator(configuration).createProductReviewAndSellerFeedbackSolicitation(amazonOrderId, marketplaceIds, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns a list of solicitation types that are available for an order that you specify. A solicitation type is represented by an actions object, which contains a path and query parameter(s). You can use the path and parameter(s) to call an operation that sends a solicitation. Currently only the productReviewAndSellerFeedbackSolicitation solicitation type is available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -364,9 +371,12 @@ export const SolicitationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSolicitationActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetSolicitationActionsForOrderResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSolicitationActionsForOrder(amazonOrderId, marketplaceIds, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getSolicitationActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetSolicitationActionsForOrderResponse> {
+            const localVarAxiosArgs = SolicitationsApiAxiosParamCreator(configuration).getSolicitationActionsForOrder(amazonOrderId, marketplaceIds, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
     }
 };
@@ -376,7 +386,6 @@ export const SolicitationsApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const SolicitationsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = SolicitationsApiFp(configuration)
     return {
         /**
          * Sends a solicitation to a buyer asking for seller feedback and a product review for the specified order. Send only one productReviewAndSellerFeedback or free form proactive message per order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -385,8 +394,8 @@ export const SolicitationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createProductReviewAndSellerFeedbackSolicitation(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<CreateProductReviewAndSellerFeedbackSolicitationResponse> {
-            return localVarFp.createProductReviewAndSellerFeedbackSolicitation(amazonOrderId, marketplaceIds, options).then((request) => request(axios, basePath));
+        createProductReviewAndSellerFeedbackSolicitation(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
+            return SolicitationsApiFp(configuration).createProductReviewAndSellerFeedbackSolicitation(amazonOrderId, marketplaceIds, options)(axios, basePath);
         },
         /**
          * Returns a list of solicitation types that are available for an order that you specify. A solicitation type is represented by an actions object, which contains a path and query parameter(s). You can use the path and parameter(s) to call an operation that sends a solicitation. Currently only the productReviewAndSellerFeedbackSolicitation solicitation type is available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -395,8 +404,8 @@ export const SolicitationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSolicitationActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<GetSolicitationActionsForOrderResponse> {
-            return localVarFp.getSolicitationActionsForOrder(amazonOrderId, marketplaceIds, options).then((request) => request(axios, basePath));
+        getSolicitationActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
+            return SolicitationsApiFp(configuration).getSolicitationActionsForOrder(amazonOrderId, marketplaceIds, options)(axios, basePath);
         },
     };
 };
@@ -417,7 +426,7 @@ export class SolicitationsApi extends BaseAPI {
      * @memberof SolicitationsApi
      */
     public createProductReviewAndSellerFeedbackSolicitation(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
-        return SolicitationsApiFp(this.configuration).createProductReviewAndSellerFeedbackSolicitation(amazonOrderId, marketplaceIds, options).then((request) => request(this.axios, this.basePath));
+        return SolicitationsApiFp(this.configuration).createProductReviewAndSellerFeedbackSolicitation(amazonOrderId, marketplaceIds, options)(this.axios, this.basePath);
     }
 
     /**
@@ -429,8 +438,9 @@ export class SolicitationsApi extends BaseAPI {
      * @memberof SolicitationsApi
      */
     public getSolicitationActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
-        return SolicitationsApiFp(this.configuration).getSolicitationActionsForOrder(amazonOrderId, marketplaceIds, options).then((request) => request(this.axios, this.basePath));
+        return SolicitationsApiFp(this.configuration).getSolicitationActionsForOrder(amazonOrderId, marketplaceIds, options)(this.axios, this.basePath);
     }
+
 }
 
 

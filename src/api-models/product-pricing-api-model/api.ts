@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for Pricing
  * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer information for Amazon Marketplace products.
@@ -13,11 +13,10 @@
  */
 
 
+import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
-// @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -32,7 +31,7 @@ export interface ASINIdentifier {
      * @type {string}
      * @memberof ASINIdentifier
      */
-    MarketplaceId: string;
+    marketplaceId: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -57,25 +56,25 @@ export interface BuyBoxPriceType {
      * @type {MoneyType}
      * @memberof BuyBoxPriceType
      */
-    LandedPrice: MoneyType;
+    landedPrice: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof BuyBoxPriceType
      */
-    ListingPrice: MoneyType;
+    listingPrice: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof BuyBoxPriceType
      */
-    Shipping: MoneyType;
+    shipping: MoneyType;
     /**
      * 
      * @type {Points}
      * @memberof BuyBoxPriceType
      */
-    Points?: Points;
+    points?: Points;
 }
 /**
  * 
@@ -88,13 +87,13 @@ export interface CompetitivePriceType {
      * @type {string}
      * @memberof CompetitivePriceType
      */
-    CompetitivePriceId: string;
+    competitivePriceId: string;
     /**
      * 
      * @type {PriceType}
      * @memberof CompetitivePriceType
      */
-    Price: PriceType;
+    price: PriceType;
     /**
      * Indicates the condition of the item whose pricing information is returned. Possible values are: New, Used, Collectible, Refurbished, or Club.
      * @type {string}
@@ -125,19 +124,19 @@ export interface CompetitivePricingType {
      * @type {Array<CompetitivePriceType>}
      * @memberof CompetitivePricingType
      */
-    CompetitivePrices: Array<CompetitivePriceType>;
+    competitivePrices: Array<CompetitivePriceType>;
     /**
      * The number of active offer listings for the item that was submitted. The listing count is returned by condition, one for each listing condition value that is returned.
      * @type {Array<OfferListingCountType>}
      * @memberof CompetitivePricingType
      */
-    NumberOfOfferListings: Array<OfferListingCountType>;
+    numberOfOfferListings: Array<OfferListingCountType>;
     /**
      * 
      * @type {MoneyType}
      * @memberof CompetitivePricingType
      */
-    TradeInValue?: MoneyType;
+    tradeInValue?: MoneyType;
 }
 /**
  * Indicates the condition of the item. Possible values: New, Used, Collectible, Refurbished, Club.
@@ -189,9 +188,9 @@ export interface DetailedShippingTimeType {
     * @enum {string}
     */
 export enum DetailedShippingTimeTypeAvailabilityTypeEnum {
-    Now = 'NOW',
-    FutureWithoutDate = 'FUTURE_WITHOUT_DATE',
-    FutureWithDate = 'FUTURE_WITH_DATE'
+    NOW = 'NOW',
+    FUTUREWITHOUTDATE = 'FUTURE_WITHOUT_DATE',
+    FUTUREWITHDATE = 'FUTURE_WITH_DATE'
 }
 
 /**
@@ -234,7 +233,7 @@ export interface GetOffersResult {
      * @type {string}
      * @memberof GetOffersResult
      */
-    MarketplaceID: string;
+    marketplaceID: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -252,7 +251,7 @@ export interface GetOffersResult {
      * @type {ConditionType}
      * @memberof GetOffersResult
      */
-    ItemCondition: ConditionType;
+    itemCondition: ConditionType;
     /**
      * The status of the operation.
      * @type {string}
@@ -264,19 +263,19 @@ export interface GetOffersResult {
      * @type {ItemIdentifier}
      * @memberof GetOffersResult
      */
-    Identifier: ItemIdentifier;
+    identifier: ItemIdentifier;
     /**
      * 
      * @type {Summary}
      * @memberof GetOffersResult
      */
-    Summary: Summary;
+    summary: Summary;
     /**
      * 
      * @type {Array<OfferDetail>}
      * @memberof GetOffersResult
      */
-    Offers: Array<OfferDetail>;
+    offers: Array<OfferDetail>;
 }
 /**
  * The response schema for the getPricing and getCompetitivePricing operations.
@@ -308,13 +307,13 @@ export interface IdentifierType {
      * @type {ASINIdentifier}
      * @memberof IdentifierType
      */
-    MarketplaceASIN: ASINIdentifier;
+    marketplaceASIN: ASINIdentifier;
     /**
      * 
      * @type {SellerSKUIdentifier}
      * @memberof IdentifierType
      */
-    SKUIdentifier?: SellerSKUIdentifier;
+    sKUIdentifier?: SellerSKUIdentifier;
 }
 /**
  * Information that identifies an item.
@@ -327,7 +326,7 @@ export interface ItemIdentifier {
      * @type {string}
      * @memberof ItemIdentifier
      */
-    MarketplaceId: string;
+    marketplaceId: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -339,13 +338,13 @@ export interface ItemIdentifier {
      * @type {string}
      * @memberof ItemIdentifier
      */
-    SellerSKU?: string;
+    sellerSKU?: string;
     /**
      * 
      * @type {ConditionType}
      * @memberof ItemIdentifier
      */
-    ItemCondition: ConditionType;
+    itemCondition: ConditionType;
 }
 /**
  * 
@@ -370,25 +369,25 @@ export interface LowestPriceType {
      * @type {MoneyType}
      * @memberof LowestPriceType
      */
-    LandedPrice: MoneyType;
+    landedPrice: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof LowestPriceType
      */
-    ListingPrice: MoneyType;
+    listingPrice: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof LowestPriceType
      */
-    Shipping: MoneyType;
+    shipping: MoneyType;
     /**
      * 
      * @type {Points}
      * @memberof LowestPriceType
      */
-    Points?: Points;
+    points?: Points;
 }
 /**
  * Error response returned when the request is unsuccessful.
@@ -426,13 +425,13 @@ export interface MoneyType {
      * @type {string}
      * @memberof MoneyType
      */
-    CurrencyCode?: string;
+    currencyCode?: string;
     /**
      * The monetary value.
      * @type {number}
      * @memberof MoneyType
      */
-    Amount?: number;
+    amount?: number;
 }
 /**
  * The total number of offers for the specified condition and fulfillment channel.
@@ -457,7 +456,7 @@ export interface OfferCountType {
      * @type {number}
      * @memberof OfferCountType
      */
-    OfferCount?: number;
+    offerCount?: number;
 }
 /**
  * 
@@ -470,67 +469,67 @@ export interface OfferDetail {
      * @type {boolean}
      * @memberof OfferDetail
      */
-    MyOffer?: boolean;
+    myOffer?: boolean;
     /**
      * The subcondition of the item. Subcondition values: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
      * @type {string}
      * @memberof OfferDetail
      */
-    SubCondition: string;
+    subCondition: string;
     /**
      * 
      * @type {SellerFeedbackType}
      * @memberof OfferDetail
      */
-    SellerFeedbackRating?: SellerFeedbackType;
+    sellerFeedbackRating?: SellerFeedbackType;
     /**
      * 
      * @type {DetailedShippingTimeType}
      * @memberof OfferDetail
      */
-    ShippingTime: DetailedShippingTimeType;
+    shippingTime: DetailedShippingTimeType;
     /**
      * 
      * @type {MoneyType}
      * @memberof OfferDetail
      */
-    ListingPrice: MoneyType;
+    listingPrice: MoneyType;
     /**
      * 
      * @type {Points}
      * @memberof OfferDetail
      */
-    Points?: Points;
+    points?: Points;
     /**
      * 
      * @type {MoneyType}
      * @memberof OfferDetail
      */
-    Shipping: MoneyType;
+    shipping: MoneyType;
     /**
      * 
      * @type {ShipsFromType}
      * @memberof OfferDetail
      */
-    ShipsFrom?: ShipsFromType;
+    shipsFrom?: ShipsFromType;
     /**
      * When true, the offer is fulfilled by Amazon.
      * @type {boolean}
      * @memberof OfferDetail
      */
-    IsFulfilledByAmazon: boolean;
+    isFulfilledByAmazon: boolean;
     /**
      * When true, the offer is currently in the Buy Box. There can be up to two Buy Box winners at any time per ASIN, one that is eligible for Prime and one that is not eligible for Prime.
      * @type {boolean}
      * @memberof OfferDetail
      */
-    IsBuyBoxWinner?: boolean;
+    isBuyBoxWinner?: boolean;
     /**
      * When true, the seller of the item is eligible to win the Buy Box.
      * @type {boolean}
      * @memberof OfferDetail
      */
-    IsFeaturedMerchant?: boolean;
+    isFeaturedMerchant?: boolean;
 }
 /**
  * The number of offer listings with the specified condition.
@@ -543,7 +542,7 @@ export interface OfferListingCountType {
      * @type {number}
      * @memberof OfferListingCountType
      */
-    Count: number;
+    count: number;
     /**
      * The condition of the item.
      * @type {string}
@@ -562,37 +561,37 @@ export interface OfferType {
      * @type {PriceType}
      * @memberof OfferType
      */
-    BuyingPrice: PriceType;
+    buyingPrice: PriceType;
     /**
      * 
      * @type {MoneyType}
      * @memberof OfferType
      */
-    RegularPrice: MoneyType;
+    regularPrice: MoneyType;
     /**
      * The fulfillment channel for the offer listing. Possible values:  * Amazon - Fulfilled by Amazon. * Merchant - Fulfilled by the seller.
      * @type {string}
      * @memberof OfferType
      */
-    FulfillmentChannel: string;
+    fulfillmentChannel: string;
     /**
      * The item condition for the offer listing. Possible values: New, Used, Collectible, Refurbished, or Club.
      * @type {string}
      * @memberof OfferType
      */
-    ItemCondition: string;
+    itemCondition: string;
     /**
      * The item subcondition for the offer listing. Possible values: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
      * @type {string}
      * @memberof OfferType
      */
-    ItemSubCondition: string;
+    itemSubCondition: string;
     /**
      * The seller stock keeping unit (SKU) of the item.
      * @type {string}
      * @memberof OfferType
      */
-    SellerSKU: string;
+    sellerSKU: string;
 }
 /**
  * 
@@ -605,13 +604,13 @@ export interface Points {
      * @type {number}
      * @memberof Points
      */
-    PointsNumber?: number;
+    pointsNumber?: number;
     /**
      * 
      * @type {MoneyType}
      * @memberof Points
      */
-    PointsMonetaryValue?: MoneyType;
+    pointsMonetaryValue?: MoneyType;
 }
 /**
  * 
@@ -630,7 +629,7 @@ export interface Price {
      * @type {string}
      * @memberof Price
      */
-    SellerSKU?: string;
+    sellerSKU?: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -642,7 +641,7 @@ export interface Price {
      * @type {Product}
      * @memberof Price
      */
-    Product?: Product;
+    product?: Product;
 }
 /**
  * 
@@ -655,25 +654,25 @@ export interface PriceType {
      * @type {MoneyType}
      * @memberof PriceType
      */
-    LandedPrice?: MoneyType;
+    landedPrice?: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof PriceType
      */
-    ListingPrice: MoneyType;
+    listingPrice: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof PriceType
      */
-    Shipping?: MoneyType;
+    shipping?: MoneyType;
     /**
      * 
      * @type {Points}
      * @memberof PriceType
      */
-    Points?: Points;
+    points?: Points;
 }
 /**
  * An item.
@@ -686,37 +685,37 @@ export interface Product {
      * @type {IdentifierType}
      * @memberof Product
      */
-    Identifiers: IdentifierType;
+    identifiers: IdentifierType;
     /**
      * A list of product attributes if they are applicable to the product that is returned.
      * @type {Array<object>}
      * @memberof Product
      */
-    AttributeSets?: Array<object>;
+    attributeSets?: Array<object>;
     /**
      * A list that contains product variation information, if applicable.
      * @type {Array<object>}
      * @memberof Product
      */
-    Relationships?: Array<object>;
+    relationships?: Array<object>;
     /**
      * 
      * @type {CompetitivePricingType}
      * @memberof Product
      */
-    CompetitivePricing?: CompetitivePricingType;
+    competitivePricing?: CompetitivePricingType;
     /**
      * A list of sales rank information for the item, by category.
      * @type {Array<SalesRankType>}
      * @memberof Product
      */
-    SalesRankings?: Array<SalesRankType>;
+    salesRankings?: Array<SalesRankType>;
     /**
      * A list of offers.
      * @type {Array<OfferType>}
      * @memberof Product
      */
-    Offers?: Array<OfferType>;
+    offers?: Array<OfferType>;
 }
 /**
  * 
@@ -729,13 +728,13 @@ export interface SalesRankType {
      * @type {string}
      * @memberof SalesRankType
      */
-    ProductCategoryId: string;
+    productCategoryId: string;
     /**
      * The sales rank of the item within the item category.
      * @type {number}
      * @memberof SalesRankType
      */
-    Rank: number;
+    rank: number;
 }
 /**
  * Information about the seller\'s feedback, including the percentage of positive feedback, and the total number of ratings received.
@@ -748,13 +747,13 @@ export interface SellerFeedbackType {
      * @type {number}
      * @memberof SellerFeedbackType
      */
-    SellerPositiveFeedbackRating?: number;
+    sellerPositiveFeedbackRating?: number;
     /**
      * The number of ratings received about the seller.
      * @type {number}
      * @memberof SellerFeedbackType
      */
-    FeedbackCount: number;
+    feedbackCount: number;
 }
 /**
  * 
@@ -767,19 +766,19 @@ export interface SellerSKUIdentifier {
      * @type {string}
      * @memberof SellerSKUIdentifier
      */
-    MarketplaceId: string;
+    marketplaceId: string;
     /**
      * The seller identifier submitted for the operation.
      * @type {string}
      * @memberof SellerSKUIdentifier
      */
-    SellerId: string;
+    sellerId: string;
     /**
      * The seller stock keeping unit (SKU) of the item.
      * @type {string}
      * @memberof SellerSKUIdentifier
      */
-    SellerSKU: string;
+    sellerSKU: string;
 }
 /**
  * The state and country from where the item is shipped.
@@ -792,13 +791,13 @@ export interface ShipsFromType {
      * @type {string}
      * @memberof ShipsFromType
      */
-    State?: string;
+    state?: string;
     /**
      * The country from where the item is shipped.
      * @type {string}
      * @memberof ShipsFromType
      */
-    Country?: string;
+    country?: string;
 }
 /**
  * Contains price information about the product, including the LowestPrices and BuyBoxPrices, the ListPrice, the SuggestedLowerPricePlusShipping, and NumberOfOffers and NumberOfBuyBoxEligibleOffers.
@@ -811,49 +810,49 @@ export interface Summary {
      * @type {number}
      * @memberof Summary
      */
-    TotalOfferCount: number;
+    totalOfferCount: number;
     /**
      * 
      * @type {Array<OfferCountType>}
      * @memberof Summary
      */
-    NumberOfOffers?: Array<OfferCountType>;
+    numberOfOffers?: Array<OfferCountType>;
     /**
      * 
      * @type {Array<LowestPriceType>}
      * @memberof Summary
      */
-    LowestPrices?: Array<LowestPriceType>;
+    lowestPrices?: Array<LowestPriceType>;
     /**
      * 
      * @type {Array<BuyBoxPriceType>}
      * @memberof Summary
      */
-    BuyBoxPrices?: Array<BuyBoxPriceType>;
+    buyBoxPrices?: Array<BuyBoxPriceType>;
     /**
      * 
      * @type {MoneyType}
      * @memberof Summary
      */
-    ListPrice?: MoneyType;
+    listPrice?: MoneyType;
     /**
      * 
      * @type {MoneyType}
      * @memberof Summary
      */
-    SuggestedLowerPricePlusShipping?: MoneyType;
+    suggestedLowerPricePlusShipping?: MoneyType;
     /**
      * 
      * @type {Array<OfferCountType>}
      * @memberof Summary
      */
-    BuyBoxEligibleOffers?: Array<OfferCountType>;
+    buyBoxEligibleOffers?: Array<OfferCountType>;
     /**
      * When the status is ActiveButTooSoonForProcessing, this is the time when the offers will be available for processing.
-     * @type {string}
+     * @type {Date}
      * @memberof Summary
      */
-    OffersAvailableTime?: string;
+    offersAvailableTime?: Date;
 }
 
 /**
@@ -871,19 +870,21 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCompetitivePricing: async (marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getCompetitivePricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, options: any = {}): RequestArgs {
             // verify required parameter 'marketplaceId' is not null or undefined
-            assertParamExists('getCompetitivePricing', 'marketplaceId', marketplaceId)
+            if (marketplaceId === null || marketplaceId === undefined) {
+                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getCompetitivePricing.');
+            }
             // verify required parameter 'itemType' is not null or undefined
-            assertParamExists('getCompetitivePricing', 'itemType', itemType)
+            if (itemType === null || itemType === undefined) {
+                throw new RequiredError('itemType','Required parameter itemType was null or undefined when calling getCompetitivePricing.');
+            }
             const localVarPath = `/products/pricing/v0/competitivePrice`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -906,12 +907,13 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -923,22 +925,26 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemOffers: async (marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', asin: string, options: any = {}): Promise<RequestArgs> => {
+        getItemOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', asin: string, options: any = {}): RequestArgs {
             // verify required parameter 'marketplaceId' is not null or undefined
-            assertParamExists('getItemOffers', 'marketplaceId', marketplaceId)
+            if (marketplaceId === null || marketplaceId === undefined) {
+                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getItemOffers.');
+            }
             // verify required parameter 'itemCondition' is not null or undefined
-            assertParamExists('getItemOffers', 'itemCondition', itemCondition)
+            if (itemCondition === null || itemCondition === undefined) {
+                throw new RequiredError('itemCondition','Required parameter itemCondition was null or undefined when calling getItemOffers.');
+            }
             // verify required parameter 'asin' is not null or undefined
-            assertParamExists('getItemOffers', 'asin', asin)
+            if (asin === null || asin === undefined) {
+                throw new RequiredError('asin','Required parameter asin was null or undefined when calling getItemOffers.');
+            }
             const localVarPath = `/products/pricing/v0/items/{Asin}/offers`
                 .replace(`{${"Asin"}}`, encodeURIComponent(String(asin)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -953,12 +959,13 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -970,22 +977,26 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getListingOffers: async (marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', sellerSKU: string, options: any = {}): Promise<RequestArgs> => {
+        getListingOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', sellerSKU: string, options: any = {}): RequestArgs {
             // verify required parameter 'marketplaceId' is not null or undefined
-            assertParamExists('getListingOffers', 'marketplaceId', marketplaceId)
+            if (marketplaceId === null || marketplaceId === undefined) {
+                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getListingOffers.');
+            }
             // verify required parameter 'itemCondition' is not null or undefined
-            assertParamExists('getListingOffers', 'itemCondition', itemCondition)
+            if (itemCondition === null || itemCondition === undefined) {
+                throw new RequiredError('itemCondition','Required parameter itemCondition was null or undefined when calling getListingOffers.');
+            }
             // verify required parameter 'sellerSKU' is not null or undefined
-            assertParamExists('getListingOffers', 'sellerSKU', sellerSKU)
+            if (sellerSKU === null || sellerSKU === undefined) {
+                throw new RequiredError('sellerSKU','Required parameter sellerSKU was null or undefined when calling getListingOffers.');
+            }
             const localVarPath = `/products/pricing/v0/listings/{SellerSKU}/offers`
                 .replace(`{${"SellerSKU"}}`, encodeURIComponent(String(sellerSKU)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1000,12 +1011,13 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1019,19 +1031,21 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPricing: async (marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, itemCondition?: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', options: any = {}): Promise<RequestArgs> => {
+        getPricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, itemCondition?: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', options: any = {}): RequestArgs {
             // verify required parameter 'marketplaceId' is not null or undefined
-            assertParamExists('getPricing', 'marketplaceId', marketplaceId)
+            if (marketplaceId === null || marketplaceId === undefined) {
+                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getPricing.');
+            }
             // verify required parameter 'itemType' is not null or undefined
-            assertParamExists('getPricing', 'itemType', itemType)
+            if (itemType === null || itemType === undefined) {
+                throw new RequiredError('itemType','Required parameter itemType was null or undefined when calling getPricing.');
+            }
             const localVarPath = `/products/pricing/v0/price`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1058,12 +1072,13 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1075,7 +1090,6 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
  * @export
  */
 export const ProductPricingApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ProductPricingApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1086,9 +1100,12 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCompetitivePricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPricingResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCompetitivePricing(marketplaceId, itemType, asins, skus, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getCompetitivePricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPricingResponse> {
+            const localVarAxiosArgs = ProductPricingApiAxiosParamCreator(configuration).getCompetitivePricing(marketplaceId, itemType, asins, skus, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1098,9 +1115,12 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItemOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', asin: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOffersResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemOffers(marketplaceId, itemCondition, asin, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getItemOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', asin: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOffersResponse> {
+            const localVarAxiosArgs = ProductPricingApiAxiosParamCreator(configuration).getItemOffers(marketplaceId, itemCondition, asin, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns the lowest priced offers for a single SKU listing.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1110,9 +1130,12 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getListingOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', sellerSKU: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOffersResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getListingOffers(marketplaceId, itemCondition, sellerSKU, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getListingOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', sellerSKU: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOffersResponse> {
+            const localVarAxiosArgs = ProductPricingApiAxiosParamCreator(configuration).getListingOffers(marketplaceId, itemCondition, sellerSKU, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1124,9 +1147,12 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, itemCondition?: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPricingResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPricing(marketplaceId, itemType, asins, skus, itemCondition, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getPricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, itemCondition?: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPricingResponse> {
+            const localVarAxiosArgs = ProductPricingApiAxiosParamCreator(configuration).getPricing(marketplaceId, itemType, asins, skus, itemCondition, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
     }
 };
@@ -1136,7 +1162,6 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const ProductPricingApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ProductPricingApiFp(configuration)
     return {
         /**
          * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1147,8 +1172,8 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCompetitivePricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, options?: any): AxiosPromise<GetPricingResponse> {
-            return localVarFp.getCompetitivePricing(marketplaceId, itemType, asins, skus, options).then((request) => request(axios, basePath));
+        getCompetitivePricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, options?: any) {
+            return ProductPricingApiFp(configuration).getCompetitivePricing(marketplaceId, itemType, asins, skus, options)(axios, basePath);
         },
         /**
          * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1158,8 +1183,8 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', asin: string, options?: any): AxiosPromise<GetOffersResponse> {
-            return localVarFp.getItemOffers(marketplaceId, itemCondition, asin, options).then((request) => request(axios, basePath));
+        getItemOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', asin: string, options?: any) {
+            return ProductPricingApiFp(configuration).getItemOffers(marketplaceId, itemCondition, asin, options)(axios, basePath);
         },
         /**
          * Returns the lowest priced offers for a single SKU listing.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1169,8 +1194,8 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getListingOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', sellerSKU: string, options?: any): AxiosPromise<GetOffersResponse> {
-            return localVarFp.getListingOffers(marketplaceId, itemCondition, sellerSKU, options).then((request) => request(axios, basePath));
+        getListingOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', sellerSKU: string, options?: any) {
+            return ProductPricingApiFp(configuration).getListingOffers(marketplaceId, itemCondition, sellerSKU, options)(axios, basePath);
         },
         /**
          * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1182,8 +1207,8 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, itemCondition?: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', options?: any): AxiosPromise<GetPricingResponse> {
-            return localVarFp.getPricing(marketplaceId, itemType, asins, skus, itemCondition, options).then((request) => request(axios, basePath));
+        getPricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, itemCondition?: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', options?: any) {
+            return ProductPricingApiFp(configuration).getPricing(marketplaceId, itemType, asins, skus, itemCondition, options)(axios, basePath);
         },
     };
 };
@@ -1206,7 +1231,7 @@ export class ProductPricingApi extends BaseAPI {
      * @memberof ProductPricingApi
      */
     public getCompetitivePricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, options?: any) {
-        return ProductPricingApiFp(this.configuration).getCompetitivePricing(marketplaceId, itemType, asins, skus, options).then((request) => request(this.axios, this.basePath));
+        return ProductPricingApiFp(this.configuration).getCompetitivePricing(marketplaceId, itemType, asins, skus, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1219,7 +1244,7 @@ export class ProductPricingApi extends BaseAPI {
      * @memberof ProductPricingApi
      */
     public getItemOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', asin: string, options?: any) {
-        return ProductPricingApiFp(this.configuration).getItemOffers(marketplaceId, itemCondition, asin, options).then((request) => request(this.axios, this.basePath));
+        return ProductPricingApiFp(this.configuration).getItemOffers(marketplaceId, itemCondition, asin, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1232,7 +1257,7 @@ export class ProductPricingApi extends BaseAPI {
      * @memberof ProductPricingApi
      */
     public getListingOffers(marketplaceId: string, itemCondition: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', sellerSKU: string, options?: any) {
-        return ProductPricingApiFp(this.configuration).getListingOffers(marketplaceId, itemCondition, sellerSKU, options).then((request) => request(this.axios, this.basePath));
+        return ProductPricingApiFp(this.configuration).getListingOffers(marketplaceId, itemCondition, sellerSKU, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1247,8 +1272,9 @@ export class ProductPricingApi extends BaseAPI {
      * @memberof ProductPricingApi
      */
     public getPricing(marketplaceId: string, itemType: 'Asin' | 'Sku', asins?: Array<string>, skus?: Array<string>, itemCondition?: 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club', options?: any) {
-        return ProductPricingApiFp(this.configuration).getPricing(marketplaceId, itemType, asins, skus, itemCondition, options).then((request) => request(this.axios, this.basePath));
+        return ProductPricingApiFp(this.configuration).getPricing(marketplaceId, itemType, asins, skus, itemCondition, options)(this.axios, this.basePath);
     }
+
 }
 
 

@@ -1,5 +1,4 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
 /**
  * Selling Partner API for Sales
  * The Selling Partner API for Sales provides APIs related to sales performance.
@@ -15,4 +14,3 @@
 
 export * from "./api";
 export * from "./configuration";
-

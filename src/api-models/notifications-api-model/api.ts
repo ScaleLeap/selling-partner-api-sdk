@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for Notifications
  * The Selling Partner API for Notifications lets you subscribe to notifications that are relevant to a selling partner\'s business. Using this API you can create a destination to receive notifications, subscribe to notifications, delete notification subscriptions, and more.
@@ -13,11 +13,10 @@
  */
 
 
+import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
-// @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -382,17 +381,17 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createDestination: async (body: CreateDestinationRequest, options: any = {}): Promise<RequestArgs> => {
+        createDestination(body: CreateDestinationRequest, options: any = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createDestination', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createDestination.');
+            }
             const localVarPath = `/notifications/v1/destinations`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -401,13 +400,15 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateDestinationRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -418,20 +419,22 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createSubscription: async (notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', body: CreateSubscriptionRequest, options: any = {}): Promise<RequestArgs> => {
+        createSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', body: CreateSubscriptionRequest, options: any = {}): RequestArgs {
             // verify required parameter 'notificationType' is not null or undefined
-            assertParamExists('createSubscription', 'notificationType', notificationType)
+            if (notificationType === null || notificationType === undefined) {
+                throw new RequiredError('notificationType','Required parameter notificationType was null or undefined when calling createSubscription.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createSubscription', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createSubscription.');
+            }
             const localVarPath = `/notifications/v1/subscriptions/{notificationType}`
                 .replace(`{${"notificationType"}}`, encodeURIComponent(String(notificationType)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -440,13 +443,15 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateSubscriptionRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -456,30 +461,31 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDestination: async (destinationId: string, options: any = {}): Promise<RequestArgs> => {
+        deleteDestination(destinationId: string, options: any = {}): RequestArgs {
             // verify required parameter 'destinationId' is not null or undefined
-            assertParamExists('deleteDestination', 'destinationId', destinationId)
+            if (destinationId === null || destinationId === undefined) {
+                throw new RequiredError('destinationId','Required parameter destinationId was null or undefined when calling deleteDestination.');
+            }
             const localVarPath = `/notifications/v1/destinations/{destinationId}`
                 .replace(`{${"destinationId"}}`, encodeURIComponent(String(destinationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -490,33 +496,36 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSubscriptionById: async (subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options: any = {}): Promise<RequestArgs> => {
+        deleteSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options: any = {}): RequestArgs {
             // verify required parameter 'subscriptionId' is not null or undefined
-            assertParamExists('deleteSubscriptionById', 'subscriptionId', subscriptionId)
+            if (subscriptionId === null || subscriptionId === undefined) {
+                throw new RequiredError('subscriptionId','Required parameter subscriptionId was null or undefined when calling deleteSubscriptionById.');
+            }
             // verify required parameter 'notificationType' is not null or undefined
-            assertParamExists('deleteSubscriptionById', 'notificationType', notificationType)
+            if (notificationType === null || notificationType === undefined) {
+                throw new RequiredError('notificationType','Required parameter notificationType was null or undefined when calling deleteSubscriptionById.');
+            }
             const localVarPath = `/notifications/v1/subscriptions/{notificationType}/{subscriptionId}`
                 .replace(`{${"subscriptionId"}}`, encodeURIComponent(String(subscriptionId)))
                 .replace(`{${"notificationType"}}`, encodeURIComponent(String(notificationType)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -526,30 +535,31 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDestination: async (destinationId: string, options: any = {}): Promise<RequestArgs> => {
+        getDestination(destinationId: string, options: any = {}): RequestArgs {
             // verify required parameter 'destinationId' is not null or undefined
-            assertParamExists('getDestination', 'destinationId', destinationId)
+            if (destinationId === null || destinationId === undefined) {
+                throw new RequiredError('destinationId','Required parameter destinationId was null or undefined when calling getDestination.');
+            }
             const localVarPath = `/notifications/v1/destinations/{destinationId}`
                 .replace(`{${"destinationId"}}`, encodeURIComponent(String(destinationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -558,27 +568,26 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDestinations: async (options: any = {}): Promise<RequestArgs> => {
+        getDestinations(options: any = {}): RequestArgs {
             const localVarPath = `/notifications/v1/destinations`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -588,30 +597,31 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSubscription: async (notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options: any = {}): Promise<RequestArgs> => {
+        getSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options: any = {}): RequestArgs {
             // verify required parameter 'notificationType' is not null or undefined
-            assertParamExists('getSubscription', 'notificationType', notificationType)
+            if (notificationType === null || notificationType === undefined) {
+                throw new RequiredError('notificationType','Required parameter notificationType was null or undefined when calling getSubscription.');
+            }
             const localVarPath = `/notifications/v1/subscriptions/{notificationType}`
                 .replace(`{${"notificationType"}}`, encodeURIComponent(String(notificationType)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -622,33 +632,36 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSubscriptionById: async (subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options: any = {}): Promise<RequestArgs> => {
+        getSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options: any = {}): RequestArgs {
             // verify required parameter 'subscriptionId' is not null or undefined
-            assertParamExists('getSubscriptionById', 'subscriptionId', subscriptionId)
+            if (subscriptionId === null || subscriptionId === undefined) {
+                throw new RequiredError('subscriptionId','Required parameter subscriptionId was null or undefined when calling getSubscriptionById.');
+            }
             // verify required parameter 'notificationType' is not null or undefined
-            assertParamExists('getSubscriptionById', 'notificationType', notificationType)
+            if (notificationType === null || notificationType === undefined) {
+                throw new RequiredError('notificationType','Required parameter notificationType was null or undefined when calling getSubscriptionById.');
+            }
             const localVarPath = `/notifications/v1/subscriptions/{notificationType}/{subscriptionId}`
                 .replace(`{${"subscriptionId"}}`, encodeURIComponent(String(subscriptionId)))
                 .replace(`{${"notificationType"}}`, encodeURIComponent(String(notificationType)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -660,7 +673,6 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
  * @export
  */
 export const NotificationsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = NotificationsApiAxiosParamCreator(configuration)
     return {
         /**
          * Creates a destination resource to receive notifications. The createDestination API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -668,9 +680,12 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createDestination(body: CreateDestinationRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateDestinationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createDestination(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createDestination(body: CreateDestinationRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateDestinationResponse> {
+            const localVarAxiosArgs = NotificationsApiAxiosParamCreator(configuration).createDestination(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Creates a subscription for the specified notification type to be delivered to the specified destination. Before you can subscribe, you must first create the destination by calling the createDestination operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -679,9 +694,12 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', body: CreateSubscriptionRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateSubscriptionResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createSubscription(notificationType, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', body: CreateSubscriptionRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateSubscriptionResponse> {
+            const localVarAxiosArgs = NotificationsApiAxiosParamCreator(configuration).createSubscription(notificationType, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Deletes the destination that you specify. The deleteDestination API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -689,9 +707,12 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteDestination(destinationId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteDestinationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDestination(destinationId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        deleteDestination(destinationId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteDestinationResponse> {
+            const localVarAxiosArgs = NotificationsApiAxiosParamCreator(configuration).deleteDestination(destinationId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Deletes the subscription indicated by the subscription identifier and notification type that you specify. The subscription identifier can be for any subscription associated with your application. After you successfully call this operation, notifications will stop being sent for the associated subscription. The deleteSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -700,9 +721,12 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteSubscriptionByIdResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSubscriptionById(subscriptionId, notificationType, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        deleteSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteSubscriptionByIdResponse> {
+            const localVarAxiosArgs = NotificationsApiAxiosParamCreator(configuration).deleteSubscriptionById(subscriptionId, notificationType, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns information about the destination that you specify. The getDestination API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -710,18 +734,24 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDestination(destinationId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDestinationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDestination(destinationId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getDestination(destinationId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDestinationResponse> {
+            const localVarAxiosArgs = NotificationsApiAxiosParamCreator(configuration).getDestination(destinationId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns information about all destinations. The getDestinations API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDestinations(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDestinationsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDestinations(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getDestinations(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDestinationsResponse> {
+            const localVarAxiosArgs = NotificationsApiAxiosParamCreator(configuration).getDestinations(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns information about subscriptions of the specified notification type. You can use this API to get subscription information when you do not have a subscription identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -729,9 +759,12 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetSubscriptionResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSubscription(notificationType, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetSubscriptionResponse> {
+            const localVarAxiosArgs = NotificationsApiAxiosParamCreator(configuration).getSubscription(notificationType, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns information about a subscription for the specified notification type. The getSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -740,9 +773,12 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetSubscriptionByIdResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSubscriptionById(subscriptionId, notificationType, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetSubscriptionByIdResponse> {
+            const localVarAxiosArgs = NotificationsApiAxiosParamCreator(configuration).getSubscriptionById(subscriptionId, notificationType, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
     }
 };
@@ -752,7 +788,6 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const NotificationsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = NotificationsApiFp(configuration)
     return {
         /**
          * Creates a destination resource to receive notifications. The createDestination API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -760,8 +795,8 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createDestination(body: CreateDestinationRequest, options?: any): AxiosPromise<CreateDestinationResponse> {
-            return localVarFp.createDestination(body, options).then((request) => request(axios, basePath));
+        createDestination(body: CreateDestinationRequest, options?: any) {
+            return NotificationsApiFp(configuration).createDestination(body, options)(axios, basePath);
         },
         /**
          * Creates a subscription for the specified notification type to be delivered to the specified destination. Before you can subscribe, you must first create the destination by calling the createDestination operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -770,8 +805,8 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', body: CreateSubscriptionRequest, options?: any): AxiosPromise<CreateSubscriptionResponse> {
-            return localVarFp.createSubscription(notificationType, body, options).then((request) => request(axios, basePath));
+        createSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', body: CreateSubscriptionRequest, options?: any) {
+            return NotificationsApiFp(configuration).createSubscription(notificationType, body, options)(axios, basePath);
         },
         /**
          * Deletes the destination that you specify. The deleteDestination API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -779,8 +814,8 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDestination(destinationId: string, options?: any): AxiosPromise<DeleteDestinationResponse> {
-            return localVarFp.deleteDestination(destinationId, options).then((request) => request(axios, basePath));
+        deleteDestination(destinationId: string, options?: any) {
+            return NotificationsApiFp(configuration).deleteDestination(destinationId, options)(axios, basePath);
         },
         /**
          * Deletes the subscription indicated by the subscription identifier and notification type that you specify. The subscription identifier can be for any subscription associated with your application. After you successfully call this operation, notifications will stop being sent for the associated subscription. The deleteSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -789,8 +824,8 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): AxiosPromise<DeleteSubscriptionByIdResponse> {
-            return localVarFp.deleteSubscriptionById(subscriptionId, notificationType, options).then((request) => request(axios, basePath));
+        deleteSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any) {
+            return NotificationsApiFp(configuration).deleteSubscriptionById(subscriptionId, notificationType, options)(axios, basePath);
         },
         /**
          * Returns information about the destination that you specify. The getDestination API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -798,16 +833,16 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDestination(destinationId: string, options?: any): AxiosPromise<GetDestinationResponse> {
-            return localVarFp.getDestination(destinationId, options).then((request) => request(axios, basePath));
+        getDestination(destinationId: string, options?: any) {
+            return NotificationsApiFp(configuration).getDestination(destinationId, options)(axios, basePath);
         },
         /**
          * Returns information about all destinations. The getDestinations API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDestinations(options?: any): AxiosPromise<GetDestinationsResponse> {
-            return localVarFp.getDestinations(options).then((request) => request(axios, basePath));
+        getDestinations(options?: any) {
+            return NotificationsApiFp(configuration).getDestinations(options)(axios, basePath);
         },
         /**
          * Returns information about subscriptions of the specified notification type. You can use this API to get subscription information when you do not have a subscription identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -815,8 +850,8 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): AxiosPromise<GetSubscriptionResponse> {
-            return localVarFp.getSubscription(notificationType, options).then((request) => request(axios, basePath));
+        getSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any) {
+            return NotificationsApiFp(configuration).getSubscription(notificationType, options)(axios, basePath);
         },
         /**
          * Returns information about a subscription for the specified notification type. The getSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -825,8 +860,8 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any): AxiosPromise<GetSubscriptionByIdResponse> {
-            return localVarFp.getSubscriptionById(subscriptionId, notificationType, options).then((request) => request(axios, basePath));
+        getSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any) {
+            return NotificationsApiFp(configuration).getSubscriptionById(subscriptionId, notificationType, options)(axios, basePath);
         },
     };
 };
@@ -846,7 +881,7 @@ export class NotificationsApi extends BaseAPI {
      * @memberof NotificationsApi
      */
     public createDestination(body: CreateDestinationRequest, options?: any) {
-        return NotificationsApiFp(this.configuration).createDestination(body, options).then((request) => request(this.axios, this.basePath));
+        return NotificationsApiFp(this.configuration).createDestination(body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -858,7 +893,7 @@ export class NotificationsApi extends BaseAPI {
      * @memberof NotificationsApi
      */
     public createSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', body: CreateSubscriptionRequest, options?: any) {
-        return NotificationsApiFp(this.configuration).createSubscription(notificationType, body, options).then((request) => request(this.axios, this.basePath));
+        return NotificationsApiFp(this.configuration).createSubscription(notificationType, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -869,7 +904,7 @@ export class NotificationsApi extends BaseAPI {
      * @memberof NotificationsApi
      */
     public deleteDestination(destinationId: string, options?: any) {
-        return NotificationsApiFp(this.configuration).deleteDestination(destinationId, options).then((request) => request(this.axios, this.basePath));
+        return NotificationsApiFp(this.configuration).deleteDestination(destinationId, options)(this.axios, this.basePath);
     }
 
     /**
@@ -881,7 +916,7 @@ export class NotificationsApi extends BaseAPI {
      * @memberof NotificationsApi
      */
     public deleteSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any) {
-        return NotificationsApiFp(this.configuration).deleteSubscriptionById(subscriptionId, notificationType, options).then((request) => request(this.axios, this.basePath));
+        return NotificationsApiFp(this.configuration).deleteSubscriptionById(subscriptionId, notificationType, options)(this.axios, this.basePath);
     }
 
     /**
@@ -892,7 +927,7 @@ export class NotificationsApi extends BaseAPI {
      * @memberof NotificationsApi
      */
     public getDestination(destinationId: string, options?: any) {
-        return NotificationsApiFp(this.configuration).getDestination(destinationId, options).then((request) => request(this.axios, this.basePath));
+        return NotificationsApiFp(this.configuration).getDestination(destinationId, options)(this.axios, this.basePath);
     }
 
     /**
@@ -902,7 +937,7 @@ export class NotificationsApi extends BaseAPI {
      * @memberof NotificationsApi
      */
     public getDestinations(options?: any) {
-        return NotificationsApiFp(this.configuration).getDestinations(options).then((request) => request(this.axios, this.basePath));
+        return NotificationsApiFp(this.configuration).getDestinations(options)(this.axios, this.basePath);
     }
 
     /**
@@ -913,7 +948,7 @@ export class NotificationsApi extends BaseAPI {
      * @memberof NotificationsApi
      */
     public getSubscription(notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any) {
-        return NotificationsApiFp(this.configuration).getSubscription(notificationType, options).then((request) => request(this.axios, this.basePath));
+        return NotificationsApiFp(this.configuration).getSubscription(notificationType, options)(this.axios, this.basePath);
     }
 
     /**
@@ -925,8 +960,9 @@ export class NotificationsApi extends BaseAPI {
      * @memberof NotificationsApi
      */
     public getSubscriptionById(subscriptionId: string, notificationType: 'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED', options?: any) {
-        return NotificationsApiFp(this.configuration).getSubscriptionById(subscriptionId, notificationType, options).then((request) => request(this.axios, this.basePath));
+        return NotificationsApiFp(this.configuration).getSubscriptionById(subscriptionId, notificationType, options)(this.axios, this.basePath);
     }
+
 }
 
 

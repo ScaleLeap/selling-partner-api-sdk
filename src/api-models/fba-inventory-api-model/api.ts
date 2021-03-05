@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for FBA Inventory
  * The Selling Partner API for FBA Inventory lets you programmatically retrieve information about inventory in Amazon\'s fulfillment network.
@@ -13,11 +13,10 @@
  */
 
 
+import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
-// @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -180,10 +179,10 @@ export interface InventorySummary {
     inventoryDetails?: InventoryDetails;
     /**
      * The date and time that any quantity was last updated.
-     * @type {string}
+     * @type {Date}
      * @memberof InventorySummary
      */
-    lastUpdatedTime?: string;
+    lastUpdatedTime?: Date;
     /**
      * The localized language product title of the item within the specific marketplace.
      * @type {string}
@@ -377,27 +376,31 @@ export const FbaInventoryApiAxiosParamCreator = function (configuration?: Config
          * @param {string} granularityId The granularity ID for the inventory aggregation level.
          * @param {Array<string>} marketplaceIds The marketplace ID for the marketplace for which to return inventory summaries.
          * @param {boolean} [details] true to return inventory summaries with additional summarized inventory details and quantities. Otherwise, returns inventory summaries only (default value).
-         * @param {string} [startDateTime] A start date and time in ISO8601 format. If specified, all inventory summaries that have changed since then are returned. You must specify a date and time that is no earlier than 18 months prior to the date and time when you call the API. Note: Changes in inboundWorkingQuantity, inboundShippedQuantity and inboundReceivingQuantity are not detected.
+         * @param {Date} [startDateTime] A start date and time in ISO8601 format. If specified, all inventory summaries that have changed since then are returned. You must specify a date and time that is no earlier than 18 months prior to the date and time when you call the API. Note: Changes in inboundWorkingQuantity, inboundShippedQuantity and inboundReceivingQuantity are not detected.
          * @param {Array<string>} [sellerSkus] A list of seller SKUs for which to return inventory summaries. You may specify up to 50 SKUs.
          * @param {string} [nextToken] String token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventorySummaries: async (granularityType: 'Marketplace', granularityId: string, marketplaceIds: Array<string>, details?: boolean, startDateTime?: string, sellerSkus?: Array<string>, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
+        getInventorySummaries(granularityType: 'Marketplace', granularityId: string, marketplaceIds: Array<string>, details?: boolean, startDateTime?: Date, sellerSkus?: Array<string>, nextToken?: string, options: any = {}): RequestArgs {
             // verify required parameter 'granularityType' is not null or undefined
-            assertParamExists('getInventorySummaries', 'granularityType', granularityType)
+            if (granularityType === null || granularityType === undefined) {
+                throw new RequiredError('granularityType','Required parameter granularityType was null or undefined when calling getInventorySummaries.');
+            }
             // verify required parameter 'granularityId' is not null or undefined
-            assertParamExists('getInventorySummaries', 'granularityId', granularityId)
+            if (granularityId === null || granularityId === undefined) {
+                throw new RequiredError('granularityId','Required parameter granularityId was null or undefined when calling getInventorySummaries.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('getInventorySummaries', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling getInventorySummaries.');
+            }
             const localVarPath = `/fba/inventory/v1/summaries`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -415,9 +418,7 @@ export const FbaInventoryApiAxiosParamCreator = function (configuration?: Config
             }
 
             if (startDateTime !== undefined) {
-                localVarQueryParameter['startDateTime'] = (startDateTime as any instanceof Date) ?
-                    (startDateTime as any).toISOString() :
-                    startDateTime;
+                localVarQueryParameter['startDateTime'] = (startDateTime as any).toISOString();
             }
 
             if (sellerSkus) {
@@ -434,12 +435,13 @@ export const FbaInventoryApiAxiosParamCreator = function (configuration?: Config
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -451,7 +453,6 @@ export const FbaInventoryApiAxiosParamCreator = function (configuration?: Config
  * @export
  */
 export const FbaInventoryApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = FbaInventoryApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 90 | 150 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -459,15 +460,18 @@ export const FbaInventoryApiFp = function(configuration?: Configuration) {
          * @param {string} granularityId The granularity ID for the inventory aggregation level.
          * @param {Array<string>} marketplaceIds The marketplace ID for the marketplace for which to return inventory summaries.
          * @param {boolean} [details] true to return inventory summaries with additional summarized inventory details and quantities. Otherwise, returns inventory summaries only (default value).
-         * @param {string} [startDateTime] A start date and time in ISO8601 format. If specified, all inventory summaries that have changed since then are returned. You must specify a date and time that is no earlier than 18 months prior to the date and time when you call the API. Note: Changes in inboundWorkingQuantity, inboundShippedQuantity and inboundReceivingQuantity are not detected.
+         * @param {Date} [startDateTime] A start date and time in ISO8601 format. If specified, all inventory summaries that have changed since then are returned. You must specify a date and time that is no earlier than 18 months prior to the date and time when you call the API. Note: Changes in inboundWorkingQuantity, inboundShippedQuantity and inboundReceivingQuantity are not detected.
          * @param {Array<string>} [sellerSkus] A list of seller SKUs for which to return inventory summaries. You may specify up to 50 SKUs.
          * @param {string} [nextToken] String token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInventorySummaries(granularityType: 'Marketplace', granularityId: string, marketplaceIds: Array<string>, details?: boolean, startDateTime?: string, sellerSkus?: Array<string>, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetInventorySummariesResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getInventorySummaries(granularityType, granularityId, marketplaceIds, details, startDateTime, sellerSkus, nextToken, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getInventorySummaries(granularityType: 'Marketplace', granularityId: string, marketplaceIds: Array<string>, details?: boolean, startDateTime?: Date, sellerSkus?: Array<string>, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetInventorySummariesResponse> {
+            const localVarAxiosArgs = FbaInventoryApiAxiosParamCreator(configuration).getInventorySummaries(granularityType, granularityId, marketplaceIds, details, startDateTime, sellerSkus, nextToken, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
     }
 };
@@ -477,7 +481,6 @@ export const FbaInventoryApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const FbaInventoryApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = FbaInventoryApiFp(configuration)
     return {
         /**
          * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 90 | 150 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -485,14 +488,14 @@ export const FbaInventoryApiFactory = function (configuration?: Configuration, b
          * @param {string} granularityId The granularity ID for the inventory aggregation level.
          * @param {Array<string>} marketplaceIds The marketplace ID for the marketplace for which to return inventory summaries.
          * @param {boolean} [details] true to return inventory summaries with additional summarized inventory details and quantities. Otherwise, returns inventory summaries only (default value).
-         * @param {string} [startDateTime] A start date and time in ISO8601 format. If specified, all inventory summaries that have changed since then are returned. You must specify a date and time that is no earlier than 18 months prior to the date and time when you call the API. Note: Changes in inboundWorkingQuantity, inboundShippedQuantity and inboundReceivingQuantity are not detected.
+         * @param {Date} [startDateTime] A start date and time in ISO8601 format. If specified, all inventory summaries that have changed since then are returned. You must specify a date and time that is no earlier than 18 months prior to the date and time when you call the API. Note: Changes in inboundWorkingQuantity, inboundShippedQuantity and inboundReceivingQuantity are not detected.
          * @param {Array<string>} [sellerSkus] A list of seller SKUs for which to return inventory summaries. You may specify up to 50 SKUs.
          * @param {string} [nextToken] String token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventorySummaries(granularityType: 'Marketplace', granularityId: string, marketplaceIds: Array<string>, details?: boolean, startDateTime?: string, sellerSkus?: Array<string>, nextToken?: string, options?: any): AxiosPromise<GetInventorySummariesResponse> {
-            return localVarFp.getInventorySummaries(granularityType, granularityId, marketplaceIds, details, startDateTime, sellerSkus, nextToken, options).then((request) => request(axios, basePath));
+        getInventorySummaries(granularityType: 'Marketplace', granularityId: string, marketplaceIds: Array<string>, details?: boolean, startDateTime?: Date, sellerSkus?: Array<string>, nextToken?: string, options?: any) {
+            return FbaInventoryApiFp(configuration).getInventorySummaries(granularityType, granularityId, marketplaceIds, details, startDateTime, sellerSkus, nextToken, options)(axios, basePath);
         },
     };
 };
@@ -510,16 +513,17 @@ export class FbaInventoryApi extends BaseAPI {
      * @param {string} granularityId The granularity ID for the inventory aggregation level.
      * @param {Array<string>} marketplaceIds The marketplace ID for the marketplace for which to return inventory summaries.
      * @param {boolean} [details] true to return inventory summaries with additional summarized inventory details and quantities. Otherwise, returns inventory summaries only (default value).
-     * @param {string} [startDateTime] A start date and time in ISO8601 format. If specified, all inventory summaries that have changed since then are returned. You must specify a date and time that is no earlier than 18 months prior to the date and time when you call the API. Note: Changes in inboundWorkingQuantity, inboundShippedQuantity and inboundReceivingQuantity are not detected.
+     * @param {Date} [startDateTime] A start date and time in ISO8601 format. If specified, all inventory summaries that have changed since then are returned. You must specify a date and time that is no earlier than 18 months prior to the date and time when you call the API. Note: Changes in inboundWorkingQuantity, inboundShippedQuantity and inboundReceivingQuantity are not detected.
      * @param {Array<string>} [sellerSkus] A list of seller SKUs for which to return inventory summaries. You may specify up to 50 SKUs.
      * @param {string} [nextToken] String token returned in the response of your previous request.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInventoryApi
      */
-    public getInventorySummaries(granularityType: 'Marketplace', granularityId: string, marketplaceIds: Array<string>, details?: boolean, startDateTime?: string, sellerSkus?: Array<string>, nextToken?: string, options?: any) {
-        return FbaInventoryApiFp(this.configuration).getInventorySummaries(granularityType, granularityId, marketplaceIds, details, startDateTime, sellerSkus, nextToken, options).then((request) => request(this.axios, this.basePath));
+    public getInventorySummaries(granularityType: 'Marketplace', granularityId: string, marketplaceIds: Array<string>, details?: boolean, startDateTime?: Date, sellerSkus?: Array<string>, nextToken?: string, options?: any) {
+        return FbaInventoryApiFp(this.configuration).getInventorySummaries(granularityType, granularityId, marketplaceIds, details, startDateTime, sellerSkus, nextToken, options)(this.axios, this.basePath);
     }
+
 }
 
 

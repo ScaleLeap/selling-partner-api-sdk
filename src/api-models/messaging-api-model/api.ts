@@ -1,5 +1,5 @@
-/* tslint:disable */
-/* eslint-disable */
+// tslint:disable
+/// <reference path="./custom.d.ts" />
 /**
  * Selling Partner API for Messaging
  * With the Messaging API you can build applications that send messages to buyers. You can get a list of message types that are available for an order that you specify, then call an operation that sends a message to the buyer for that order. The Messaging API returns responses that are formed according to the <a href=https://tools.ietf.org/html/draft-kelly-json-hal-08>JSON Hypertext Application Language</a> (HAL) standard.
@@ -13,11 +13,10 @@
  */
 
 
+import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
-// @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -287,16 +286,16 @@ export interface CreateWarrantyRequest {
     attachments?: Array<Attachment>;
     /**
      * The start date of the warranty coverage to include in the message to the buyer.
-     * @type {string}
+     * @type {Date}
      * @memberof CreateWarrantyRequest
      */
-    coverageStartDate?: string;
+    coverageStartDate?: Date;
     /**
      * The end date of the warranty coverage to include in the message to the buyer.
-     * @type {string}
+     * @type {Date}
      * @memberof CreateWarrantyRequest
      */
-    coverageEndDate?: string;
+    coverageEndDate?: Date;
 }
 /**
  * The response schema for the createWarranty operation.
@@ -354,13 +353,13 @@ export interface GetMessagingActionResponse {
      * @type {GetMessagingActionResponseLinks}
      * @memberof GetMessagingActionResponse
      */
-    _links?: GetMessagingActionResponseLinks;
+    links?: GetMessagingActionResponseLinks;
     /**
      * 
      * @type {GetMessagingActionResponseEmbedded}
      * @memberof GetMessagingActionResponse
      */
-    _embedded?: GetMessagingActionResponseEmbedded;
+    embedded?: GetMessagingActionResponseEmbedded;
     /**
      * 
      * @type {MessagingAction}
@@ -417,13 +416,13 @@ export interface GetMessagingActionsForOrderResponse {
      * @type {GetMessagingActionsForOrderResponseLinks}
      * @memberof GetMessagingActionsForOrderResponse
      */
-    _links?: GetMessagingActionsForOrderResponseLinks;
+    links?: GetMessagingActionsForOrderResponseLinks;
     /**
      * 
      * @type {GetMessagingActionsForOrderResponseEmbedded}
      * @memberof GetMessagingActionsForOrderResponse
      */
-    _embedded?: GetMessagingActionsForOrderResponseEmbedded;
+    embedded?: GetMessagingActionsForOrderResponseEmbedded;
     /**
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
@@ -474,7 +473,7 @@ export interface GetSchemaResponse {
      * @type {GetSchemaResponseLinks}
      * @memberof GetSchemaResponse
      */
-    _links?: GetSchemaResponseLinks;
+    links?: GetSchemaResponseLinks;
     /**
      * A JSON schema document describing the expected payload of the action. This object can be validated against <a href=http://json-schema.org/draft-04/schema>http://json-schema.org/draft-04/schema</a>.
      * @type {object}
@@ -573,22 +572,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmCustomizationDetails: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmCustomizationDetailsRequest, options: any = {}): Promise<RequestArgs> => {
+        confirmCustomizationDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmCustomizationDetailsRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('confirmCustomizationDetails', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling confirmCustomizationDetails.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('confirmCustomizationDetails', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling confirmCustomizationDetails.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('confirmCustomizationDetails', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling confirmCustomizationDetails.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/confirmCustomizationDetails`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -601,13 +604,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateConfirmCustomizationDetailsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -619,22 +624,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createAmazonMotors: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateAmazonMotorsRequest, options: any = {}): Promise<RequestArgs> => {
+        createAmazonMotors(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateAmazonMotorsRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createAmazonMotors', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createAmazonMotors.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createAmazonMotors', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createAmazonMotors.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createAmazonMotors', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createAmazonMotors.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/amazonMotors`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -647,13 +656,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateAmazonMotorsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -665,22 +676,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createConfirmDeliveryDetails: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmDeliveryDetailsRequest, options: any = {}): Promise<RequestArgs> => {
+        createConfirmDeliveryDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmDeliveryDetailsRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createConfirmDeliveryDetails', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createConfirmDeliveryDetails.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createConfirmDeliveryDetails', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createConfirmDeliveryDetails.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createConfirmDeliveryDetails', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createConfirmDeliveryDetails.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/confirmDeliveryDetails`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -693,13 +708,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateConfirmDeliveryDetailsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -711,22 +728,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createConfirmOrderDetails: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmOrderDetailsRequest, options: any = {}): Promise<RequestArgs> => {
+        createConfirmOrderDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmOrderDetailsRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createConfirmOrderDetails', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createConfirmOrderDetails.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createConfirmOrderDetails', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createConfirmOrderDetails.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createConfirmOrderDetails', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createConfirmOrderDetails.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/confirmOrderDetails`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -739,13 +760,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateConfirmOrderDetailsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -757,22 +780,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createConfirmServiceDetails: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmServiceDetailsRequest, options: any = {}): Promise<RequestArgs> => {
+        createConfirmServiceDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmServiceDetailsRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createConfirmServiceDetails', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createConfirmServiceDetails.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createConfirmServiceDetails', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createConfirmServiceDetails.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createConfirmServiceDetails', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createConfirmServiceDetails.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/confirmServiceDetails`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -785,13 +812,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateConfirmServiceDetailsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -803,22 +832,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createDigitalAccessKey: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateDigitalAccessKeyRequest, options: any = {}): Promise<RequestArgs> => {
+        createDigitalAccessKey(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateDigitalAccessKeyRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createDigitalAccessKey', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createDigitalAccessKey.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createDigitalAccessKey', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createDigitalAccessKey.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createDigitalAccessKey', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createDigitalAccessKey.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/digitalAccessKey`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -831,13 +864,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateDigitalAccessKeyRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -849,22 +884,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createLegalDisclosure: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateLegalDisclosureRequest, options: any = {}): Promise<RequestArgs> => {
+        createLegalDisclosure(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateLegalDisclosureRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createLegalDisclosure', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createLegalDisclosure.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createLegalDisclosure', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createLegalDisclosure.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createLegalDisclosure', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createLegalDisclosure.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/legalDisclosure`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -877,13 +916,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateLegalDisclosureRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -894,20 +935,22 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createNegativeFeedbackRemoval: async (amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        createNegativeFeedbackRemoval(amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createNegativeFeedbackRemoval', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createNegativeFeedbackRemoval.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createNegativeFeedbackRemoval', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createNegativeFeedbackRemoval.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/negativeFeedbackRemoval`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -918,12 +961,13 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -935,22 +979,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUnexpectedProblem: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateUnexpectedProblemRequest, options: any = {}): Promise<RequestArgs> => {
+        createUnexpectedProblem(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateUnexpectedProblemRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createUnexpectedProblem', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createUnexpectedProblem.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createUnexpectedProblem', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createUnexpectedProblem.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createUnexpectedProblem', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createUnexpectedProblem.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/unexpectedProblem`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -963,13 +1011,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateUnexpectedProblemRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -981,22 +1031,26 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createWarranty: async (amazonOrderId: string, marketplaceIds: Array<string>, body: CreateWarrantyRequest, options: any = {}): Promise<RequestArgs> => {
+        createWarranty(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateWarrantyRequest, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('createWarranty', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling createWarranty.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('createWarranty', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling createWarranty.');
+            }
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('createWarranty', 'body', body)
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createWarranty.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/warranty`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1009,13 +1063,15 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (<any>"CreateWarrantyRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1026,20 +1082,22 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAttributes: async (amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getAttributes(amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('getAttributes', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling getAttributes.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('getAttributes', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling getAttributes.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}/attributes`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1050,12 +1108,13 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1066,20 +1125,22 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMessagingActionsForOrder: async (amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getMessagingActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
             // verify required parameter 'amazonOrderId' is not null or undefined
-            assertParamExists('getMessagingActionsForOrder', 'amazonOrderId', amazonOrderId)
+            if (amazonOrderId === null || amazonOrderId === undefined) {
+                throw new RequiredError('amazonOrderId','Required parameter amazonOrderId was null or undefined when calling getMessagingActionsForOrder.');
+            }
             // verify required parameter 'marketplaceIds' is not null or undefined
-            assertParamExists('getMessagingActionsForOrder', 'marketplaceIds', marketplaceIds)
+            if (marketplaceIds === null || marketplaceIds === undefined) {
+                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling getMessagingActionsForOrder.');
+            }
             const localVarPath = `/messaging/v1/orders/{amazonOrderId}`
                 .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1090,12 +1151,13 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
-                url: toPathString(localVarUrlObj),
+                url: globalImportUrl.format(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1107,7 +1169,6 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
  * @export
  */
 export const MessagingApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = MessagingApiAxiosParamCreator(configuration)
     return {
         /**
          * Sends a message asking a buyer to provide or verify customization details such as name spelling, images, initials, etc.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1117,9 +1178,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async confirmCustomizationDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmCustomizationDetailsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateConfirmCustomizationDetailsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmCustomizationDetails(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        confirmCustomizationDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmCustomizationDetailsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateConfirmCustomizationDetailsResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).confirmCustomizationDetails(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a message to a buyer to provide details about an Amazon Motors order. This message can only be sent by Amazon Motors sellers.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1129,9 +1193,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createAmazonMotors(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateAmazonMotorsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateAmazonMotorsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createAmazonMotors(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createAmazonMotors(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateAmazonMotorsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateAmazonMotorsResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createAmazonMotors(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a message to a buyer to arrange a delivery or to confirm contact information for making a delivery.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1141,9 +1208,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createConfirmDeliveryDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmDeliveryDetailsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateConfirmDeliveryDetailsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createConfirmDeliveryDetails(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createConfirmDeliveryDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmDeliveryDetailsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateConfirmDeliveryDetailsResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createConfirmDeliveryDetails(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a message to ask a buyer an order-related question prior to shipping their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1153,9 +1223,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createConfirmOrderDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmOrderDetailsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateConfirmOrderDetailsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createConfirmOrderDetails(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createConfirmOrderDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmOrderDetailsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateConfirmOrderDetailsResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createConfirmOrderDetails(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a message to contact a Home Service customer to arrange a service call or to gather information prior to a service call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1165,9 +1238,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createConfirmServiceDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmServiceDetailsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateConfirmServiceDetailsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createConfirmServiceDetails(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createConfirmServiceDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmServiceDetailsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateConfirmServiceDetailsResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createConfirmServiceDetails(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a message to a buyer to share a digital access key needed to utilize digital content in their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1177,9 +1253,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createDigitalAccessKey(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateDigitalAccessKeyRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateDigitalAccessKeyResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createDigitalAccessKey(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createDigitalAccessKey(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateDigitalAccessKeyRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateDigitalAccessKeyResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createDigitalAccessKey(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a critical message that contains documents that a seller is legally obligated to provide to the buyer. This message should only be used to deliver documents that are required by law.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1189,9 +1268,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createLegalDisclosure(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateLegalDisclosureRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateLegalDisclosureResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createLegalDisclosure(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createLegalDisclosure(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateLegalDisclosureRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateLegalDisclosureResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createLegalDisclosure(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a non-critical message that asks a buyer to remove their negative feedback. This message should only be sent after the seller has resolved the buyer\'s problem.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1200,9 +1282,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createNegativeFeedbackRemoval(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateNegativeFeedbackRemovalResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createNegativeFeedbackRemoval(amazonOrderId, marketplaceIds, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createNegativeFeedbackRemoval(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateNegativeFeedbackRemovalResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createNegativeFeedbackRemoval(amazonOrderId, marketplaceIds, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a critical message to a buyer that an unexpected problem was encountered affecting the completion of the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1212,9 +1297,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUnexpectedProblem(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateUnexpectedProblemRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateUnexpectedProblemResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createUnexpectedProblem(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createUnexpectedProblem(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateUnexpectedProblemRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateUnexpectedProblemResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createUnexpectedProblem(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Sends a message to a buyer to provide details about warranty information on a purchase in their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1224,9 +1312,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createWarranty(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateWarrantyRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateWarrantyResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createWarranty(amazonOrderId, marketplaceIds, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        createWarranty(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateWarrantyRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateWarrantyResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).createWarranty(amazonOrderId, marketplaceIds, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns a response containing attributes related to an order. This includes buyer preferences.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |
@@ -1235,9 +1326,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAttributes(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAttributesResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAttributes(amazonOrderId, marketplaceIds, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getAttributes(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAttributesResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).getAttributes(amazonOrderId, marketplaceIds, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * Returns a list of message types that are available for an order that you specify. A message type is represented by an actions object, which contains a path and query parameter(s). You can use the path and parameter(s) to call an operation that sends a message.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1246,9 +1340,12 @@ export const MessagingApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getMessagingActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMessagingActionsForOrderResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getMessagingActionsForOrder(amazonOrderId, marketplaceIds, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        getMessagingActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMessagingActionsForOrderResponse> {
+            const localVarAxiosArgs = MessagingApiAxiosParamCreator(configuration).getMessagingActionsForOrder(amazonOrderId, marketplaceIds, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
     }
 };
@@ -1258,7 +1355,6 @@ export const MessagingApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const MessagingApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = MessagingApiFp(configuration)
     return {
         /**
          * Sends a message asking a buyer to provide or verify customization details such as name spelling, images, initials, etc.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1268,8 +1364,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmCustomizationDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmCustomizationDetailsRequest, options?: any): AxiosPromise<CreateConfirmCustomizationDetailsResponse> {
-            return localVarFp.confirmCustomizationDetails(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        confirmCustomizationDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmCustomizationDetailsRequest, options?: any) {
+            return MessagingApiFp(configuration).confirmCustomizationDetails(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Sends a message to a buyer to provide details about an Amazon Motors order. This message can only be sent by Amazon Motors sellers.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1279,8 +1375,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createAmazonMotors(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateAmazonMotorsRequest, options?: any): AxiosPromise<CreateAmazonMotorsResponse> {
-            return localVarFp.createAmazonMotors(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        createAmazonMotors(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateAmazonMotorsRequest, options?: any) {
+            return MessagingApiFp(configuration).createAmazonMotors(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Sends a message to a buyer to arrange a delivery or to confirm contact information for making a delivery.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1290,8 +1386,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createConfirmDeliveryDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmDeliveryDetailsRequest, options?: any): AxiosPromise<CreateConfirmDeliveryDetailsResponse> {
-            return localVarFp.createConfirmDeliveryDetails(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        createConfirmDeliveryDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmDeliveryDetailsRequest, options?: any) {
+            return MessagingApiFp(configuration).createConfirmDeliveryDetails(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Sends a message to ask a buyer an order-related question prior to shipping their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1301,8 +1397,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createConfirmOrderDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmOrderDetailsRequest, options?: any): AxiosPromise<CreateConfirmOrderDetailsResponse> {
-            return localVarFp.createConfirmOrderDetails(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        createConfirmOrderDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmOrderDetailsRequest, options?: any) {
+            return MessagingApiFp(configuration).createConfirmOrderDetails(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Sends a message to contact a Home Service customer to arrange a service call or to gather information prior to a service call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1312,8 +1408,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createConfirmServiceDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmServiceDetailsRequest, options?: any): AxiosPromise<CreateConfirmServiceDetailsResponse> {
-            return localVarFp.createConfirmServiceDetails(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        createConfirmServiceDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmServiceDetailsRequest, options?: any) {
+            return MessagingApiFp(configuration).createConfirmServiceDetails(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Sends a message to a buyer to share a digital access key needed to utilize digital content in their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1323,8 +1419,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createDigitalAccessKey(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateDigitalAccessKeyRequest, options?: any): AxiosPromise<CreateDigitalAccessKeyResponse> {
-            return localVarFp.createDigitalAccessKey(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        createDigitalAccessKey(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateDigitalAccessKeyRequest, options?: any) {
+            return MessagingApiFp(configuration).createDigitalAccessKey(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Sends a critical message that contains documents that a seller is legally obligated to provide to the buyer. This message should only be used to deliver documents that are required by law.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1334,8 +1430,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createLegalDisclosure(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateLegalDisclosureRequest, options?: any): AxiosPromise<CreateLegalDisclosureResponse> {
-            return localVarFp.createLegalDisclosure(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        createLegalDisclosure(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateLegalDisclosureRequest, options?: any) {
+            return MessagingApiFp(configuration).createLegalDisclosure(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Sends a non-critical message that asks a buyer to remove their negative feedback. This message should only be sent after the seller has resolved the buyer\'s problem.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1344,8 +1440,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createNegativeFeedbackRemoval(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<CreateNegativeFeedbackRemovalResponse> {
-            return localVarFp.createNegativeFeedbackRemoval(amazonOrderId, marketplaceIds, options).then((request) => request(axios, basePath));
+        createNegativeFeedbackRemoval(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
+            return MessagingApiFp(configuration).createNegativeFeedbackRemoval(amazonOrderId, marketplaceIds, options)(axios, basePath);
         },
         /**
          * Sends a critical message to a buyer that an unexpected problem was encountered affecting the completion of the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1355,8 +1451,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUnexpectedProblem(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateUnexpectedProblemRequest, options?: any): AxiosPromise<CreateUnexpectedProblemResponse> {
-            return localVarFp.createUnexpectedProblem(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        createUnexpectedProblem(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateUnexpectedProblemRequest, options?: any) {
+            return MessagingApiFp(configuration).createUnexpectedProblem(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Sends a message to a buyer to provide details about warranty information on a purchase in their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1366,8 +1462,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createWarranty(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateWarrantyRequest, options?: any): AxiosPromise<CreateWarrantyResponse> {
-            return localVarFp.createWarranty(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
+        createWarranty(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateWarrantyRequest, options?: any) {
+            return MessagingApiFp(configuration).createWarranty(amazonOrderId, marketplaceIds, body, options)(axios, basePath);
         },
         /**
          * Returns a response containing attributes related to an order. This includes buyer preferences.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |
@@ -1376,8 +1472,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAttributes(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<GetAttributesResponse> {
-            return localVarFp.getAttributes(amazonOrderId, marketplaceIds, options).then((request) => request(axios, basePath));
+        getAttributes(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
+            return MessagingApiFp(configuration).getAttributes(amazonOrderId, marketplaceIds, options)(axios, basePath);
         },
         /**
          * Returns a list of message types that are available for an order that you specify. A message type is represented by an actions object, which contains a path and query parameter(s). You can use the path and parameter(s) to call an operation that sends a message.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1386,8 +1482,8 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMessagingActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<GetMessagingActionsForOrderResponse> {
-            return localVarFp.getMessagingActionsForOrder(amazonOrderId, marketplaceIds, options).then((request) => request(axios, basePath));
+        getMessagingActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
+            return MessagingApiFp(configuration).getMessagingActionsForOrder(amazonOrderId, marketplaceIds, options)(axios, basePath);
         },
     };
 };
@@ -1409,7 +1505,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public confirmCustomizationDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmCustomizationDetailsRequest, options?: any) {
-        return MessagingApiFp(this.configuration).confirmCustomizationDetails(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).confirmCustomizationDetails(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1422,7 +1518,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createAmazonMotors(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateAmazonMotorsRequest, options?: any) {
-        return MessagingApiFp(this.configuration).createAmazonMotors(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createAmazonMotors(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1435,7 +1531,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createConfirmDeliveryDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmDeliveryDetailsRequest, options?: any) {
-        return MessagingApiFp(this.configuration).createConfirmDeliveryDetails(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createConfirmDeliveryDetails(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1448,7 +1544,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createConfirmOrderDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmOrderDetailsRequest, options?: any) {
-        return MessagingApiFp(this.configuration).createConfirmOrderDetails(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createConfirmOrderDetails(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1461,7 +1557,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createConfirmServiceDetails(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateConfirmServiceDetailsRequest, options?: any) {
-        return MessagingApiFp(this.configuration).createConfirmServiceDetails(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createConfirmServiceDetails(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1474,7 +1570,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createDigitalAccessKey(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateDigitalAccessKeyRequest, options?: any) {
-        return MessagingApiFp(this.configuration).createDigitalAccessKey(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createDigitalAccessKey(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1487,7 +1583,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createLegalDisclosure(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateLegalDisclosureRequest, options?: any) {
-        return MessagingApiFp(this.configuration).createLegalDisclosure(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createLegalDisclosure(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1499,7 +1595,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createNegativeFeedbackRemoval(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
-        return MessagingApiFp(this.configuration).createNegativeFeedbackRemoval(amazonOrderId, marketplaceIds, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createNegativeFeedbackRemoval(amazonOrderId, marketplaceIds, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1512,7 +1608,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createUnexpectedProblem(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateUnexpectedProblemRequest, options?: any) {
-        return MessagingApiFp(this.configuration).createUnexpectedProblem(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createUnexpectedProblem(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1525,7 +1621,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public createWarranty(amazonOrderId: string, marketplaceIds: Array<string>, body: CreateWarrantyRequest, options?: any) {
-        return MessagingApiFp(this.configuration).createWarranty(amazonOrderId, marketplaceIds, body, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).createWarranty(amazonOrderId, marketplaceIds, body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1537,7 +1633,7 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public getAttributes(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
-        return MessagingApiFp(this.configuration).getAttributes(amazonOrderId, marketplaceIds, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).getAttributes(amazonOrderId, marketplaceIds, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1549,8 +1645,9 @@ export class MessagingApi extends BaseAPI {
      * @memberof MessagingApi
      */
     public getMessagingActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any) {
-        return MessagingApiFp(this.configuration).getMessagingActionsForOrder(amazonOrderId, marketplaceIds, options).then((request) => request(this.axios, this.basePath));
+        return MessagingApiFp(this.configuration).getMessagingActionsForOrder(amazonOrderId, marketplaceIds, options)(this.axios, this.basePath);
     }
+
 }
 
 
