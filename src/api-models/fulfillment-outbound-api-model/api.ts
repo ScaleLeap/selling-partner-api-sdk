@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner APIs for Fulfillment Outbound
  * The Selling Partner API for Fulfillment Outbound lets you create applications that help a seller fulfill Multi-Channel Fulfillment orders using their inventory in Amazon\'s fulfillment network. You can get information on both potential and existing fulfillment orders.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -26,32 +27,32 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
  * @enum {string}
  */
 export enum AdditionalLocationInfo {
-    ASINSTRUCTED = 'AS_INSTRUCTED',
-    CARPORT = 'CARPORT',
-    CUSTOMERPICKUP = 'CUSTOMER_PICKUP',
-    DECK = 'DECK',
-    DOORPERSON = 'DOOR_PERSON',
-    FRONTDESK = 'FRONT_DESK',
-    FRONTDOOR = 'FRONT_DOOR',
-    GARAGE = 'GARAGE',
-    GUARD = 'GUARD',
-    MAILROOM = 'MAIL_ROOM',
-    MAILSLOT = 'MAIL_SLOT',
-    MAILBOX = 'MAILBOX',
-    MCBOY = 'MC_BOY',
-    MCGIRL = 'MC_GIRL',
-    MCMAN = 'MC_MAN',
-    MCWOMAN = 'MC_WOMAN',
-    NEIGHBOR = 'NEIGHBOR',
-    OFFICE = 'OFFICE',
-    OUTBUILDING = 'OUTBUILDING',
-    PATIO = 'PATIO',
-    PORCH = 'PORCH',
-    REARDOOR = 'REAR_DOOR',
-    RECEPTIONIST = 'RECEPTIONIST',
-    RECEIVER = 'RECEIVER',
-    SECURELOCATION = 'SECURE_LOCATION',
-    SIDEDOOR = 'SIDE_DOOR'
+    AsInstructed = 'AS_INSTRUCTED',
+    Carport = 'CARPORT',
+    CustomerPickup = 'CUSTOMER_PICKUP',
+    Deck = 'DECK',
+    DoorPerson = 'DOOR_PERSON',
+    FrontDesk = 'FRONT_DESK',
+    FrontDoor = 'FRONT_DOOR',
+    Garage = 'GARAGE',
+    Guard = 'GUARD',
+    MailRoom = 'MAIL_ROOM',
+    MailSlot = 'MAIL_SLOT',
+    Mailbox = 'MAILBOX',
+    McBoy = 'MC_BOY',
+    McGirl = 'MC_GIRL',
+    McMan = 'MC_MAN',
+    McWoman = 'MC_WOMAN',
+    Neighbor = 'NEIGHBOR',
+    Office = 'OFFICE',
+    Outbuilding = 'OUTBUILDING',
+    Patio = 'PATIO',
+    Porch = 'PORCH',
+    RearDoor = 'REAR_DOOR',
+    Receptionist = 'RECEPTIONIST',
+    Receiver = 'RECEIVER',
+    SecureLocation = 'SECURE_LOCATION',
+    SideDoor = 'SIDE_DOOR'
 }
 
 /**
@@ -258,10 +259,10 @@ export interface CreateFulfillmentOrderRequest {
     displayableOrderId: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof CreateFulfillmentOrderRequest
      */
-    displayableOrderDate: Date;
+    displayableOrderDate: string;
     /**
      * Order-specific text that appears in recipient-facing materials such as the outbound shipment packing slip.
      * @type {string}
@@ -442,14 +443,14 @@ export interface CreateReturnItem {
  * @enum {string}
  */
 export enum CurrentStatus {
-    INTRANSIT = 'IN_TRANSIT',
-    DELIVERED = 'DELIVERED',
-    RETURNING = 'RETURNING',
-    RETURNED = 'RETURNED',
-    UNDELIVERABLE = 'UNDELIVERABLE',
-    DELAYED = 'DELAYED',
-    AVAILABLEFORPICKUP = 'AVAILABLE_FOR_PICKUP',
-    CUSTOMERACTION = 'CUSTOMER_ACTION'
+    InTransit = 'IN_TRANSIT',
+    Delivered = 'DELIVERED',
+    Returning = 'RETURNING',
+    Returned = 'RETURNED',
+    Undeliverable = 'UNDELIVERABLE',
+    Delayed = 'DELAYED',
+    AvailableForPickup = 'AVAILABLE_FOR_PICKUP',
+    CustomerAction = 'CUSTOMER_ACTION'
 }
 
 /**
@@ -460,16 +461,16 @@ export enum CurrentStatus {
 export interface DeliveryWindow {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof DeliveryWindow
      */
-    startDate: Date;
+    startDate: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof DeliveryWindow
      */
-    endDate: Date;
+    endDate: string;
 }
 /**
  * The event code for the delivery event.
@@ -628,10 +629,10 @@ export interface Fee {
     * @enum {string}
     */
 export enum FeeNameEnum {
-    FBAPerUnitFulfillmentFee = 'FBAPerUnitFulfillmentFee',
-    FBAPerOrderFulfillmentFee = 'FBAPerOrderFulfillmentFee',
-    FBATransportationFee = 'FBATransportationFee',
-    FBAFulfillmentCODFee = 'FBAFulfillmentCODFee'
+    FbaPerUnitFulfillmentFee = 'FBAPerUnitFulfillmentFee',
+    FbaPerOrderFulfillmentFee = 'FBAPerOrderFulfillmentFee',
+    FbaTransportationFee = 'FBATransportationFee',
+    FbaFulfillmentCodFee = 'FBAFulfillmentCODFee'
 }
 
 /**
@@ -670,10 +671,10 @@ export interface FulfillmentOrder {
     displayableOrderId: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentOrder
      */
-    displayableOrderDate: Date;
+    displayableOrderDate: string;
     /**
      * A text block submitted with the createFulfillmentOrder operation. Displays in recipient-facing materials such as the packing slip.
      * @type {string}
@@ -718,10 +719,10 @@ export interface FulfillmentOrder {
     codSettings?: CODSettings;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentOrder
      */
-    receivedDate: Date;
+    receivedDate: string;
     /**
      * 
      * @type {FulfillmentOrderStatus}
@@ -730,10 +731,10 @@ export interface FulfillmentOrder {
     fulfillmentOrderStatus: FulfillmentOrderStatus;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentOrder
      */
-    statusUpdatedDate: Date;
+    statusUpdatedDate: string;
     /**
      * A list of email addresses that the seller provides that are used by Amazon to send ship-complete notifications to recipients on behalf of the seller.
      * @type {Array<string>}
@@ -809,16 +810,16 @@ export interface FulfillmentOrderItem {
     unfulfillableQuantity: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentOrderItem
      */
-    estimatedShipDate?: Date;
+    estimatedShipDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentOrderItem
      */
-    estimatedArrivalDate?: Date;
+    estimatedArrivalDate?: string;
     /**
      * 
      * @type {Money}
@@ -994,28 +995,28 @@ export enum FulfillmentPreviewItemShippingWeightCalculationMethodEnum {
 export interface FulfillmentPreviewShipment {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentPreviewShipment
      */
-    earliestShipDate?: Date;
+    earliestShipDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentPreviewShipment
      */
-    latestShipDate?: Date;
+    latestShipDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentPreviewShipment
      */
-    earliestArrivalDate?: Date;
+    earliestArrivalDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentPreviewShipment
      */
-    latestArrivalDate?: Date;
+    latestArrivalDate?: string;
     /**
      * Provides additional insight into the shipment timeline when exact delivery dates are not able to be precomputed.
      * @type {Array<string>}
@@ -1065,16 +1066,16 @@ export interface FulfillmentShipment {
     fulfillmentShipmentStatus: FulfillmentShipmentFulfillmentShipmentStatusEnum;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentShipment
      */
-    shippingDate?: Date;
+    shippingDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentShipment
      */
-    estimatedArrivalDate?: Date;
+    estimatedArrivalDate?: string;
     /**
      * Provides additional insight into shipment timeline. Primairly used to communicate that actual delivery dates aren\'t available.
      * @type {Array<string>}
@@ -1100,10 +1101,10 @@ export interface FulfillmentShipment {
     * @enum {string}
     */
 export enum FulfillmentShipmentFulfillmentShipmentStatusEnum {
-    PENDING = 'PENDING',
-    SHIPPED = 'SHIPPED',
-    CANCELLEDBYFULFILLER = 'CANCELLED_BY_FULFILLER',
-    CANCELLEDBYSELLER = 'CANCELLED_BY_SELLER'
+    Pending = 'PENDING',
+    Shipped = 'SHIPPED',
+    CancelledByFulfiller = 'CANCELLED_BY_FULFILLER',
+    CancelledBySeller = 'CANCELLED_BY_SELLER'
 }
 
 /**
@@ -1169,10 +1170,10 @@ export interface FulfillmentShipmentPackage {
     trackingNumber?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FulfillmentShipmentPackage
      */
-    estimatedArrivalDate?: Date;
+    estimatedArrivalDate?: string;
 }
 /**
  * The breakdown of eligibility inventory by feature.
@@ -1713,16 +1714,16 @@ export interface PackageTrackingDetails {
     carrierURL?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof PackageTrackingDetails
      */
-    shipDate?: Date;
+    shipDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof PackageTrackingDetails
      */
-    estimatedArrivalDate?: Date;
+    estimatedArrivalDate?: string;
     /**
      * 
      * @type {TrackingAddress}
@@ -1872,10 +1873,10 @@ export interface ReturnItem {
     status: FulfillmentReturnItemStatus;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ReturnItem
      */
-    statusChangedDate: Date;
+    statusChangedDate: string;
     /**
      * Identifies the return authorization used to return this item. See ReturnAuthorization.
      * @type {string}
@@ -1972,10 +1973,10 @@ export interface TrackingAddress {
 export interface TrackingEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof TrackingEvent
      */
-    eventDate: Date;
+    eventDate: string;
     /**
      * 
      * @type {TrackingAddress}
@@ -2113,10 +2114,10 @@ export interface UpdateFulfillmentOrderRequest {
     displayableOrderId?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof UpdateFulfillmentOrderRequest
      */
-    displayableOrderDate?: Date;
+    displayableOrderDate?: string;
     /**
      * Order-specific text that appears in recipient-facing materials such as the outbound shipment packing slip.
      * @type {string}
@@ -2210,8 +2211,8 @@ export interface Weight {
     * @enum {string}
     */
 export enum WeightUnitEnum {
-    KG = 'KG',
-    LB = 'LB'
+    Kg = 'KG',
+    Lb = 'LB'
 }
 
 
@@ -2227,31 +2228,30 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelFulfillmentOrder(sellerFulfillmentOrderId: string, options: any = {}): RequestArgs {
+        cancelFulfillmentOrder: async (sellerFulfillmentOrderId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerFulfillmentOrderId' is not null or undefined
-            if (sellerFulfillmentOrderId === null || sellerFulfillmentOrderId === undefined) {
-                throw new RequiredError('sellerFulfillmentOrderId','Required parameter sellerFulfillmentOrderId was null or undefined when calling cancelFulfillmentOrder.');
-            }
+            assertParamExists('cancelFulfillmentOrder', 'sellerFulfillmentOrderId', sellerFulfillmentOrderId)
             const localVarPath = `/fba/outbound/2020-07-01/fulfillmentOrders/{sellerFulfillmentOrderId}/cancel`
                 .replace(`{${"sellerFulfillmentOrderId"}}`, encodeURIComponent(String(sellerFulfillmentOrderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2261,17 +2261,17 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFulfillmentOrder(body: CreateFulfillmentOrderRequest, options: any = {}): RequestArgs {
+        createFulfillmentOrder: async (body: CreateFulfillmentOrderRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createFulfillmentOrder.');
-            }
+            assertParamExists('createFulfillmentOrder', 'body', body)
             const localVarPath = `/fba/outbound/2020-07-01/fulfillmentOrders`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2280,15 +2280,13 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"CreateFulfillmentOrderRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2299,22 +2297,20 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFulfillmentReturn(sellerFulfillmentOrderId: string, body: CreateFulfillmentReturnRequest, options: any = {}): RequestArgs {
+        createFulfillmentReturn: async (sellerFulfillmentOrderId: string, body: CreateFulfillmentReturnRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerFulfillmentOrderId' is not null or undefined
-            if (sellerFulfillmentOrderId === null || sellerFulfillmentOrderId === undefined) {
-                throw new RequiredError('sellerFulfillmentOrderId','Required parameter sellerFulfillmentOrderId was null or undefined when calling createFulfillmentReturn.');
-            }
+            assertParamExists('createFulfillmentReturn', 'sellerFulfillmentOrderId', sellerFulfillmentOrderId)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createFulfillmentReturn.');
-            }
+            assertParamExists('createFulfillmentReturn', 'body', body)
             const localVarPath = `/fba/outbound/2020-07-01/fulfillmentOrders/{sellerFulfillmentOrderId}/return`
                 .replace(`{${"sellerFulfillmentOrderId"}}`, encodeURIComponent(String(sellerFulfillmentOrderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2323,15 +2319,13 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"CreateFulfillmentReturnRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2343,22 +2337,20 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, options: any = {}): RequestArgs {
+        getFeatureInventory: async (marketplaceId: string, featureName: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getFeatureInventory.');
-            }
+            assertParamExists('getFeatureInventory', 'marketplaceId', marketplaceId)
             // verify required parameter 'featureName' is not null or undefined
-            if (featureName === null || featureName === undefined) {
-                throw new RequiredError('featureName','Required parameter featureName was null or undefined when calling getFeatureInventory.');
-            }
+            assertParamExists('getFeatureInventory', 'featureName', featureName)
             const localVarPath = `/fba/outbound/2020-07-01/features/inventory/{featureName}`
                 .replace(`{${"featureName"}}`, encodeURIComponent(String(featureName)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2373,13 +2365,12 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2391,27 +2382,23 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatureSKU(marketplaceId: string, featureName: string, sellerSku: string, options: any = {}): RequestArgs {
+        getFeatureSKU: async (marketplaceId: string, featureName: string, sellerSku: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getFeatureSKU.');
-            }
+            assertParamExists('getFeatureSKU', 'marketplaceId', marketplaceId)
             // verify required parameter 'featureName' is not null or undefined
-            if (featureName === null || featureName === undefined) {
-                throw new RequiredError('featureName','Required parameter featureName was null or undefined when calling getFeatureSKU.');
-            }
+            assertParamExists('getFeatureSKU', 'featureName', featureName)
             // verify required parameter 'sellerSku' is not null or undefined
-            if (sellerSku === null || sellerSku === undefined) {
-                throw new RequiredError('sellerSku','Required parameter sellerSku was null or undefined when calling getFeatureSKU.');
-            }
+            assertParamExists('getFeatureSKU', 'sellerSku', sellerSku)
             const localVarPath = `/fba/outbound/2020-07-01/features/inventory/{featureName}/{sellerSku}`
                 .replace(`{${"featureName"}}`, encodeURIComponent(String(featureName)))
                 .replace(`{${"sellerSku"}}`, encodeURIComponent(String(sellerSku)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2422,13 +2409,12 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2438,17 +2424,17 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatures(marketplaceId: string, options: any = {}): RequestArgs {
+        getFeatures: async (marketplaceId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getFeatures.');
-            }
+            assertParamExists('getFeatures', 'marketplaceId', marketplaceId)
             const localVarPath = `/fba/outbound/2020-07-01/features`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2459,13 +2445,12 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2475,31 +2460,30 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFulfillmentOrder(sellerFulfillmentOrderId: string, options: any = {}): RequestArgs {
+        getFulfillmentOrder: async (sellerFulfillmentOrderId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerFulfillmentOrderId' is not null or undefined
-            if (sellerFulfillmentOrderId === null || sellerFulfillmentOrderId === undefined) {
-                throw new RequiredError('sellerFulfillmentOrderId','Required parameter sellerFulfillmentOrderId was null or undefined when calling getFulfillmentOrder.');
-            }
+            assertParamExists('getFulfillmentOrder', 'sellerFulfillmentOrderId', sellerFulfillmentOrderId)
             const localVarPath = `/fba/outbound/2020-07-01/fulfillmentOrders/{sellerFulfillmentOrderId}`
                 .replace(`{${"sellerFulfillmentOrderId"}}`, encodeURIComponent(String(sellerFulfillmentOrderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2509,17 +2493,17 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFulfillmentPreview(body: GetFulfillmentPreviewRequest, options: any = {}): RequestArgs {
+        getFulfillmentPreview: async (body: GetFulfillmentPreviewRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getFulfillmentPreview.');
-            }
+            assertParamExists('getFulfillmentPreview', 'body', body)
             const localVarPath = `/fba/outbound/2020-07-01/fulfillmentOrders/preview`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2528,15 +2512,13 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"GetFulfillmentPreviewRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2546,17 +2528,17 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPackageTrackingDetails(packageNumber: number, options: any = {}): RequestArgs {
+        getPackageTrackingDetails: async (packageNumber: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'packageNumber' is not null or undefined
-            if (packageNumber === null || packageNumber === undefined) {
-                throw new RequiredError('packageNumber','Required parameter packageNumber was null or undefined when calling getPackageTrackingDetails.');
-            }
+            assertParamExists('getPackageTrackingDetails', 'packageNumber', packageNumber)
             const localVarPath = `/fba/outbound/2020-07-01/tracking`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2567,36 +2549,39 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
         /**
          * Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {Date} [queryStartDate] A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
+         * @param {string} [queryStartDate] A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listAllFulfillmentOrders(queryStartDate?: Date, nextToken?: string, options: any = {}): RequestArgs {
+        listAllFulfillmentOrders: async (queryStartDate?: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/fba/outbound/2020-07-01/fulfillmentOrders`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             if (queryStartDate !== undefined) {
-                localVarQueryParameter['queryStartDate'] = (queryStartDate as any).toISOString();
+                localVarQueryParameter['queryStartDate'] = (queryStartDate as any instanceof Date) ?
+                    (queryStartDate as any).toISOString() :
+                    queryStartDate;
             }
 
             if (nextToken !== undefined) {
@@ -2605,13 +2590,12 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2624,21 +2608,19 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listReturnReasonCodes(sellerSku: string, language: string, marketplaceId?: string, sellerFulfillmentOrderId?: string, options: any = {}): RequestArgs {
+        listReturnReasonCodes: async (sellerSku: string, language: string, marketplaceId?: string, sellerFulfillmentOrderId?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerSku' is not null or undefined
-            if (sellerSku === null || sellerSku === undefined) {
-                throw new RequiredError('sellerSku','Required parameter sellerSku was null or undefined when calling listReturnReasonCodes.');
-            }
+            assertParamExists('listReturnReasonCodes', 'sellerSku', sellerSku)
             // verify required parameter 'language' is not null or undefined
-            if (language === null || language === undefined) {
-                throw new RequiredError('language','Required parameter language was null or undefined when calling listReturnReasonCodes.');
-            }
+            assertParamExists('listReturnReasonCodes', 'language', language)
             const localVarPath = `/fba/outbound/2020-07-01/returnReasonCodes`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2661,13 +2643,12 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2678,22 +2659,20 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFulfillmentOrder(sellerFulfillmentOrderId: string, body: UpdateFulfillmentOrderRequest, options: any = {}): RequestArgs {
+        updateFulfillmentOrder: async (sellerFulfillmentOrderId: string, body: UpdateFulfillmentOrderRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerFulfillmentOrderId' is not null or undefined
-            if (sellerFulfillmentOrderId === null || sellerFulfillmentOrderId === undefined) {
-                throw new RequiredError('sellerFulfillmentOrderId','Required parameter sellerFulfillmentOrderId was null or undefined when calling updateFulfillmentOrder.');
-            }
+            assertParamExists('updateFulfillmentOrder', 'sellerFulfillmentOrderId', sellerFulfillmentOrderId)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updateFulfillmentOrder.');
-            }
+            assertParamExists('updateFulfillmentOrder', 'body', body)
             const localVarPath = `/fba/outbound/2020-07-01/fulfillmentOrders/{sellerFulfillmentOrderId}`
                 .replace(`{${"sellerFulfillmentOrderId"}}`, encodeURIComponent(String(sellerFulfillmentOrderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2702,15 +2681,13 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"UpdateFulfillmentOrderRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2722,6 +2699,7 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
  * @export
  */
 export const FbaOutboundApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FbaOutboundApiAxiosParamCreator(configuration)
     return {
         /**
          * Requests that Amazon stop attempting to fulfill the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2729,12 +2707,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelFulfillmentOrderResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).cancelFulfillmentOrder(sellerFulfillmentOrderId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async cancelFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelFulfillmentOrderResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelFulfillmentOrder(sellerFulfillmentOrderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Requests that Amazon ship items from the seller\'s inventory in Amazon\'s fulfillment network to a destination address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2742,12 +2717,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFulfillmentOrder(body: CreateFulfillmentOrderRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateFulfillmentOrderResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).createFulfillmentOrder(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async createFulfillmentOrder(body: CreateFulfillmentOrderRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateFulfillmentOrderResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createFulfillmentOrder(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Creates a fulfillment return.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2756,12 +2728,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFulfillmentReturn(sellerFulfillmentOrderId: string, body: CreateFulfillmentReturnRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateFulfillmentReturnResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).createFulfillmentReturn(sellerFulfillmentOrderId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async createFulfillmentReturn(sellerFulfillmentOrderId: string, body: CreateFulfillmentReturnRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateFulfillmentReturnResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createFulfillmentReturn(sellerFulfillmentOrderId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2771,12 +2740,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeatureInventoryResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).getFeatureInventory(marketplaceId, featureName, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeatureInventoryResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeatureInventory(marketplaceId, featureName, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the number of items with the sellerSKU you specify that can have orders fulfilled using the specified feature. Note that if the sellerSKU isn\'t eligible, the response will contain an empty skuInfo object.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2786,12 +2752,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatureSKU(marketplaceId: string, featureName: string, sellerSku: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeatureSkuResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).getFeatureSKU(marketplaceId, featureName, sellerSku, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getFeatureSKU(marketplaceId: string, featureName: string, sellerSku: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeatureSkuResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeatureSKU(marketplaceId, featureName, sellerSku, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of features available for Multi-Channel Fulfillment orders in the marketplace you specify, and whether the seller for which you made the call is enrolled for each feature.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2799,12 +2762,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatures(marketplaceId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeaturesResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).getFeatures(marketplaceId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getFeatures(marketplaceId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeaturesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeatures(marketplaceId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2812,12 +2772,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFulfillmentOrderResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).getFulfillmentOrder(sellerFulfillmentOrderId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFulfillmentOrderResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFulfillmentOrder(sellerFulfillmentOrderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of fulfillment order previews based on shipping criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2825,12 +2782,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFulfillmentPreview(body: GetFulfillmentPreviewRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFulfillmentPreviewResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).getFulfillmentPreview(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getFulfillmentPreview(body: GetFulfillmentPreviewRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFulfillmentPreviewResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFulfillmentPreview(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns delivery tracking information for a package in an outbound shipment for a Multi-Channel Fulfillment order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2838,26 +2792,20 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPackageTrackingDetails(packageNumber: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPackageTrackingDetailsResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).getPackageTrackingDetails(packageNumber, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getPackageTrackingDetails(packageNumber: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPackageTrackingDetailsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPackageTrackingDetails(packageNumber, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {Date} [queryStartDate] A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
+         * @param {string} [queryStartDate] A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listAllFulfillmentOrders(queryStartDate?: Date, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListAllFulfillmentOrdersResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).listAllFulfillmentOrders(queryStartDate, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async listAllFulfillmentOrders(queryStartDate?: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListAllFulfillmentOrdersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listAllFulfillmentOrders(queryStartDate, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of return reason codes for a seller SKU in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2868,12 +2816,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listReturnReasonCodes(sellerSku: string, language: string, marketplaceId?: string, sellerFulfillmentOrderId?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListReturnReasonCodesResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).listReturnReasonCodes(sellerSku, language, marketplaceId, sellerFulfillmentOrderId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async listReturnReasonCodes(sellerSku: string, language: string, marketplaceId?: string, sellerFulfillmentOrderId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListReturnReasonCodesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listReturnReasonCodes(sellerSku, language, marketplaceId, sellerFulfillmentOrderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Updates and/or requests shipment for a fulfillment order with an order hold on it.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2882,12 +2827,9 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFulfillmentOrder(sellerFulfillmentOrderId: string, body: UpdateFulfillmentOrderRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateFulfillmentOrderResponse> {
-            const localVarAxiosArgs = FbaOutboundApiAxiosParamCreator(configuration).updateFulfillmentOrder(sellerFulfillmentOrderId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async updateFulfillmentOrder(sellerFulfillmentOrderId: string, body: UpdateFulfillmentOrderRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateFulfillmentOrderResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFulfillmentOrder(sellerFulfillmentOrderId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -2897,6 +2839,7 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const FbaOutboundApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FbaOutboundApiFp(configuration)
     return {
         /**
          * Requests that Amazon stop attempting to fulfill the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2904,8 +2847,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any) {
-            return FbaOutboundApiFp(configuration).cancelFulfillmentOrder(sellerFulfillmentOrderId, options)(axios, basePath);
+        cancelFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any): AxiosPromise<CancelFulfillmentOrderResponse> {
+            return localVarFp.cancelFulfillmentOrder(sellerFulfillmentOrderId, options).then((request) => request(axios, basePath));
         },
         /**
          * Requests that Amazon ship items from the seller\'s inventory in Amazon\'s fulfillment network to a destination address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2913,8 +2856,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFulfillmentOrder(body: CreateFulfillmentOrderRequest, options?: any) {
-            return FbaOutboundApiFp(configuration).createFulfillmentOrder(body, options)(axios, basePath);
+        createFulfillmentOrder(body: CreateFulfillmentOrderRequest, options?: any): AxiosPromise<CreateFulfillmentOrderResponse> {
+            return localVarFp.createFulfillmentOrder(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Creates a fulfillment return.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2923,8 +2866,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFulfillmentReturn(sellerFulfillmentOrderId: string, body: CreateFulfillmentReturnRequest, options?: any) {
-            return FbaOutboundApiFp(configuration).createFulfillmentReturn(sellerFulfillmentOrderId, body, options)(axios, basePath);
+        createFulfillmentReturn(sellerFulfillmentOrderId: string, body: CreateFulfillmentReturnRequest, options?: any): AxiosPromise<CreateFulfillmentReturnResponse> {
+            return localVarFp.createFulfillmentReturn(sellerFulfillmentOrderId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2934,8 +2877,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, options?: any) {
-            return FbaOutboundApiFp(configuration).getFeatureInventory(marketplaceId, featureName, nextToken, options)(axios, basePath);
+        getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, options?: any): AxiosPromise<GetFeatureInventoryResponse> {
+            return localVarFp.getFeatureInventory(marketplaceId, featureName, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the number of items with the sellerSKU you specify that can have orders fulfilled using the specified feature. Note that if the sellerSKU isn\'t eligible, the response will contain an empty skuInfo object.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2945,8 +2888,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatureSKU(marketplaceId: string, featureName: string, sellerSku: string, options?: any) {
-            return FbaOutboundApiFp(configuration).getFeatureSKU(marketplaceId, featureName, sellerSku, options)(axios, basePath);
+        getFeatureSKU(marketplaceId: string, featureName: string, sellerSku: string, options?: any): AxiosPromise<GetFeatureSkuResponse> {
+            return localVarFp.getFeatureSKU(marketplaceId, featureName, sellerSku, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of features available for Multi-Channel Fulfillment orders in the marketplace you specify, and whether the seller for which you made the call is enrolled for each feature.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2954,8 +2897,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatures(marketplaceId: string, options?: any) {
-            return FbaOutboundApiFp(configuration).getFeatures(marketplaceId, options)(axios, basePath);
+        getFeatures(marketplaceId: string, options?: any): AxiosPromise<GetFeaturesResponse> {
+            return localVarFp.getFeatures(marketplaceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2963,8 +2906,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any) {
-            return FbaOutboundApiFp(configuration).getFulfillmentOrder(sellerFulfillmentOrderId, options)(axios, basePath);
+        getFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any): AxiosPromise<GetFulfillmentOrderResponse> {
+            return localVarFp.getFulfillmentOrder(sellerFulfillmentOrderId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of fulfillment order previews based on shipping criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2972,8 +2915,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFulfillmentPreview(body: GetFulfillmentPreviewRequest, options?: any) {
-            return FbaOutboundApiFp(configuration).getFulfillmentPreview(body, options)(axios, basePath);
+        getFulfillmentPreview(body: GetFulfillmentPreviewRequest, options?: any): AxiosPromise<GetFulfillmentPreviewResponse> {
+            return localVarFp.getFulfillmentPreview(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns delivery tracking information for a package in an outbound shipment for a Multi-Channel Fulfillment order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2981,18 +2924,18 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPackageTrackingDetails(packageNumber: number, options?: any) {
-            return FbaOutboundApiFp(configuration).getPackageTrackingDetails(packageNumber, options)(axios, basePath);
+        getPackageTrackingDetails(packageNumber: number, options?: any): AxiosPromise<GetPackageTrackingDetailsResponse> {
+            return localVarFp.getPackageTrackingDetails(packageNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {Date} [queryStartDate] A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
+         * @param {string} [queryStartDate] A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listAllFulfillmentOrders(queryStartDate?: Date, nextToken?: string, options?: any) {
-            return FbaOutboundApiFp(configuration).listAllFulfillmentOrders(queryStartDate, nextToken, options)(axios, basePath);
+        listAllFulfillmentOrders(queryStartDate?: string, nextToken?: string, options?: any): AxiosPromise<ListAllFulfillmentOrdersResponse> {
+            return localVarFp.listAllFulfillmentOrders(queryStartDate, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of return reason codes for a seller SKU in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3003,8 +2946,8 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listReturnReasonCodes(sellerSku: string, language: string, marketplaceId?: string, sellerFulfillmentOrderId?: string, options?: any) {
-            return FbaOutboundApiFp(configuration).listReturnReasonCodes(sellerSku, language, marketplaceId, sellerFulfillmentOrderId, options)(axios, basePath);
+        listReturnReasonCodes(sellerSku: string, language: string, marketplaceId?: string, sellerFulfillmentOrderId?: string, options?: any): AxiosPromise<ListReturnReasonCodesResponse> {
+            return localVarFp.listReturnReasonCodes(sellerSku, language, marketplaceId, sellerFulfillmentOrderId, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates and/or requests shipment for a fulfillment order with an order hold on it.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3013,11 +2956,249 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFulfillmentOrder(sellerFulfillmentOrderId: string, body: UpdateFulfillmentOrderRequest, options?: any) {
-            return FbaOutboundApiFp(configuration).updateFulfillmentOrder(sellerFulfillmentOrderId, body, options)(axios, basePath);
+        updateFulfillmentOrder(sellerFulfillmentOrderId: string, body: UpdateFulfillmentOrderRequest, options?: any): AxiosPromise<UpdateFulfillmentOrderResponse> {
+            return localVarFp.updateFulfillmentOrder(sellerFulfillmentOrderId, body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for cancelFulfillmentOrder operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiCancelFulfillmentOrderRequest
+ */
+export interface FbaOutboundApiCancelFulfillmentOrderRequest {
+    /**
+     * The identifier assigned to the item by the seller when the fulfillment order was created.
+     * @type {string}
+     * @memberof FbaOutboundApiCancelFulfillmentOrder
+     */
+    readonly sellerFulfillmentOrderId: string
+}
+
+/**
+ * Request parameters for createFulfillmentOrder operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiCreateFulfillmentOrderRequest
+ */
+export interface FbaOutboundApiCreateFulfillmentOrderRequest {
+    /**
+     * 
+     * @type {CreateFulfillmentOrderRequest}
+     * @memberof FbaOutboundApiCreateFulfillmentOrder
+     */
+    readonly body: CreateFulfillmentOrderRequest
+}
+
+/**
+ * Request parameters for createFulfillmentReturn operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiCreateFulfillmentReturnRequest
+ */
+export interface FbaOutboundApiCreateFulfillmentReturnRequest {
+    /**
+     * An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct SellerFulfillmentOrderId value based on the buyer\&#39;s request to return items.
+     * @type {string}
+     * @memberof FbaOutboundApiCreateFulfillmentReturn
+     */
+    readonly sellerFulfillmentOrderId: string
+
+    /**
+     * 
+     * @type {CreateFulfillmentReturnRequest}
+     * @memberof FbaOutboundApiCreateFulfillmentReturn
+     */
+    readonly body: CreateFulfillmentReturnRequest
+}
+
+/**
+ * Request parameters for getFeatureInventory operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiGetFeatureInventoryRequest
+ */
+export interface FbaOutboundApiGetFeatureInventoryRequest {
+    /**
+     * The marketplace for which to return a list of the inventory that is eligible for the specified feature.
+     * @type {string}
+     * @memberof FbaOutboundApiGetFeatureInventory
+     */
+    readonly marketplaceId: string
+
+    /**
+     * The name of the feature for which to return a list of eligible inventory.
+     * @type {string}
+     * @memberof FbaOutboundApiGetFeatureInventory
+     */
+    readonly featureName: string
+
+    /**
+     * A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+     * @type {string}
+     * @memberof FbaOutboundApiGetFeatureInventory
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for getFeatureSKU operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiGetFeatureSKURequest
+ */
+export interface FbaOutboundApiGetFeatureSKURequest {
+    /**
+     * The marketplace for which to return the count.
+     * @type {string}
+     * @memberof FbaOutboundApiGetFeatureSKU
+     */
+    readonly marketplaceId: string
+
+    /**
+     * The name of the feature.
+     * @type {string}
+     * @memberof FbaOutboundApiGetFeatureSKU
+     */
+    readonly featureName: string
+
+    /**
+     * Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
+     * @type {string}
+     * @memberof FbaOutboundApiGetFeatureSKU
+     */
+    readonly sellerSku: string
+}
+
+/**
+ * Request parameters for getFeatures operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiGetFeaturesRequest
+ */
+export interface FbaOutboundApiGetFeaturesRequest {
+    /**
+     * The marketplace for which to return the list of features.
+     * @type {string}
+     * @memberof FbaOutboundApiGetFeatures
+     */
+    readonly marketplaceId: string
+}
+
+/**
+ * Request parameters for getFulfillmentOrder operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiGetFulfillmentOrderRequest
+ */
+export interface FbaOutboundApiGetFulfillmentOrderRequest {
+    /**
+     * The identifier assigned to the item by the seller when the fulfillment order was created.
+     * @type {string}
+     * @memberof FbaOutboundApiGetFulfillmentOrder
+     */
+    readonly sellerFulfillmentOrderId: string
+}
+
+/**
+ * Request parameters for getFulfillmentPreview operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiGetFulfillmentPreviewRequest
+ */
+export interface FbaOutboundApiGetFulfillmentPreviewRequest {
+    /**
+     * 
+     * @type {GetFulfillmentPreviewRequest}
+     * @memberof FbaOutboundApiGetFulfillmentPreview
+     */
+    readonly body: GetFulfillmentPreviewRequest
+}
+
+/**
+ * Request parameters for getPackageTrackingDetails operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiGetPackageTrackingDetailsRequest
+ */
+export interface FbaOutboundApiGetPackageTrackingDetailsRequest {
+    /**
+     * The unencrypted package identifier returned by the getFulfillmentOrder operation.
+     * @type {number}
+     * @memberof FbaOutboundApiGetPackageTrackingDetails
+     */
+    readonly packageNumber: number
+}
+
+/**
+ * Request parameters for listAllFulfillmentOrders operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiListAllFulfillmentOrdersRequest
+ */
+export interface FbaOutboundApiListAllFulfillmentOrdersRequest {
+    /**
+     * A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
+     * @type {string}
+     * @memberof FbaOutboundApiListAllFulfillmentOrders
+     */
+    readonly queryStartDate?: string
+
+    /**
+     * A string token returned in the response to your previous request.
+     * @type {string}
+     * @memberof FbaOutboundApiListAllFulfillmentOrders
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for listReturnReasonCodes operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiListReturnReasonCodesRequest
+ */
+export interface FbaOutboundApiListReturnReasonCodesRequest {
+    /**
+     * The seller SKU for which return reason codes are required.
+     * @type {string}
+     * @memberof FbaOutboundApiListReturnReasonCodes
+     */
+    readonly sellerSku: string
+
+    /**
+     * The language that the TranslatedDescription property of the ReasonCodeDetails response object should be translated into.
+     * @type {string}
+     * @memberof FbaOutboundApiListReturnReasonCodes
+     */
+    readonly language: string
+
+    /**
+     * The marketplace for which the seller wants return reason codes.
+     * @type {string}
+     * @memberof FbaOutboundApiListReturnReasonCodes
+     */
+    readonly marketplaceId?: string
+
+    /**
+     * The identifier assigned to the item by the seller when the fulfillment order was created. The service uses this value to determine the marketplace for which the seller wants return reason codes.
+     * @type {string}
+     * @memberof FbaOutboundApiListReturnReasonCodes
+     */
+    readonly sellerFulfillmentOrderId?: string
+}
+
+/**
+ * Request parameters for updateFulfillmentOrder operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiUpdateFulfillmentOrderRequest
+ */
+export interface FbaOutboundApiUpdateFulfillmentOrderRequest {
+    /**
+     * The identifier assigned to the item by the seller when the fulfillment order was created.
+     * @type {string}
+     * @memberof FbaOutboundApiUpdateFulfillmentOrder
+     */
+    readonly sellerFulfillmentOrderId: string
+
+    /**
+     * 
+     * @type {UpdateFulfillmentOrderRequest}
+     * @memberof FbaOutboundApiUpdateFulfillmentOrder
+     */
+    readonly body: UpdateFulfillmentOrderRequest
+}
 
 /**
  * FbaOutboundApi - object-oriented interface
@@ -3028,146 +3209,135 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
 export class FbaOutboundApi extends BaseAPI {
     /**
      * Requests that Amazon stop attempting to fulfill the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
+     * @param {FbaOutboundApiCancelFulfillmentOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public cancelFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any) {
-        return FbaOutboundApiFp(this.configuration).cancelFulfillmentOrder(sellerFulfillmentOrderId, options)(this.axios, this.basePath);
+    public cancelFulfillmentOrder(requestParameters: FbaOutboundApiCancelFulfillmentOrderRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).cancelFulfillmentOrder(requestParameters.sellerFulfillmentOrderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Requests that Amazon ship items from the seller\'s inventory in Amazon\'s fulfillment network to a destination address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {CreateFulfillmentOrderRequest} body 
+     * @param {FbaOutboundApiCreateFulfillmentOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public createFulfillmentOrder(body: CreateFulfillmentOrderRequest, options?: any) {
-        return FbaOutboundApiFp(this.configuration).createFulfillmentOrder(body, options)(this.axios, this.basePath);
+    public createFulfillmentOrder(requestParameters: FbaOutboundApiCreateFulfillmentOrderRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).createFulfillmentOrder(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Creates a fulfillment return.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerFulfillmentOrderId An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct SellerFulfillmentOrderId value based on the buyer\&#39;s request to return items.
-     * @param {CreateFulfillmentReturnRequest} body 
+     * @param {FbaOutboundApiCreateFulfillmentReturnRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public createFulfillmentReturn(sellerFulfillmentOrderId: string, body: CreateFulfillmentReturnRequest, options?: any) {
-        return FbaOutboundApiFp(this.configuration).createFulfillmentReturn(sellerFulfillmentOrderId, body, options)(this.axios, this.basePath);
+    public createFulfillmentReturn(requestParameters: FbaOutboundApiCreateFulfillmentReturnRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).createFulfillmentReturn(requestParameters.sellerFulfillmentOrderId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} marketplaceId The marketplace for which to return a list of the inventory that is eligible for the specified feature.
-     * @param {string} featureName The name of the feature for which to return a list of eligible inventory.
-     * @param {string} [nextToken] A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+     * @param {FbaOutboundApiGetFeatureInventoryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, options?: any) {
-        return FbaOutboundApiFp(this.configuration).getFeatureInventory(marketplaceId, featureName, nextToken, options)(this.axios, this.basePath);
+    public getFeatureInventory(requestParameters: FbaOutboundApiGetFeatureInventoryRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).getFeatureInventory(requestParameters.marketplaceId, requestParameters.featureName, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the number of items with the sellerSKU you specify that can have orders fulfilled using the specified feature. Note that if the sellerSKU isn\'t eligible, the response will contain an empty skuInfo object.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} marketplaceId The marketplace for which to return the count.
-     * @param {string} featureName The name of the feature.
-     * @param {string} sellerSku Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
+     * @param {FbaOutboundApiGetFeatureSKURequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public getFeatureSKU(marketplaceId: string, featureName: string, sellerSku: string, options?: any) {
-        return FbaOutboundApiFp(this.configuration).getFeatureSKU(marketplaceId, featureName, sellerSku, options)(this.axios, this.basePath);
+    public getFeatureSKU(requestParameters: FbaOutboundApiGetFeatureSKURequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).getFeatureSKU(requestParameters.marketplaceId, requestParameters.featureName, requestParameters.sellerSku, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of features available for Multi-Channel Fulfillment orders in the marketplace you specify, and whether the seller for which you made the call is enrolled for each feature.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} marketplaceId The marketplace for which to return the list of features.
+     * @param {FbaOutboundApiGetFeaturesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public getFeatures(marketplaceId: string, options?: any) {
-        return FbaOutboundApiFp(this.configuration).getFeatures(marketplaceId, options)(this.axios, this.basePath);
+    public getFeatures(requestParameters: FbaOutboundApiGetFeaturesRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).getFeatures(requestParameters.marketplaceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
+     * @param {FbaOutboundApiGetFulfillmentOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public getFulfillmentOrder(sellerFulfillmentOrderId: string, options?: any) {
-        return FbaOutboundApiFp(this.configuration).getFulfillmentOrder(sellerFulfillmentOrderId, options)(this.axios, this.basePath);
+    public getFulfillmentOrder(requestParameters: FbaOutboundApiGetFulfillmentOrderRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).getFulfillmentOrder(requestParameters.sellerFulfillmentOrderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of fulfillment order previews based on shipping criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {GetFulfillmentPreviewRequest} body 
+     * @param {FbaOutboundApiGetFulfillmentPreviewRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public getFulfillmentPreview(body: GetFulfillmentPreviewRequest, options?: any) {
-        return FbaOutboundApiFp(this.configuration).getFulfillmentPreview(body, options)(this.axios, this.basePath);
+    public getFulfillmentPreview(requestParameters: FbaOutboundApiGetFulfillmentPreviewRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).getFulfillmentPreview(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns delivery tracking information for a package in an outbound shipment for a Multi-Channel Fulfillment order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {number} packageNumber The unencrypted package identifier returned by the getFulfillmentOrder operation.
+     * @param {FbaOutboundApiGetPackageTrackingDetailsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public getPackageTrackingDetails(packageNumber: number, options?: any) {
-        return FbaOutboundApiFp(this.configuration).getPackageTrackingDetails(packageNumber, options)(this.axios, this.basePath);
+    public getPackageTrackingDetails(requestParameters: FbaOutboundApiGetPackageTrackingDetailsRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).getPackageTrackingDetails(requestParameters.packageNumber, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {Date} [queryStartDate] A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
-     * @param {string} [nextToken] A string token returned in the response to your previous request.
+     * @param {FbaOutboundApiListAllFulfillmentOrdersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public listAllFulfillmentOrders(queryStartDate?: Date, nextToken?: string, options?: any) {
-        return FbaOutboundApiFp(this.configuration).listAllFulfillmentOrders(queryStartDate, nextToken, options)(this.axios, this.basePath);
+    public listAllFulfillmentOrders(requestParameters: FbaOutboundApiListAllFulfillmentOrdersRequest = {}, options?: any) {
+        return FbaOutboundApiFp(this.configuration).listAllFulfillmentOrders(requestParameters.queryStartDate, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of return reason codes for a seller SKU in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerSku The seller SKU for which return reason codes are required.
-     * @param {string} language The language that the TranslatedDescription property of the ReasonCodeDetails response object should be translated into.
-     * @param {string} [marketplaceId] The marketplace for which the seller wants return reason codes.
-     * @param {string} [sellerFulfillmentOrderId] The identifier assigned to the item by the seller when the fulfillment order was created. The service uses this value to determine the marketplace for which the seller wants return reason codes.
+     * @param {FbaOutboundApiListReturnReasonCodesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public listReturnReasonCodes(sellerSku: string, language: string, marketplaceId?: string, sellerFulfillmentOrderId?: string, options?: any) {
-        return FbaOutboundApiFp(this.configuration).listReturnReasonCodes(sellerSku, language, marketplaceId, sellerFulfillmentOrderId, options)(this.axios, this.basePath);
+    public listReturnReasonCodes(requestParameters: FbaOutboundApiListReturnReasonCodesRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).listReturnReasonCodes(requestParameters.sellerSku, requestParameters.language, requestParameters.marketplaceId, requestParameters.sellerFulfillmentOrderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Updates and/or requests shipment for a fulfillment order with an order hold on it.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
-     * @param {UpdateFulfillmentOrderRequest} body 
+     * @param {FbaOutboundApiUpdateFulfillmentOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaOutboundApi
      */
-    public updateFulfillmentOrder(sellerFulfillmentOrderId: string, body: UpdateFulfillmentOrderRequest, options?: any) {
-        return FbaOutboundApiFp(this.configuration).updateFulfillmentOrder(sellerFulfillmentOrderId, body, options)(this.axios, this.basePath);
+    public updateFulfillmentOrder(requestParameters: FbaOutboundApiUpdateFulfillmentOrderRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).updateFulfillmentOrder(requestParameters.sellerFulfillmentOrderId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

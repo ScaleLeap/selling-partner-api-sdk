@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Merchant Fulfillment
  * The Selling Partner API for Merchant Fulfillment helps you build applications that let sellers purchase shipping for non-Prime and Prime orders using Amazon’s Buy Shipping Services.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -31,13 +32,13 @@ export interface AdditionalInputs {
      * @type {string}
      * @memberof AdditionalInputs
      */
-    additionalInputFieldName?: string;
+    AdditionalInputFieldName?: string;
     /**
      * 
      * @type {SellerInputDefinition}
      * @memberof AdditionalInputs
      */
-    sellerInputDefinition?: SellerInputDefinition;
+    SellerInputDefinition?: SellerInputDefinition;
 }
 /**
  * Additional information required to purchase shipping.
@@ -50,55 +51,55 @@ export interface AdditionalSellerInput {
      * @type {string}
      * @memberof AdditionalSellerInput
      */
-    dataType?: string;
+    DataType?: string;
     /**
      * The value when the data type is string.
      * @type {string}
      * @memberof AdditionalSellerInput
      */
-    valueAsString?: string;
+    ValueAsString?: string;
     /**
      * The value when the data type is boolean.
      * @type {boolean}
      * @memberof AdditionalSellerInput
      */
-    valueAsBoolean?: boolean;
+    ValueAsBoolean?: boolean;
     /**
      * The value when the data type is integer.
      * @type {number}
      * @memberof AdditionalSellerInput
      */
-    valueAsInteger?: number;
+    ValueAsInteger?: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof AdditionalSellerInput
      */
-    valueAsTimestamp?: Date;
+    ValueAsTimestamp?: string;
     /**
      * 
      * @type {Address}
      * @memberof AdditionalSellerInput
      */
-    valueAsAddress?: Address;
+    ValueAsAddress?: Address;
     /**
      * 
      * @type {Weight}
      * @memberof AdditionalSellerInput
      */
-    valueAsWeight?: Weight;
+    ValueAsWeight?: Weight;
     /**
      * 
      * @type {Length}
      * @memberof AdditionalSellerInput
      */
-    valueAsDimension?: Length;
+    ValueAsDimension?: Length;
     /**
      * 
      * @type {CurrencyAmount}
      * @memberof AdditionalSellerInput
      */
-    valueAsCurrency?: CurrencyAmount;
+    ValueAsCurrency?: CurrencyAmount;
 }
 /**
  * An additional set of seller inputs required to purchase shipping.
@@ -111,13 +112,13 @@ export interface AdditionalSellerInputs {
      * @type {string}
      * @memberof AdditionalSellerInputs
      */
-    additionalInputFieldName: string;
+    AdditionalInputFieldName: string;
     /**
      * 
      * @type {AdditionalSellerInput}
      * @memberof AdditionalSellerInputs
      */
-    additionalSellerInput: AdditionalSellerInput;
+    AdditionalSellerInput: AdditionalSellerInput;
 }
 /**
  * The postal address information.
@@ -130,67 +131,67 @@ export interface Address {
      * @type {string}
      * @memberof Address
      */
-    name: string;
+    Name: string;
     /**
      * The street address information.
      * @type {string}
      * @memberof Address
      */
-    addressLine1: string;
+    AddressLine1: string;
     /**
      * Additional street address information.
      * @type {string}
      * @memberof Address
      */
-    addressLine2?: string;
+    AddressLine2?: string;
     /**
      * Additional street address information.
      * @type {string}
      * @memberof Address
      */
-    addressLine3?: string;
+    AddressLine3?: string;
     /**
      * The district or county.
      * @type {string}
      * @memberof Address
      */
-    districtOrCounty?: string;
+    DistrictOrCounty?: string;
     /**
      * The email address.
      * @type {string}
      * @memberof Address
      */
-    email: string;
+    Email: string;
     /**
      * The city.
      * @type {string}
      * @memberof Address
      */
-    city: string;
+    City: string;
     /**
      * The state or province code.
      * @type {string}
      * @memberof Address
      */
-    stateOrProvinceCode?: string;
+    StateOrProvinceCode?: string;
     /**
      * The zip code or postal code.
      * @type {string}
      * @memberof Address
      */
-    postalCode: string;
+    PostalCode: string;
     /**
      * The country code. A two-character country code, in ISO 3166-1 alpha-2 format.
      * @type {string}
      * @memberof Address
      */
-    countryCode: string;
+    CountryCode: string;
     /**
      * The phone number.
      * @type {string}
      * @memberof Address
      */
-    phone: string;
+    Phone: string;
 }
 /**
  * Indicates whether the carrier will pick up the package, and what fee is charged, if any.
@@ -203,13 +204,13 @@ export interface AvailableCarrierWillPickUpOption {
      * @type {CarrierWillPickUpOption}
      * @memberof AvailableCarrierWillPickUpOption
      */
-    carrierWillPickUpOption: CarrierWillPickUpOption;
+    CarrierWillPickUpOption: CarrierWillPickUpOption;
     /**
      * 
      * @type {CurrencyAmount}
      * @memberof AvailableCarrierWillPickUpOption
      */
-    charge: CurrencyAmount;
+    Charge: CurrencyAmount;
 }
 /**
  * The available delivery confirmation options, and the fee charged, if any.
@@ -222,20 +223,13 @@ export interface AvailableDeliveryExperienceOption {
      * @type {DeliveryExperienceOption}
      * @memberof AvailableDeliveryExperienceOption
      */
-    deliveryExperienceOption: DeliveryExperienceOption;
+    DeliveryExperienceOption: DeliveryExperienceOption;
     /**
      * 
      * @type {CurrencyAmount}
      * @memberof AvailableDeliveryExperienceOption
      */
-    charge: CurrencyAmount;
-}
-/**
- * The available label formats.
- * @export
- * @interface AvailableFormatOptionsForLabel
- */
-export interface AvailableFormatOptionsForLabel extends Array<LabelFormatOption> {
+    Charge: CurrencyAmount;
 }
 /**
  * The available shipping service options.
@@ -248,13 +242,13 @@ export interface AvailableShippingServiceOptions {
      * @type {Array<AvailableCarrierWillPickUpOption>}
      * @memberof AvailableShippingServiceOptions
      */
-    availableCarrierWillPickUpOptions: Array<AvailableCarrierWillPickUpOption>;
+    AvailableCarrierWillPickUpOptions: Array<AvailableCarrierWillPickUpOption>;
     /**
      * List of available delivery experience options.
      * @type {Array<AvailableDeliveryExperienceOption>}
      * @memberof AvailableShippingServiceOptions
      */
-    availableDeliveryExperienceOptions: Array<AvailableDeliveryExperienceOption>;
+    AvailableDeliveryExperienceOptions: Array<AvailableDeliveryExperienceOption>;
 }
 /**
  * Response schema.
@@ -297,13 +291,13 @@ export interface Constraint {
      * @type {string}
      * @memberof Constraint
      */
-    validationRegEx?: string;
+    ValidationRegEx?: string;
     /**
      * A validation string.
      * @type {string}
      * @memberof Constraint
      */
-    validationString: string;
+    ValidationString: string;
 }
 /**
  * Request schema.
@@ -316,37 +310,37 @@ export interface CreateShipmentRequest {
      * @type {ShipmentRequestDetails}
      * @memberof CreateShipmentRequest
      */
-    shipmentRequestDetails: ShipmentRequestDetails;
+    ShipmentRequestDetails: ShipmentRequestDetails;
     /**
      * An Amazon-defined shipping service identifier.
      * @type {string}
      * @memberof CreateShipmentRequest
      */
-    shippingServiceId: string;
+    ShippingServiceId: string;
     /**
      * Identifies a shipping service order made by a carrier.
      * @type {string}
      * @memberof CreateShipmentRequest
      */
-    shippingServiceOfferId?: string;
+    ShippingServiceOfferId?: string;
     /**
      * 
      * @type {HazmatType}
      * @memberof CreateShipmentRequest
      */
-    hazmatType?: HazmatType;
+    HazmatType?: HazmatType;
     /**
      * 
      * @type {LabelFormatOptionRequest}
      * @memberof CreateShipmentRequest
      */
-    labelFormatOption?: LabelFormatOptionRequest;
+    LabelFormatOption?: LabelFormatOptionRequest;
     /**
      * A list of additional seller input pairs required to purchase shipping.
      * @type {Array<AdditionalSellerInputs>}
      * @memberof CreateShipmentRequest
      */
-    shipmentLevelSellerInputsList?: Array<AdditionalSellerInputs>;
+    ShipmentLevelSellerInputsList?: Array<AdditionalSellerInputs>;
 }
 /**
  * Response schema.
@@ -378,13 +372,13 @@ export interface CurrencyAmount {
      * @type {string}
      * @memberof CurrencyAmount
      */
-    currencyCode: string;
+    CurrencyCode: string;
     /**
      * The currency amount.
      * @type {number}
      * @memberof CurrencyAmount
      */
-    amount: number;
+    Amount: number;
 }
 /**
  * The delivery confirmation level.
@@ -422,19 +416,19 @@ export interface FileContents {
      * @type {string}
      * @memberof FileContents
      */
-    contents: string;
+    Contents: string;
     /**
      * 
      * @type {FileType}
      * @memberof FileContents
      */
-    fileType: FileType;
+    FileType: FileType;
     /**
      * An MD5 hash to validate the PDF document data, in the form of a Base64-encoded string.
      * @type {string}
      * @memberof FileContents
      */
-    checksum: string;
+    Checksum: string;
 }
 /**
  * The file type for a label.
@@ -458,19 +452,19 @@ export interface GetAdditionalSellerInputsRequest {
      * @type {string}
      * @memberof GetAdditionalSellerInputsRequest
      */
-    shippingServiceId: string;
+    ShippingServiceId: string;
     /**
      * 
      * @type {Address}
      * @memberof GetAdditionalSellerInputsRequest
      */
-    shipFromAddress: Address;
+    ShipFromAddress: Address;
     /**
      * An Amazon-defined order identifier, in 3-7-7 format. <br>**Pattern** : `[0-9A-Z]{3}-[0-9]{7}-[0-9]{7}`.
      * @type {string}
      * @memberof GetAdditionalSellerInputsRequest
      */
-    orderId: string;
+    OrderId: string;
 }
 /**
  * Response schema.
@@ -502,13 +496,13 @@ export interface GetAdditionalSellerInputsResult {
      * @type {Array<AdditionalInputs>}
      * @memberof GetAdditionalSellerInputsResult
      */
-    shipmentLevelFields?: Array<AdditionalInputs>;
+    ShipmentLevelFields?: Array<AdditionalInputs>;
     /**
      * A list of item level fields.
      * @type {Array<ItemLevelFields>}
      * @memberof GetAdditionalSellerInputsResult
      */
-    itemLevelFieldsList?: Array<ItemLevelFields>;
+    ItemLevelFieldsList?: Array<ItemLevelFields>;
 }
 /**
  * Request schema.
@@ -521,13 +515,13 @@ export interface GetEligibleShipmentServicesRequest {
      * @type {ShipmentRequestDetails}
      * @memberof GetEligibleShipmentServicesRequest
      */
-    shipmentRequestDetails: ShipmentRequestDetails;
+    ShipmentRequestDetails: ShipmentRequestDetails;
     /**
      * 
      * @type {ShippingOfferingFilter}
      * @memberof GetEligibleShipmentServicesRequest
      */
-    shippingOfferingFilter?: ShippingOfferingFilter;
+    ShippingOfferingFilter?: ShippingOfferingFilter;
 }
 /**
  * Response schema.
@@ -559,25 +553,25 @@ export interface GetEligibleShipmentServicesResult {
      * @type {Array<ShippingService>}
      * @memberof GetEligibleShipmentServicesResult
      */
-    shippingServiceList: Array<ShippingService>;
+    ShippingServiceList: Array<ShippingService>;
     /**
      * List of services that were for some reason unavailable for this request
      * @type {Array<RejectedShippingService>}
      * @memberof GetEligibleShipmentServicesResult
      */
-    rejectedShippingServiceList?: Array<RejectedShippingService>;
+    RejectedShippingServiceList?: Array<RejectedShippingService>;
     /**
      * A list of temporarily unavailable carriers.
      * @type {Array<TemporarilyUnavailableCarrier>}
      * @memberof GetEligibleShipmentServicesResult
      */
-    temporarilyUnavailableCarrierList?: Array<TemporarilyUnavailableCarrier>;
+    TemporarilyUnavailableCarrierList?: Array<TemporarilyUnavailableCarrier>;
     /**
      * List of carriers whose terms and conditions were not accepted by the seller.
      * @type {Array<TermsAndConditionsNotAcceptedCarrier>}
      * @memberof GetEligibleShipmentServicesResult
      */
-    termsAndConditionsNotAcceptedCarrierList?: Array<TermsAndConditionsNotAcceptedCarrier>;
+    TermsAndConditionsNotAcceptedCarrierList?: Array<TermsAndConditionsNotAcceptedCarrier>;
 }
 /**
  * Response schema.
@@ -605,7 +599,7 @@ export interface GetShipmentResponse {
  */
 export enum HazmatType {
     None = 'None',
-    LQHazmat = 'LQHazmat'
+    LqHazmat = 'LQHazmat'
 }
 
 /**
@@ -614,8 +608,8 @@ export enum HazmatType {
  * @enum {string}
  */
 export enum InputTargetType {
-    SHIPMENTLEVEL = 'SHIPMENT_LEVEL',
-    ITEMLEVEL = 'ITEM_LEVEL'
+    ShipmentLevel = 'SHIPMENT_LEVEL',
+    ItemLevel = 'ITEM_LEVEL'
 }
 
 /**
@@ -629,37 +623,37 @@ export interface Item {
      * @type {string}
      * @memberof Item
      */
-    orderItemId: string;
+    OrderItemId: string;
     /**
      * The number of items.
      * @type {number}
      * @memberof Item
      */
-    quantity: number;
+    Quantity: number;
     /**
      * 
      * @type {Weight}
      * @memberof Item
      */
-    itemWeight?: Weight;
+    ItemWeight?: Weight;
     /**
      * The description of the item.
      * @type {string}
      * @memberof Item
      */
-    itemDescription?: string;
+    ItemDescription?: string;
     /**
      * A list of transparency codes.
      * @type {Array<string>}
      * @memberof Item
      */
-    transparencyCodeList?: Array<string>;
+    TransparencyCodeList?: Array<string>;
     /**
      * A list of additional seller input pairs required to purchase shipping.
      * @type {Array<AdditionalSellerInputs>}
      * @memberof Item
      */
-    itemLevelSellerInputsList?: Array<AdditionalSellerInputs>;
+    ItemLevelSellerInputsList?: Array<AdditionalSellerInputs>;
 }
 /**
  * 
@@ -672,13 +666,13 @@ export interface ItemLevelFields {
      * @type {string}
      * @memberof ItemLevelFields
      */
-    asin: string;
+    Asin: string;
     /**
      * A list of additional inputs.
      * @type {Array<AdditionalInputs>}
      * @memberof ItemLevelFields
      */
-    additionalInputs: Array<AdditionalInputs>;
+    AdditionalInputs: Array<AdditionalInputs>;
 }
 /**
  * Data for creating a shipping label and dimensions for printing the label.
@@ -691,31 +685,31 @@ export interface Label {
      * @type {string}
      * @memberof Label
      */
-    customTextForLabel?: string;
+    CustomTextForLabel?: string;
     /**
      * 
      * @type {LabelDimensions}
      * @memberof Label
      */
-    dimensions: LabelDimensions;
+    Dimensions: LabelDimensions;
     /**
      * 
      * @type {FileContents}
      * @memberof Label
      */
-    fileContents: FileContents;
+    FileContents: FileContents;
     /**
      * 
      * @type {LabelFormat}
      * @memberof Label
      */
-    labelFormat?: LabelFormat;
+    LabelFormat?: LabelFormat;
     /**
      * 
      * @type {StandardIdForLabel}
      * @memberof Label
      */
-    standardIdForLabel?: StandardIdForLabel;
+    StandardIdForLabel?: StandardIdForLabel;
 }
 /**
  * Custom text for shipping labels.
@@ -728,13 +722,13 @@ export interface LabelCustomization {
      * @type {string}
      * @memberof LabelCustomization
      */
-    customTextForLabel?: string;
+    CustomTextForLabel?: string;
     /**
      * 
      * @type {StandardIdForLabel}
      * @memberof LabelCustomization
      */
-    standardIdForLabel?: StandardIdForLabel;
+    StandardIdForLabel?: StandardIdForLabel;
 }
 /**
  * Dimensions for printing a shipping label.
@@ -747,19 +741,19 @@ export interface LabelDimensions {
      * @type {number}
      * @memberof LabelDimensions
      */
-    length: number;
+    Length: number;
     /**
      * A label dimension.
      * @type {number}
      * @memberof LabelDimensions
      */
-    width: number;
+    Width: number;
     /**
      * 
      * @type {UnitOfLength}
      * @memberof LabelDimensions
      */
-    unit: UnitOfLength;
+    Unit: UnitOfLength;
 }
 /**
  * The label format.
@@ -767,10 +761,10 @@ export interface LabelDimensions {
  * @enum {string}
  */
 export enum LabelFormat {
-    PDF = 'PDF',
-    PNG = 'PNG',
-    ZPL203 = 'ZPL203',
-    ZPL300 = 'ZPL300',
+    Pdf = 'PDF',
+    Png = 'PNG',
+    Zpl203 = 'ZPL203',
+    Zpl300 = 'ZPL300',
     ShippingServiceDefault = 'ShippingServiceDefault'
 }
 
@@ -785,13 +779,13 @@ export interface LabelFormatOption {
      * @type {boolean}
      * @memberof LabelFormatOption
      */
-    includePackingSlipWithLabel?: boolean;
+    IncludePackingSlipWithLabel?: boolean;
     /**
      * 
      * @type {LabelFormat}
      * @memberof LabelFormatOption
      */
-    labelFormat?: LabelFormat;
+    LabelFormat?: LabelFormat;
 }
 /**
  * Whether to include a packing slip.
@@ -804,7 +798,7 @@ export interface LabelFormatOptionRequest {
      * @type {boolean}
      * @memberof LabelFormatOptionRequest
      */
-    includePackingSlipWithLabel?: boolean;
+    IncludePackingSlipWithLabel?: boolean;
 }
 /**
  * The length.
@@ -861,31 +855,31 @@ export interface PackageDimensions {
      * @type {number}
      * @memberof PackageDimensions
      */
-    length?: number;
+    Length?: number;
     /**
      * 
      * @type {number}
      * @memberof PackageDimensions
      */
-    width?: number;
+    Width?: number;
     /**
      * 
      * @type {number}
      * @memberof PackageDimensions
      */
-    height?: number;
+    Height?: number;
     /**
      * 
      * @type {UnitOfLength}
      * @memberof PackageDimensions
      */
-    unit?: UnitOfLength;
+    Unit?: UnitOfLength;
     /**
      * 
      * @type {PredefinedPackageDimensions}
      * @memberof PackageDimensions
      */
-    predefinedPackageDimensions?: PredefinedPackageDimensions;
+    PredefinedPackageDimensions?: PredefinedPackageDimensions;
 }
 /**
  * An enumeration of predefined parcel tokens. If you specify a PredefinedPackageDimensions token, you are not obligated to use a branded package from a carrier. For example, if you specify the FedEx_Box_10kg token, you do not have to use that particular package from FedEx. You are only obligated to use a box that matches the dimensions specified by the token.  Note: Please note that carriers can have restrictions on the type of package allowed for certain ship methods. Check the carrier website for all details. Example: Flat rate pricing is available when materials are sent by USPS in a USPS-produced Flat Rate Envelope or Box.
@@ -908,41 +902,41 @@ export enum PredefinedPackageDimensions {
     FedExPak1 = 'FedEx_Pak_1',
     FedExPak2 = 'FedEx_Pak_2',
     FedExTube = 'FedEx_Tube',
-    FedExXLPak = 'FedEx_XL_Pak',
-    UPSBox10kg = 'UPS_Box_10kg',
-    UPSBox25kg = 'UPS_Box_25kg',
-    UPSExpressBox = 'UPS_Express_Box',
-    UPSExpressBoxLarge = 'UPS_Express_Box_Large',
-    UPSExpressBoxMedium = 'UPS_Express_Box_Medium',
-    UPSExpressBoxSmall = 'UPS_Express_Box_Small',
-    UPSExpressEnvelope = 'UPS_Express_Envelope',
-    UPSExpressHardPak = 'UPS_Express_Hard_Pak',
-    UPSExpressLegalEnvelope = 'UPS_Express_Legal_Envelope',
-    UPSExpressPak = 'UPS_Express_Pak',
-    UPSExpressTube = 'UPS_Express_Tube',
-    UPSLaboratoryPak = 'UPS_Laboratory_Pak',
-    UPSPadPak = 'UPS_Pad_Pak',
-    UPSPallet = 'UPS_Pallet',
-    USPSCard = 'USPS_Card',
-    USPSFlat = 'USPS_Flat',
-    USPSFlatRateCardboardEnvelope = 'USPS_FlatRateCardboardEnvelope',
-    USPSFlatRateEnvelope = 'USPS_FlatRateEnvelope',
-    USPSFlatRateGiftCardEnvelope = 'USPS_FlatRateGiftCardEnvelope',
-    USPSFlatRateLegalEnvelope = 'USPS_FlatRateLegalEnvelope',
-    USPSFlatRatePaddedEnvelope = 'USPS_FlatRatePaddedEnvelope',
-    USPSFlatRateWindowEnvelope = 'USPS_FlatRateWindowEnvelope',
-    USPSLargeFlatRateBoardGameBox = 'USPS_LargeFlatRateBoardGameBox',
-    USPSLargeFlatRateBox = 'USPS_LargeFlatRateBox',
-    USPSLetter = 'USPS_Letter',
-    USPSMediumFlatRateBox1 = 'USPS_MediumFlatRateBox1',
-    USPSMediumFlatRateBox2 = 'USPS_MediumFlatRateBox2',
-    USPSRegionalRateBoxA1 = 'USPS_RegionalRateBoxA1',
-    USPSRegionalRateBoxA2 = 'USPS_RegionalRateBoxA2',
-    USPSRegionalRateBoxB1 = 'USPS_RegionalRateBoxB1',
-    USPSRegionalRateBoxB2 = 'USPS_RegionalRateBoxB2',
-    USPSRegionalRateBoxC = 'USPS_RegionalRateBoxC',
-    USPSSmallFlatRateBox = 'USPS_SmallFlatRateBox',
-    USPSSmallFlatRateEnvelope = 'USPS_SmallFlatRateEnvelope'
+    FedExXlPak = 'FedEx_XL_Pak',
+    UpsBox10kg = 'UPS_Box_10kg',
+    UpsBox25kg = 'UPS_Box_25kg',
+    UpsExpressBox = 'UPS_Express_Box',
+    UpsExpressBoxLarge = 'UPS_Express_Box_Large',
+    UpsExpressBoxMedium = 'UPS_Express_Box_Medium',
+    UpsExpressBoxSmall = 'UPS_Express_Box_Small',
+    UpsExpressEnvelope = 'UPS_Express_Envelope',
+    UpsExpressHardPak = 'UPS_Express_Hard_Pak',
+    UpsExpressLegalEnvelope = 'UPS_Express_Legal_Envelope',
+    UpsExpressPak = 'UPS_Express_Pak',
+    UpsExpressTube = 'UPS_Express_Tube',
+    UpsLaboratoryPak = 'UPS_Laboratory_Pak',
+    UpsPadPak = 'UPS_Pad_Pak',
+    UpsPallet = 'UPS_Pallet',
+    UspsCard = 'USPS_Card',
+    UspsFlat = 'USPS_Flat',
+    UspsFlatRateCardboardEnvelope = 'USPS_FlatRateCardboardEnvelope',
+    UspsFlatRateEnvelope = 'USPS_FlatRateEnvelope',
+    UspsFlatRateGiftCardEnvelope = 'USPS_FlatRateGiftCardEnvelope',
+    UspsFlatRateLegalEnvelope = 'USPS_FlatRateLegalEnvelope',
+    UspsFlatRatePaddedEnvelope = 'USPS_FlatRatePaddedEnvelope',
+    UspsFlatRateWindowEnvelope = 'USPS_FlatRateWindowEnvelope',
+    UspsLargeFlatRateBoardGameBox = 'USPS_LargeFlatRateBoardGameBox',
+    UspsLargeFlatRateBox = 'USPS_LargeFlatRateBox',
+    UspsLetter = 'USPS_Letter',
+    UspsMediumFlatRateBox1 = 'USPS_MediumFlatRateBox1',
+    UspsMediumFlatRateBox2 = 'USPS_MediumFlatRateBox2',
+    UspsRegionalRateBoxA1 = 'USPS_RegionalRateBoxA1',
+    UspsRegionalRateBoxA2 = 'USPS_RegionalRateBoxA2',
+    UspsRegionalRateBoxB1 = 'USPS_RegionalRateBoxB1',
+    UspsRegionalRateBoxB2 = 'USPS_RegionalRateBoxB2',
+    UspsRegionalRateBoxC = 'USPS_RegionalRateBoxC',
+    UspsSmallFlatRateBox = 'USPS_SmallFlatRateBox',
+    UspsSmallFlatRateEnvelope = 'USPS_SmallFlatRateEnvelope'
 }
 
 /**
@@ -956,31 +950,31 @@ export interface RejectedShippingService {
      * @type {string}
      * @memberof RejectedShippingService
      */
-    carrierName: string;
+    CarrierName: string;
     /**
      * The rejected shipping service localized name. e.g. FedEx Standard Overnight
      * @type {string}
      * @memberof RejectedShippingService
      */
-    shippingServiceName: string;
+    ShippingServiceName: string;
     /**
      * An Amazon-defined shipping service identifier.
      * @type {string}
      * @memberof RejectedShippingService
      */
-    shippingServiceId: string;
+    ShippingServiceId: string;
     /**
      * A reason code meant to be consumed programatically. e.g. CARRIER_CANNOT_SHIP_TO_POBOX
      * @type {string}
      * @memberof RejectedShippingService
      */
-    rejectionReasonCode: string;
+    RejectionReasonCode: string;
     /**
      * A localized human readable description of the rejected reason.
      * @type {string}
      * @memberof RejectedShippingService
      */
-    rejectionReasonMessage?: string;
+    RejectionReasonMessage?: string;
 }
 /**
  * Specifies characteristics that apply to a seller input.
@@ -993,43 +987,43 @@ export interface SellerInputDefinition {
      * @type {boolean}
      * @memberof SellerInputDefinition
      */
-    isRequired: boolean;
+    IsRequired: boolean;
     /**
      * The data type of the additional input field.
      * @type {string}
      * @memberof SellerInputDefinition
      */
-    dataType: string;
+    DataType: string;
     /**
      * List of constraints.
      * @type {Array<Constraint>}
      * @memberof SellerInputDefinition
      */
-    constraints: Array<Constraint>;
+    Constraints: Array<Constraint>;
     /**
      * The display text for the additional input field.
      * @type {string}
      * @memberof SellerInputDefinition
      */
-    inputDisplayText: string;
+    InputDisplayText: string;
     /**
      * 
      * @type {InputTargetType}
      * @memberof SellerInputDefinition
      */
-    inputTarget?: InputTargetType;
+    InputTarget?: InputTargetType;
     /**
      * 
      * @type {AdditionalSellerInput}
      * @memberof SellerInputDefinition
      */
-    storedValue: AdditionalSellerInput;
+    StoredValue: AdditionalSellerInput;
     /**
      * The set of fixed values in an additional seller input.
      * @type {Array<string>}
      * @memberof SellerInputDefinition
      */
-    restrictedSetValues?: Array<string>;
+    RestrictedSetValues?: Array<string>;
 }
 /**
  * The details of a shipment, including the shipment status.
@@ -1042,91 +1036,91 @@ export interface Shipment {
      * @type {string}
      * @memberof Shipment
      */
-    shipmentId: string;
+    ShipmentId: string;
     /**
      * An Amazon-defined order identifier, in 3-7-7 format. <br>**Pattern** : `[0-9A-Z]{3}-[0-9]{7}-[0-9]{7}`.
      * @type {string}
      * @memberof Shipment
      */
-    amazonOrderId: string;
+    AmazonOrderId: string;
     /**
      * A seller-defined order identifier.
      * @type {string}
      * @memberof Shipment
      */
-    sellerOrderId?: string;
+    SellerOrderId?: string;
     /**
      * The list of items to be included in a shipment.
      * @type {Array<Item>}
      * @memberof Shipment
      */
-    itemList: Array<Item>;
+    ItemList: Array<Item>;
     /**
      * 
      * @type {Address}
      * @memberof Shipment
      */
-    shipFromAddress: Address;
+    ShipFromAddress: Address;
     /**
      * 
      * @type {Address}
      * @memberof Shipment
      */
-    shipToAddress: Address;
+    ShipToAddress: Address;
     /**
      * 
      * @type {PackageDimensions}
      * @memberof Shipment
      */
-    packageDimensions: PackageDimensions;
+    PackageDimensions: PackageDimensions;
     /**
      * 
      * @type {Weight}
      * @memberof Shipment
      */
-    weight: Weight;
+    Weight: Weight;
     /**
      * 
      * @type {CurrencyAmount}
      * @memberof Shipment
      */
-    insurance: CurrencyAmount;
+    Insurance: CurrencyAmount;
     /**
      * 
      * @type {ShippingService}
      * @memberof Shipment
      */
-    shippingService: ShippingService;
+    ShippingService: ShippingService;
     /**
      * 
      * @type {Label}
      * @memberof Shipment
      */
-    label: Label;
+    Label: Label;
     /**
      * 
      * @type {ShipmentStatus}
      * @memberof Shipment
      */
-    status: ShipmentStatus;
+    Status: ShipmentStatus;
     /**
      * The shipment tracking identifier provided by the carrier.
      * @type {string}
      * @memberof Shipment
      */
-    trackingId?: string;
+    TrackingId?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof Shipment
      */
-    createdDate: Date;
+    CreatedDate: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof Shipment
      */
-    lastUpdatedDate?: Date;
+    LastUpdatedDate?: string;
 }
 /**
  * Shipment information required for requesting shipping service offers or for creating a shipment.
@@ -1139,61 +1133,61 @@ export interface ShipmentRequestDetails {
      * @type {string}
      * @memberof ShipmentRequestDetails
      */
-    amazonOrderId: string;
+    AmazonOrderId: string;
     /**
      * A seller-defined order identifier.
      * @type {string}
      * @memberof ShipmentRequestDetails
      */
-    sellerOrderId?: string;
+    SellerOrderId?: string;
     /**
      * The list of items to be included in a shipment.
      * @type {Array<Item>}
      * @memberof ShipmentRequestDetails
      */
-    itemList: Array<Item>;
+    ItemList: Array<Item>;
     /**
      * 
      * @type {Address}
      * @memberof ShipmentRequestDetails
      */
-    shipFromAddress: Address;
+    ShipFromAddress: Address;
     /**
      * 
      * @type {PackageDimensions}
      * @memberof ShipmentRequestDetails
      */
-    packageDimensions: PackageDimensions;
+    PackageDimensions: PackageDimensions;
     /**
      * 
      * @type {Weight}
      * @memberof ShipmentRequestDetails
      */
-    weight: Weight;
+    Weight: Weight;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ShipmentRequestDetails
      */
-    mustArriveByDate?: Date;
+    MustArriveByDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ShipmentRequestDetails
      */
-    shipDate?: Date;
+    ShipDate?: string;
     /**
      * 
      * @type {ShippingServiceOptions}
      * @memberof ShipmentRequestDetails
      */
-    shippingServiceOptions: ShippingServiceOptions;
+    ShippingServiceOptions: ShippingServiceOptions;
     /**
      * 
      * @type {LabelCustomization}
      * @memberof ShipmentRequestDetails
      */
-    labelCustomization?: LabelCustomization;
+    LabelCustomization?: LabelCustomization;
 }
 /**
  * The shipment status.
@@ -1218,25 +1212,25 @@ export interface ShippingOfferingFilter {
      * @type {boolean}
      * @memberof ShippingOfferingFilter
      */
-    includePackingSlipWithLabel?: boolean;
+    IncludePackingSlipWithLabel?: boolean;
     /**
      * When true, include complex shipping options.
      * @type {boolean}
      * @memberof ShippingOfferingFilter
      */
-    includeComplexShippingOptions?: boolean;
+    IncludeComplexShippingOptions?: boolean;
     /**
      * 
      * @type {CarrierWillPickUpOption}
      * @memberof ShippingOfferingFilter
      */
-    carrierWillPickUp?: CarrierWillPickUpOption;
+    CarrierWillPickUp?: CarrierWillPickUpOption;
     /**
      * 
      * @type {DeliveryExperienceOption}
      * @memberof ShippingOfferingFilter
      */
-    deliveryExperience?: DeliveryExperienceOption;
+    DeliveryExperience?: DeliveryExperienceOption;
 }
 /**
  * A shipping service offer made by a carrier.
@@ -1249,79 +1243,79 @@ export interface ShippingService {
      * @type {string}
      * @memberof ShippingService
      */
-    shippingServiceName: string;
+    ShippingServiceName: string;
     /**
      * The name of the carrier.
      * @type {string}
      * @memberof ShippingService
      */
-    carrierName: string;
+    CarrierName: string;
     /**
      * An Amazon-defined shipping service identifier.
      * @type {string}
      * @memberof ShippingService
      */
-    shippingServiceId: string;
+    ShippingServiceId: string;
     /**
      * An Amazon-defined shipping service offer identifier.
      * @type {string}
      * @memberof ShippingService
      */
-    shippingServiceOfferId: string;
+    ShippingServiceOfferId: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ShippingService
      */
-    shipDate: Date;
+    ShipDate: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ShippingService
      */
-    earliestEstimatedDeliveryDate?: Date;
+    EarliestEstimatedDeliveryDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ShippingService
      */
-    latestEstimatedDeliveryDate?: Date;
+    LatestEstimatedDeliveryDate?: string;
     /**
      * 
      * @type {CurrencyAmount}
      * @memberof ShippingService
      */
-    rate: CurrencyAmount;
+    Rate: CurrencyAmount;
     /**
      * 
      * @type {ShippingServiceOptions}
      * @memberof ShippingService
      */
-    shippingServiceOptions: ShippingServiceOptions;
+    ShippingServiceOptions: ShippingServiceOptions;
     /**
      * 
      * @type {AvailableShippingServiceOptions}
      * @memberof ShippingService
      */
-    availableShippingServiceOptions?: AvailableShippingServiceOptions;
+    AvailableShippingServiceOptions?: AvailableShippingServiceOptions;
     /**
      * List of label formats.
      * @type {Array<LabelFormat>}
      * @memberof ShippingService
      */
-    availableLabelFormats?: Array<LabelFormat>;
+    AvailableLabelFormats?: Array<LabelFormat>;
     /**
      * The available label formats.
      * @type {Array<LabelFormatOption>}
      * @memberof ShippingService
      */
-    availableFormatOptionsForLabel?: Array<LabelFormatOption>;
+    AvailableFormatOptionsForLabel?: Array<LabelFormatOption>;
     /**
      * When true, additional seller inputs are required.
      * @type {boolean}
      * @memberof ShippingService
      */
-    requiresAdditionalSellerInputs: boolean;
+    RequiresAdditionalSellerInputs: boolean;
 }
 /**
  * Extra services provided by a carrier.
@@ -1334,31 +1328,31 @@ export interface ShippingServiceOptions {
      * @type {DeliveryExperienceType}
      * @memberof ShippingServiceOptions
      */
-    deliveryExperience: DeliveryExperienceType;
+    DeliveryExperience: DeliveryExperienceType;
     /**
      * 
      * @type {CurrencyAmount}
      * @memberof ShippingServiceOptions
      */
-    declaredValue?: CurrencyAmount;
+    DeclaredValue?: CurrencyAmount;
     /**
      * When true, the carrier will pick up the package.  Note: Scheduled carrier pickup is available only using Dynamex (US), DPD (UK), and Royal Mail (UK).
      * @type {boolean}
      * @memberof ShippingServiceOptions
      */
-    carrierWillPickUp: boolean;
+    CarrierWillPickUp: boolean;
     /**
      * 
      * @type {CarrierWillPickUpOption}
      * @memberof ShippingServiceOptions
      */
-    carrierWillPickUpOption?: CarrierWillPickUpOption;
+    CarrierWillPickUpOption?: CarrierWillPickUpOption;
     /**
      * 
      * @type {LabelFormat}
      * @memberof ShippingServiceOptions
      */
-    labelFormat?: LabelFormat;
+    LabelFormat?: LabelFormat;
 }
 /**
  * The type of standard identifier to print on the label.
@@ -1380,7 +1374,7 @@ export interface TemporarilyUnavailableCarrier {
      * @type {string}
      * @memberof TemporarilyUnavailableCarrier
      */
-    carrierName: string;
+    CarrierName: string;
 }
 /**
  * A carrier whose terms and conditions have not been accepted by the seller.
@@ -1393,7 +1387,7 @@ export interface TermsAndConditionsNotAcceptedCarrier {
      * @type {string}
      * @memberof TermsAndConditionsNotAcceptedCarrier
      */
-    carrierName: string;
+    CarrierName: string;
 }
 /**
  * The unit of length.
@@ -1426,13 +1420,13 @@ export interface Weight {
      * @type {number}
      * @memberof Weight
      */
-    value: number;
+    Value: number;
     /**
      * 
      * @type {UnitOfWeight}
      * @memberof Weight
      */
-    unit: UnitOfWeight;
+    Unit: UnitOfWeight;
 }
 
 /**
@@ -1447,31 +1441,30 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipment(shipmentId: string, options: any = {}): RequestArgs {
+        cancelShipment: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling cancelShipment.');
-            }
+            assertParamExists('cancelShipment', 'shipmentId', shipmentId)
             const localVarPath = `/mfn/v0/shipments/{shipmentId}`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1481,31 +1474,30 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipmentOld(shipmentId: string, options: any = {}): RequestArgs {
+        cancelShipmentOld: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling cancelShipmentOld.');
-            }
+            assertParamExists('cancelShipmentOld', 'shipmentId', shipmentId)
             const localVarPath = `/mfn/v0/shipments/{shipmentId}/cancel`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1515,17 +1507,17 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createShipment(body: CreateShipmentRequest, options: any = {}): RequestArgs {
+        createShipment: async (body: CreateShipmentRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createShipment.');
-            }
+            assertParamExists('createShipment', 'body', body)
             const localVarPath = `/mfn/v0/shipments`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1534,15 +1526,13 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"CreateShipmentRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1552,17 +1542,17 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAdditionalSellerInputs(body: GetAdditionalSellerInputsRequest, options: any = {}): RequestArgs {
+        getAdditionalSellerInputs: async (body: GetAdditionalSellerInputsRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getAdditionalSellerInputs.');
-            }
+            assertParamExists('getAdditionalSellerInputs', 'body', body)
             const localVarPath = `/mfn/v0/additionalSellerInputs`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1571,15 +1561,13 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"GetAdditionalSellerInputsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1589,17 +1577,17 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAdditionalSellerInputsOld(body: GetAdditionalSellerInputsRequest, options: any = {}): RequestArgs {
+        getAdditionalSellerInputsOld: async (body: GetAdditionalSellerInputsRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getAdditionalSellerInputsOld.');
-            }
+            assertParamExists('getAdditionalSellerInputsOld', 'body', body)
             const localVarPath = `/mfn/v0/sellerInputs`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1608,15 +1596,13 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"GetAdditionalSellerInputsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1626,17 +1612,17 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEligibleShipmentServices(body: GetEligibleShipmentServicesRequest, options: any = {}): RequestArgs {
+        getEligibleShipmentServices: async (body: GetEligibleShipmentServicesRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getEligibleShipmentServices.');
-            }
+            assertParamExists('getEligibleShipmentServices', 'body', body)
             const localVarPath = `/mfn/v0/eligibleShippingServices`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1645,15 +1631,13 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"GetEligibleShipmentServicesRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1663,17 +1647,17 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEligibleShipmentServicesOld(body: GetEligibleShipmentServicesRequest, options: any = {}): RequestArgs {
+        getEligibleShipmentServicesOld: async (body: GetEligibleShipmentServicesRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getEligibleShipmentServicesOld.');
-            }
+            assertParamExists('getEligibleShipmentServicesOld', 'body', body)
             const localVarPath = `/mfn/v0/eligibleServices`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1682,15 +1666,13 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"GetEligibleShipmentServicesRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1700,31 +1682,30 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipment(shipmentId: string, options: any = {}): RequestArgs {
+        getShipment: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling getShipment.');
-            }
+            assertParamExists('getShipment', 'shipmentId', shipmentId)
             const localVarPath = `/mfn/v0/shipments/{shipmentId}`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1736,6 +1717,7 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
  * @export
  */
 export const MerchantFulfillmentApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MerchantFulfillmentApiAxiosParamCreator(configuration)
     return {
         /**
          * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1743,12 +1725,9 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipment(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelShipmentResponse> {
-            const localVarAxiosArgs = MerchantFulfillmentApiAxiosParamCreator(configuration).cancelShipment(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async cancelShipment(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelShipment(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Cancel the shipment indicated by the specified shipment identifer.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1756,12 +1735,9 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipmentOld(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelShipmentResponse> {
-            const localVarAxiosArgs = MerchantFulfillmentApiAxiosParamCreator(configuration).cancelShipmentOld(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async cancelShipmentOld(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelShipmentOld(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1769,12 +1745,9 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createShipment(body: CreateShipmentRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateShipmentResponse> {
-            const localVarAxiosArgs = MerchantFulfillmentApiAxiosParamCreator(configuration).createShipment(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async createShipment(body: CreateShipmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createShipment(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1782,12 +1755,9 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAdditionalSellerInputs(body: GetAdditionalSellerInputsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAdditionalSellerInputsResponse> {
-            const localVarAxiosArgs = MerchantFulfillmentApiAxiosParamCreator(configuration).getAdditionalSellerInputs(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getAdditionalSellerInputs(body: GetAdditionalSellerInputsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAdditionalSellerInputsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAdditionalSellerInputs(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Get a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1795,12 +1765,9 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAdditionalSellerInputsOld(body: GetAdditionalSellerInputsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAdditionalSellerInputsResponse> {
-            const localVarAxiosArgs = MerchantFulfillmentApiAxiosParamCreator(configuration).getAdditionalSellerInputsOld(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getAdditionalSellerInputsOld(body: GetAdditionalSellerInputsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAdditionalSellerInputsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAdditionalSellerInputsOld(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1808,12 +1775,9 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEligibleShipmentServices(body: GetEligibleShipmentServicesRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetEligibleShipmentServicesResponse> {
-            const localVarAxiosArgs = MerchantFulfillmentApiAxiosParamCreator(configuration).getEligibleShipmentServices(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getEligibleShipmentServices(body: GetEligibleShipmentServicesRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetEligibleShipmentServicesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getEligibleShipmentServices(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1821,12 +1785,9 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEligibleShipmentServicesOld(body: GetEligibleShipmentServicesRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetEligibleShipmentServicesResponse> {
-            const localVarAxiosArgs = MerchantFulfillmentApiAxiosParamCreator(configuration).getEligibleShipmentServicesOld(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getEligibleShipmentServicesOld(body: GetEligibleShipmentServicesRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetEligibleShipmentServicesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getEligibleShipmentServicesOld(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1834,12 +1795,9 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipment(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentResponse> {
-            const localVarAxiosArgs = MerchantFulfillmentApiAxiosParamCreator(configuration).getShipment(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getShipment(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getShipment(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -1849,6 +1807,7 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
  * @export
  */
 export const MerchantFulfillmentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MerchantFulfillmentApiFp(configuration)
     return {
         /**
          * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1856,8 +1815,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipment(shipmentId: string, options?: any) {
-            return MerchantFulfillmentApiFp(configuration).cancelShipment(shipmentId, options)(axios, basePath);
+        cancelShipment(shipmentId: string, options?: any): AxiosPromise<CancelShipmentResponse> {
+            return localVarFp.cancelShipment(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Cancel the shipment indicated by the specified shipment identifer.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1865,8 +1824,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelShipmentOld(shipmentId: string, options?: any) {
-            return MerchantFulfillmentApiFp(configuration).cancelShipmentOld(shipmentId, options)(axios, basePath);
+        cancelShipmentOld(shipmentId: string, options?: any): AxiosPromise<CancelShipmentResponse> {
+            return localVarFp.cancelShipmentOld(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1874,8 +1833,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createShipment(body: CreateShipmentRequest, options?: any) {
-            return MerchantFulfillmentApiFp(configuration).createShipment(body, options)(axios, basePath);
+        createShipment(body: CreateShipmentRequest, options?: any): AxiosPromise<CreateShipmentResponse> {
+            return localVarFp.createShipment(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1883,8 +1842,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAdditionalSellerInputs(body: GetAdditionalSellerInputsRequest, options?: any) {
-            return MerchantFulfillmentApiFp(configuration).getAdditionalSellerInputs(body, options)(axios, basePath);
+        getAdditionalSellerInputs(body: GetAdditionalSellerInputsRequest, options?: any): AxiosPromise<GetAdditionalSellerInputsResponse> {
+            return localVarFp.getAdditionalSellerInputs(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1892,8 +1851,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAdditionalSellerInputsOld(body: GetAdditionalSellerInputsRequest, options?: any) {
-            return MerchantFulfillmentApiFp(configuration).getAdditionalSellerInputsOld(body, options)(axios, basePath);
+        getAdditionalSellerInputsOld(body: GetAdditionalSellerInputsRequest, options?: any): AxiosPromise<GetAdditionalSellerInputsResponse> {
+            return localVarFp.getAdditionalSellerInputsOld(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1901,8 +1860,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEligibleShipmentServices(body: GetEligibleShipmentServicesRequest, options?: any) {
-            return MerchantFulfillmentApiFp(configuration).getEligibleShipmentServices(body, options)(axios, basePath);
+        getEligibleShipmentServices(body: GetEligibleShipmentServicesRequest, options?: any): AxiosPromise<GetEligibleShipmentServicesResponse> {
+            return localVarFp.getEligibleShipmentServices(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1910,8 +1869,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEligibleShipmentServicesOld(body: GetEligibleShipmentServicesRequest, options?: any) {
-            return MerchantFulfillmentApiFp(configuration).getEligibleShipmentServicesOld(body, options)(axios, basePath);
+        getEligibleShipmentServicesOld(body: GetEligibleShipmentServicesRequest, options?: any): AxiosPromise<GetEligibleShipmentServicesResponse> {
+            return localVarFp.getEligibleShipmentServicesOld(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1919,11 +1878,123 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipment(shipmentId: string, options?: any) {
-            return MerchantFulfillmentApiFp(configuration).getShipment(shipmentId, options)(axios, basePath);
+        getShipment(shipmentId: string, options?: any): AxiosPromise<GetShipmentResponse> {
+            return localVarFp.getShipment(shipmentId, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for cancelShipment operation in MerchantFulfillmentApi.
+ * @export
+ * @interface MerchantFulfillmentApiCancelShipmentRequest
+ */
+export interface MerchantFulfillmentApiCancelShipmentRequest {
+    /**
+     * The Amazon-defined shipment identifier for the shipment to cancel.
+     * @type {string}
+     * @memberof MerchantFulfillmentApiCancelShipment
+     */
+    readonly shipmentId: string
+}
+
+/**
+ * Request parameters for cancelShipmentOld operation in MerchantFulfillmentApi.
+ * @export
+ * @interface MerchantFulfillmentApiCancelShipmentOldRequest
+ */
+export interface MerchantFulfillmentApiCancelShipmentOldRequest {
+    /**
+     * The Amazon-defined shipment identifier for the shipment to cancel.
+     * @type {string}
+     * @memberof MerchantFulfillmentApiCancelShipmentOld
+     */
+    readonly shipmentId: string
+}
+
+/**
+ * Request parameters for createShipment operation in MerchantFulfillmentApi.
+ * @export
+ * @interface MerchantFulfillmentApiCreateShipmentRequest
+ */
+export interface MerchantFulfillmentApiCreateShipmentRequest {
+    /**
+     * 
+     * @type {CreateShipmentRequest}
+     * @memberof MerchantFulfillmentApiCreateShipment
+     */
+    readonly body: CreateShipmentRequest
+}
+
+/**
+ * Request parameters for getAdditionalSellerInputs operation in MerchantFulfillmentApi.
+ * @export
+ * @interface MerchantFulfillmentApiGetAdditionalSellerInputsRequest
+ */
+export interface MerchantFulfillmentApiGetAdditionalSellerInputsRequest {
+    /**
+     * 
+     * @type {GetAdditionalSellerInputsRequest}
+     * @memberof MerchantFulfillmentApiGetAdditionalSellerInputs
+     */
+    readonly body: GetAdditionalSellerInputsRequest
+}
+
+/**
+ * Request parameters for getAdditionalSellerInputsOld operation in MerchantFulfillmentApi.
+ * @export
+ * @interface MerchantFulfillmentApiGetAdditionalSellerInputsOldRequest
+ */
+export interface MerchantFulfillmentApiGetAdditionalSellerInputsOldRequest {
+    /**
+     * 
+     * @type {GetAdditionalSellerInputsRequest}
+     * @memberof MerchantFulfillmentApiGetAdditionalSellerInputsOld
+     */
+    readonly body: GetAdditionalSellerInputsRequest
+}
+
+/**
+ * Request parameters for getEligibleShipmentServices operation in MerchantFulfillmentApi.
+ * @export
+ * @interface MerchantFulfillmentApiGetEligibleShipmentServicesRequest
+ */
+export interface MerchantFulfillmentApiGetEligibleShipmentServicesRequest {
+    /**
+     * 
+     * @type {GetEligibleShipmentServicesRequest}
+     * @memberof MerchantFulfillmentApiGetEligibleShipmentServices
+     */
+    readonly body: GetEligibleShipmentServicesRequest
+}
+
+/**
+ * Request parameters for getEligibleShipmentServicesOld operation in MerchantFulfillmentApi.
+ * @export
+ * @interface MerchantFulfillmentApiGetEligibleShipmentServicesOldRequest
+ */
+export interface MerchantFulfillmentApiGetEligibleShipmentServicesOldRequest {
+    /**
+     * 
+     * @type {GetEligibleShipmentServicesRequest}
+     * @memberof MerchantFulfillmentApiGetEligibleShipmentServicesOld
+     */
+    readonly body: GetEligibleShipmentServicesRequest
+}
+
+/**
+ * Request parameters for getShipment operation in MerchantFulfillmentApi.
+ * @export
+ * @interface MerchantFulfillmentApiGetShipmentRequest
+ */
+export interface MerchantFulfillmentApiGetShipmentRequest {
+    /**
+     * The Amazon-defined shipment identifier for the shipment.
+     * @type {string}
+     * @memberof MerchantFulfillmentApiGetShipment
+     */
+    readonly shipmentId: string
+}
 
 /**
  * MerchantFulfillmentApi - object-oriented interface
@@ -1934,92 +2005,91 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
 export class MerchantFulfillmentApi extends BaseAPI {
     /**
      * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment to cancel.
+     * @param {MerchantFulfillmentApiCancelShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MerchantFulfillmentApi
      */
-    public cancelShipment(shipmentId: string, options?: any) {
-        return MerchantFulfillmentApiFp(this.configuration).cancelShipment(shipmentId, options)(this.axios, this.basePath);
+    public cancelShipment(requestParameters: MerchantFulfillmentApiCancelShipmentRequest, options?: any) {
+        return MerchantFulfillmentApiFp(this.configuration).cancelShipment(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Cancel the shipment indicated by the specified shipment identifer.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment to cancel.
+     * @param {MerchantFulfillmentApiCancelShipmentOldRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MerchantFulfillmentApi
      */
-    public cancelShipmentOld(shipmentId: string, options?: any) {
-        return MerchantFulfillmentApiFp(this.configuration).cancelShipmentOld(shipmentId, options)(this.axios, this.basePath);
+    public cancelShipmentOld(requestParameters: MerchantFulfillmentApiCancelShipmentOldRequest, options?: any) {
+        return MerchantFulfillmentApiFp(this.configuration).cancelShipmentOld(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {CreateShipmentRequest} body 
+     * @param {MerchantFulfillmentApiCreateShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MerchantFulfillmentApi
      */
-    public createShipment(body: CreateShipmentRequest, options?: any) {
-        return MerchantFulfillmentApiFp(this.configuration).createShipment(body, options)(this.axios, this.basePath);
+    public createShipment(requestParameters: MerchantFulfillmentApiCreateShipmentRequest, options?: any) {
+        return MerchantFulfillmentApiFp(this.configuration).createShipment(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {GetAdditionalSellerInputsRequest} body 
+     * @param {MerchantFulfillmentApiGetAdditionalSellerInputsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MerchantFulfillmentApi
      */
-    public getAdditionalSellerInputs(body: GetAdditionalSellerInputsRequest, options?: any) {
-        return MerchantFulfillmentApiFp(this.configuration).getAdditionalSellerInputs(body, options)(this.axios, this.basePath);
+    public getAdditionalSellerInputs(requestParameters: MerchantFulfillmentApiGetAdditionalSellerInputsRequest, options?: any) {
+        return MerchantFulfillmentApiFp(this.configuration).getAdditionalSellerInputs(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {GetAdditionalSellerInputsRequest} body 
+     * @param {MerchantFulfillmentApiGetAdditionalSellerInputsOldRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MerchantFulfillmentApi
      */
-    public getAdditionalSellerInputsOld(body: GetAdditionalSellerInputsRequest, options?: any) {
-        return MerchantFulfillmentApiFp(this.configuration).getAdditionalSellerInputsOld(body, options)(this.axios, this.basePath);
+    public getAdditionalSellerInputsOld(requestParameters: MerchantFulfillmentApiGetAdditionalSellerInputsOldRequest, options?: any) {
+        return MerchantFulfillmentApiFp(this.configuration).getAdditionalSellerInputsOld(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {GetEligibleShipmentServicesRequest} body 
+     * @param {MerchantFulfillmentApiGetEligibleShipmentServicesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MerchantFulfillmentApi
      */
-    public getEligibleShipmentServices(body: GetEligibleShipmentServicesRequest, options?: any) {
-        return MerchantFulfillmentApiFp(this.configuration).getEligibleShipmentServices(body, options)(this.axios, this.basePath);
+    public getEligibleShipmentServices(requestParameters: MerchantFulfillmentApiGetEligibleShipmentServicesRequest, options?: any) {
+        return MerchantFulfillmentApiFp(this.configuration).getEligibleShipmentServices(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {GetEligibleShipmentServicesRequest} body 
+     * @param {MerchantFulfillmentApiGetEligibleShipmentServicesOldRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MerchantFulfillmentApi
      */
-    public getEligibleShipmentServicesOld(body: GetEligibleShipmentServicesRequest, options?: any) {
-        return MerchantFulfillmentApiFp(this.configuration).getEligibleShipmentServicesOld(body, options)(this.axios, this.basePath);
+    public getEligibleShipmentServicesOld(requestParameters: MerchantFulfillmentApiGetEligibleShipmentServicesOldRequest, options?: any) {
+        return MerchantFulfillmentApiFp(this.configuration).getEligibleShipmentServicesOld(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment.
+     * @param {MerchantFulfillmentApiGetShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MerchantFulfillmentApi
      */
-    public getShipment(shipmentId: string, options?: any) {
-        return MerchantFulfillmentApiFp(this.configuration).getShipment(shipmentId, options)(this.axios, this.basePath);
+    public getShipment(requestParameters: MerchantFulfillmentApiGetShipmentRequest, options?: any) {
+        return MerchantFulfillmentApiFp(this.configuration).getShipment(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

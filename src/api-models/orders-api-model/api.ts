@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Orders
  * The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -31,79 +32,79 @@ export interface Address {
      * @type {string}
      * @memberof Address
      */
-    name: string;
+    Name: string;
     /**
      * The street address.
      * @type {string}
      * @memberof Address
      */
-    addressLine1?: string;
+    AddressLine1?: string;
     /**
      * Additional street address information, if required.
      * @type {string}
      * @memberof Address
      */
-    addressLine2?: string;
+    AddressLine2?: string;
     /**
      * Additional street address information, if required.
      * @type {string}
      * @memberof Address
      */
-    addressLine3?: string;
+    AddressLine3?: string;
     /**
      * The city 
      * @type {string}
      * @memberof Address
      */
-    city?: string;
+    City?: string;
     /**
      * The county.
      * @type {string}
      * @memberof Address
      */
-    county?: string;
+    County?: string;
     /**
      * The district.
      * @type {string}
      * @memberof Address
      */
-    district?: string;
+    District?: string;
     /**
      * The state or region.
      * @type {string}
      * @memberof Address
      */
-    stateOrRegion?: string;
+    StateOrRegion?: string;
     /**
      * The municipality.
      * @type {string}
      * @memberof Address
      */
-    municipality?: string;
+    Municipality?: string;
     /**
      * The postal code.
      * @type {string}
      * @memberof Address
      */
-    postalCode?: string;
+    PostalCode?: string;
     /**
      * The country code. A two-character country code, in ISO 3166-1 alpha-2 format.
      * @type {string}
      * @memberof Address
      */
-    countryCode?: string;
+    CountryCode?: string;
     /**
      * The phone number. Not returned for Fulfillment by Amazon (FBA) orders.
      * @type {string}
      * @memberof Address
      */
-    phone?: string;
+    Phone?: string;
     /**
      * The address type of the shipping address.
      * @type {string}
      * @memberof Address
      */
-    addressType?: AddressAddressTypeEnum;
+    AddressType?: AddressAddressTypeEnum;
 }
 
 /**
@@ -126,7 +127,7 @@ export interface BuyerCustomizedInfoDetail {
      * @type {string}
      * @memberof BuyerCustomizedInfoDetail
      */
-    customizedURL?: string;
+    CustomizedURL?: string;
 }
 /**
  * Tax information about the buyer.
@@ -139,19 +140,19 @@ export interface BuyerTaxInfo {
      * @type {string}
      * @memberof BuyerTaxInfo
      */
-    companyLegalName?: string;
+    CompanyLegalName?: string;
     /**
      * The country or region imposing the tax.
      * @type {string}
      * @memberof BuyerTaxInfo
      */
-    taxingRegion?: string;
+    TaxingRegion?: string;
     /**
      * A list of tax classifications that apply to the order.
      * @type {Array<TaxClassification>}
      * @memberof BuyerTaxInfo
      */
-    taxClassifications?: Array<TaxClassification>;
+    TaxClassifications?: Array<TaxClassification>;
 }
 /**
  * Contains the instructions about the fulfillment like where should it be fulfilled from.
@@ -164,7 +165,7 @@ export interface FulfillmentInstruction {
      * @type {string}
      * @memberof FulfillmentInstruction
      */
-    fulfillmentSupplySourceId?: string;
+    FulfillmentSupplySourceId?: string;
 }
 /**
  * The response schema for the getOrderAddress operation.
@@ -316,13 +317,13 @@ export interface Money {
      * @type {string}
      * @memberof Money
      */
-    currencyCode?: string;
+    CurrencyCode?: string;
     /**
      * The currency amount.
      * @type {string}
      * @memberof Money
      */
-    amount?: string;
+    Amount?: string;
 }
 /**
  * Order information.
@@ -335,211 +336,211 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    amazonOrderId: string;
+    AmazonOrderId: string;
     /**
      * A seller-defined order identifier.
      * @type {string}
      * @memberof Order
      */
-    sellerOrderId?: string;
+    SellerOrderId?: string;
     /**
      * The date when the order was created.
      * @type {string}
      * @memberof Order
      */
-    purchaseDate: string;
+    PurchaseDate: string;
     /**
      * The date when the order was last updated.  Note: LastUpdateDate is returned with an incorrect date for orders that were last updated before 2009-04-01.
      * @type {string}
      * @memberof Order
      */
-    lastUpdateDate: string;
+    LastUpdateDate: string;
     /**
      * The current order status.
      * @type {string}
      * @memberof Order
      */
-    orderStatus: OrderOrderStatusEnum;
+    OrderStatus: OrderOrderStatusEnum;
     /**
      * Whether the order was fulfilled by Amazon (AFN) or by the seller (MFN).
      * @type {string}
      * @memberof Order
      */
-    fulfillmentChannel?: OrderFulfillmentChannelEnum;
+    FulfillmentChannel?: OrderFulfillmentChannelEnum;
     /**
      * The sales channel of the first item in the order.
      * @type {string}
      * @memberof Order
      */
-    salesChannel?: string;
+    SalesChannel?: string;
     /**
      * The order channel of the first item in the order.
      * @type {string}
      * @memberof Order
      */
-    orderChannel?: string;
+    OrderChannel?: string;
     /**
      * The shipment service level of the order.
      * @type {string}
      * @memberof Order
      */
-    shipServiceLevel?: string;
+    ShipServiceLevel?: string;
     /**
      * 
      * @type {Money}
      * @memberof Order
      */
-    orderTotal?: Money;
+    OrderTotal?: Money;
     /**
      * The number of items shipped.
      * @type {number}
      * @memberof Order
      */
-    numberOfItemsShipped?: number;
+    NumberOfItemsShipped?: number;
     /**
      * The number of items unshipped.
      * @type {number}
      * @memberof Order
      */
-    numberOfItemsUnshipped?: number;
+    NumberOfItemsUnshipped?: number;
     /**
      * A list of payment execution detail items.
      * @type {Array<PaymentExecutionDetailItem>}
      * @memberof Order
      */
-    paymentExecutionDetail?: Array<PaymentExecutionDetailItem>;
+    PaymentExecutionDetail?: Array<PaymentExecutionDetailItem>;
     /**
      * The payment method for the order. This property is limited to Cash On Delivery (COD) and Convenience Store (CVS) payment methods. Unless you need the specific COD payment information provided by the PaymentExecutionDetailItem object, we recommend using the PaymentMethodDetails property to get payment method information.
      * @type {string}
      * @memberof Order
      */
-    paymentMethod?: OrderPaymentMethodEnum;
+    PaymentMethod?: OrderPaymentMethodEnum;
     /**
      * A list of payment method detail items.
      * @type {Array<string>}
      * @memberof Order
      */
-    paymentMethodDetails?: Array<string>;
+    PaymentMethodDetails?: Array<string>;
     /**
      * The identifier for the marketplace where the order was placed.
      * @type {string}
      * @memberof Order
      */
-    marketplaceId?: string;
+    MarketplaceId?: string;
     /**
      * The shipment service level category of the order.  Possible values: Expedited, FreeEconomy, NextDay, SameDay, SecondDay, Scheduled, Standard.
      * @type {string}
      * @memberof Order
      */
-    shipmentServiceLevelCategory?: string;
+    ShipmentServiceLevelCategory?: string;
     /**
      * The status of the Amazon Easy Ship order. This property is included only for Amazon Easy Ship orders.  Possible values: PendingPickUp, LabelCanceled, PickedUp, OutForDelivery, Damaged, Delivered, RejectedByBuyer, Undeliverable, ReturnedToSeller, ReturningToSeller.
      * @type {string}
      * @memberof Order
      */
-    easyShipShipmentStatus?: string;
+    EasyShipShipmentStatus?: string;
     /**
      * Custom ship label for Checkout by Amazon (CBA).
      * @type {string}
      * @memberof Order
      */
-    cbaDisplayableShippingLabel?: string;
+    CbaDisplayableShippingLabel?: string;
     /**
      * The type of the order.
      * @type {string}
      * @memberof Order
      */
-    orderType?: OrderOrderTypeEnum;
+    OrderType?: OrderOrderTypeEnum;
     /**
      * The start of the time period within which you have committed to ship the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.  Note: EarliestShipDate might not be returned for orders placed before February 1, 2013.
      * @type {string}
      * @memberof Order
      */
-    earliestShipDate?: string;
+    EarliestShipDate?: string;
     /**
      * The end of the time period within which you have committed to ship the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.  Note: LatestShipDate might not be returned for orders placed before February 1, 2013.
      * @type {string}
      * @memberof Order
      */
-    latestShipDate?: string;
+    LatestShipDate?: string;
     /**
      * The start of the time period within which you have committed to fulfill the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.
      * @type {string}
      * @memberof Order
      */
-    earliestDeliveryDate?: string;
+    EarliestDeliveryDate?: string;
     /**
      * The end of the time period within which you have committed to fulfill the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders that do not have a PendingAvailability, Pending, or Canceled status.
      * @type {string}
      * @memberof Order
      */
-    latestDeliveryDate?: string;
+    LatestDeliveryDate?: string;
     /**
      * When true, the order is an Amazon Business order. An Amazon Business order is an order where the buyer is a Verified Business Buyer.
      * @type {boolean}
      * @memberof Order
      */
-    isBusinessOrder?: boolean;
+    IsBusinessOrder?: boolean;
     /**
      * When true, the order is a seller-fulfilled Amazon Prime order.
      * @type {boolean}
      * @memberof Order
      */
-    isPrime?: boolean;
+    IsPrime?: boolean;
     /**
      * When true, the order has a Premium Shipping Service Level Agreement. For more information about Premium Shipping orders, see \"Premium Shipping Options\" in the Seller Central Help for your marketplace.
      * @type {boolean}
      * @memberof Order
      */
-    isPremiumOrder?: boolean;
+    IsPremiumOrder?: boolean;
     /**
      * When true, the order is a GlobalExpress order.
      * @type {boolean}
      * @memberof Order
      */
-    isGlobalExpressEnabled?: boolean;
+    IsGlobalExpressEnabled?: boolean;
     /**
      * The order ID value for the order that is being replaced. Returned only if IsReplacementOrder = true.
      * @type {string}
      * @memberof Order
      */
-    replacedOrderId?: string;
+    ReplacedOrderId?: string;
     /**
      * When true, this is a replacement order.
      * @type {boolean}
      * @memberof Order
      */
-    isReplacementOrder?: boolean;
+    IsReplacementOrder?: boolean;
     /**
      * Indicates the date by which the seller must respond to the buyer with an estimated ship date. Returned only for Sourcing on Demand orders.
      * @type {string}
      * @memberof Order
      */
-    promiseResponseDueDate?: string;
+    PromiseResponseDueDate?: string;
     /**
      * When true, the estimated ship date is set for the order. Returned only for Sourcing on Demand orders.
      * @type {boolean}
      * @memberof Order
      */
-    isEstimatedShipDateSet?: boolean;
+    IsEstimatedShipDateSet?: boolean;
     /**
      * When true, the item within this order was bought and re-sold by Amazon Business EU SARL (ABEU). By buying and instantly re-selling your items, ABEU becomes the seller of record, making your inventory available for sale to customers who would not otherwise purchase from a third-party seller.
      * @type {boolean}
      * @memberof Order
      */
-    isSoldByAB?: boolean;
+    IsSoldByAB?: boolean;
     /**
      * 
      * @type {Address}
      * @memberof Order
      */
-    assignedShipFromLocationAddress?: Address;
+    AssignedShipFromLocationAddress?: Address;
     /**
      * 
      * @type {FulfillmentInstruction}
      * @memberof Order
      */
-    fulfillmentInstruction?: FulfillmentInstruction;
+    FulfillmentInstruction?: FulfillmentInstruction;
 }
 
 /**
@@ -561,16 +562,16 @@ export enum OrderOrderStatusEnum {
     * @enum {string}
     */
 export enum OrderFulfillmentChannelEnum {
-    MFN = 'MFN',
-    AFN = 'AFN'
+    Mfn = 'MFN',
+    Afn = 'AFN'
 }
 /**
     * @export
     * @enum {string}
     */
 export enum OrderPaymentMethodEnum {
-    COD = 'COD',
-    CVS = 'CVS',
+    Cod = 'COD',
+    Cvs = 'CVS',
     Other = 'Other'
 }
 /**
@@ -596,13 +597,13 @@ export interface OrderAddress {
      * @type {string}
      * @memberof OrderAddress
      */
-    amazonOrderId: string;
+    AmazonOrderId: string;
     /**
      * 
      * @type {Address}
      * @memberof OrderAddress
      */
-    shippingAddress?: Address;
+    ShippingAddress?: Address;
 }
 /**
  * Buyer information for an order.
@@ -615,37 +616,37 @@ export interface OrderBuyerInfo {
      * @type {string}
      * @memberof OrderBuyerInfo
      */
-    amazonOrderId: string;
+    AmazonOrderId: string;
     /**
      * The anonymized email address of the buyer.
      * @type {string}
      * @memberof OrderBuyerInfo
      */
-    buyerEmail?: string;
+    BuyerEmail?: string;
     /**
      * The name of the buyer.
      * @type {string}
      * @memberof OrderBuyerInfo
      */
-    buyerName?: string;
+    BuyerName?: string;
     /**
      * The county of the buyer.
      * @type {string}
      * @memberof OrderBuyerInfo
      */
-    buyerCounty?: string;
+    BuyerCounty?: string;
     /**
      * 
      * @type {BuyerTaxInfo}
      * @memberof OrderBuyerInfo
      */
-    buyerTaxInfo?: BuyerTaxInfo;
+    BuyerTaxInfo?: BuyerTaxInfo;
     /**
      * The purchase order (PO) number entered by the buyer at checkout. Returned only for orders where the buyer entered a PO number at checkout.
      * @type {string}
      * @memberof OrderBuyerInfo
      */
-    purchaseOrderNumber?: string;
+    PurchaseOrderNumber?: string;
 }
 /**
  * A single order item.
@@ -664,181 +665,181 @@ export interface OrderItem {
      * @type {string}
      * @memberof OrderItem
      */
-    sellerSKU?: string;
+    SellerSKU?: string;
     /**
      * An Amazon-defined order item identifier.
      * @type {string}
      * @memberof OrderItem
      */
-    orderItemId: string;
+    OrderItemId: string;
     /**
      * The name of the item.
      * @type {string}
      * @memberof OrderItem
      */
-    title?: string;
+    Title?: string;
     /**
      * The number of items in the order. 
      * @type {number}
      * @memberof OrderItem
      */
-    quantityOrdered: number;
+    QuantityOrdered: number;
     /**
      * The number of items shipped.
      * @type {number}
      * @memberof OrderItem
      */
-    quantityShipped?: number;
+    QuantityShipped?: number;
     /**
      * 
      * @type {ProductInfoDetail}
      * @memberof OrderItem
      */
-    productInfo?: ProductInfoDetail;
+    ProductInfo?: ProductInfoDetail;
     /**
      * 
      * @type {PointsGrantedDetail}
      * @memberof OrderItem
      */
-    pointsGranted?: PointsGrantedDetail;
+    PointsGranted?: PointsGrantedDetail;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    itemPrice?: Money;
+    ItemPrice?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    shippingPrice?: Money;
+    ShippingPrice?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    itemTax?: Money;
+    ItemTax?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    shippingTax?: Money;
+    ShippingTax?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    shippingDiscount?: Money;
+    ShippingDiscount?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    shippingDiscountTax?: Money;
+    ShippingDiscountTax?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    promotionDiscount?: Money;
+    PromotionDiscount?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    promotionDiscountTax?: Money;
+    PromotionDiscountTax?: Money;
     /**
      * A list of promotion identifiers provided by the seller when the promotions were created.
      * @type {Array<string>}
      * @memberof OrderItem
      */
-    promotionIds?: Array<string>;
+    PromotionIds?: Array<string>;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    cODFee?: Money;
+    CODFee?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItem
      */
-    cODFeeDiscount?: Money;
+    CODFeeDiscount?: Money;
     /**
      * When true, the item is a gift.
      * @type {boolean}
      * @memberof OrderItem
      */
-    isGift?: boolean;
+    IsGift?: boolean;
     /**
      * The condition of the item as described by the seller.
      * @type {string}
      * @memberof OrderItem
      */
-    conditionNote?: string;
+    ConditionNote?: string;
     /**
      * The condition of the item.  Possible values: New, Used, Collectible, Refurbished, Preorder, Club.
      * @type {string}
      * @memberof OrderItem
      */
-    conditionId?: string;
+    ConditionId?: string;
     /**
      * The subcondition of the item.  Possible values: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, Any, Other.
      * @type {string}
      * @memberof OrderItem
      */
-    conditionSubtypeId?: string;
+    ConditionSubtypeId?: string;
     /**
      * The start date of the scheduled delivery window in the time zone of the order destination. In ISO 8601 date time format.
      * @type {string}
      * @memberof OrderItem
      */
-    scheduledDeliveryStartDate?: string;
+    ScheduledDeliveryStartDate?: string;
     /**
      * The end date of the scheduled delivery window in the time zone of the order destination. In ISO 8601 date time format.
      * @type {string}
      * @memberof OrderItem
      */
-    scheduledDeliveryEndDate?: string;
+    ScheduledDeliveryEndDate?: string;
     /**
      * Indicates that the selling price is a special price that is available only for Amazon Business orders. For more information about the Amazon Business Seller Program, see the [Amazon Business website](https://www.amazon.com/b2b/info/amazon-business).   Possible values: BusinessPrice - A special price that is available only for Amazon Business orders.
      * @type {string}
      * @memberof OrderItem
      */
-    priceDesignation?: string;
+    PriceDesignation?: string;
     /**
      * 
      * @type {TaxCollection}
      * @memberof OrderItem
      */
-    taxCollection?: TaxCollection;
+    TaxCollection?: TaxCollection;
     /**
      * When true, the product type for this item has a serial number.  Returned only for Amazon Easy Ship orders.
      * @type {boolean}
      * @memberof OrderItem
      */
-    serialNumberRequired?: boolean;
+    SerialNumberRequired?: boolean;
     /**
      * When true, transparency codes are required.
      * @type {boolean}
      * @memberof OrderItem
      */
-    isTransparency?: boolean;
+    IsTransparency?: boolean;
     /**
      * The IOSS number of the seller. Sellers selling in the EU will be assigned a unique IOSS number that must be listed on all packages sent to the EU.
      * @type {string}
      * @memberof OrderItem
      */
-    iossNumber?: string;
+    IossNumber?: string;
     /**
      * The category of deemed reseller. This applies to selling partners that are not based in the EU and is used to help them meet the VAT Deemed Reseller tax laws in the EU and UK.
      * @type {string}
      * @memberof OrderItem
      */
-    deemedResellerCategory?: OrderItemDeemedResellerCategoryEnum;
+    DeemedResellerCategory?: OrderItemDeemedResellerCategoryEnum;
 }
 
 /**
@@ -846,8 +847,8 @@ export interface OrderItem {
     * @enum {string}
     */
 export enum OrderItemDeemedResellerCategoryEnum {
-    IOSS = 'IOSS',
-    UOSS = 'UOSS'
+    Ioss = 'IOSS',
+    Uoss = 'UOSS'
 }
 
 /**
@@ -861,37 +862,37 @@ export interface OrderItemBuyerInfo {
      * @type {string}
      * @memberof OrderItemBuyerInfo
      */
-    orderItemId: string;
+    OrderItemId: string;
     /**
      * 
      * @type {BuyerCustomizedInfoDetail}
      * @memberof OrderItemBuyerInfo
      */
-    buyerCustomizedInfo?: BuyerCustomizedInfoDetail;
+    BuyerCustomizedInfo?: BuyerCustomizedInfoDetail;
     /**
      * 
      * @type {Money}
      * @memberof OrderItemBuyerInfo
      */
-    giftWrapPrice?: Money;
+    GiftWrapPrice?: Money;
     /**
      * 
      * @type {Money}
      * @memberof OrderItemBuyerInfo
      */
-    giftWrapTax?: Money;
+    GiftWrapTax?: Money;
     /**
      * A gift message provided by the buyer.
      * @type {string}
      * @memberof OrderItemBuyerInfo
      */
-    giftMessageText?: string;
+    GiftMessageText?: string;
     /**
      * The gift wrap level specified by the buyer.
      * @type {string}
      * @memberof OrderItemBuyerInfo
      */
-    giftWrapLevel?: string;
+    GiftWrapLevel?: string;
 }
 /**
  * A single order item\'s buyer information list with the order ID.
@@ -904,19 +905,19 @@ export interface OrderItemsBuyerInfoList {
      * @type {Array<OrderItemBuyerInfo>}
      * @memberof OrderItemsBuyerInfoList
      */
-    orderItems: Array<OrderItemBuyerInfo>;
+    OrderItems: Array<OrderItemBuyerInfo>;
     /**
      * When present and not empty, pass this string token in the next request to return the next response page.
      * @type {string}
      * @memberof OrderItemsBuyerInfoList
      */
-    nextToken?: string;
+    NextToken?: string;
     /**
      * An Amazon-defined order identifier, in 3-7-7 format.
      * @type {string}
      * @memberof OrderItemsBuyerInfoList
      */
-    amazonOrderId: string;
+    AmazonOrderId: string;
 }
 /**
  * The order items list along with the order ID.
@@ -929,19 +930,19 @@ export interface OrderItemsList {
      * @type {Array<OrderItem>}
      * @memberof OrderItemsList
      */
-    orderItems: Array<OrderItem>;
+    OrderItems: Array<OrderItem>;
     /**
      * When present and not empty, pass this string token in the next request to return the next response page.
      * @type {string}
      * @memberof OrderItemsList
      */
-    nextToken?: string;
+    NextToken?: string;
     /**
      * An Amazon-defined order identifier, in 3-7-7 format.
      * @type {string}
      * @memberof OrderItemsList
      */
-    amazonOrderId: string;
+    AmazonOrderId: string;
 }
 /**
  * A list of orders along with additional information to make subsequent API calls.
@@ -954,25 +955,25 @@ export interface OrdersList {
      * @type {Array<Order>}
      * @memberof OrdersList
      */
-    orders: Array<Order>;
+    Orders: Array<Order>;
     /**
      * When present and not empty, pass this string token in the next request to return the next response page.
      * @type {string}
      * @memberof OrdersList
      */
-    nextToken?: string;
+    NextToken?: string;
     /**
      * A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. All dates must be in ISO 8601 format.
      * @type {string}
      * @memberof OrdersList
      */
-    lastUpdatedBefore?: string;
+    LastUpdatedBefore?: string;
     /**
      * A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
      * @type {string}
      * @memberof OrdersList
      */
-    createdBefore?: string;
+    CreatedBefore?: string;
 }
 /**
  * Information about a sub-payment method used to pay for a COD order.
@@ -985,13 +986,13 @@ export interface PaymentExecutionDetailItem {
      * @type {Money}
      * @memberof PaymentExecutionDetailItem
      */
-    payment: Money;
+    Payment: Money;
     /**
      * A sub-payment method for a COD order.  Possible values:  * COD - Cash On Delivery.  * GC - Gift Card.  * PointsAccount - Amazon Points.
      * @type {string}
      * @memberof PaymentExecutionDetailItem
      */
-    paymentMethod: string;
+    PaymentMethod: string;
 }
 /**
  * The number of Amazon Points offered with the purchase of an item, and their monetary value.
@@ -1004,13 +1005,13 @@ export interface PointsGrantedDetail {
      * @type {number}
      * @memberof PointsGrantedDetail
      */
-    pointsNumber?: number;
+    PointsNumber?: number;
     /**
      * 
      * @type {Money}
      * @memberof PointsGrantedDetail
      */
-    pointsMonetaryValue?: Money;
+    PointsMonetaryValue?: Money;
 }
 /**
  * Product information on the number of items.
@@ -1023,7 +1024,7 @@ export interface ProductInfoDetail {
      * @type {number}
      * @memberof ProductInfoDetail
      */
-    numberOfItems?: number;
+    NumberOfItems?: number;
 }
 /**
  * The tax classification for the order.
@@ -1036,13 +1037,13 @@ export interface TaxClassification {
      * @type {string}
      * @memberof TaxClassification
      */
-    name?: string;
+    Name?: string;
     /**
      * The buyer\'s tax identifier.
      * @type {string}
      * @memberof TaxClassification
      */
-    value?: string;
+    Value?: string;
 }
 /**
  * Information about withheld taxes.
@@ -1055,13 +1056,13 @@ export interface TaxCollection {
      * @type {string}
      * @memberof TaxCollection
      */
-    model?: TaxCollectionModelEnum;
+    Model?: TaxCollectionModelEnum;
     /**
      * The party responsible for withholding the taxes and remitting them to the taxing authority.
      * @type {string}
      * @memberof TaxCollection
      */
-    responsibleParty?: TaxCollectionResponsiblePartyEnum;
+    ResponsibleParty?: TaxCollectionResponsiblePartyEnum;
 }
 
 /**
@@ -1092,31 +1093,30 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrder(orderId: string, options: any = {}): RequestArgs {
+        getOrder: async (orderId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
-            if (orderId === null || orderId === undefined) {
-                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrder.');
-            }
+            assertParamExists('getOrder', 'orderId', orderId)
             const localVarPath = `/orders/v0/orders/{orderId}`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1126,31 +1126,30 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderAddress(orderId: string, options: any = {}): RequestArgs {
+        getOrderAddress: async (orderId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
-            if (orderId === null || orderId === undefined) {
-                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderAddress.');
-            }
+            assertParamExists('getOrderAddress', 'orderId', orderId)
             const localVarPath = `/orders/v0/orders/{orderId}/address`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1160,31 +1159,30 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderBuyerInfo(orderId: string, options: any = {}): RequestArgs {
+        getOrderBuyerInfo: async (orderId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
-            if (orderId === null || orderId === undefined) {
-                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderBuyerInfo.');
-            }
+            assertParamExists('getOrderBuyerInfo', 'orderId', orderId)
             const localVarPath = `/orders/v0/orders/{orderId}/buyerInfo`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1195,18 +1193,18 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderItems(orderId: string, nextToken?: string, options: any = {}): RequestArgs {
+        getOrderItems: async (orderId: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
-            if (orderId === null || orderId === undefined) {
-                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderItems.');
-            }
+            assertParamExists('getOrderItems', 'orderId', orderId)
             const localVarPath = `/orders/v0/orders/{orderId}/orderItems`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1217,13 +1215,12 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1234,18 +1231,18 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderItemsBuyerInfo(orderId: string, nextToken?: string, options: any = {}): RequestArgs {
+        getOrderItemsBuyerInfo: async (orderId: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
-            if (orderId === null || orderId === undefined) {
-                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderItemsBuyerInfo.');
-            }
+            assertParamExists('getOrderItemsBuyerInfo', 'orderId', orderId)
             const localVarPath = `/orders/v0/orders/{orderId}/orderItems/buyerInfo`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1256,13 +1253,12 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1285,17 +1281,17 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options: any = {}): RequestArgs {
+        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceIds' is not null or undefined
-            if (marketplaceIds === null || marketplaceIds === undefined) {
-                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling getOrders.');
-            }
+            assertParamExists('getOrders', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/orders/v0/orders`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1358,13 +1354,12 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1376,6 +1371,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
  * @export
  */
 export const OrdersV0ApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OrdersV0ApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1383,12 +1379,9 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrder(orderId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderResponse> {
-            const localVarAxiosArgs = OrdersV0ApiAxiosParamCreator(configuration).getOrder(orderId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getOrder(orderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrder(orderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1396,12 +1389,9 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderAddress(orderId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderAddressResponse> {
-            const localVarAxiosArgs = OrdersV0ApiAxiosParamCreator(configuration).getOrderAddress(orderId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getOrderAddress(orderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderAddressResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderAddress(orderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns buyer information for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1409,12 +1399,9 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderBuyerInfo(orderId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderBuyerInfoResponse> {
-            const localVarAxiosArgs = OrdersV0ApiAxiosParamCreator(configuration).getOrderBuyerInfo(orderId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getOrderBuyerInfo(orderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderBuyerInfoResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderBuyerInfo(orderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1423,12 +1410,9 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderItems(orderId: string, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderItemsResponse> {
-            const localVarAxiosArgs = OrdersV0ApiAxiosParamCreator(configuration).getOrderItems(orderId, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getOrderItems(orderId: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderItemsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderItems(orderId, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1437,12 +1421,9 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderItemsBuyerInfo(orderId: string, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderItemsBuyerInfoResponse> {
-            const localVarAxiosArgs = OrdersV0ApiAxiosParamCreator(configuration).getOrderItemsBuyerInfo(orderId, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getOrderItemsBuyerInfo(orderId: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderItemsBuyerInfoResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderItemsBuyerInfo(orderId, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1463,12 +1444,9 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse> {
-            const localVarAxiosArgs = OrdersV0ApiAxiosParamCreator(configuration).getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -1478,6 +1456,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const OrdersV0ApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OrdersV0ApiFp(configuration)
     return {
         /**
          * Returns the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1485,8 +1464,8 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrder(orderId: string, options?: any) {
-            return OrdersV0ApiFp(configuration).getOrder(orderId, options)(axios, basePath);
+        getOrder(orderId: string, options?: any): AxiosPromise<GetOrderResponse> {
+            return localVarFp.getOrder(orderId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1494,8 +1473,8 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderAddress(orderId: string, options?: any) {
-            return OrdersV0ApiFp(configuration).getOrderAddress(orderId, options)(axios, basePath);
+        getOrderAddress(orderId: string, options?: any): AxiosPromise<GetOrderAddressResponse> {
+            return localVarFp.getOrderAddress(orderId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns buyer information for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1503,8 +1482,8 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderBuyerInfo(orderId: string, options?: any) {
-            return OrdersV0ApiFp(configuration).getOrderBuyerInfo(orderId, options)(axios, basePath);
+        getOrderBuyerInfo(orderId: string, options?: any): AxiosPromise<GetOrderBuyerInfoResponse> {
+            return localVarFp.getOrderBuyerInfo(orderId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1513,8 +1492,8 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderItems(orderId: string, nextToken?: string, options?: any) {
-            return OrdersV0ApiFp(configuration).getOrderItems(orderId, nextToken, options)(axios, basePath);
+        getOrderItems(orderId: string, nextToken?: string, options?: any): AxiosPromise<GetOrderItemsResponse> {
+            return localVarFp.getOrderItems(orderId, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1523,8 +1502,8 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderItemsBuyerInfo(orderId: string, nextToken?: string, options?: any) {
-            return OrdersV0ApiFp(configuration).getOrderItemsBuyerInfo(orderId, nextToken, options)(axios, basePath);
+        getOrderItemsBuyerInfo(orderId: string, nextToken?: string, options?: any): AxiosPromise<GetOrderItemsBuyerInfoResponse> {
+            return localVarFp.getOrderItemsBuyerInfo(orderId, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1545,11 +1524,200 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options?: any) {
-            return OrdersV0ApiFp(configuration).getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, options)(axios, basePath);
+        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options?: any): AxiosPromise<GetOrdersResponse> {
+            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getOrder operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiGetOrderRequest
+ */
+export interface OrdersV0ApiGetOrderRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrder
+     */
+    readonly orderId: string
+}
+
+/**
+ * Request parameters for getOrderAddress operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiGetOrderAddressRequest
+ */
+export interface OrdersV0ApiGetOrderAddressRequest {
+    /**
+     * An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrderAddress
+     */
+    readonly orderId: string
+}
+
+/**
+ * Request parameters for getOrderBuyerInfo operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiGetOrderBuyerInfoRequest
+ */
+export interface OrdersV0ApiGetOrderBuyerInfoRequest {
+    /**
+     * An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrderBuyerInfo
+     */
+    readonly orderId: string
+}
+
+/**
+ * Request parameters for getOrderItems operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiGetOrderItemsRequest
+ */
+export interface OrdersV0ApiGetOrderItemsRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrderItems
+     */
+    readonly orderId: string
+
+    /**
+     * A string token returned in the response of your previous request.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrderItems
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for getOrderItemsBuyerInfo operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiGetOrderItemsBuyerInfoRequest
+ */
+export interface OrdersV0ApiGetOrderItemsBuyerInfoRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrderItemsBuyerInfo
+     */
+    readonly orderId: string
+
+    /**
+     * A string token returned in the response of your previous request.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrderItemsBuyerInfo
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for getOrders operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiGetOrdersRequest
+ */
+export interface OrdersV0ApiGetOrdersRequest {
+    /**
+     * A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
+     * @type {Array<string>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly marketplaceIds: Array<string>
+
+    /**
+     * A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly createdAfter?: string
+
+    /**
+     * A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly createdBefore?: string
+
+    /**
+     * A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly lastUpdatedAfter?: string
+
+    /**
+     * A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly lastUpdatedBefore?: string
+
+    /**
+     * A list of OrderStatus values used to filter the results. Possible values: PendingAvailability (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.); Pending (The order has been placed but payment has not been authorized); Unshipped (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped); PartiallyShipped (One or more, but not all, items in the order have been shipped); Shipped (All items in the order have been shipped); InvoiceUnconfirmed (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.); Canceled (The order has been canceled); and Unfulfillable (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.).
+     * @type {Array<string>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly orderStatuses?: Array<string>
+
+    /**
+     * A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: FBA (Fulfillment by Amazon); SellerFulfilled (Fulfilled by the seller).
+     * @type {Array<string>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly fulfillmentChannels?: Array<string>
+
+    /**
+     * A list of payment method values. Used to select orders paid using the specified payment methods. Possible values: COD (Cash on delivery); CVS (Convenience store payment); Other (Any payment method other than COD or CVS).
+     * @type {Array<string>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly paymentMethods?: Array<string>
+
+    /**
+     * The email address of a buyer. Used to select orders that contain the specified email address.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly buyerEmail?: string
+
+    /**
+     * An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly sellerOrderId?: string
+
+    /**
+     * A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100.
+     * @type {number}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly maxResultsPerPage?: number
+
+    /**
+     * A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
+     * @type {Array<string>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly easyShipShipmentStatuses?: Array<string>
+
+    /**
+     * A string token returned in the response of your previous request.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly nextToken?: string
+
+    /**
+     * A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * @type {Array<string>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly amazonOrderIds?: Array<string>
+}
 
 /**
  * OrdersV0Api - object-oriented interface
@@ -1560,85 +1728,69 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
 export class OrdersV0Api extends BaseAPI {
     /**
      * Returns the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+     * @param {OrdersV0ApiGetOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrdersV0Api
      */
-    public getOrder(orderId: string, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrder(orderId, options)(this.axios, this.basePath);
+    public getOrder(requestParameters: OrdersV0ApiGetOrderRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).getOrder(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * @param {OrdersV0ApiGetOrderAddressRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrdersV0Api
      */
-    public getOrderAddress(orderId: string, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrderAddress(orderId, options)(this.axios, this.basePath);
+    public getOrderAddress(requestParameters: OrdersV0ApiGetOrderAddressRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).getOrderAddress(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns buyer information for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * @param {OrdersV0ApiGetOrderBuyerInfoRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrdersV0Api
      */
-    public getOrderBuyerInfo(orderId: string, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrderBuyerInfo(orderId, options)(this.axios, this.basePath);
+    public getOrderBuyerInfo(requestParameters: OrdersV0ApiGetOrderBuyerInfoRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).getOrderBuyerInfo(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-     * @param {string} [nextToken] A string token returned in the response of your previous request.
+     * @param {OrdersV0ApiGetOrderItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrdersV0Api
      */
-    public getOrderItems(orderId: string, nextToken?: string, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrderItems(orderId, nextToken, options)(this.axios, this.basePath);
+    public getOrderItems(requestParameters: OrdersV0ApiGetOrderItemsRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).getOrderItems(requestParameters.orderId, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-     * @param {string} [nextToken] A string token returned in the response of your previous request.
+     * @param {OrdersV0ApiGetOrderItemsBuyerInfoRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrdersV0Api
      */
-    public getOrderItemsBuyerInfo(orderId: string, nextToken?: string, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrderItemsBuyerInfo(orderId, nextToken, options)(this.axios, this.basePath);
+    public getOrderItemsBuyerInfo(requestParameters: OrdersV0ApiGetOrderItemsBuyerInfoRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).getOrderItemsBuyerInfo(requestParameters.orderId, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
-     * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
-     * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
-     * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
-     * @param {string} [lastUpdatedBefore] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
-     * @param {Array<string>} [orderStatuses] A list of OrderStatus values used to filter the results. Possible values: PendingAvailability (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.); Pending (The order has been placed but payment has not been authorized); Unshipped (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped); PartiallyShipped (One or more, but not all, items in the order have been shipped); Shipped (All items in the order have been shipped); InvoiceUnconfirmed (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.); Canceled (The order has been canceled); and Unfulfillable (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.).
-     * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: FBA (Fulfillment by Amazon); SellerFulfilled (Fulfilled by the seller).
-     * @param {Array<string>} [paymentMethods] A list of payment method values. Used to select orders paid using the specified payment methods. Possible values: COD (Cash on delivery); CVS (Convenience store payment); Other (Any payment method other than COD or CVS).
-     * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
-     * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
-     * @param {number} [maxResultsPerPage] A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100.
-     * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
-     * @param {string} [nextToken] A string token returned in the response of your previous request.
-     * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * @param {OrdersV0ApiGetOrdersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrdersV0Api
      */
-    public getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, options)(this.axios, this.basePath);
+    public getOrders(requestParameters: OrdersV0ApiGetOrdersRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

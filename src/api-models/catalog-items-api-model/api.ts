@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Catalog Items
  * The Selling Partner API for Catalog Items helps you programmatically retrieve item details for items in the catalog.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -31,7 +32,7 @@ export interface ASINIdentifier {
      * @type {string}
      * @memberof ASINIdentifier
      */
-    marketplaceId: string;
+    MarketplaceId: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -50,577 +51,577 @@ export interface AttributeSetListType {
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    actor?: Array<string>;
+    Actor?: Array<string>;
     /**
      * The artist attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    artist?: Array<string>;
+    Artist?: Array<string>;
     /**
      * The aspect ratio attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    aspectRatio?: string;
+    AspectRatio?: string;
     /**
      * The audience rating attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    audienceRating?: string;
+    AudienceRating?: string;
     /**
      * The author attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    author?: Array<string>;
+    Author?: Array<string>;
     /**
      * The back finding attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    backFinding?: string;
+    BackFinding?: string;
     /**
      * The band material type attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    bandMaterialType?: string;
+    BandMaterialType?: string;
     /**
      * The binding attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    binding?: string;
+    Binding?: string;
     /**
      * The Bluray region attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    blurayRegion?: string;
+    BlurayRegion?: string;
     /**
      * The brand attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    brand?: string;
+    Brand?: string;
     /**
      * The CERO age rating attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    ceroAgeRating?: string;
+    CeroAgeRating?: string;
     /**
      * The chain type attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    chainType?: string;
+    ChainType?: string;
     /**
      * The clasp type attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    claspType?: string;
+    ClaspType?: string;
     /**
      * The color attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    color?: string;
+    Color?: string;
     /**
      * The CPU manufacturer attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    cpuManufacturer?: string;
+    CpuManufacturer?: string;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    cpuSpeed?: DecimalWithUnits;
+    CpuSpeed?: DecimalWithUnits;
     /**
      * The CPU type attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    cpuType?: string;
+    CpuType?: string;
     /**
      * The creator attributes of the item.
      * @type {Array<CreatorType>}
      * @memberof AttributeSetListType
      */
-    creator?: Array<CreatorType>;
+    Creator?: Array<CreatorType>;
     /**
      * The department attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    department?: string;
+    Department?: string;
     /**
      * The director attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    director?: Array<string>;
+    Director?: Array<string>;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    displaySize?: DecimalWithUnits;
+    DisplaySize?: DecimalWithUnits;
     /**
      * The edition attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    edition?: string;
+    Edition?: string;
     /**
      * The episode sequence attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    episodeSequence?: string;
+    EpisodeSequence?: string;
     /**
      * The ESRB age rating attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    esrbAgeRating?: string;
+    EsrbAgeRating?: string;
     /**
      * The feature attributes of the item
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    feature?: Array<string>;
+    Feature?: Array<string>;
     /**
      * The flavor attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    flavor?: string;
+    Flavor?: string;
     /**
      * The format attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    format?: Array<string>;
+    Format?: Array<string>;
     /**
      * The gem type attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    gemType?: Array<string>;
+    GemType?: Array<string>;
     /**
      * The genre attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    genre?: string;
+    Genre?: string;
     /**
      * The golf club flex attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    golfClubFlex?: string;
+    GolfClubFlex?: string;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    golfClubLoft?: DecimalWithUnits;
+    GolfClubLoft?: DecimalWithUnits;
     /**
      * The hand orientation attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    handOrientation?: string;
+    HandOrientation?: string;
     /**
      * The hard disk interface attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    hardDiskInterface?: string;
+    HardDiskInterface?: string;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    hardDiskSize?: DecimalWithUnits;
+    HardDiskSize?: DecimalWithUnits;
     /**
      * The hardware platform attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    hardwarePlatform?: string;
+    HardwarePlatform?: string;
     /**
      * The hazardous material type attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    hazardousMaterialType?: string;
+    HazardousMaterialType?: string;
     /**
      * 
      * @type {DimensionType}
      * @memberof AttributeSetListType
      */
-    itemDimensions?: DimensionType;
+    ItemDimensions?: DimensionType;
     /**
      * The adult product attribute of the item.
      * @type {boolean}
      * @memberof AttributeSetListType
      */
-    isAdultProduct?: boolean;
+    IsAdultProduct?: boolean;
     /**
      * The autographed attribute of the item.
      * @type {boolean}
      * @memberof AttributeSetListType
      */
-    isAutographed?: boolean;
+    IsAutographed?: boolean;
     /**
      * The is eligible for trade in attribute of the item.
      * @type {boolean}
      * @memberof AttributeSetListType
      */
-    isEligibleForTradeIn?: boolean;
+    IsEligibleForTradeIn?: boolean;
     /**
      * The is memorabilia attribute of the item.
      * @type {boolean}
      * @memberof AttributeSetListType
      */
-    isMemorabilia?: boolean;
+    IsMemorabilia?: boolean;
     /**
      * The issues per year attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    issuesPerYear?: string;
+    IssuesPerYear?: string;
     /**
      * The item part number attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    itemPartNumber?: string;
+    ItemPartNumber?: string;
     /**
      * The label attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    label?: string;
+    Label?: string;
     /**
      * The languages attribute of the item.
      * @type {Array<LanguageType>}
      * @memberof AttributeSetListType
      */
-    languages?: Array<LanguageType>;
+    Languages?: Array<LanguageType>;
     /**
      * The legal disclaimer attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    legalDisclaimer?: string;
+    LegalDisclaimer?: string;
     /**
      * 
      * @type {Price}
      * @memberof AttributeSetListType
      */
-    listPrice?: Price;
+    ListPrice?: Price;
     /**
      * The manufacturer attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    manufacturer?: string;
+    Manufacturer?: string;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    manufacturerMaximumAge?: DecimalWithUnits;
+    ManufacturerMaximumAge?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    manufacturerMinimumAge?: DecimalWithUnits;
+    ManufacturerMinimumAge?: DecimalWithUnits;
     /**
      * The manufacturer parts warranty description attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    manufacturerPartsWarrantyDescription?: string;
+    ManufacturerPartsWarrantyDescription?: string;
     /**
      * The material type attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    materialType?: Array<string>;
+    MaterialType?: Array<string>;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    maximumResolution?: DecimalWithUnits;
+    MaximumResolution?: DecimalWithUnits;
     /**
      * The media type attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    mediaType?: Array<string>;
+    MediaType?: Array<string>;
     /**
      * The metal stamp attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    metalStamp?: string;
+    MetalStamp?: string;
     /**
      * The metal type attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    metalType?: string;
+    MetalType?: string;
     /**
      * The model attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    model?: string;
+    Model?: string;
     /**
      * The number of discs attribute of the item.
      * @type {number}
      * @memberof AttributeSetListType
      */
-    numberOfDiscs?: number;
+    NumberOfDiscs?: number;
     /**
      * The number of issues attribute of the item.
      * @type {number}
      * @memberof AttributeSetListType
      */
-    numberOfIssues?: number;
+    NumberOfIssues?: number;
     /**
      * The number of items attribute of the item.
      * @type {number}
      * @memberof AttributeSetListType
      */
-    numberOfItems?: number;
+    NumberOfItems?: number;
     /**
      * The number of pages attribute of the item.
      * @type {number}
      * @memberof AttributeSetListType
      */
-    numberOfPages?: number;
+    NumberOfPages?: number;
     /**
      * The number of tracks attribute of the item.
      * @type {number}
      * @memberof AttributeSetListType
      */
-    numberOfTracks?: number;
+    NumberOfTracks?: number;
     /**
      * The operating system attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    operatingSystem?: Array<string>;
+    OperatingSystem?: Array<string>;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    opticalZoom?: DecimalWithUnits;
+    OpticalZoom?: DecimalWithUnits;
     /**
      * 
      * @type {DimensionType}
      * @memberof AttributeSetListType
      */
-    packageDimensions?: DimensionType;
+    PackageDimensions?: DimensionType;
     /**
      * The package quantity attribute of the item.
      * @type {number}
      * @memberof AttributeSetListType
      */
-    packageQuantity?: number;
+    PackageQuantity?: number;
     /**
      * The part number attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    partNumber?: string;
+    PartNumber?: string;
     /**
      * The PEGI rating attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    pegiRating?: string;
+    PegiRating?: string;
     /**
      * The platform attributes of the item.
      * @type {Array<string>}
      * @memberof AttributeSetListType
      */
-    platform?: Array<string>;
+    Platform?: Array<string>;
     /**
      * The processor count attribute of the item.
      * @type {number}
      * @memberof AttributeSetListType
      */
-    processorCount?: number;
+    ProcessorCount?: number;
     /**
      * The product group attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    productGroup?: string;
+    ProductGroup?: string;
     /**
      * The product type name attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    productTypeName?: string;
+    ProductTypeName?: string;
     /**
      * The product type subcategory attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    productTypeSubcategory?: string;
+    ProductTypeSubcategory?: string;
     /**
      * The publication date attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    publicationDate?: string;
+    PublicationDate?: string;
     /**
      * The publisher attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    publisher?: string;
+    Publisher?: string;
     /**
      * The region code attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    regionCode?: string;
+    RegionCode?: string;
     /**
      * The release date attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    releaseDate?: string;
+    ReleaseDate?: string;
     /**
      * The ring size attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    ringSize?: string;
+    RingSize?: string;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    runningTime?: DecimalWithUnits;
+    RunningTime?: DecimalWithUnits;
     /**
      * The shaft material attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    shaftMaterial?: string;
+    ShaftMaterial?: string;
     /**
      * The scent attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    scent?: string;
+    Scent?: string;
     /**
      * The season sequence attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    seasonSequence?: string;
+    SeasonSequence?: string;
     /**
      * The Seikodo product code attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    seikodoProductCode?: string;
+    SeikodoProductCode?: string;
     /**
      * The size attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    size?: string;
+    Size?: string;
     /**
      * The size per pearl attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    sizePerPearl?: string;
+    SizePerPearl?: string;
     /**
      * 
      * @type {Image}
      * @memberof AttributeSetListType
      */
-    smallImage?: Image;
+    SmallImage?: Image;
     /**
      * The studio attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    studio?: string;
+    Studio?: string;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    subscriptionLength?: DecimalWithUnits;
+    SubscriptionLength?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    systemMemorySize?: DecimalWithUnits;
+    SystemMemorySize?: DecimalWithUnits;
     /**
      * The system memory type attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    systemMemoryType?: string;
+    SystemMemoryType?: string;
     /**
      * The theatrical release date attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    theatricalReleaseDate?: string;
+    TheatricalReleaseDate?: string;
     /**
      * The title attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    title?: string;
+    Title?: string;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    totalDiamondWeight?: DecimalWithUnits;
+    TotalDiamondWeight?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof AttributeSetListType
      */
-    totalGemWeight?: DecimalWithUnits;
+    TotalGemWeight?: DecimalWithUnits;
     /**
      * The warranty attribute of the item.
      * @type {string}
      * @memberof AttributeSetListType
      */
-    warranty?: string;
+    Warranty?: string;
     /**
      * 
      * @type {Price}
      * @memberof AttributeSetListType
      */
-    weeeTaxValue?: Price;
+    WeeeTaxValue?: Price;
 }
 /**
  * 
@@ -633,13 +634,13 @@ export interface Categories {
      * @type {string}
      * @memberof Categories
      */
-    productCategoryId?: string;
+    ProductCategoryId?: string;
     /**
      * The name of the product category (or browse node).
      * @type {string}
      * @memberof Categories
      */
-    productCategoryName?: string;
+    ProductCategoryName?: string;
     /**
      * The parent product category.
      * @type {object}
@@ -664,7 +665,7 @@ export interface CreatorType {
      * @type {string}
      * @memberof CreatorType
      */
-    role?: string;
+    Role?: string;
 }
 /**
  * The decimal value and unit.
@@ -683,7 +684,7 @@ export interface DecimalWithUnits {
      * @type {string}
      * @memberof DecimalWithUnits
      */
-    units?: string;
+    Units?: string;
 }
 /**
  * The dimension type attribute of an item.
@@ -696,25 +697,25 @@ export interface DimensionType {
      * @type {DecimalWithUnits}
      * @memberof DimensionType
      */
-    height?: DecimalWithUnits;
+    Height?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof DimensionType
      */
-    length?: DecimalWithUnits;
+    Length?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof DimensionType
      */
-    width?: DecimalWithUnits;
+    Width?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof DimensionType
      */
-    weight?: DecimalWithUnits;
+    Weight?: DecimalWithUnits;
 }
 /**
  * 
@@ -746,13 +747,13 @@ export interface IdentifierType {
      * @type {ASINIdentifier}
      * @memberof IdentifierType
      */
-    marketplaceASIN?: ASINIdentifier;
+    MarketplaceASIN?: ASINIdentifier;
     /**
      * 
      * @type {SellerSKUIdentifier}
      * @memberof IdentifierType
      */
-    sKUIdentifier?: SellerSKUIdentifier;
+    SKUIdentifier?: SellerSKUIdentifier;
 }
 /**
  * The image attribute of the item.
@@ -771,13 +772,13 @@ export interface Image {
      * @type {DecimalWithUnits}
      * @memberof Image
      */
-    height?: DecimalWithUnits;
+    Height?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof Image
      */
-    width?: DecimalWithUnits;
+    Width?: DecimalWithUnits;
 }
 /**
  * An item in the Amazon catalog.
@@ -790,25 +791,25 @@ export interface Item {
      * @type {IdentifierType}
      * @memberof Item
      */
-    identifiers: IdentifierType;
+    Identifiers: IdentifierType;
     /**
      * A list of attributes for the item.
      * @type {Array<AttributeSetListType>}
      * @memberof Item
      */
-    attributeSets?: Array<AttributeSetListType>;
+    AttributeSets?: Array<AttributeSetListType>;
     /**
      * A list of variation relationship information, if applicable for the item.
      * @type {Array<RelationshipType>}
      * @memberof Item
      */
-    relationships?: Array<RelationshipType>;
+    Relationships?: Array<RelationshipType>;
     /**
      * A list of sales rank information for the item by category.
      * @type {Array<SalesRankType>}
      * @memberof Item
      */
-    salesRankings?: Array<SalesRankType>;
+    SalesRankings?: Array<SalesRankType>;
 }
 /**
  * The language type attribute of an item.
@@ -821,19 +822,19 @@ export interface LanguageType {
      * @type {string}
      * @memberof LanguageType
      */
-    name?: string;
+    Name?: string;
     /**
      * The type attribute of the item.
      * @type {string}
      * @memberof LanguageType
      */
-    type?: string;
+    Type?: string;
     /**
      * The audio format attribute of the item.
      * @type {string}
      * @memberof LanguageType
      */
-    audioFormat?: string;
+    AudioFormat?: string;
 }
 /**
  * 
@@ -884,7 +885,7 @@ export interface ListMatchingItemsResponse {
      * @type {Array<Item>}
      * @memberof ListMatchingItemsResponse
      */
-    items?: Array<Item>;
+    Items?: Array<Item>;
 }
 /**
  * Error response returned when the request is unsuccessful.
@@ -922,7 +923,7 @@ export interface OfferListingCountType {
      * @type {number}
      * @memberof OfferListingCountType
      */
-    count: number;
+    Count: number;
     /**
      * The condition of the item.
      * @type {string}
@@ -941,13 +942,13 @@ export interface Price {
      * @type {number}
      * @memberof Price
      */
-    amount?: number;
+    Amount?: number;
     /**
      * The currency code of the amount.
      * @type {string}
      * @memberof Price
      */
-    currencyCode?: string;
+    CurrencyCode?: string;
 }
 /**
  * 
@@ -960,37 +961,37 @@ export interface QualifiersType {
      * @type {string}
      * @memberof QualifiersType
      */
-    itemCondition: string;
+    ItemCondition: string;
     /**
      * The item subcondition for the offer listing. Possible values: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
      * @type {string}
      * @memberof QualifiersType
      */
-    itemSubcondition: string;
+    ItemSubcondition: string;
     /**
      * The fulfillment channel for the item. Possible values:  * Amazon - Fulfilled by Amazon. * Merchant - Fulfilled by the seller.
      * @type {string}
      * @memberof QualifiersType
      */
-    fulfillmentChannel: string;
+    FulfillmentChannel: string;
     /**
      * Indicates whether the marketplace specified in the request and the location that the item ships from are in the same country. Possible values: True, False, or Unknown.
      * @type {string}
      * @memberof QualifiersType
      */
-    shipsDomestically: string;
+    ShipsDomestically: string;
     /**
      * 
      * @type {ShippingTimeType}
      * @memberof QualifiersType
      */
-    shippingTime: ShippingTimeType;
+    ShippingTime: ShippingTimeType;
     /**
      * (98-100%, 95-97%, 90-94%, 80-89%, 70-79%, Less than 70%, or Just launched ) – Indicates the percentage of feedback ratings that were positive over the past 12 months.
      * @type {string}
      * @memberof QualifiersType
      */
-    sellerPositiveFeedbackRating: string;
+    SellerPositiveFeedbackRating: string;
 }
 /**
  * Specific variations of the item.
@@ -1003,133 +1004,133 @@ export interface RelationshipType {
      * @type {string}
      * @memberof RelationshipType
      */
-    color?: string;
+    Color?: string;
     /**
      * The edition variation of the item.
      * @type {string}
      * @memberof RelationshipType
      */
-    edition?: string;
+    Edition?: string;
     /**
      * The flavor variation of the item.
      * @type {string}
      * @memberof RelationshipType
      */
-    flavor?: string;
+    Flavor?: string;
     /**
      * The gem type variations of the item.
      * @type {Array<string>}
      * @memberof RelationshipType
      */
-    gemType?: Array<string>;
+    GemType?: Array<string>;
     /**
      * The golf club flex variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    golfClubFlex?: string;
+    GolfClubFlex?: string;
     /**
      * The hand orientation variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    handOrientation?: string;
+    HandOrientation?: string;
     /**
      * The hardware platform variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    hardwarePlatform?: string;
+    HardwarePlatform?: string;
     /**
      * The material type variations of an item.
      * @type {Array<string>}
      * @memberof RelationshipType
      */
-    materialType?: Array<string>;
+    MaterialType?: Array<string>;
     /**
      * The metal type variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    metalType?: string;
+    MetalType?: string;
     /**
      * The model variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    model?: string;
+    Model?: string;
     /**
      * The operating system variations of an item.
      * @type {Array<string>}
      * @memberof RelationshipType
      */
-    operatingSystem?: Array<string>;
+    OperatingSystem?: Array<string>;
     /**
      * The product type subcategory variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    productTypeSubcategory?: string;
+    ProductTypeSubcategory?: string;
     /**
      * The ring size variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    ringSize?: string;
+    RingSize?: string;
     /**
      * The shaft material variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    shaftMaterial?: string;
+    ShaftMaterial?: string;
     /**
      * The scent variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    scent?: string;
+    Scent?: string;
     /**
      * The size variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    size?: string;
+    Size?: string;
     /**
      * The size per pearl variation of an item.
      * @type {string}
      * @memberof RelationshipType
      */
-    sizePerPearl?: string;
+    SizePerPearl?: string;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof RelationshipType
      */
-    golfClubLoft?: DecimalWithUnits;
+    GolfClubLoft?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof RelationshipType
      */
-    totalDiamondWeight?: DecimalWithUnits;
+    TotalDiamondWeight?: DecimalWithUnits;
     /**
      * 
      * @type {DecimalWithUnits}
      * @memberof RelationshipType
      */
-    totalGemWeight?: DecimalWithUnits;
+    TotalGemWeight?: DecimalWithUnits;
     /**
      * The package quantity variation of an item.
      * @type {number}
      * @memberof RelationshipType
      */
-    packageQuantity?: number;
+    PackageQuantity?: number;
     /**
      * 
      * @type {DimensionType}
      * @memberof RelationshipType
      */
-    itemDimensions?: DimensionType;
+    ItemDimensions?: DimensionType;
 }
 /**
  * 
@@ -1142,13 +1143,13 @@ export interface SalesRankType {
      * @type {string}
      * @memberof SalesRankType
      */
-    productCategoryId: string;
+    ProductCategoryId: string;
     /**
      * The sales rank of the item within the item category.
      * @type {number}
      * @memberof SalesRankType
      */
-    rank: number;
+    Rank: number;
 }
 /**
  * 
@@ -1161,19 +1162,19 @@ export interface SellerSKUIdentifier {
      * @type {string}
      * @memberof SellerSKUIdentifier
      */
-    marketplaceId: string;
+    MarketplaceId: string;
     /**
      * The seller identifier submitted for the operation.
      * @type {string}
      * @memberof SellerSKUIdentifier
      */
-    sellerId: string;
+    SellerId: string;
     /**
      * The seller stock keeping unit (SKU) of the item.
      * @type {string}
      * @memberof SellerSKUIdentifier
      */
-    sellerSKU: string;
+    SellerSKU: string;
 }
 /**
  * 
@@ -1186,7 +1187,7 @@ export interface ShippingTimeType {
      * @type {string}
      * @memberof ShippingTimeType
      */
-    max?: string;
+    Max?: string;
 }
 
 /**
@@ -1202,22 +1203,20 @@ export const CatalogApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCatalogItem(marketplaceId: string, asin: string, options: any = {}): RequestArgs {
+        getCatalogItem: async (marketplaceId: string, asin: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getCatalogItem.');
-            }
+            assertParamExists('getCatalogItem', 'marketplaceId', marketplaceId)
             // verify required parameter 'asin' is not null or undefined
-            if (asin === null || asin === undefined) {
-                throw new RequiredError('asin','Required parameter asin was null or undefined when calling getCatalogItem.');
-            }
+            assertParamExists('getCatalogItem', 'asin', asin)
             const localVarPath = `/catalog/v0/items/{asin}`
                 .replace(`{${"asin"}}`, encodeURIComponent(String(asin)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1228,35 +1227,34 @@ export const CatalogApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
         /**
          * Returns the parent categories to which an item belongs, based on the specified ASIN or SellerSKU.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for the item.
-         * @param {string} [ASIN] The Amazon Standard Identification Number (ASIN) of the item.
+         * @param {string} [aSIN] The Amazon Standard Identification Number (ASIN) of the item.
          * @param {string} [sellerSKU] Used to identify items in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listCatalogCategories(marketplaceId: string, ASIN?: string, sellerSKU?: string, options: any = {}): RequestArgs {
+        listCatalogCategories: async (marketplaceId: string, aSIN?: string, sellerSKU?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling listCatalogCategories.');
-            }
+            assertParamExists('listCatalogCategories', 'marketplaceId', marketplaceId)
             const localVarPath = `/catalog/v0/categories`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1265,8 +1263,8 @@ export const CatalogApiAxiosParamCreator = function (configuration?: Configurati
                 localVarQueryParameter['MarketplaceId'] = marketplaceId;
             }
 
-            if (ASIN !== undefined) {
-                localVarQueryParameter['ASIN'] = ASIN;
+            if (aSIN !== undefined) {
+                localVarQueryParameter['ASIN'] = aSIN;
             }
 
             if (sellerSKU !== undefined) {
@@ -1275,13 +1273,12 @@ export const CatalogApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1291,24 +1288,24 @@ export const CatalogApiAxiosParamCreator = function (configuration?: Configurati
          * @param {string} [query] Keyword(s) to use to search for items in the catalog. Example: \&#39;harry potter books\&#39;.
          * @param {string} [queryContextId] An identifier for the context within which the given search will be performed. A marketplace might provide mechanisms for constraining a search to a subset of potential items. For example, the retail marketplace allows queries to be constrained to a specific category. The QueryContextId parameter specifies such a subset. If it is omitted, the search will be performed using the default context for the marketplace, which will typically contain the largest set of items.
          * @param {string} [sellerSKU] Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
-         * @param {string} [UPC] A 12-digit bar code used for retail packaging.
-         * @param {string} [EAN] A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
-         * @param {string} [ISBN] The unique commercial book identifier used to identify books internationally.
-         * @param {string} [JAN] A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
+         * @param {string} [uPC] A 12-digit bar code used for retail packaging.
+         * @param {string} [eAN] A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
+         * @param {string} [iSBN] The unique commercial book identifier used to identify books internationally.
+         * @param {string} [jAN] A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listCatalogItems(marketplaceId: string, query?: string, queryContextId?: string, sellerSKU?: string, UPC?: string, EAN?: string, ISBN?: string, JAN?: string, options: any = {}): RequestArgs {
+        listCatalogItems: async (marketplaceId: string, query?: string, queryContextId?: string, sellerSKU?: string, uPC?: string, eAN?: string, iSBN?: string, jAN?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling listCatalogItems.');
-            }
+            assertParamExists('listCatalogItems', 'marketplaceId', marketplaceId)
             const localVarPath = `/catalog/v0/items`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1329,31 +1326,30 @@ export const CatalogApiAxiosParamCreator = function (configuration?: Configurati
                 localVarQueryParameter['SellerSKU'] = sellerSKU;
             }
 
-            if (UPC !== undefined) {
-                localVarQueryParameter['UPC'] = UPC;
+            if (uPC !== undefined) {
+                localVarQueryParameter['UPC'] = uPC;
             }
 
-            if (EAN !== undefined) {
-                localVarQueryParameter['EAN'] = EAN;
+            if (eAN !== undefined) {
+                localVarQueryParameter['EAN'] = eAN;
             }
 
-            if (ISBN !== undefined) {
-                localVarQueryParameter['ISBN'] = ISBN;
+            if (iSBN !== undefined) {
+                localVarQueryParameter['ISBN'] = iSBN;
             }
 
-            if (JAN !== undefined) {
-                localVarQueryParameter['JAN'] = JAN;
+            if (jAN !== undefined) {
+                localVarQueryParameter['JAN'] = jAN;
             }
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1365,6 +1361,7 @@ export const CatalogApiAxiosParamCreator = function (configuration?: Configurati
  * @export
  */
 export const CatalogApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CatalogApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns a specified item and its attributes.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1373,27 +1370,21 @@ export const CatalogApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCatalogItem(marketplaceId: string, asin: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCatalogItemResponse> {
-            const localVarAxiosArgs = CatalogApiAxiosParamCreator(configuration).getCatalogItem(marketplaceId, asin, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getCatalogItem(marketplaceId: string, asin: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCatalogItemResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCatalogItem(marketplaceId, asin, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the parent categories to which an item belongs, based on the specified ASIN or SellerSKU.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for the item.
-         * @param {string} [ASIN] The Amazon Standard Identification Number (ASIN) of the item.
+         * @param {string} [aSIN] The Amazon Standard Identification Number (ASIN) of the item.
          * @param {string} [sellerSKU] Used to identify items in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listCatalogCategories(marketplaceId: string, ASIN?: string, sellerSKU?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCatalogCategoriesResponse> {
-            const localVarAxiosArgs = CatalogApiAxiosParamCreator(configuration).listCatalogCategories(marketplaceId, ASIN, sellerSKU, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async listCatalogCategories(marketplaceId: string, aSIN?: string, sellerSKU?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCatalogCategoriesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listCatalogCategories(marketplaceId, aSIN, sellerSKU, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of items and their attributes, based on a search query or item identifiers that you specify. When based on a search query, provide the Query parameter and optionally, the QueryContextId parameter. When based on item identifiers, provide a single appropriate parameter based on the identifier type, and specify the associated item value. MarketplaceId is always required.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1401,19 +1392,16 @@ export const CatalogApiFp = function(configuration?: Configuration) {
          * @param {string} [query] Keyword(s) to use to search for items in the catalog. Example: \&#39;harry potter books\&#39;.
          * @param {string} [queryContextId] An identifier for the context within which the given search will be performed. A marketplace might provide mechanisms for constraining a search to a subset of potential items. For example, the retail marketplace allows queries to be constrained to a specific category. The QueryContextId parameter specifies such a subset. If it is omitted, the search will be performed using the default context for the marketplace, which will typically contain the largest set of items.
          * @param {string} [sellerSKU] Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
-         * @param {string} [UPC] A 12-digit bar code used for retail packaging.
-         * @param {string} [EAN] A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
-         * @param {string} [ISBN] The unique commercial book identifier used to identify books internationally.
-         * @param {string} [JAN] A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
+         * @param {string} [uPC] A 12-digit bar code used for retail packaging.
+         * @param {string} [eAN] A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
+         * @param {string} [iSBN] The unique commercial book identifier used to identify books internationally.
+         * @param {string} [jAN] A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listCatalogItems(marketplaceId: string, query?: string, queryContextId?: string, sellerSKU?: string, UPC?: string, EAN?: string, ISBN?: string, JAN?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCatalogItemsResponse> {
-            const localVarAxiosArgs = CatalogApiAxiosParamCreator(configuration).listCatalogItems(marketplaceId, query, queryContextId, sellerSKU, UPC, EAN, ISBN, JAN, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async listCatalogItems(marketplaceId: string, query?: string, queryContextId?: string, sellerSKU?: string, uPC?: string, eAN?: string, iSBN?: string, jAN?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCatalogItemsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listCatalogItems(marketplaceId, query, queryContextId, sellerSKU, uPC, eAN, iSBN, jAN, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -1423,6 +1411,7 @@ export const CatalogApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const CatalogApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CatalogApiFp(configuration)
     return {
         /**
          * Returns a specified item and its attributes.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1431,19 +1420,19 @@ export const CatalogApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCatalogItem(marketplaceId: string, asin: string, options?: any) {
-            return CatalogApiFp(configuration).getCatalogItem(marketplaceId, asin, options)(axios, basePath);
+        getCatalogItem(marketplaceId: string, asin: string, options?: any): AxiosPromise<GetCatalogItemResponse> {
+            return localVarFp.getCatalogItem(marketplaceId, asin, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the parent categories to which an item belongs, based on the specified ASIN or SellerSKU.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for the item.
-         * @param {string} [ASIN] The Amazon Standard Identification Number (ASIN) of the item.
+         * @param {string} [aSIN] The Amazon Standard Identification Number (ASIN) of the item.
          * @param {string} [sellerSKU] Used to identify items in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listCatalogCategories(marketplaceId: string, ASIN?: string, sellerSKU?: string, options?: any) {
-            return CatalogApiFp(configuration).listCatalogCategories(marketplaceId, ASIN, sellerSKU, options)(axios, basePath);
+        listCatalogCategories(marketplaceId: string, aSIN?: string, sellerSKU?: string, options?: any): AxiosPromise<ListCatalogCategoriesResponse> {
+            return localVarFp.listCatalogCategories(marketplaceId, aSIN, sellerSKU, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of items and their attributes, based on a search query or item identifiers that you specify. When based on a search query, provide the Query parameter and optionally, the QueryContextId parameter. When based on item identifiers, provide a single appropriate parameter based on the identifier type, and specify the associated item value. MarketplaceId is always required.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1451,18 +1440,130 @@ export const CatalogApiFactory = function (configuration?: Configuration, basePa
          * @param {string} [query] Keyword(s) to use to search for items in the catalog. Example: \&#39;harry potter books\&#39;.
          * @param {string} [queryContextId] An identifier for the context within which the given search will be performed. A marketplace might provide mechanisms for constraining a search to a subset of potential items. For example, the retail marketplace allows queries to be constrained to a specific category. The QueryContextId parameter specifies such a subset. If it is omitted, the search will be performed using the default context for the marketplace, which will typically contain the largest set of items.
          * @param {string} [sellerSKU] Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
-         * @param {string} [UPC] A 12-digit bar code used for retail packaging.
-         * @param {string} [EAN] A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
-         * @param {string} [ISBN] The unique commercial book identifier used to identify books internationally.
-         * @param {string} [JAN] A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
+         * @param {string} [uPC] A 12-digit bar code used for retail packaging.
+         * @param {string} [eAN] A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
+         * @param {string} [iSBN] The unique commercial book identifier used to identify books internationally.
+         * @param {string} [jAN] A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listCatalogItems(marketplaceId: string, query?: string, queryContextId?: string, sellerSKU?: string, UPC?: string, EAN?: string, ISBN?: string, JAN?: string, options?: any) {
-            return CatalogApiFp(configuration).listCatalogItems(marketplaceId, query, queryContextId, sellerSKU, UPC, EAN, ISBN, JAN, options)(axios, basePath);
+        listCatalogItems(marketplaceId: string, query?: string, queryContextId?: string, sellerSKU?: string, uPC?: string, eAN?: string, iSBN?: string, jAN?: string, options?: any): AxiosPromise<ListCatalogItemsResponse> {
+            return localVarFp.listCatalogItems(marketplaceId, query, queryContextId, sellerSKU, uPC, eAN, iSBN, jAN, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getCatalogItem operation in CatalogApi.
+ * @export
+ * @interface CatalogApiGetCatalogItemRequest
+ */
+export interface CatalogApiGetCatalogItemRequest {
+    /**
+     * A marketplace identifier. Specifies the marketplace for the item.
+     * @type {string}
+     * @memberof CatalogApiGetCatalogItem
+     */
+    readonly marketplaceId: string
+
+    /**
+     * The Amazon Standard Identification Number (ASIN) of the item.
+     * @type {string}
+     * @memberof CatalogApiGetCatalogItem
+     */
+    readonly asin: string
+}
+
+/**
+ * Request parameters for listCatalogCategories operation in CatalogApi.
+ * @export
+ * @interface CatalogApiListCatalogCategoriesRequest
+ */
+export interface CatalogApiListCatalogCategoriesRequest {
+    /**
+     * A marketplace identifier. Specifies the marketplace for the item.
+     * @type {string}
+     * @memberof CatalogApiListCatalogCategories
+     */
+    readonly marketplaceId: string
+
+    /**
+     * The Amazon Standard Identification Number (ASIN) of the item.
+     * @type {string}
+     * @memberof CatalogApiListCatalogCategories
+     */
+    readonly aSIN?: string
+
+    /**
+     * Used to identify items in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
+     * @type {string}
+     * @memberof CatalogApiListCatalogCategories
+     */
+    readonly sellerSKU?: string
+}
+
+/**
+ * Request parameters for listCatalogItems operation in CatalogApi.
+ * @export
+ * @interface CatalogApiListCatalogItemsRequest
+ */
+export interface CatalogApiListCatalogItemsRequest {
+    /**
+     * A marketplace identifier. Specifies the marketplace for which items are returned.
+     * @type {string}
+     * @memberof CatalogApiListCatalogItems
+     */
+    readonly marketplaceId: string
+
+    /**
+     * Keyword(s) to use to search for items in the catalog. Example: \&#39;harry potter books\&#39;.
+     * @type {string}
+     * @memberof CatalogApiListCatalogItems
+     */
+    readonly query?: string
+
+    /**
+     * An identifier for the context within which the given search will be performed. A marketplace might provide mechanisms for constraining a search to a subset of potential items. For example, the retail marketplace allows queries to be constrained to a specific category. The QueryContextId parameter specifies such a subset. If it is omitted, the search will be performed using the default context for the marketplace, which will typically contain the largest set of items.
+     * @type {string}
+     * @memberof CatalogApiListCatalogItems
+     */
+    readonly queryContextId?: string
+
+    /**
+     * Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
+     * @type {string}
+     * @memberof CatalogApiListCatalogItems
+     */
+    readonly sellerSKU?: string
+
+    /**
+     * A 12-digit bar code used for retail packaging.
+     * @type {string}
+     * @memberof CatalogApiListCatalogItems
+     */
+    readonly uPC?: string
+
+    /**
+     * A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
+     * @type {string}
+     * @memberof CatalogApiListCatalogItems
+     */
+    readonly eAN?: string
+
+    /**
+     * The unique commercial book identifier used to identify books internationally.
+     * @type {string}
+     * @memberof CatalogApiListCatalogItems
+     */
+    readonly iSBN?: string
+
+    /**
+     * A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
+     * @type {string}
+     * @memberof CatalogApiListCatalogItems
+     */
+    readonly jAN?: string
+}
 
 /**
  * CatalogApi - object-oriented interface
@@ -1473,47 +1574,36 @@ export const CatalogApiFactory = function (configuration?: Configuration, basePa
 export class CatalogApi extends BaseAPI {
     /**
      * Returns a specified item and its attributes.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for the item.
-     * @param {string} asin The Amazon Standard Identification Number (ASIN) of the item.
+     * @param {CatalogApiGetCatalogItemRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CatalogApi
      */
-    public getCatalogItem(marketplaceId: string, asin: string, options?: any) {
-        return CatalogApiFp(this.configuration).getCatalogItem(marketplaceId, asin, options)(this.axios, this.basePath);
+    public getCatalogItem(requestParameters: CatalogApiGetCatalogItemRequest, options?: any) {
+        return CatalogApiFp(this.configuration).getCatalogItem(requestParameters.marketplaceId, requestParameters.asin, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the parent categories to which an item belongs, based on the specified ASIN or SellerSKU.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for the item.
-     * @param {string} [ASIN] The Amazon Standard Identification Number (ASIN) of the item.
-     * @param {string} [sellerSKU] Used to identify items in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
+     * @param {CatalogApiListCatalogCategoriesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CatalogApi
      */
-    public listCatalogCategories(marketplaceId: string, ASIN?: string, sellerSKU?: string, options?: any) {
-        return CatalogApiFp(this.configuration).listCatalogCategories(marketplaceId, ASIN, sellerSKU, options)(this.axios, this.basePath);
+    public listCatalogCategories(requestParameters: CatalogApiListCatalogCategoriesRequest, options?: any) {
+        return CatalogApiFp(this.configuration).listCatalogCategories(requestParameters.marketplaceId, requestParameters.aSIN, requestParameters.sellerSKU, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of items and their attributes, based on a search query or item identifiers that you specify. When based on a search query, provide the Query parameter and optionally, the QueryContextId parameter. When based on item identifiers, provide a single appropriate parameter based on the identifier type, and specify the associated item value. MarketplaceId is always required.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which items are returned.
-     * @param {string} [query] Keyword(s) to use to search for items in the catalog. Example: \&#39;harry potter books\&#39;.
-     * @param {string} [queryContextId] An identifier for the context within which the given search will be performed. A marketplace might provide mechanisms for constraining a search to a subset of potential items. For example, the retail marketplace allows queries to be constrained to a specific category. The QueryContextId parameter specifies such a subset. If it is omitted, the search will be performed using the default context for the marketplace, which will typically contain the largest set of items.
-     * @param {string} [sellerSKU] Used to identify an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
-     * @param {string} [UPC] A 12-digit bar code used for retail packaging.
-     * @param {string} [EAN] A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
-     * @param {string} [ISBN] The unique commercial book identifier used to identify books internationally.
-     * @param {string} [JAN] A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
+     * @param {CatalogApiListCatalogItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CatalogApi
      */
-    public listCatalogItems(marketplaceId: string, query?: string, queryContextId?: string, sellerSKU?: string, UPC?: string, EAN?: string, ISBN?: string, JAN?: string, options?: any) {
-        return CatalogApiFp(this.configuration).listCatalogItems(marketplaceId, query, queryContextId, sellerSKU, UPC, EAN, ISBN, JAN, options)(this.axios, this.basePath);
+    public listCatalogItems(requestParameters: CatalogApiListCatalogItemsRequest, options?: any) {
+        return CatalogApiFp(this.configuration).listCatalogItems(requestParameters.marketplaceId, requestParameters.query, requestParameters.queryContextId, requestParameters.sellerSKU, requestParameters.uPC, requestParameters.eAN, requestParameters.iSBN, requestParameters.jAN, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Authorization
  * The Selling Partner API for Authorization helps developers manage authorizations and check the specific permissions associated with a given authorization.
@@ -14,3 +15,4 @@
 
 export * from "./api";
 export * from "./configuration";
+

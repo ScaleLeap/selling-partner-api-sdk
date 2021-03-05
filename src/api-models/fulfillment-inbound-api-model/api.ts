@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Fulfillment Inbound
  * The Selling Partner API for Fulfillment Inbound lets you create applications that create and update inbound shipments of inventory to Amazon\'s fulfillment network.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -37,13 +38,13 @@ export interface ASINInboundGuidance {
      * @type {InboundGuidance}
      * @memberof ASINInboundGuidance
      */
-    inboundGuidance: InboundGuidance;
+    InboundGuidance: InboundGuidance;
     /**
      * A list of inbound guidance reason information.
      * @type {Array<GuidanceReason>}
      * @memberof ASINInboundGuidance
      */
-    guidanceReasonList?: Array<GuidanceReason>;
+    GuidanceReasonList?: Array<GuidanceReason>;
 }
 /**
  * Item preparation instructions to help with item sourcing decisions.
@@ -62,19 +63,19 @@ export interface ASINPrepInstructions {
      * @type {BarcodeInstruction}
      * @memberof ASINPrepInstructions
      */
-    barcodeInstruction?: BarcodeInstruction;
+    BarcodeInstruction?: BarcodeInstruction;
     /**
      * 
      * @type {PrepGuidance}
      * @memberof ASINPrepInstructions
      */
-    prepGuidance?: PrepGuidance;
+    PrepGuidance?: PrepGuidance;
     /**
      * A list of preparation instructions to help with item sourcing decisions.
      * @type {Array<PrepInstruction>}
      * @memberof ASINPrepInstructions
      */
-    prepInstructionList?: Array<PrepInstruction>;
+    PrepInstructionList?: Array<PrepInstruction>;
 }
 /**
  * 
@@ -87,49 +88,49 @@ export interface Address {
      * @type {string}
      * @memberof Address
      */
-    name: string;
+    Name: string;
     /**
      * The street address information.
      * @type {string}
      * @memberof Address
      */
-    addressLine1: string;
+    AddressLine1: string;
     /**
      * Additional street address information, if required.
      * @type {string}
      * @memberof Address
      */
-    addressLine2?: string;
+    AddressLine2?: string;
     /**
      * The district or county.
      * @type {string}
      * @memberof Address
      */
-    districtOrCounty?: string;
+    DistrictOrCounty?: string;
     /**
      * The city.
      * @type {string}
      * @memberof Address
      */
-    city: string;
+    City: string;
     /**
      * The state or province code.  If state or province codes are used in your marketplace, it is recommended that you include one with your request. This helps Amazon to select the most appropriate Amazon fulfillment center for your inbound shipment plan.
      * @type {string}
      * @memberof Address
      */
-    stateOrProvinceCode: string;
+    StateOrProvinceCode: string;
     /**
      * The country code in two-character ISO 3166-1 alpha-2 format.
      * @type {string}
      * @memberof Address
      */
-    countryCode: string;
+    CountryCode: string;
     /**
      * The postal code.  If postal codes are used in your marketplace, we recommended that you include one with your request. This helps Amazon select the most appropriate Amazon fulfillment center for the inbound shipment plan.
      * @type {string}
      * @memberof Address
      */
-    postalCode: string;
+    PostalCode: string;
 }
 /**
  * The fees for Amazon to prep goods for shipment.
@@ -142,13 +143,13 @@ export interface AmazonPrepFeesDetails {
      * @type {PrepInstruction}
      * @memberof AmazonPrepFeesDetails
      */
-    prepInstruction?: PrepInstruction;
+    PrepInstruction?: PrepInstruction;
     /**
      * 
      * @type {Amount}
      * @memberof AmazonPrepFeesDetails
      */
-    feePerUnit?: Amount;
+    FeePerUnit?: Amount;
 }
 /**
  * The monetary value.
@@ -161,13 +162,13 @@ export interface Amount {
      * @type {CurrencyCode}
      * @memberof Amount
      */
-    currencyCode: CurrencyCode;
+    CurrencyCode: CurrencyCode;
     /**
      * 
      * @type {number}
      * @memberof Amount
      */
-    value: number;
+    Value: number;
 }
 /**
  * Labeling requirements for the item. For more information about FBA labeling requirements, see the Seller Central Help for your marketplace.
@@ -175,9 +176,9 @@ export interface Amount {
  * @enum {string}
  */
 export enum BarcodeInstruction {
-    RequiresFNSKULabel = 'RequiresFNSKULabel',
+    RequiresFnskuLabel = 'RequiresFNSKULabel',
     CanUseOriginalBarcode = 'CanUseOriginalBarcode',
-    MustProvideSellerSKU = 'MustProvideSellerSKU'
+    MustProvideSellerSku = 'MustProvideSellerSKU'
 }
 
 /**
@@ -191,7 +192,7 @@ export interface BillOfLadingDownloadURL {
      * @type {string}
      * @memberof BillOfLadingDownloadURL
      */
-    downloadURL?: string;
+    DownloadURL?: string;
 }
 /**
  * The manual processing fee per unit and total fee for a shipment.
@@ -204,19 +205,19 @@ export interface BoxContentsFeeDetails {
      * @type {number}
      * @memberof BoxContentsFeeDetails
      */
-    totalUnits?: number;
+    TotalUnits?: number;
     /**
      * 
      * @type {Amount}
      * @memberof BoxContentsFeeDetails
      */
-    feePerUnit?: Amount;
+    FeePerUnit?: Amount;
     /**
      * 
      * @type {Amount}
      * @memberof BoxContentsFeeDetails
      */
-    totalFee?: Amount;
+    TotalFee?: Amount;
 }
 /**
  * Where the seller provided box contents information for a shipment.
@@ -224,10 +225,10 @@ export interface BoxContentsFeeDetails {
  * @enum {string}
  */
 export enum BoxContentsSource {
-    NONE = 'NONE',
-    FEED = 'FEED',
-    _2DBARCODE = '2D_BARCODE',
-    INTERACTIVE = 'INTERACTIVE'
+    None = 'NONE',
+    Feed = 'FEED',
+    _2DBarcode = '2D_BARCODE',
+    Interactive = 'INTERACTIVE'
 }
 
 /**
@@ -241,7 +242,7 @@ export interface CommonTransportResult {
      * @type {TransportResult}
      * @memberof CommonTransportResult
      */
-    transportResult?: TransportResult;
+    TransportResult?: TransportResult;
 }
 /**
  * The condition of the item.
@@ -251,7 +252,7 @@ export interface CommonTransportResult {
 export enum Condition {
     NewItem = 'NewItem',
     NewWithWarranty = 'NewWithWarranty',
-    NewOEM = 'NewOEM',
+    NewOem = 'NewOEM',
     NewOpenBox = 'NewOpenBox',
     UsedLikeNew = 'UsedLikeNew',
     UsedVeryGood = 'UsedVeryGood',
@@ -299,13 +300,13 @@ export interface ConfirmPreorderResult {
      * @type {string}
      * @memberof ConfirmPreorderResult
      */
-    confirmedNeedByDate?: string;
+    ConfirmedNeedByDate?: string;
     /**
      * 
      * @type {string}
      * @memberof ConfirmPreorderResult
      */
-    confirmedFulfillableDate?: string;
+    ConfirmedFulfillableDate?: string;
 }
 /**
  * The response schema for the confirmTransport operation.
@@ -337,25 +338,25 @@ export interface Contact {
      * @type {string}
      * @memberof Contact
      */
-    name: string;
+    Name: string;
     /**
      * The phone number of the contact person.
      * @type {string}
      * @memberof Contact
      */
-    phone: string;
+    Phone: string;
     /**
      * The email address of the contact person.
      * @type {string}
      * @memberof Contact
      */
-    email: string;
+    Email: string;
     /**
      * The fax number of the contact person.
      * @type {string}
      * @memberof Contact
      */
-    fax?: string;
+    Fax?: string;
 }
 /**
  * The request schema for the createInboundShipmentPlan operation.
@@ -368,31 +369,31 @@ export interface CreateInboundShipmentPlanRequest {
      * @type {Address}
      * @memberof CreateInboundShipmentPlanRequest
      */
-    shipFromAddress: Address;
+    ShipFromAddress: Address;
     /**
      * 
      * @type {LabelPrepPreference}
      * @memberof CreateInboundShipmentPlanRequest
      */
-    labelPrepPreference: LabelPrepPreference;
+    LabelPrepPreference: LabelPrepPreference;
     /**
      * The two-character country code for the country where the inbound shipment is to be sent.  Note: Not required. Specifying both ShipToCountryCode and ShipToCountrySubdivisionCode returns an error.   Values:   ShipToCountryCode values for North America:  * CA – Canada  * MX - Mexico  * US - United States  ShipToCountryCode values for MCI sellers in Europe:  * DE – Germany  * ES – Spain  * FR – France  * GB – United Kingdom  * IT – Italy  Default: The country code for the seller\'s home marketplace.
      * @type {string}
      * @memberof CreateInboundShipmentPlanRequest
      */
-    shipToCountryCode?: string;
+    ShipToCountryCode?: string;
     /**
      * The two-character country code, followed by a dash and then up to three characters that represent the subdivision of the country where the inbound shipment is to be sent. For example, \"IN-MH\". In full ISO 3166-2 format.  Note: Not required. Specifying both ShipToCountryCode and ShipToCountrySubdivisionCode returns an error.
      * @type {string}
      * @memberof CreateInboundShipmentPlanRequest
      */
-    shipToCountrySubdivisionCode?: string;
+    ShipToCountrySubdivisionCode?: string;
     /**
      * 
      * @type {Array<InboundShipmentPlanRequestItem>}
      * @memberof CreateInboundShipmentPlanRequest
      */
-    inboundShipmentPlanRequestItems: Array<InboundShipmentPlanRequestItem>;
+    InboundShipmentPlanRequestItems: Array<InboundShipmentPlanRequestItem>;
 }
 /**
  * The response schema for the createInboundShipmentPlan operation.
@@ -424,7 +425,7 @@ export interface CreateInboundShipmentPlanResult {
      * @type {Array<InboundShipmentPlan>}
      * @memberof CreateInboundShipmentPlanResult
      */
-    inboundShipmentPlans?: Array<InboundShipmentPlan>;
+    InboundShipmentPlans?: Array<InboundShipmentPlan>;
 }
 /**
  * The currency code.
@@ -432,8 +433,8 @@ export interface CreateInboundShipmentPlanResult {
  * @enum {string}
  */
 export enum CurrencyCode {
-    USD = 'USD',
-    GBP = 'GBP'
+    Usd = 'USD',
+    Gbp = 'GBP'
 }
 
 /**
@@ -447,25 +448,25 @@ export interface Dimensions {
      * @type {number}
      * @memberof Dimensions
      */
-    length: number;
+    Length: number;
     /**
      * 
      * @type {number}
      * @memberof Dimensions
      */
-    width: number;
+    Width: number;
     /**
      * 
      * @type {number}
      * @memberof Dimensions
      */
-    height: number;
+    Height: number;
     /**
      * 
      * @type {UnitOfMeasurement}
      * @memberof Dimensions
      */
-    unit: UnitOfMeasurement;
+    Unit: UnitOfMeasurement;
 }
 /**
  * The reason that the ASIN is invalid.
@@ -474,7 +475,7 @@ export interface Dimensions {
  */
 export enum ErrorReason {
     DoesNotExist = 'DoesNotExist',
-    InvalidASIN = 'InvalidASIN'
+    InvalidAsin = 'InvalidASIN'
 }
 
 /**
@@ -545,25 +546,25 @@ export interface GetInboundGuidanceResult {
      * @type {Array<SKUInboundGuidance>}
      * @memberof GetInboundGuidanceResult
      */
-    sKUInboundGuidanceList?: Array<SKUInboundGuidance>;
+    SKUInboundGuidanceList?: Array<SKUInboundGuidance>;
     /**
      * A list of invalid SKU values and the reason they are invalid.
      * @type {Array<InvalidSKU>}
      * @memberof GetInboundGuidanceResult
      */
-    invalidSKUList?: Array<InvalidSKU>;
+    InvalidSKUList?: Array<InvalidSKU>;
     /**
      * A list of ASINs and their associated inbound guidance.
      * @type {Array<ASINInboundGuidance>}
      * @memberof GetInboundGuidanceResult
      */
-    aSINInboundGuidanceList?: Array<ASINInboundGuidance>;
+    ASINInboundGuidanceList?: Array<ASINInboundGuidance>;
     /**
      * A list of invalid ASIN values and the reasons they are invalid.
      * @type {Array<InvalidASIN>}
      * @memberof GetInboundGuidanceResult
      */
-    invalidASINList?: Array<InvalidASIN>;
+    InvalidASINList?: Array<InvalidASIN>;
 }
 /**
  * The response schema for the getLabels operation.
@@ -614,25 +615,25 @@ export interface GetPreorderInfoResult {
      * @type {boolean}
      * @memberof GetPreorderInfoResult
      */
-    shipmentContainsPreorderableItems?: boolean;
+    ShipmentContainsPreorderableItems?: boolean;
     /**
      * Indicates whether this shipment has been confirmed for pre-order.
      * @type {boolean}
      * @memberof GetPreorderInfoResult
      */
-    shipmentConfirmedForPreorder?: boolean;
+    ShipmentConfirmedForPreorder?: boolean;
     /**
      * 
      * @type {string}
      * @memberof GetPreorderInfoResult
      */
-    needByDate?: string;
+    NeedByDate?: string;
     /**
      * 
      * @type {string}
      * @memberof GetPreorderInfoResult
      */
-    confirmedFulfillableDate?: string;
+    ConfirmedFulfillableDate?: string;
 }
 /**
  * The response schema for the getPrepInstructions operation.
@@ -664,25 +665,25 @@ export interface GetPrepInstructionsResult {
      * @type {Array<SKUPrepInstructions>}
      * @memberof GetPrepInstructionsResult
      */
-    sKUPrepInstructionsList?: Array<SKUPrepInstructions>;
+    SKUPrepInstructionsList?: Array<SKUPrepInstructions>;
     /**
      * A list of invalid SKU values and the reason they are invalid.
      * @type {Array<InvalidSKU>}
      * @memberof GetPrepInstructionsResult
      */
-    invalidSKUList?: Array<InvalidSKU>;
+    InvalidSKUList?: Array<InvalidSKU>;
     /**
      * A list of item preparation instructions.
      * @type {Array<ASINPrepInstructions>}
      * @memberof GetPrepInstructionsResult
      */
-    aSINPrepInstructionsList?: Array<ASINPrepInstructions>;
+    ASINPrepInstructionsList?: Array<ASINPrepInstructions>;
     /**
      * A list of invalid ASIN values and the reasons they are invalid.
      * @type {Array<InvalidASIN>}
      * @memberof GetPrepInstructionsResult
      */
-    invalidASINList?: Array<InvalidASIN>;
+    InvalidASINList?: Array<InvalidASIN>;
 }
 /**
  * The response schema for the getShipmentItems operation.
@@ -714,13 +715,13 @@ export interface GetShipmentItemsResult {
      * @type {Array<InboundShipmentItem>}
      * @memberof GetShipmentItemsResult
      */
-    itemData?: Array<InboundShipmentItem>;
+    ItemData?: Array<InboundShipmentItem>;
     /**
      * When present and not empty, pass this string token in the next request to return the next response page.
      * @type {string}
      * @memberof GetShipmentItemsResult
      */
-    nextToken?: string;
+    NextToken?: string;
 }
 /**
  * The response schema for the getShipments operation.
@@ -752,13 +753,13 @@ export interface GetShipmentsResult {
      * @type {Array<InboundShipmentInfo>}
      * @memberof GetShipmentsResult
      */
-    shipmentData?: Array<InboundShipmentInfo>;
+    ShipmentData?: Array<InboundShipmentInfo>;
     /**
      * When present and not empty, pass this string token in the next request to return the next response page.
      * @type {string}
      * @memberof GetShipmentsResult
      */
-    nextToken?: string;
+    NextToken?: string;
 }
 /**
  * The response schema for the getTransportDetails operation.
@@ -790,7 +791,7 @@ export interface GetTransportDetailsResult {
      * @type {TransportContent}
      * @memberof GetTransportDetailsResult
      */
-    transportContent?: TransportContent;
+    TransportContent?: TransportContent;
 }
 /**
  * A reason for the current inbound guidance for an item.
@@ -798,7 +799,7 @@ export interface GetTransportDetailsResult {
  * @enum {string}
  */
 export enum GuidanceReason {
-    SlowMovingASIN = 'SlowMovingASIN',
+    SlowMovingAsin = 'SlowMovingASIN',
     NoApplicableGuidance = 'NoApplicableGuidance'
 }
 
@@ -809,7 +810,7 @@ export enum GuidanceReason {
  */
 export enum InboundGuidance {
     InboundNotRecommended = 'InboundNotRecommended',
-    InboundOK = 'InboundOK'
+    InboundOk = 'InboundOK'
 }
 
 /**
@@ -823,43 +824,43 @@ export interface InboundShipmentHeader {
      * @type {string}
      * @memberof InboundShipmentHeader
      */
-    shipmentName: string;
+    ShipmentName: string;
     /**
      * 
      * @type {Address}
      * @memberof InboundShipmentHeader
      */
-    shipFromAddress: Address;
+    ShipFromAddress: Address;
     /**
      * The identifier for the fulfillment center to which the shipment will be shipped. Get this value from the InboundShipmentPlan object in the response returned by the createInboundShipmentPlan operation.
      * @type {string}
      * @memberof InboundShipmentHeader
      */
-    destinationFulfillmentCenterId: string;
+    DestinationFulfillmentCenterId: string;
     /**
      * Indicates whether or not an inbound shipment contains case-packed boxes. Note: A shipment must contain either all case-packed boxes or all individually packed boxes.  Possible values:  true - All boxes in the shipment must be case packed.  false - All boxes in the shipment must be individually packed.  Note: If AreCasesRequired = true for an inbound shipment, then the value of QuantityInCase must be greater than zero for every item in the shipment. Otherwise the service returns an error.
      * @type {boolean}
      * @memberof InboundShipmentHeader
      */
-    areCasesRequired?: boolean;
+    AreCasesRequired?: boolean;
     /**
      * 
      * @type {ShipmentStatus}
      * @memberof InboundShipmentHeader
      */
-    shipmentStatus: ShipmentStatus;
+    ShipmentStatus: ShipmentStatus;
     /**
      * 
      * @type {LabelPrepPreference}
      * @memberof InboundShipmentHeader
      */
-    labelPrepPreference: LabelPrepPreference;
+    LabelPrepPreference: LabelPrepPreference;
     /**
      * 
      * @type {IntendedBoxContentsSource}
      * @memberof InboundShipmentHeader
      */
-    intendedBoxContentsSource?: IntendedBoxContentsSource;
+    IntendedBoxContentsSource?: IntendedBoxContentsSource;
 }
 /**
  * Information about the seller\'s inbound shipments. Returned by the listInboundShipments operation.
@@ -872,61 +873,61 @@ export interface InboundShipmentInfo {
      * @type {string}
      * @memberof InboundShipmentInfo
      */
-    shipmentId?: string;
+    ShipmentId?: string;
     /**
      * The name for the inbound shipment.
      * @type {string}
      * @memberof InboundShipmentInfo
      */
-    shipmentName?: string;
+    ShipmentName?: string;
     /**
      * 
      * @type {Address}
      * @memberof InboundShipmentInfo
      */
-    shipFromAddress: Address;
+    ShipFromAddress: Address;
     /**
      * An Amazon fulfillment center identifier created by Amazon.
      * @type {string}
      * @memberof InboundShipmentInfo
      */
-    destinationFulfillmentCenterId?: string;
+    DestinationFulfillmentCenterId?: string;
     /**
      * 
      * @type {ShipmentStatus}
      * @memberof InboundShipmentInfo
      */
-    shipmentStatus?: ShipmentStatus;
+    ShipmentStatus?: ShipmentStatus;
     /**
      * 
      * @type {LabelPrepType}
      * @memberof InboundShipmentInfo
      */
-    labelPrepType?: LabelPrepType;
+    LabelPrepType?: LabelPrepType;
     /**
      * Indicates whether or not an inbound shipment contains case-packed boxes. When AreCasesRequired = true for an inbound shipment, all items in the inbound shipment must be case packed.
      * @type {boolean}
      * @memberof InboundShipmentInfo
      */
-    areCasesRequired: boolean;
+    AreCasesRequired: boolean;
     /**
      * 
      * @type {string}
      * @memberof InboundShipmentInfo
      */
-    confirmedNeedByDate?: string;
+    ConfirmedNeedByDate?: string;
     /**
      * 
      * @type {BoxContentsSource}
      * @memberof InboundShipmentInfo
      */
-    boxContentsSource?: BoxContentsSource;
+    BoxContentsSource?: BoxContentsSource;
     /**
      * 
      * @type {BoxContentsFeeDetails}
      * @memberof InboundShipmentInfo
      */
-    estimatedBoxContentsFee?: BoxContentsFeeDetails;
+    EstimatedBoxContentsFee?: BoxContentsFeeDetails;
 }
 /**
  * Item information for an inbound shipment. Submitted with a call to the createInboundShipment or updateInboundShipment operation.
@@ -939,49 +940,49 @@ export interface InboundShipmentItem {
      * @type {string}
      * @memberof InboundShipmentItem
      */
-    shipmentId?: string;
+    ShipmentId?: string;
     /**
      * The seller SKU of the item.
      * @type {string}
      * @memberof InboundShipmentItem
      */
-    sellerSKU: string;
+    SellerSKU: string;
     /**
      * Amazon\'s fulfillment network SKU of the item.
      * @type {string}
      * @memberof InboundShipmentItem
      */
-    fulfillmentNetworkSKU?: string;
+    FulfillmentNetworkSKU?: string;
     /**
      * The item quantity.
      * @type {number}
      * @memberof InboundShipmentItem
      */
-    quantityShipped: number;
+    QuantityShipped: number;
     /**
      * The item quantity.
      * @type {number}
      * @memberof InboundShipmentItem
      */
-    quantityReceived?: number;
+    QuantityReceived?: number;
     /**
      * The item quantity.
      * @type {number}
      * @memberof InboundShipmentItem
      */
-    quantityInCase?: number;
+    QuantityInCase?: number;
     /**
      * 
      * @type {string}
      * @memberof InboundShipmentItem
      */
-    releaseDate?: string;
+    ReleaseDate?: string;
     /**
      * A list of preparation instructions and who is responsible for that preparation.
      * @type {Array<PrepDetails>}
      * @memberof InboundShipmentItem
      */
-    prepDetailsList?: Array<PrepDetails>;
+    PrepDetailsList?: Array<PrepDetails>;
 }
 /**
  * Inbound shipment information used to create an inbound shipment. Returned by the createInboundShipmentPlan operation.
@@ -994,37 +995,37 @@ export interface InboundShipmentPlan {
      * @type {string}
      * @memberof InboundShipmentPlan
      */
-    shipmentId: string;
+    ShipmentId: string;
     /**
      * An Amazon fulfillment center identifier created by Amazon.
      * @type {string}
      * @memberof InboundShipmentPlan
      */
-    destinationFulfillmentCenterId: string;
+    DestinationFulfillmentCenterId: string;
     /**
      * 
      * @type {Address}
      * @memberof InboundShipmentPlan
      */
-    shipToAddress: Address;
+    ShipToAddress: Address;
     /**
      * 
      * @type {LabelPrepType}
      * @memberof InboundShipmentPlan
      */
-    labelPrepType: LabelPrepType;
+    LabelPrepType: LabelPrepType;
     /**
      * A list of inbound shipment plan item information.
      * @type {Array<InboundShipmentPlanItem>}
      * @memberof InboundShipmentPlan
      */
-    items: Array<InboundShipmentPlanItem>;
+    Items: Array<InboundShipmentPlanItem>;
     /**
      * 
      * @type {BoxContentsFeeDetails}
      * @memberof InboundShipmentPlan
      */
-    estimatedBoxContentsFee?: BoxContentsFeeDetails;
+    EstimatedBoxContentsFee?: BoxContentsFeeDetails;
 }
 /**
  * Item information used to create an inbound shipment. Returned by the createInboundShipmentPlan operation.
@@ -1037,25 +1038,25 @@ export interface InboundShipmentPlanItem {
      * @type {string}
      * @memberof InboundShipmentPlanItem
      */
-    sellerSKU: string;
+    SellerSKU: string;
     /**
      * Amazon\'s fulfillment network SKU of the item.
      * @type {string}
      * @memberof InboundShipmentPlanItem
      */
-    fulfillmentNetworkSKU: string;
+    FulfillmentNetworkSKU: string;
     /**
      * The item quantity.
      * @type {number}
      * @memberof InboundShipmentPlanItem
      */
-    quantity: number;
+    Quantity: number;
     /**
      * A list of preparation instructions and who is responsible for that preparation.
      * @type {Array<PrepDetails>}
      * @memberof InboundShipmentPlanItem
      */
-    prepDetailsList?: Array<PrepDetails>;
+    PrepDetailsList?: Array<PrepDetails>;
 }
 /**
  * Item information for creating an inbound shipment plan. Submitted with a call to the createInboundShipmentPlan operation.
@@ -1068,7 +1069,7 @@ export interface InboundShipmentPlanRequestItem {
      * @type {string}
      * @memberof InboundShipmentPlanRequestItem
      */
-    sellerSKU: string;
+    SellerSKU: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -1080,25 +1081,25 @@ export interface InboundShipmentPlanRequestItem {
      * @type {Condition}
      * @memberof InboundShipmentPlanRequestItem
      */
-    condition: Condition;
+    Condition: Condition;
     /**
      * The item quantity.
      * @type {number}
      * @memberof InboundShipmentPlanRequestItem
      */
-    quantity: number;
+    Quantity: number;
     /**
      * The item quantity.
      * @type {number}
      * @memberof InboundShipmentPlanRequestItem
      */
-    quantityInCase?: number;
+    QuantityInCase?: number;
     /**
      * A list of preparation instructions and who is responsible for that preparation.
      * @type {Array<PrepDetails>}
      * @memberof InboundShipmentPlanRequestItem
      */
-    prepDetailsList?: Array<PrepDetails>;
+    PrepDetailsList?: Array<PrepDetails>;
 }
 /**
  * The request schema for an inbound shipment.
@@ -1111,19 +1112,19 @@ export interface InboundShipmentRequest {
      * @type {InboundShipmentHeader}
      * @memberof InboundShipmentRequest
      */
-    inboundShipmentHeader: InboundShipmentHeader;
+    InboundShipmentHeader: InboundShipmentHeader;
     /**
      * A list of inbound shipment item information.
      * @type {Array<InboundShipmentItem>}
      * @memberof InboundShipmentRequest
      */
-    inboundShipmentItems: Array<InboundShipmentItem>;
+    InboundShipmentItems: Array<InboundShipmentItem>;
     /**
      * A marketplace identifier. Specifies the marketplace where the product would be stored.
      * @type {string}
      * @memberof InboundShipmentRequest
      */
-    marketplaceId: string;
+    MarketplaceId: string;
 }
 /**
  * The response schema for this operation.
@@ -1155,7 +1156,7 @@ export interface InboundShipmentResult {
      * @type {string}
      * @memberof InboundShipmentResult
      */
-    shipmentId: string;
+    ShipmentId: string;
 }
 /**
  * How the seller intends to provide box contents information for a shipment.
@@ -1163,9 +1164,9 @@ export interface InboundShipmentResult {
  * @enum {string}
  */
 export enum IntendedBoxContentsSource {
-    NONE = 'NONE',
-    FEED = 'FEED',
-    _2DBARCODE = '2D_BARCODE'
+    None = 'NONE',
+    Feed = 'FEED',
+    _2DBarcode = '2D_BARCODE'
 }
 
 /**
@@ -1185,7 +1186,7 @@ export interface InvalidASIN {
      * @type {ErrorReason}
      * @memberof InvalidASIN
      */
-    errorReason?: ErrorReason;
+    ErrorReason?: ErrorReason;
 }
 /**
  * 
@@ -1198,13 +1199,13 @@ export interface InvalidSKU {
      * @type {string}
      * @memberof InvalidSKU
      */
-    sellerSKU?: string;
+    SellerSKU?: string;
     /**
      * 
      * @type {ErrorReason}
      * @memberof InvalidSKU
      */
-    errorReason?: ErrorReason;
+    ErrorReason?: ErrorReason;
 }
 /**
  * 
@@ -1217,7 +1218,7 @@ export interface LabelDownloadURL {
      * @type {string}
      * @memberof LabelDownloadURL
      */
-    downloadURL?: string;
+    DownloadURL?: string;
 }
 /**
  * The preference for label preparation for an inbound shipment.
@@ -1225,9 +1226,9 @@ export interface LabelDownloadURL {
  * @enum {string}
  */
 export enum LabelPrepPreference {
-    SELLERLABEL = 'SELLER_LABEL',
-    AMAZONLABELONLY = 'AMAZON_LABEL_ONLY',
-    AMAZONLABELPREFERRED = 'AMAZON_LABEL_PREFERRED'
+    SellerLabel = 'SELLER_LABEL',
+    AmazonLabelOnly = 'AMAZON_LABEL_ONLY',
+    AmazonLabelPreferred = 'AMAZON_LABEL_PREFERRED'
 }
 
 /**
@@ -1236,9 +1237,9 @@ export enum LabelPrepPreference {
  * @enum {string}
  */
 export enum LabelPrepType {
-    NOLABEL = 'NO_LABEL',
-    SELLERLABEL = 'SELLER_LABEL',
-    AMAZONLABEL = 'AMAZON_LABEL'
+    NoLabel = 'NO_LABEL',
+    SellerLabel = 'SELLER_LABEL',
+    AmazonLabel = 'AMAZON_LABEL'
 }
 
 /**
@@ -1277,13 +1278,13 @@ export interface NonPartneredLtlDataInput {
      * @type {string}
      * @memberof NonPartneredLtlDataInput
      */
-    carrierName: string;
+    CarrierName: string;
     /**
      * The PRO number (\"progressive number\" or \"progressive ID\") assigned to the shipment by the carrier.
      * @type {string}
      * @memberof NonPartneredLtlDataInput
      */
-    proNumber: string;
+    ProNumber: string;
 }
 /**
  * Information returned by Amazon about a Less Than Truckload/Full Truckload (LTL/FTL) shipment shipped by a carrier that has not partnered with Amazon.
@@ -1296,13 +1297,13 @@ export interface NonPartneredLtlDataOutput {
      * @type {string}
      * @memberof NonPartneredLtlDataOutput
      */
-    carrierName: string;
+    CarrierName: string;
     /**
      * The PRO number (\"progressive number\" or \"progressive ID\") assigned to the shipment by the carrier.
      * @type {string}
      * @memberof NonPartneredLtlDataOutput
      */
-    proNumber: string;
+    ProNumber: string;
 }
 /**
  * Information that you provide to Amazon about a Small Parcel shipment shipped by a carrier that has not partnered with Amazon.
@@ -1315,13 +1316,13 @@ export interface NonPartneredSmallParcelDataInput {
      * @type {string}
      * @memberof NonPartneredSmallParcelDataInput
      */
-    carrierName: string;
+    CarrierName: string;
     /**
      * A list of package tracking information.
      * @type {Array<NonPartneredSmallParcelPackageInput>}
      * @memberof NonPartneredSmallParcelDataInput
      */
-    packageList: Array<NonPartneredSmallParcelPackageInput>;
+    PackageList: Array<NonPartneredSmallParcelPackageInput>;
 }
 /**
  * Information returned by Amazon about a Small Parcel shipment by a carrier that has not partnered with Amazon.
@@ -1334,7 +1335,7 @@ export interface NonPartneredSmallParcelDataOutput {
      * @type {Array<NonPartneredSmallParcelPackageOutput>}
      * @memberof NonPartneredSmallParcelDataOutput
      */
-    packageList: Array<NonPartneredSmallParcelPackageOutput>;
+    PackageList: Array<NonPartneredSmallParcelPackageOutput>;
 }
 /**
  * The tracking number of the package, provided by the carrier.
@@ -1347,7 +1348,7 @@ export interface NonPartneredSmallParcelPackageInput {
      * @type {string}
      * @memberof NonPartneredSmallParcelPackageInput
      */
-    trackingId: string;
+    TrackingId: string;
 }
 /**
  * Carrier, tracking number, and status information for the package.
@@ -1360,19 +1361,19 @@ export interface NonPartneredSmallParcelPackageOutput {
      * @type {string}
      * @memberof NonPartneredSmallParcelPackageOutput
      */
-    carrierName: string;
+    CarrierName: string;
     /**
      * The tracking number of the package, provided by the carrier.
      * @type {string}
      * @memberof NonPartneredSmallParcelPackageOutput
      */
-    trackingId: string;
+    TrackingId: string;
     /**
      * 
      * @type {PackageStatus}
      * @memberof NonPartneredSmallParcelPackageOutput
      */
-    packageStatus: PackageStatus;
+    PackageStatus: PackageStatus;
 }
 /**
  * The shipment status of the package.
@@ -1380,13 +1381,13 @@ export interface NonPartneredSmallParcelPackageOutput {
  * @enum {string}
  */
 export enum PackageStatus {
-    SHIPPED = 'SHIPPED',
-    INTRANSIT = 'IN_TRANSIT',
-    DELIVERED = 'DELIVERED',
-    CHECKEDIN = 'CHECKED_IN',
-    RECEIVING = 'RECEIVING',
-    CLOSED = 'CLOSED',
-    DELETED = 'DELETED'
+    Shipped = 'SHIPPED',
+    InTransit = 'IN_TRANSIT',
+    Delivered = 'DELIVERED',
+    CheckedIn = 'CHECKED_IN',
+    Receiving = 'RECEIVING',
+    Closed = 'CLOSED',
+    Deleted = 'DELETED'
 }
 
 /**
@@ -1400,19 +1401,19 @@ export interface Pallet {
      * @type {Dimensions}
      * @memberof Pallet
      */
-    dimensions: Dimensions;
+    Dimensions: Dimensions;
     /**
      * 
      * @type {Weight}
      * @memberof Pallet
      */
-    weight?: Weight;
+    Weight?: Weight;
     /**
      * Indicates whether pallets will be stacked when carrier arrives for pick-up.
      * @type {boolean}
      * @memberof Pallet
      */
-    isStacked: boolean;
+    IsStacked: boolean;
 }
 /**
  * The estimated shipping cost for a shipment using an Amazon-partnered carrier.
@@ -1425,19 +1426,19 @@ export interface PartneredEstimate {
      * @type {Amount}
      * @memberof PartneredEstimate
      */
-    amount: Amount;
+    Amount: Amount;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof PartneredEstimate
      */
-    confirmDeadline?: Date;
+    ConfirmDeadline?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof PartneredEstimate
      */
-    voidDeadline?: Date;
+    VoidDeadline?: string;
 }
 /**
  * Information that is required by an Amazon-partnered carrier to ship a Less Than Truckload/Full Truckload (LTL/FTL) inbound shipment.
@@ -1450,43 +1451,43 @@ export interface PartneredLtlDataInput {
      * @type {Contact}
      * @memberof PartneredLtlDataInput
      */
-    contact?: Contact;
+    Contact?: Contact;
     /**
      * 
      * @type {number}
      * @memberof PartneredLtlDataInput
      */
-    boxCount?: number;
+    BoxCount?: number;
     /**
      * 
      * @type {SellerFreightClass}
      * @memberof PartneredLtlDataInput
      */
-    sellerFreightClass?: SellerFreightClass;
+    SellerFreightClass?: SellerFreightClass;
     /**
      * 
      * @type {string}
      * @memberof PartneredLtlDataInput
      */
-    freightReadyDate?: string;
+    FreightReadyDate?: string;
     /**
      * A list of pallet information.
      * @type {Array<Pallet>}
      * @memberof PartneredLtlDataInput
      */
-    palletList?: Array<Pallet>;
+    PalletList?: Array<Pallet>;
     /**
      * 
      * @type {Weight}
      * @memberof PartneredLtlDataInput
      */
-    totalWeight?: Weight;
+    TotalWeight?: Weight;
     /**
      * 
      * @type {Amount}
      * @memberof PartneredLtlDataInput
      */
-    sellerDeclaredValue?: Amount;
+    SellerDeclaredValue?: Amount;
 }
 /**
  * Information returned by Amazon about a Less Than Truckload/Full Truckload (LTL/FTL) shipment by an Amazon-partnered carrier.
@@ -1499,91 +1500,91 @@ export interface PartneredLtlDataOutput {
      * @type {Contact}
      * @memberof PartneredLtlDataOutput
      */
-    contact: Contact;
+    Contact: Contact;
     /**
      * 
      * @type {number}
      * @memberof PartneredLtlDataOutput
      */
-    boxCount: number;
+    BoxCount: number;
     /**
      * 
      * @type {SellerFreightClass}
      * @memberof PartneredLtlDataOutput
      */
-    sellerFreightClass?: SellerFreightClass;
+    SellerFreightClass?: SellerFreightClass;
     /**
      * 
      * @type {string}
      * @memberof PartneredLtlDataOutput
      */
-    freightReadyDate: string;
+    FreightReadyDate: string;
     /**
      * A list of pallet information.
      * @type {Array<Pallet>}
      * @memberof PartneredLtlDataOutput
      */
-    palletList: Array<Pallet>;
+    PalletList: Array<Pallet>;
     /**
      * 
      * @type {Weight}
      * @memberof PartneredLtlDataOutput
      */
-    totalWeight: Weight;
+    TotalWeight: Weight;
     /**
      * 
      * @type {Amount}
      * @memberof PartneredLtlDataOutput
      */
-    sellerDeclaredValue?: Amount;
+    SellerDeclaredValue?: Amount;
     /**
      * 
      * @type {Amount}
      * @memberof PartneredLtlDataOutput
      */
-    amazonCalculatedValue?: Amount;
+    AmazonCalculatedValue?: Amount;
     /**
      * 
      * @type {string}
      * @memberof PartneredLtlDataOutput
      */
-    previewPickupDate: string;
+    PreviewPickupDate: string;
     /**
      * 
      * @type {string}
      * @memberof PartneredLtlDataOutput
      */
-    previewDeliveryDate: string;
+    PreviewDeliveryDate: string;
     /**
      * 
      * @type {SellerFreightClass}
      * @memberof PartneredLtlDataOutput
      */
-    previewFreightClass: SellerFreightClass;
+    PreviewFreightClass: SellerFreightClass;
     /**
      * A unique identifier created by Amazon that identifies this Amazon-partnered, Less Than Truckload/Full Truckload (LTL/FTL) shipment.
      * @type {string}
      * @memberof PartneredLtlDataOutput
      */
-    amazonReferenceId: string;
+    AmazonReferenceId: string;
     /**
      * Indicates whether the bill of lading for the shipment is available.
      * @type {boolean}
      * @memberof PartneredLtlDataOutput
      */
-    isBillOfLadingAvailable: boolean;
+    IsBillOfLadingAvailable: boolean;
     /**
      * 
      * @type {PartneredEstimate}
      * @memberof PartneredLtlDataOutput
      */
-    partneredEstimate?: PartneredEstimate;
+    PartneredEstimate?: PartneredEstimate;
     /**
      * The carrier for the inbound shipment.
      * @type {string}
      * @memberof PartneredLtlDataOutput
      */
-    carrierName: string;
+    CarrierName: string;
 }
 /**
  * Information that is required by an Amazon-partnered carrier to ship a Small Parcel inbound shipment.
@@ -1596,13 +1597,13 @@ export interface PartneredSmallParcelDataInput {
      * @type {Array<PartneredSmallParcelPackageInput>}
      * @memberof PartneredSmallParcelDataInput
      */
-    packageList?: Array<PartneredSmallParcelPackageInput>;
+    PackageList?: Array<PartneredSmallParcelPackageInput>;
     /**
      * The Amazon-partnered carrier to use for the inbound shipment.
      * @type {string}
      * @memberof PartneredSmallParcelDataInput
      */
-    carrierName?: string;
+    CarrierName?: string;
 }
 /**
  * Information returned by Amazon about a Small Parcel shipment by an Amazon-partnered carrier.
@@ -1615,13 +1616,13 @@ export interface PartneredSmallParcelDataOutput {
      * @type {Array<PartneredSmallParcelPackageOutput>}
      * @memberof PartneredSmallParcelDataOutput
      */
-    packageList: Array<PartneredSmallParcelPackageOutput>;
+    PackageList: Array<PartneredSmallParcelPackageOutput>;
     /**
      * 
      * @type {PartneredEstimate}
      * @memberof PartneredSmallParcelDataOutput
      */
-    partneredEstimate?: PartneredEstimate;
+    PartneredEstimate?: PartneredEstimate;
 }
 /**
  * Dimension and weight information for the package.
@@ -1634,13 +1635,13 @@ export interface PartneredSmallParcelPackageInput {
      * @type {Dimensions}
      * @memberof PartneredSmallParcelPackageInput
      */
-    dimensions: Dimensions;
+    Dimensions: Dimensions;
     /**
      * 
      * @type {Weight}
      * @memberof PartneredSmallParcelPackageInput
      */
-    weight: Weight;
+    Weight: Weight;
 }
 /**
  * Dimension, weight, and shipping information for the package.
@@ -1653,31 +1654,31 @@ export interface PartneredSmallParcelPackageOutput {
      * @type {Dimensions}
      * @memberof PartneredSmallParcelPackageOutput
      */
-    dimensions: Dimensions;
+    Dimensions: Dimensions;
     /**
      * 
      * @type {Weight}
      * @memberof PartneredSmallParcelPackageOutput
      */
-    weight: Weight;
+    Weight: Weight;
     /**
      * The carrier specified with a previous call to putTransportDetails.
      * @type {string}
      * @memberof PartneredSmallParcelPackageOutput
      */
-    carrierName: string;
+    CarrierName: string;
     /**
      * The tracking number of the package, provided by the carrier.
      * @type {string}
      * @memberof PartneredSmallParcelPackageOutput
      */
-    trackingId: string;
+    TrackingId: string;
     /**
      * 
      * @type {PackageStatus}
      * @memberof PartneredSmallParcelPackageOutput
      */
-    packageStatus: PackageStatus;
+    PackageStatus: PackageStatus;
 }
 /**
  * Preparation instructions and who is responsible for the preparation.
@@ -1690,13 +1691,13 @@ export interface PrepDetails {
      * @type {PrepInstruction}
      * @memberof PrepDetails
      */
-    prepInstruction: PrepInstruction;
+    PrepInstruction: PrepInstruction;
     /**
      * 
      * @type {PrepOwner}
      * @memberof PrepDetails
      */
-    prepOwner: PrepOwner;
+    PrepOwner: PrepOwner;
 }
 /**
  * Item preparation instructions.
@@ -1729,8 +1730,8 @@ export enum PrepInstruction {
  * @enum {string}
  */
 export enum PrepOwner {
-    AMAZON = 'AMAZON',
-    SELLER = 'SELLER'
+    Amazon = 'AMAZON',
+    Seller = 'SELLER'
 }
 
 /**
@@ -1744,19 +1745,19 @@ export interface PutTransportDetailsRequest {
      * @type {boolean}
      * @memberof PutTransportDetailsRequest
      */
-    isPartnered: boolean;
+    IsPartnered: boolean;
     /**
      * 
      * @type {ShipmentType}
      * @memberof PutTransportDetailsRequest
      */
-    shipmentType: ShipmentType;
+    ShipmentType: ShipmentType;
     /**
      * 
      * @type {TransportDetailInput}
      * @memberof PutTransportDetailsRequest
      */
-    transportDetails: TransportDetailInput;
+    TransportDetails: TransportDetailInput;
 }
 /**
  * Workflow status for a shipment with an Amazon-partnered carrier.
@@ -1788,7 +1789,7 @@ export interface SKUInboundGuidance {
      * @type {string}
      * @memberof SKUInboundGuidance
      */
-    sellerSKU: string;
+    SellerSKU: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -1800,13 +1801,13 @@ export interface SKUInboundGuidance {
      * @type {InboundGuidance}
      * @memberof SKUInboundGuidance
      */
-    inboundGuidance: InboundGuidance;
+    InboundGuidance: InboundGuidance;
     /**
      * A list of inbound guidance reason information.
      * @type {Array<GuidanceReason>}
      * @memberof SKUInboundGuidance
      */
-    guidanceReasonList?: Array<GuidanceReason>;
+    GuidanceReasonList?: Array<GuidanceReason>;
 }
 /**
  * Labeling requirements and item preparation instructions to help you prepare items for shipment to Amazon\'s fulfillment network.
@@ -1819,7 +1820,7 @@ export interface SKUPrepInstructions {
      * @type {string}
      * @memberof SKUPrepInstructions
      */
-    sellerSKU?: string;
+    SellerSKU?: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -1831,25 +1832,25 @@ export interface SKUPrepInstructions {
      * @type {BarcodeInstruction}
      * @memberof SKUPrepInstructions
      */
-    barcodeInstruction?: BarcodeInstruction;
+    BarcodeInstruction?: BarcodeInstruction;
     /**
      * 
      * @type {PrepGuidance}
      * @memberof SKUPrepInstructions
      */
-    prepGuidance?: PrepGuidance;
+    PrepGuidance?: PrepGuidance;
     /**
      * A list of preparation instructions to help with item sourcing decisions.
      * @type {Array<PrepInstruction>}
      * @memberof SKUPrepInstructions
      */
-    prepInstructionList?: Array<PrepInstruction>;
+    PrepInstructionList?: Array<PrepInstruction>;
     /**
      * A list of preparation instructions and fees for Amazon to prep goods for shipment.
      * @type {Array<AmazonPrepFeesDetails>}
      * @memberof SKUPrepInstructions
      */
-    amazonPrepFeesDetailsList?: Array<AmazonPrepFeesDetails>;
+    AmazonPrepFeesDetailsList?: Array<AmazonPrepFeesDetails>;
 }
 /**
  * The freight class of the shipment. For information about determining the freight class, contact the carrier.
@@ -1883,16 +1884,16 @@ export enum SellerFreightClass {
  * @enum {string}
  */
 export enum ShipmentStatus {
-    WORKING = 'WORKING',
-    SHIPPED = 'SHIPPED',
-    RECEIVING = 'RECEIVING',
-    CANCELLED = 'CANCELLED',
-    DELETED = 'DELETED',
-    CLOSED = 'CLOSED',
-    ERROR = 'ERROR',
-    INTRANSIT = 'IN_TRANSIT',
-    DELIVERED = 'DELIVERED',
-    CHECKEDIN = 'CHECKED_IN'
+    Working = 'WORKING',
+    Shipped = 'SHIPPED',
+    Receiving = 'RECEIVING',
+    Cancelled = 'CANCELLED',
+    Deleted = 'DELETED',
+    Closed = 'CLOSED',
+    Error = 'ERROR',
+    InTransit = 'IN_TRANSIT',
+    Delivered = 'DELIVERED',
+    CheckedIn = 'CHECKED_IN'
 }
 
 /**
@@ -1901,8 +1902,8 @@ export enum ShipmentStatus {
  * @enum {string}
  */
 export enum ShipmentType {
-    SP = 'SP',
-    LTL = 'LTL'
+    Sp = 'SP',
+    Ltl = 'LTL'
 }
 
 /**
@@ -1916,19 +1917,19 @@ export interface TransportContent {
      * @type {TransportHeader}
      * @memberof TransportContent
      */
-    transportHeader: TransportHeader;
+    TransportHeader: TransportHeader;
     /**
      * 
      * @type {TransportDetailOutput}
      * @memberof TransportContent
      */
-    transportDetails: TransportDetailOutput;
+    TransportDetails: TransportDetailOutput;
     /**
      * 
      * @type {TransportResult}
      * @memberof TransportContent
      */
-    transportResult: TransportResult;
+    TransportResult: TransportResult;
 }
 /**
  * Information required to create an Amazon-partnered carrier shipping estimate, or to alert the Amazon fulfillment center to the arrival of an inbound shipment by a non-Amazon-partnered carrier.
@@ -1941,25 +1942,25 @@ export interface TransportDetailInput {
      * @type {PartneredSmallParcelDataInput}
      * @memberof TransportDetailInput
      */
-    partneredSmallParcelData?: PartneredSmallParcelDataInput;
+    PartneredSmallParcelData?: PartneredSmallParcelDataInput;
     /**
      * 
      * @type {NonPartneredSmallParcelDataInput}
      * @memberof TransportDetailInput
      */
-    nonPartneredSmallParcelData?: NonPartneredSmallParcelDataInput;
+    NonPartneredSmallParcelData?: NonPartneredSmallParcelDataInput;
     /**
      * 
      * @type {PartneredLtlDataInput}
      * @memberof TransportDetailInput
      */
-    partneredLtlData?: PartneredLtlDataInput;
+    PartneredLtlData?: PartneredLtlDataInput;
     /**
      * 
      * @type {NonPartneredLtlDataInput}
      * @memberof TransportDetailInput
      */
-    nonPartneredLtlData?: NonPartneredLtlDataInput;
+    NonPartneredLtlData?: NonPartneredLtlDataInput;
 }
 /**
  * Inbound shipment information, including carrier details and shipment status.
@@ -1972,25 +1973,25 @@ export interface TransportDetailOutput {
      * @type {PartneredSmallParcelDataOutput}
      * @memberof TransportDetailOutput
      */
-    partneredSmallParcelData?: PartneredSmallParcelDataOutput;
+    PartneredSmallParcelData?: PartneredSmallParcelDataOutput;
     /**
      * 
      * @type {NonPartneredSmallParcelDataOutput}
      * @memberof TransportDetailOutput
      */
-    nonPartneredSmallParcelData?: NonPartneredSmallParcelDataOutput;
+    NonPartneredSmallParcelData?: NonPartneredSmallParcelDataOutput;
     /**
      * 
      * @type {PartneredLtlDataOutput}
      * @memberof TransportDetailOutput
      */
-    partneredLtlData?: PartneredLtlDataOutput;
+    PartneredLtlData?: PartneredLtlDataOutput;
     /**
      * 
      * @type {NonPartneredLtlDataOutput}
      * @memberof TransportDetailOutput
      */
-    nonPartneredLtlData?: NonPartneredLtlDataOutput;
+    NonPartneredLtlData?: NonPartneredLtlDataOutput;
 }
 /**
  * The shipping identifier, information about whether the shipment is by an Amazon-partnered carrier, and information about whether the shipment is Small Parcel or Less Than Truckload/Full Truckload (LTL/FTL).
@@ -2003,25 +2004,25 @@ export interface TransportHeader {
      * @type {string}
      * @memberof TransportHeader
      */
-    sellerId: string;
+    SellerId: string;
     /**
      * A shipment identifier originally returned by the createInboundShipmentPlan operation.
      * @type {string}
      * @memberof TransportHeader
      */
-    shipmentId: string;
+    ShipmentId: string;
     /**
      * Indicates whether a putTransportDetails request is for a partnered carrier.  Possible values:  * true – Request is for an Amazon-partnered carrier.  * false – Request is for a non-Amazon-partnered carrier.
      * @type {boolean}
      * @memberof TransportHeader
      */
-    isPartnered: boolean;
+    IsPartnered: boolean;
     /**
      * 
      * @type {ShipmentType}
      * @memberof TransportHeader
      */
-    shipmentType: ShipmentType;
+    ShipmentType: ShipmentType;
 }
 /**
  * The workflow status for a shipment with an Amazon-partnered carrier.
@@ -2034,19 +2035,19 @@ export interface TransportResult {
      * @type {TransportStatus}
      * @memberof TransportResult
      */
-    transportStatus: TransportStatus;
+    TransportStatus: TransportStatus;
     /**
      * An error code that identifies the type of error that occured.
      * @type {string}
      * @memberof TransportResult
      */
-    errorCode?: string;
+    ErrorCode?: string;
     /**
      * A message that describes the error condition.
      * @type {string}
      * @memberof TransportResult
      */
-    errorDescription?: string;
+    ErrorDescription?: string;
 }
 /**
  * Indicates the status of the Amazon-partnered carrier shipment.
@@ -2054,17 +2055,17 @@ export interface TransportResult {
  * @enum {string}
  */
 export enum TransportStatus {
-    WORKING = 'WORKING',
-    ESTIMATING = 'ESTIMATING',
-    ESTIMATED = 'ESTIMATED',
-    ERRORONESTIMATING = 'ERROR_ON_ESTIMATING',
-    CONFIRMING = 'CONFIRMING',
-    CONFIRMED = 'CONFIRMED',
-    ERRORONCONFIRMING = 'ERROR_ON_CONFIRMING',
-    VOIDING = 'VOIDING',
-    VOIDED = 'VOIDED',
-    ERRORINVOIDING = 'ERROR_IN_VOIDING',
-    ERROR = 'ERROR'
+    Working = 'WORKING',
+    Estimating = 'ESTIMATING',
+    Estimated = 'ESTIMATED',
+    ErrorOnEstimating = 'ERROR_ON_ESTIMATING',
+    Confirming = 'CONFIRMING',
+    Confirmed = 'CONFIRMED',
+    ErrorOnConfirming = 'ERROR_ON_CONFIRMING',
+    Voiding = 'VOIDING',
+    Voided = 'VOIDED',
+    ErrorInVoiding = 'ERROR_IN_VOIDING',
+    Error = 'ERROR'
 }
 
 /**
@@ -2117,13 +2118,13 @@ export interface Weight {
      * @type {number}
      * @memberof Weight
      */
-    value: number;
+    Value: number;
     /**
      * 
      * @type {UnitOfWeight}
      * @memberof Weight
      */
-    unit: UnitOfWeight;
+    Unit: UnitOfWeight;
 }
 
 /**
@@ -2140,26 +2141,22 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmPreorder(shipmentId: string, needByDate: string, marketplaceId: string, options: any = {}): RequestArgs {
+        confirmPreorder: async (shipmentId: string, needByDate: string, marketplaceId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling confirmPreorder.');
-            }
+            assertParamExists('confirmPreorder', 'shipmentId', shipmentId)
             // verify required parameter 'needByDate' is not null or undefined
-            if (needByDate === null || needByDate === undefined) {
-                throw new RequiredError('needByDate','Required parameter needByDate was null or undefined when calling confirmPreorder.');
-            }
+            assertParamExists('confirmPreorder', 'needByDate', needByDate)
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling confirmPreorder.');
-            }
+            assertParamExists('confirmPreorder', 'marketplaceId', marketplaceId)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/preorder/confirm`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2176,13 +2173,12 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2192,31 +2188,30 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmTransport(shipmentId: string, options: any = {}): RequestArgs {
+        confirmTransport: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling confirmTransport.');
-            }
+            assertParamExists('confirmTransport', 'shipmentId', shipmentId)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/transport/confirm`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2227,22 +2222,20 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createInboundShipment(shipmentId: string, body: InboundShipmentRequest, options: any = {}): RequestArgs {
+        createInboundShipment: async (shipmentId: string, body: InboundShipmentRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling createInboundShipment.');
-            }
+            assertParamExists('createInboundShipment', 'shipmentId', shipmentId)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createInboundShipment.');
-            }
+            assertParamExists('createInboundShipment', 'body', body)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2251,15 +2244,13 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"InboundShipmentRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2269,17 +2260,17 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createInboundShipmentPlan(body: CreateInboundShipmentPlanRequest, options: any = {}): RequestArgs {
+        createInboundShipmentPlan: async (body: CreateInboundShipmentPlanRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createInboundShipmentPlan.');
-            }
+            assertParamExists('createInboundShipmentPlan', 'body', body)
             const localVarPath = `/fba/inbound/v0/plans`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2288,15 +2279,13 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"CreateInboundShipmentPlanRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2306,31 +2295,30 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        estimateTransport(shipmentId: string, options: any = {}): RequestArgs {
+        estimateTransport: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling estimateTransport.');
-            }
+            assertParamExists('estimateTransport', 'shipmentId', shipmentId)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/transport/estimate`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2340,31 +2328,30 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBillOfLading(shipmentId: string, options: any = {}): RequestArgs {
+        getBillOfLading: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling getBillOfLading.');
-            }
+            assertParamExists('getBillOfLading', 'shipmentId', shipmentId)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/billOfLading`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2376,17 +2363,17 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInboundGuidance(marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options: any = {}): RequestArgs {
+        getInboundGuidance: async (marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getInboundGuidance.');
-            }
+            assertParamExists('getInboundGuidance', 'marketplaceId', marketplaceId)
             const localVarPath = `/fba/inbound/v0/itemsGuidance`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2405,13 +2392,12 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2428,26 +2414,22 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLabels(shipmentId: string, pageType: 'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation', labelType: 'BARCODE_2D' | 'UNIQUE' | 'PALLET', numberOfPackages?: number, packageLabelsToPrint?: Array<string>, numberOfPallets?: number, pageSize?: number, pageStartIndex?: number, options: any = {}): RequestArgs {
+        getLabels: async (shipmentId: string, pageType: 'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation', labelType: 'BARCODE_2D' | 'UNIQUE' | 'PALLET', numberOfPackages?: number, packageLabelsToPrint?: Array<string>, numberOfPallets?: number, pageSize?: number, pageStartIndex?: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling getLabels.');
-            }
+            assertParamExists('getLabels', 'shipmentId', shipmentId)
             // verify required parameter 'pageType' is not null or undefined
-            if (pageType === null || pageType === undefined) {
-                throw new RequiredError('pageType','Required parameter pageType was null or undefined when calling getLabels.');
-            }
+            assertParamExists('getLabels', 'pageType', pageType)
             // verify required parameter 'labelType' is not null or undefined
-            if (labelType === null || labelType === undefined) {
-                throw new RequiredError('labelType','Required parameter labelType was null or undefined when calling getLabels.');
-            }
+            assertParamExists('getLabels', 'labelType', labelType)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/labels`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2482,13 +2464,12 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2499,22 +2480,20 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPreorderInfo(shipmentId: string, marketplaceId: string, options: any = {}): RequestArgs {
+        getPreorderInfo: async (shipmentId: string, marketplaceId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling getPreorderInfo.');
-            }
+            assertParamExists('getPreorderInfo', 'shipmentId', shipmentId)
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getPreorderInfo.');
-            }
+            assertParamExists('getPreorderInfo', 'marketplaceId', marketplaceId)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/preorder`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2525,13 +2504,12 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2543,17 +2521,17 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPrepInstructions(shipToCountryCode: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options: any = {}): RequestArgs {
+        getPrepInstructions: async (shipToCountryCode: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipToCountryCode' is not null or undefined
-            if (shipToCountryCode === null || shipToCountryCode === undefined) {
-                throw new RequiredError('shipToCountryCode','Required parameter shipToCountryCode was null or undefined when calling getPrepInstructions.');
-            }
+            assertParamExists('getPrepInstructions', 'shipToCountryCode', shipToCountryCode)
             const localVarPath = `/fba/inbound/v0/prepInstructions`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2572,13 +2550,12 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2586,37 +2563,39 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * Returns a list of items in a specified inbound shipment, or a list of items that were updated within a specified time frame.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {'DATE_RANGE' | 'NEXT_TOKEN'} queryType Indicates whether items are returned using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or using NextToken, which continues returning items specified in a previous request.
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-         * @param {Date} [lastUpdatedAfter] A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-         * @param {Date} [lastUpdatedBefore] A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedAfter] A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedBefore] A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipmentItems(queryType: 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, lastUpdatedAfter?: Date, lastUpdatedBefore?: Date, nextToken?: string, options: any = {}): RequestArgs {
+        getShipmentItems: async (queryType: 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'queryType' is not null or undefined
-            if (queryType === null || queryType === undefined) {
-                throw new RequiredError('queryType','Required parameter queryType was null or undefined when calling getShipmentItems.');
-            }
+            assertParamExists('getShipmentItems', 'queryType', queryType)
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getShipmentItems.');
-            }
+            assertParamExists('getShipmentItems', 'marketplaceId', marketplaceId)
             const localVarPath = `/fba/inbound/v0/shipmentItems`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             if (lastUpdatedAfter !== undefined) {
-                localVarQueryParameter['LastUpdatedAfter'] = (lastUpdatedAfter as any).toISOString();
+                localVarQueryParameter['LastUpdatedAfter'] = (lastUpdatedAfter as any instanceof Date) ?
+                    (lastUpdatedAfter as any).toISOString() :
+                    lastUpdatedAfter;
             }
 
             if (lastUpdatedBefore !== undefined) {
-                localVarQueryParameter['LastUpdatedBefore'] = (lastUpdatedBefore as any).toISOString();
+                localVarQueryParameter['LastUpdatedBefore'] = (lastUpdatedBefore as any instanceof Date) ?
+                    (lastUpdatedBefore as any).toISOString() :
+                    lastUpdatedBefore;
             }
 
             if (queryType !== undefined) {
@@ -2633,13 +2612,12 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2650,22 +2628,20 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipmentItemsByShipmentId(shipmentId: string, marketplaceId: string, options: any = {}): RequestArgs {
+        getShipmentItemsByShipmentId: async (shipmentId: string, marketplaceId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling getShipmentItemsByShipmentId.');
-            }
+            assertParamExists('getShipmentItemsByShipmentId', 'shipmentId', shipmentId)
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getShipmentItemsByShipmentId.');
-            }
+            assertParamExists('getShipmentItemsByShipmentId', 'marketplaceId', marketplaceId)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/items`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2676,13 +2652,12 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2692,27 +2667,25 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
          * @param {Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>} [shipmentStatusList] A list of ShipmentStatus values. Used to select shipments with a current status that matches the status values that you specify.
          * @param {Array<string>} [shipmentIdList] A list of shipment IDs used to select the shipments that you want. If both ShipmentStatusList and ShipmentIdList are specified, only shipments that match both parameters are returned.
-         * @param {Date} [lastUpdatedAfter] A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-         * @param {Date} [lastUpdatedBefore] A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedAfter] A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedBefore] A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipments(queryType: 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, shipmentStatusList?: Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>, shipmentIdList?: Array<string>, lastUpdatedAfter?: Date, lastUpdatedBefore?: Date, nextToken?: string, options: any = {}): RequestArgs {
+        getShipments: async (queryType: 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, shipmentStatusList?: Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>, shipmentIdList?: Array<string>, lastUpdatedAfter?: string, lastUpdatedBefore?: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'queryType' is not null or undefined
-            if (queryType === null || queryType === undefined) {
-                throw new RequiredError('queryType','Required parameter queryType was null or undefined when calling getShipments.');
-            }
+            assertParamExists('getShipments', 'queryType', queryType)
             // verify required parameter 'marketplaceId' is not null or undefined
-            if (marketplaceId === null || marketplaceId === undefined) {
-                throw new RequiredError('marketplaceId','Required parameter marketplaceId was null or undefined when calling getShipments.');
-            }
+            assertParamExists('getShipments', 'marketplaceId', marketplaceId)
             const localVarPath = `/fba/inbound/v0/shipments`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2726,11 +2699,15 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             }
 
             if (lastUpdatedAfter !== undefined) {
-                localVarQueryParameter['LastUpdatedAfter'] = (lastUpdatedAfter as any).toISOString();
+                localVarQueryParameter['LastUpdatedAfter'] = (lastUpdatedAfter as any instanceof Date) ?
+                    (lastUpdatedAfter as any).toISOString() :
+                    lastUpdatedAfter;
             }
 
             if (lastUpdatedBefore !== undefined) {
-                localVarQueryParameter['LastUpdatedBefore'] = (lastUpdatedBefore as any).toISOString();
+                localVarQueryParameter['LastUpdatedBefore'] = (lastUpdatedBefore as any instanceof Date) ?
+                    (lastUpdatedBefore as any).toISOString() :
+                    lastUpdatedBefore;
             }
 
             if (queryType !== undefined) {
@@ -2747,13 +2724,12 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2763,31 +2739,30 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTransportDetails(shipmentId: string, options: any = {}): RequestArgs {
+        getTransportDetails: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling getTransportDetails.');
-            }
+            assertParamExists('getTransportDetails', 'shipmentId', shipmentId)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/transport`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2798,22 +2773,20 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putTransportDetails(shipmentId: string, body: PutTransportDetailsRequest, options: any = {}): RequestArgs {
+        putTransportDetails: async (shipmentId: string, body: PutTransportDetailsRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling putTransportDetails.');
-            }
+            assertParamExists('putTransportDetails', 'shipmentId', shipmentId)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling putTransportDetails.');
-            }
+            assertParamExists('putTransportDetails', 'body', body)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/transport`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2822,15 +2795,13 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"PutTransportDetailsRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2841,22 +2812,20 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateInboundShipment(shipmentId: string, body: InboundShipmentRequest, options: any = {}): RequestArgs {
+        updateInboundShipment: async (shipmentId: string, body: InboundShipmentRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling updateInboundShipment.');
-            }
+            assertParamExists('updateInboundShipment', 'shipmentId', shipmentId)
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updateInboundShipment.');
-            }
+            assertParamExists('updateInboundShipment', 'body', body)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -2865,15 +2834,13 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"InboundShipmentRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2883,31 +2850,30 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        voidTransport(shipmentId: string, options: any = {}): RequestArgs {
+        voidTransport: async (shipmentId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'shipmentId' is not null or undefined
-            if (shipmentId === null || shipmentId === undefined) {
-                throw new RequiredError('shipmentId','Required parameter shipmentId was null or undefined when calling voidTransport.');
-            }
+            assertParamExists('voidTransport', 'shipmentId', shipmentId)
             const localVarPath = `/fba/inbound/v0/shipments/{shipmentId}/transport/void`
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -2919,6 +2885,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
  * @export
  */
 export const FbaInboundApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FbaInboundApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns information needed to confirm a shipment for pre-order. Call this operation after calling the getPreorderInfo operation to get the NeedByDate value and other pre-order information about the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2928,12 +2895,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmPreorder(shipmentId: string, needByDate: string, marketplaceId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmPreorderResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).confirmPreorder(shipmentId, needByDate, marketplaceId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async confirmPreorder(shipmentId: string, needByDate: string, marketplaceId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmPreorderResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmPreorder(shipmentId, needByDate, marketplaceId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Confirms that the seller accepts the Amazon-partnered shipping estimate, agrees to allow Amazon to charge their account for the shipping cost, and requests that the Amazon-partnered carrier ship the inbound shipment.  Prior to calling the confirmTransport operation, you should call the getTransportDetails operation to get the Amazon-partnered shipping estimate.  Important: After confirming the transportation request, if the seller decides that they do not want the Amazon-partnered carrier to ship the inbound shipment, you can call the voidTransport operation to cancel the transportation request. Note that for a Small Parcel shipment, the seller has 24 hours after confirming a transportation request to void the transportation request. For a Less Than Truckload/Full Truckload (LTL/FTL) shipment, the seller has one hour after confirming a transportation request to void it. After the grace period has expired the seller\'s account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2941,12 +2905,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmTransport(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmTransportResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).confirmTransport(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async confirmTransport(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmTransportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmTransport(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2955,12 +2916,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InboundShipmentResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).createInboundShipment(shipmentId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async createInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InboundShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createInboundShipment(shipmentId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon\'s fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2968,12 +2926,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createInboundShipmentPlan(body: CreateInboundShipmentPlanRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateInboundShipmentPlanResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).createInboundShipmentPlan(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async createInboundShipmentPlan(body: CreateInboundShipmentPlanRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateInboundShipmentPlanResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createInboundShipmentPlan(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Initiates the process of estimating the shipping cost for an inbound shipment by an Amazon-partnered carrier.  Prior to calling the estimateTransport operation, you must call the putTransportDetails operation to provide Amazon with the transportation information for the inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2981,12 +2936,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        estimateTransport(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<EstimateTransportResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).estimateTransport(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async estimateTransport(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EstimateTransportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.estimateTransport(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a bill of lading for a Less Than Truckload/Full Truckload (LTL/FTL) shipment. The getBillOfLading operation returns PDF document data for printing a bill of lading for an Amazon-partnered Less Than Truckload/Full Truckload (LTL/FTL) inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2994,12 +2946,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBillOfLading(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetBillOfLadingResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getBillOfLading(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getBillOfLading(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetBillOfLadingResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBillOfLading(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon\'s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3009,12 +2958,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInboundGuidance(marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetInboundGuidanceResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getInboundGuidance(marketplaceId, sellerSKUList, aSINList, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getInboundGuidance(marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetInboundGuidanceResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getInboundGuidance(marketplaceId, sellerSKUList, aSINList, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns package/pallet labels for faster and more accurate shipment processing at the Amazon fulfillment center.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3029,12 +2975,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLabels(shipmentId: string, pageType: 'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation', labelType: 'BARCODE_2D' | 'UNIQUE' | 'PALLET', numberOfPackages?: number, packageLabelsToPrint?: Array<string>, numberOfPallets?: number, pageSize?: number, pageStartIndex?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLabelsResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getLabels(shipmentId, pageType, labelType, numberOfPackages, packageLabelsToPrint, numberOfPallets, pageSize, pageStartIndex, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getLabels(shipmentId: string, pageType: 'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation', labelType: 'BARCODE_2D' | 'UNIQUE' | 'PALLET', numberOfPackages?: number, packageLabelsToPrint?: Array<string>, numberOfPallets?: number, pageSize?: number, pageStartIndex?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLabelsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getLabels(shipmentId, pageType, labelType, numberOfPackages, packageLabelsToPrint, numberOfPallets, pageSize, pageStartIndex, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns pre-order information, including dates, that a seller needs before confirming a shipment for pre-order.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3043,12 +2986,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPreorderInfo(shipmentId: string, marketplaceId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPreorderInfoResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getPreorderInfo(shipmentId, marketplaceId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getPreorderInfo(shipmentId: string, marketplaceId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPreorderInfoResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPreorderInfo(shipmentId, marketplaceId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns labeling requirements and item preparation instructions to help prepare items for shipment to Amazon\'s fulfillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3058,29 +2998,23 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPrepInstructions(shipToCountryCode: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPrepInstructionsResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getPrepInstructions(shipToCountryCode, sellerSKUList, aSINList, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getPrepInstructions(shipToCountryCode: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPrepInstructionsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPrepInstructions(shipToCountryCode, sellerSKUList, aSINList, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of items in a specified inbound shipment, or a list of items that were updated within a specified time frame.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {'DATE_RANGE' | 'NEXT_TOKEN'} queryType Indicates whether items are returned using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or using NextToken, which continues returning items specified in a previous request.
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-         * @param {Date} [lastUpdatedAfter] A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-         * @param {Date} [lastUpdatedBefore] A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedAfter] A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedBefore] A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipmentItems(queryType: 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, lastUpdatedAfter?: Date, lastUpdatedBefore?: Date, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentItemsResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getShipmentItems(queryType, marketplaceId, lastUpdatedAfter, lastUpdatedBefore, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getShipmentItems(queryType: 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentItemsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getShipmentItems(queryType, marketplaceId, lastUpdatedAfter, lastUpdatedBefore, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of items in a specified inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3089,12 +3023,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipmentItemsByShipmentId(shipmentId: string, marketplaceId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentItemsResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getShipmentItemsByShipmentId(shipmentId, marketplaceId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getShipmentItemsByShipmentId(shipmentId: string, marketplaceId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentItemsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getShipmentItemsByShipmentId(shipmentId, marketplaceId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns a list of inbound shipments based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3102,18 +3033,15 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
          * @param {Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>} [shipmentStatusList] A list of ShipmentStatus values. Used to select shipments with a current status that matches the status values that you specify.
          * @param {Array<string>} [shipmentIdList] A list of shipment IDs used to select the shipments that you want. If both ShipmentStatusList and ShipmentIdList are specified, only shipments that match both parameters are returned.
-         * @param {Date} [lastUpdatedAfter] A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-         * @param {Date} [lastUpdatedBefore] A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedAfter] A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedBefore] A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipments(queryType: 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, shipmentStatusList?: Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>, shipmentIdList?: Array<string>, lastUpdatedAfter?: Date, lastUpdatedBefore?: Date, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentsResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getShipments(queryType, marketplaceId, shipmentStatusList, shipmentIdList, lastUpdatedAfter, lastUpdatedBefore, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getShipments(queryType: 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, shipmentStatusList?: Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>, shipmentIdList?: Array<string>, lastUpdatedAfter?: string, lastUpdatedBefore?: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetShipmentsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getShipments(queryType, marketplaceId, shipmentStatusList, shipmentIdList, lastUpdatedAfter, lastUpdatedBefore, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns current transportation information about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3121,12 +3049,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTransportDetails(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTransportDetailsResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).getTransportDetails(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getTransportDetails(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTransportDetailsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTransportDetails(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Sends transportation information to Amazon about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3135,12 +3060,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putTransportDetails(shipmentId: string, body: PutTransportDetailsRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PutTransportDetailsResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).putTransportDetails(shipmentId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async putTransportDetails(shipmentId: string, body: PutTransportDetailsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PutTransportDetailsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putTransportDetails(shipmentId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Adds, updates, or removes items from the inbound shipment identified by the specified shipment identifier.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3149,12 +3071,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InboundShipmentResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).updateInboundShipment(shipmentId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async updateInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InboundShipmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateInboundShipment(shipmentId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Cancels a previously-confirmed request to ship an inbound shipment using an Amazon-partnered carrier.  To be successful, you must call this operation before the VoidDeadline date that is returned by the getTransportDetails operation.  Important: The VoidDeadline date is 24 hours after you confirm a Small Parcel shipment transportation request or one hour after you confirm a Less Than Truckload/Full Truckload (LTL/FTL) shipment transportation request. After the void deadline passes, your account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3162,12 +3081,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        voidTransport(shipmentId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<VoidTransportResponse> {
-            const localVarAxiosArgs = FbaInboundApiAxiosParamCreator(configuration).voidTransport(shipmentId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async voidTransport(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<VoidTransportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.voidTransport(shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -3177,6 +3093,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const FbaInboundApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FbaInboundApiFp(configuration)
     return {
         /**
          * Returns information needed to confirm a shipment for pre-order. Call this operation after calling the getPreorderInfo operation to get the NeedByDate value and other pre-order information about the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3186,8 +3103,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmPreorder(shipmentId: string, needByDate: string, marketplaceId: string, options?: any) {
-            return FbaInboundApiFp(configuration).confirmPreorder(shipmentId, needByDate, marketplaceId, options)(axios, basePath);
+        confirmPreorder(shipmentId: string, needByDate: string, marketplaceId: string, options?: any): AxiosPromise<ConfirmPreorderResponse> {
+            return localVarFp.confirmPreorder(shipmentId, needByDate, marketplaceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Confirms that the seller accepts the Amazon-partnered shipping estimate, agrees to allow Amazon to charge their account for the shipping cost, and requests that the Amazon-partnered carrier ship the inbound shipment.  Prior to calling the confirmTransport operation, you should call the getTransportDetails operation to get the Amazon-partnered shipping estimate.  Important: After confirming the transportation request, if the seller decides that they do not want the Amazon-partnered carrier to ship the inbound shipment, you can call the voidTransport operation to cancel the transportation request. Note that for a Small Parcel shipment, the seller has 24 hours after confirming a transportation request to void the transportation request. For a Less Than Truckload/Full Truckload (LTL/FTL) shipment, the seller has one hour after confirming a transportation request to void it. After the grace period has expired the seller\'s account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3195,8 +3112,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmTransport(shipmentId: string, options?: any) {
-            return FbaInboundApiFp(configuration).confirmTransport(shipmentId, options)(axios, basePath);
+        confirmTransport(shipmentId: string, options?: any): AxiosPromise<ConfirmTransportResponse> {
+            return localVarFp.confirmTransport(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3205,8 +3122,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any) {
-            return FbaInboundApiFp(configuration).createInboundShipment(shipmentId, body, options)(axios, basePath);
+        createInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any): AxiosPromise<InboundShipmentResponse> {
+            return localVarFp.createInboundShipment(shipmentId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon\'s fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3214,8 +3131,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createInboundShipmentPlan(body: CreateInboundShipmentPlanRequest, options?: any) {
-            return FbaInboundApiFp(configuration).createInboundShipmentPlan(body, options)(axios, basePath);
+        createInboundShipmentPlan(body: CreateInboundShipmentPlanRequest, options?: any): AxiosPromise<CreateInboundShipmentPlanResponse> {
+            return localVarFp.createInboundShipmentPlan(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Initiates the process of estimating the shipping cost for an inbound shipment by an Amazon-partnered carrier.  Prior to calling the estimateTransport operation, you must call the putTransportDetails operation to provide Amazon with the transportation information for the inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3223,8 +3140,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        estimateTransport(shipmentId: string, options?: any) {
-            return FbaInboundApiFp(configuration).estimateTransport(shipmentId, options)(axios, basePath);
+        estimateTransport(shipmentId: string, options?: any): AxiosPromise<EstimateTransportResponse> {
+            return localVarFp.estimateTransport(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a bill of lading for a Less Than Truckload/Full Truckload (LTL/FTL) shipment. The getBillOfLading operation returns PDF document data for printing a bill of lading for an Amazon-partnered Less Than Truckload/Full Truckload (LTL/FTL) inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3232,8 +3149,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBillOfLading(shipmentId: string, options?: any) {
-            return FbaInboundApiFp(configuration).getBillOfLading(shipmentId, options)(axios, basePath);
+        getBillOfLading(shipmentId: string, options?: any): AxiosPromise<GetBillOfLadingResponse> {
+            return localVarFp.getBillOfLading(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon\'s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3243,8 +3160,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInboundGuidance(marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any) {
-            return FbaInboundApiFp(configuration).getInboundGuidance(marketplaceId, sellerSKUList, aSINList, options)(axios, basePath);
+        getInboundGuidance(marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any): AxiosPromise<GetInboundGuidanceResponse> {
+            return localVarFp.getInboundGuidance(marketplaceId, sellerSKUList, aSINList, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns package/pallet labels for faster and more accurate shipment processing at the Amazon fulfillment center.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3259,8 +3176,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLabels(shipmentId: string, pageType: 'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation', labelType: 'BARCODE_2D' | 'UNIQUE' | 'PALLET', numberOfPackages?: number, packageLabelsToPrint?: Array<string>, numberOfPallets?: number, pageSize?: number, pageStartIndex?: number, options?: any) {
-            return FbaInboundApiFp(configuration).getLabels(shipmentId, pageType, labelType, numberOfPackages, packageLabelsToPrint, numberOfPallets, pageSize, pageStartIndex, options)(axios, basePath);
+        getLabels(shipmentId: string, pageType: 'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation', labelType: 'BARCODE_2D' | 'UNIQUE' | 'PALLET', numberOfPackages?: number, packageLabelsToPrint?: Array<string>, numberOfPallets?: number, pageSize?: number, pageStartIndex?: number, options?: any): AxiosPromise<GetLabelsResponse> {
+            return localVarFp.getLabels(shipmentId, pageType, labelType, numberOfPackages, packageLabelsToPrint, numberOfPallets, pageSize, pageStartIndex, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns pre-order information, including dates, that a seller needs before confirming a shipment for pre-order.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3269,8 +3186,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPreorderInfo(shipmentId: string, marketplaceId: string, options?: any) {
-            return FbaInboundApiFp(configuration).getPreorderInfo(shipmentId, marketplaceId, options)(axios, basePath);
+        getPreorderInfo(shipmentId: string, marketplaceId: string, options?: any): AxiosPromise<GetPreorderInfoResponse> {
+            return localVarFp.getPreorderInfo(shipmentId, marketplaceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns labeling requirements and item preparation instructions to help prepare items for shipment to Amazon\'s fulfillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3280,21 +3197,21 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPrepInstructions(shipToCountryCode: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any) {
-            return FbaInboundApiFp(configuration).getPrepInstructions(shipToCountryCode, sellerSKUList, aSINList, options)(axios, basePath);
+        getPrepInstructions(shipToCountryCode: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any): AxiosPromise<GetPrepInstructionsResponse> {
+            return localVarFp.getPrepInstructions(shipToCountryCode, sellerSKUList, aSINList, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of items in a specified inbound shipment, or a list of items that were updated within a specified time frame.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {'DATE_RANGE' | 'NEXT_TOKEN'} queryType Indicates whether items are returned using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or using NextToken, which continues returning items specified in a previous request.
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-         * @param {Date} [lastUpdatedAfter] A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-         * @param {Date} [lastUpdatedBefore] A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedAfter] A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedBefore] A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipmentItems(queryType: 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, lastUpdatedAfter?: Date, lastUpdatedBefore?: Date, nextToken?: string, options?: any) {
-            return FbaInboundApiFp(configuration).getShipmentItems(queryType, marketplaceId, lastUpdatedAfter, lastUpdatedBefore, nextToken, options)(axios, basePath);
+        getShipmentItems(queryType: 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, nextToken?: string, options?: any): AxiosPromise<GetShipmentItemsResponse> {
+            return localVarFp.getShipmentItems(queryType, marketplaceId, lastUpdatedAfter, lastUpdatedBefore, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of items in a specified inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3303,8 +3220,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipmentItemsByShipmentId(shipmentId: string, marketplaceId: string, options?: any) {
-            return FbaInboundApiFp(configuration).getShipmentItemsByShipmentId(shipmentId, marketplaceId, options)(axios, basePath);
+        getShipmentItemsByShipmentId(shipmentId: string, marketplaceId: string, options?: any): AxiosPromise<GetShipmentItemsResponse> {
+            return localVarFp.getShipmentItemsByShipmentId(shipmentId, marketplaceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of inbound shipments based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3312,14 +3229,14 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
          * @param {Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>} [shipmentStatusList] A list of ShipmentStatus values. Used to select shipments with a current status that matches the status values that you specify.
          * @param {Array<string>} [shipmentIdList] A list of shipment IDs used to select the shipments that you want. If both ShipmentStatusList and ShipmentIdList are specified, only shipments that match both parameters are returned.
-         * @param {Date} [lastUpdatedAfter] A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-         * @param {Date} [lastUpdatedBefore] A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedAfter] A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+         * @param {string} [lastUpdatedBefore] A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
          * @param {string} [nextToken] A string token returned in the response to your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getShipments(queryType: 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, shipmentStatusList?: Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>, shipmentIdList?: Array<string>, lastUpdatedAfter?: Date, lastUpdatedBefore?: Date, nextToken?: string, options?: any) {
-            return FbaInboundApiFp(configuration).getShipments(queryType, marketplaceId, shipmentStatusList, shipmentIdList, lastUpdatedAfter, lastUpdatedBefore, nextToken, options)(axios, basePath);
+        getShipments(queryType: 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, shipmentStatusList?: Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>, shipmentIdList?: Array<string>, lastUpdatedAfter?: string, lastUpdatedBefore?: string, nextToken?: string, options?: any): AxiosPromise<GetShipmentsResponse> {
+            return localVarFp.getShipments(queryType, marketplaceId, shipmentStatusList, shipmentIdList, lastUpdatedAfter, lastUpdatedBefore, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns current transportation information about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3327,8 +3244,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTransportDetails(shipmentId: string, options?: any) {
-            return FbaInboundApiFp(configuration).getTransportDetails(shipmentId, options)(axios, basePath);
+        getTransportDetails(shipmentId: string, options?: any): AxiosPromise<GetTransportDetailsResponse> {
+            return localVarFp.getTransportDetails(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Sends transportation information to Amazon about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3337,8 +3254,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putTransportDetails(shipmentId: string, body: PutTransportDetailsRequest, options?: any) {
-            return FbaInboundApiFp(configuration).putTransportDetails(shipmentId, body, options)(axios, basePath);
+        putTransportDetails(shipmentId: string, body: PutTransportDetailsRequest, options?: any): AxiosPromise<PutTransportDetailsResponse> {
+            return localVarFp.putTransportDetails(shipmentId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Adds, updates, or removes items from the inbound shipment identified by the specified shipment identifier.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3347,8 +3264,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any) {
-            return FbaInboundApiFp(configuration).updateInboundShipment(shipmentId, body, options)(axios, basePath);
+        updateInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any): AxiosPromise<InboundShipmentResponse> {
+            return localVarFp.updateInboundShipment(shipmentId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Cancels a previously-confirmed request to ship an inbound shipment using an Amazon-partnered carrier.  To be successful, you must call this operation before the VoidDeadline date that is returned by the getTransportDetails operation.  Important: The VoidDeadline date is 24 hours after you confirm a Small Parcel shipment transportation request or one hour after you confirm a Less Than Truckload/Full Truckload (LTL/FTL) shipment transportation request. After the void deadline passes, your account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -3356,11 +3273,445 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        voidTransport(shipmentId: string, options?: any) {
-            return FbaInboundApiFp(configuration).voidTransport(shipmentId, options)(axios, basePath);
+        voidTransport(shipmentId: string, options?: any): AxiosPromise<VoidTransportResponse> {
+            return localVarFp.voidTransport(shipmentId, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for confirmPreorder operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiConfirmPreorderRequest
+ */
+export interface FbaInboundApiConfirmPreorderRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmPreorder
+     */
+    readonly shipmentId: string
+
+    /**
+     * Date that the shipment must arrive at the Amazon fulfillment center to avoid delivery promise breaks for pre-ordered items. Must be in YYYY-MM-DD format. The response to the getPreorderInfo operation returns this value.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmPreorder
+     */
+    readonly needByDate: string
+
+    /**
+     * A marketplace identifier. Specifies the marketplace the shipment is tied to.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmPreorder
+     */
+    readonly marketplaceId: string
+}
+
+/**
+ * Request parameters for confirmTransport operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiConfirmTransportRequest
+ */
+export interface FbaInboundApiConfirmTransportRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmTransport
+     */
+    readonly shipmentId: string
+}
+
+/**
+ * Request parameters for createInboundShipment operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiCreateInboundShipmentRequest
+ */
+export interface FbaInboundApiCreateInboundShipmentRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiCreateInboundShipment
+     */
+    readonly shipmentId: string
+
+    /**
+     * 
+     * @type {InboundShipmentRequest}
+     * @memberof FbaInboundApiCreateInboundShipment
+     */
+    readonly body: InboundShipmentRequest
+}
+
+/**
+ * Request parameters for createInboundShipmentPlan operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiCreateInboundShipmentPlanRequest
+ */
+export interface FbaInboundApiCreateInboundShipmentPlanRequest {
+    /**
+     * 
+     * @type {CreateInboundShipmentPlanRequest}
+     * @memberof FbaInboundApiCreateInboundShipmentPlan
+     */
+    readonly body: CreateInboundShipmentPlanRequest
+}
+
+/**
+ * Request parameters for estimateTransport operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiEstimateTransportRequest
+ */
+export interface FbaInboundApiEstimateTransportRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiEstimateTransport
+     */
+    readonly shipmentId: string
+}
+
+/**
+ * Request parameters for getBillOfLading operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetBillOfLadingRequest
+ */
+export interface FbaInboundApiGetBillOfLadingRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiGetBillOfLading
+     */
+    readonly shipmentId: string
+}
+
+/**
+ * Request parameters for getInboundGuidance operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetInboundGuidanceRequest
+ */
+export interface FbaInboundApiGetInboundGuidanceRequest {
+    /**
+     * A marketplace identifier. Specifies the marketplace where the product would be stored.
+     * @type {string}
+     * @memberof FbaInboundApiGetInboundGuidance
+     */
+    readonly marketplaceId: string
+
+    /**
+     * A list of SellerSKU values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: SellerSKU is qualified by the SellerId, which is included with every Selling Partner API operation that you submit. If you specify a SellerSKU that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold. 
+     * @type {Array<string>}
+     * @memberof FbaInboundApiGetInboundGuidance
+     */
+    readonly sellerSKUList?: Array<string>
+
+    /**
+     * A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
+     * @type {Array<string>}
+     * @memberof FbaInboundApiGetInboundGuidance
+     */
+    readonly aSINList?: Array<string>
+}
+
+/**
+ * Request parameters for getLabels operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetLabelsRequest
+ */
+export interface FbaInboundApiGetLabelsRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiGetLabels
+     */
+    readonly shipmentId: string
+
+    /**
+     * The page type to use to print the labels. Submitting a PageType value that is not supported in your marketplace returns an error.
+     * @type {'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation'}
+     * @memberof FbaInboundApiGetLabels
+     */
+    readonly pageType: 'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation'
+
+    /**
+     * The type of labels requested. 
+     * @type {'BARCODE_2D' | 'UNIQUE' | 'PALLET'}
+     * @memberof FbaInboundApiGetLabels
+     */
+    readonly labelType: 'BARCODE_2D' | 'UNIQUE' | 'PALLET'
+
+    /**
+     * The number of packages in the shipment.
+     * @type {number}
+     * @memberof FbaInboundApiGetLabels
+     */
+    readonly numberOfPackages?: number
+
+    /**
+     * A list of identifiers that specify packages for which you want package labels printed.  Must match CartonId values previously passed using the FBA Inbound Shipment Carton Information Feed. If not, the operation returns the IncorrectPackageIdentifier error code.
+     * @type {Array<string>}
+     * @memberof FbaInboundApiGetLabels
+     */
+    readonly packageLabelsToPrint?: Array<string>
+
+    /**
+     * The number of pallets in the shipment. This returns four identical labels for each pallet.
+     * @type {number}
+     * @memberof FbaInboundApiGetLabels
+     */
+    readonly numberOfPallets?: number
+
+    /**
+     * The page size for paginating through the total packages\&#39; labels. This is a required parameter for Non-Partnered LTL Shipments. Max value:1000.
+     * @type {number}
+     * @memberof FbaInboundApiGetLabels
+     */
+    readonly pageSize?: number
+
+    /**
+     * The page start index for paginating through the total packages\&#39; labels. This is a required parameter for Non-Partnered LTL Shipments.
+     * @type {number}
+     * @memberof FbaInboundApiGetLabels
+     */
+    readonly pageStartIndex?: number
+}
+
+/**
+ * Request parameters for getPreorderInfo operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetPreorderInfoRequest
+ */
+export interface FbaInboundApiGetPreorderInfoRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiGetPreorderInfo
+     */
+    readonly shipmentId: string
+
+    /**
+     * A marketplace identifier. Specifies the marketplace the shipment is tied to.
+     * @type {string}
+     * @memberof FbaInboundApiGetPreorderInfo
+     */
+    readonly marketplaceId: string
+}
+
+/**
+ * Request parameters for getPrepInstructions operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetPrepInstructionsRequest
+ */
+export interface FbaInboundApiGetPrepInstructionsRequest {
+    /**
+     * The country code of the country to which the items will be shipped. Note that labeling requirements and item preparation instructions can vary by country.
+     * @type {string}
+     * @memberof FbaInboundApiGetPrepInstructions
+     */
+    readonly shipToCountryCode: string
+
+    /**
+     * A list of SellerSKU values. Used to identify items for which you want labeling requirements and item preparation instructions for shipment to Amazon\&#39;s fulfillment network. The SellerSKU is qualified by the Seller ID, which is included with every call to the Seller Partner API.  Note: Include seller SKUs that you have used to list items on Amazon\&#39;s retail website. If you include a seller SKU that you have never used to list an item on Amazon\&#39;s retail website, the seller SKU is returned in the InvalidSKUList property in the response.
+     * @type {Array<string>}
+     * @memberof FbaInboundApiGetPrepInstructions
+     */
+    readonly sellerSKUList?: Array<string>
+
+    /**
+     * A list of ASIN values. Used to identify items for which you want item preparation instructions to help with item sourcing decisions.  Note: ASINs must be included in the product catalog for at least one of the marketplaces that the seller  participates in. Any ASIN that is not included in the product catalog for at least one of the marketplaces that the seller participates in is returned in the InvalidASINList property in the response. You can find out which marketplaces a seller participates in by calling the getMarketplaceParticipations operation in the Selling Partner API for Sellers.
+     * @type {Array<string>}
+     * @memberof FbaInboundApiGetPrepInstructions
+     */
+    readonly aSINList?: Array<string>
+}
+
+/**
+ * Request parameters for getShipmentItems operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetShipmentItemsRequest
+ */
+export interface FbaInboundApiGetShipmentItemsRequest {
+    /**
+     * Indicates whether items are returned using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or using NextToken, which continues returning items specified in a previous request.
+     * @type {'DATE_RANGE' | 'NEXT_TOKEN'}
+     * @memberof FbaInboundApiGetShipmentItems
+     */
+    readonly queryType: 'DATE_RANGE' | 'NEXT_TOKEN'
+
+    /**
+     * A marketplace identifier. Specifies the marketplace where the product would be stored.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentItems
+     */
+    readonly marketplaceId: string
+
+    /**
+     * A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentItems
+     */
+    readonly lastUpdatedAfter?: string
+
+    /**
+     * A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentItems
+     */
+    readonly lastUpdatedBefore?: string
+
+    /**
+     * A string token returned in the response to your previous request.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentItems
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for getShipmentItemsByShipmentId operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetShipmentItemsByShipmentIdRequest
+ */
+export interface FbaInboundApiGetShipmentItemsByShipmentIdRequest {
+    /**
+     * A shipment identifier used for selecting items in a specific inbound shipment.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentItemsByShipmentId
+     */
+    readonly shipmentId: string
+
+    /**
+     * A marketplace identifier. Specifies the marketplace where the product would be stored.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentItemsByShipmentId
+     */
+    readonly marketplaceId: string
+}
+
+/**
+ * Request parameters for getShipments operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetShipmentsRequest
+ */
+export interface FbaInboundApiGetShipmentsRequest {
+    /**
+     * Indicates whether shipments are returned using shipment information (by providing the ShipmentStatusList or ShipmentIdList parameters), using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or by using NextToken to continue returning items specified in a previous request.
+     * @type {'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN'}
+     * @memberof FbaInboundApiGetShipments
+     */
+    readonly queryType: 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN'
+
+    /**
+     * A marketplace identifier. Specifies the marketplace where the product would be stored.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipments
+     */
+    readonly marketplaceId: string
+
+    /**
+     * A list of ShipmentStatus values. Used to select shipments with a current status that matches the status values that you specify.
+     * @type {Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>}
+     * @memberof FbaInboundApiGetShipments
+     */
+    readonly shipmentStatusList?: Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>
+
+    /**
+     * A list of shipment IDs used to select the shipments that you want. If both ShipmentStatusList and ShipmentIdList are specified, only shipments that match both parameters are returned.
+     * @type {Array<string>}
+     * @memberof FbaInboundApiGetShipments
+     */
+    readonly shipmentIdList?: Array<string>
+
+    /**
+     * A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipments
+     */
+    readonly lastUpdatedAfter?: string
+
+    /**
+     * A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipments
+     */
+    readonly lastUpdatedBefore?: string
+
+    /**
+     * A string token returned in the response to your previous request.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipments
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for getTransportDetails operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetTransportDetailsRequest
+ */
+export interface FbaInboundApiGetTransportDetailsRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiGetTransportDetails
+     */
+    readonly shipmentId: string
+}
+
+/**
+ * Request parameters for putTransportDetails operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiPutTransportDetailsRequest
+ */
+export interface FbaInboundApiPutTransportDetailsRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiPutTransportDetails
+     */
+    readonly shipmentId: string
+
+    /**
+     * 
+     * @type {PutTransportDetailsRequest}
+     * @memberof FbaInboundApiPutTransportDetails
+     */
+    readonly body: PutTransportDetailsRequest
+}
+
+/**
+ * Request parameters for updateInboundShipment operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiUpdateInboundShipmentRequest
+ */
+export interface FbaInboundApiUpdateInboundShipmentRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiUpdateInboundShipment
+     */
+    readonly shipmentId: string
+
+    /**
+     * 
+     * @type {InboundShipmentRequest}
+     * @memberof FbaInboundApiUpdateInboundShipment
+     */
+    readonly body: InboundShipmentRequest
+}
+
+/**
+ * Request parameters for voidTransport operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiVoidTransportRequest
+ */
+export interface FbaInboundApiVoidTransportRequest {
+    /**
+     * A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @type {string}
+     * @memberof FbaInboundApiVoidTransport
+     */
+    readonly shipmentId: string
+}
 
 /**
  * FbaInboundApi - object-oriented interface
@@ -3371,219 +3722,190 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
 export class FbaInboundApi extends BaseAPI {
     /**
      * Returns information needed to confirm a shipment for pre-order. Call this operation after calling the getPreorderInfo operation to get the NeedByDate value and other pre-order information about the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-     * @param {string} needByDate Date that the shipment must arrive at the Amazon fulfillment center to avoid delivery promise breaks for pre-ordered items. Must be in YYYY-MM-DD format. The response to the getPreorderInfo operation returns this value.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace the shipment is tied to.
+     * @param {FbaInboundApiConfirmPreorderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public confirmPreorder(shipmentId: string, needByDate: string, marketplaceId: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).confirmPreorder(shipmentId, needByDate, marketplaceId, options)(this.axios, this.basePath);
+    public confirmPreorder(requestParameters: FbaInboundApiConfirmPreorderRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).confirmPreorder(requestParameters.shipmentId, requestParameters.needByDate, requestParameters.marketplaceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Confirms that the seller accepts the Amazon-partnered shipping estimate, agrees to allow Amazon to charge their account for the shipping cost, and requests that the Amazon-partnered carrier ship the inbound shipment.  Prior to calling the confirmTransport operation, you should call the getTransportDetails operation to get the Amazon-partnered shipping estimate.  Important: After confirming the transportation request, if the seller decides that they do not want the Amazon-partnered carrier to ship the inbound shipment, you can call the voidTransport operation to cancel the transportation request. Note that for a Small Parcel shipment, the seller has 24 hours after confirming a transportation request to void the transportation request. For a Less Than Truckload/Full Truckload (LTL/FTL) shipment, the seller has one hour after confirming a transportation request to void it. After the grace period has expired the seller\'s account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @param {FbaInboundApiConfirmTransportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public confirmTransport(shipmentId: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).confirmTransport(shipmentId, options)(this.axios, this.basePath);
+    public confirmTransport(requestParameters: FbaInboundApiConfirmTransportRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).confirmTransport(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-     * @param {InboundShipmentRequest} body 
+     * @param {FbaInboundApiCreateInboundShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public createInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any) {
-        return FbaInboundApiFp(this.configuration).createInboundShipment(shipmentId, body, options)(this.axios, this.basePath);
+    public createInboundShipment(requestParameters: FbaInboundApiCreateInboundShipmentRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).createInboundShipment(requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon\'s fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {CreateInboundShipmentPlanRequest} body 
+     * @param {FbaInboundApiCreateInboundShipmentPlanRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public createInboundShipmentPlan(body: CreateInboundShipmentPlanRequest, options?: any) {
-        return FbaInboundApiFp(this.configuration).createInboundShipmentPlan(body, options)(this.axios, this.basePath);
+    public createInboundShipmentPlan(requestParameters: FbaInboundApiCreateInboundShipmentPlanRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).createInboundShipmentPlan(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Initiates the process of estimating the shipping cost for an inbound shipment by an Amazon-partnered carrier.  Prior to calling the estimateTransport operation, you must call the putTransportDetails operation to provide Amazon with the transportation information for the inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @param {FbaInboundApiEstimateTransportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public estimateTransport(shipmentId: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).estimateTransport(shipmentId, options)(this.axios, this.basePath);
+    public estimateTransport(requestParameters: FbaInboundApiEstimateTransportRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).estimateTransport(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a bill of lading for a Less Than Truckload/Full Truckload (LTL/FTL) shipment. The getBillOfLading operation returns PDF document data for printing a bill of lading for an Amazon-partnered Less Than Truckload/Full Truckload (LTL/FTL) inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @param {FbaInboundApiGetBillOfLadingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getBillOfLading(shipmentId: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).getBillOfLading(shipmentId, options)(this.axios, this.basePath);
+    public getBillOfLading(requestParameters: FbaInboundApiGetBillOfLadingRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getBillOfLading(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon\'s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-     * @param {Array<string>} [sellerSKUList] A list of SellerSKU values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: SellerSKU is qualified by the SellerId, which is included with every Selling Partner API operation that you submit. If you specify a SellerSKU that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold. 
-     * @param {Array<string>} [aSINList] A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
+     * @param {FbaInboundApiGetInboundGuidanceRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getInboundGuidance(marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any) {
-        return FbaInboundApiFp(this.configuration).getInboundGuidance(marketplaceId, sellerSKUList, aSINList, options)(this.axios, this.basePath);
+    public getInboundGuidance(requestParameters: FbaInboundApiGetInboundGuidanceRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getInboundGuidance(requestParameters.marketplaceId, requestParameters.sellerSKUList, requestParameters.aSINList, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns package/pallet labels for faster and more accurate shipment processing at the Amazon fulfillment center.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-     * @param {'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation'} pageType The page type to use to print the labels. Submitting a PageType value that is not supported in your marketplace returns an error.
-     * @param {'BARCODE_2D' | 'UNIQUE' | 'PALLET'} labelType The type of labels requested. 
-     * @param {number} [numberOfPackages] The number of packages in the shipment.
-     * @param {Array<string>} [packageLabelsToPrint] A list of identifiers that specify packages for which you want package labels printed.  Must match CartonId values previously passed using the FBA Inbound Shipment Carton Information Feed. If not, the operation returns the IncorrectPackageIdentifier error code.
-     * @param {number} [numberOfPallets] The number of pallets in the shipment. This returns four identical labels for each pallet.
-     * @param {number} [pageSize] The page size for paginating through the total packages\&#39; labels. This is a required parameter for Non-Partnered LTL Shipments. Max value:1000.
-     * @param {number} [pageStartIndex] The page start index for paginating through the total packages\&#39; labels. This is a required parameter for Non-Partnered LTL Shipments.
+     * @param {FbaInboundApiGetLabelsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getLabels(shipmentId: string, pageType: 'PackageLabel_Letter_2' | 'PackageLabel_Letter_4' | 'PackageLabel_Letter_6' | 'PackageLabel_Letter_6_CarrierLeft' | 'PackageLabel_A4_2' | 'PackageLabel_A4_4' | 'PackageLabel_Plain_Paper' | 'PackageLabel_Plain_Paper_CarrierBottom' | 'PackageLabel_Thermal' | 'PackageLabel_Thermal_Unified' | 'PackageLabel_Thermal_NonPCP' | 'PackageLabel_Thermal_No_Carrier_Rotation', labelType: 'BARCODE_2D' | 'UNIQUE' | 'PALLET', numberOfPackages?: number, packageLabelsToPrint?: Array<string>, numberOfPallets?: number, pageSize?: number, pageStartIndex?: number, options?: any) {
-        return FbaInboundApiFp(this.configuration).getLabels(shipmentId, pageType, labelType, numberOfPackages, packageLabelsToPrint, numberOfPallets, pageSize, pageStartIndex, options)(this.axios, this.basePath);
+    public getLabels(requestParameters: FbaInboundApiGetLabelsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getLabels(requestParameters.shipmentId, requestParameters.pageType, requestParameters.labelType, requestParameters.numberOfPackages, requestParameters.packageLabelsToPrint, requestParameters.numberOfPallets, requestParameters.pageSize, requestParameters.pageStartIndex, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns pre-order information, including dates, that a seller needs before confirming a shipment for pre-order.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace the shipment is tied to.
+     * @param {FbaInboundApiGetPreorderInfoRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getPreorderInfo(shipmentId: string, marketplaceId: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).getPreorderInfo(shipmentId, marketplaceId, options)(this.axios, this.basePath);
+    public getPreorderInfo(requestParameters: FbaInboundApiGetPreorderInfoRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getPreorderInfo(requestParameters.shipmentId, requestParameters.marketplaceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns labeling requirements and item preparation instructions to help prepare items for shipment to Amazon\'s fulfillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipToCountryCode The country code of the country to which the items will be shipped. Note that labeling requirements and item preparation instructions can vary by country.
-     * @param {Array<string>} [sellerSKUList] A list of SellerSKU values. Used to identify items for which you want labeling requirements and item preparation instructions for shipment to Amazon\&#39;s fulfillment network. The SellerSKU is qualified by the Seller ID, which is included with every call to the Seller Partner API.  Note: Include seller SKUs that you have used to list items on Amazon\&#39;s retail website. If you include a seller SKU that you have never used to list an item on Amazon\&#39;s retail website, the seller SKU is returned in the InvalidSKUList property in the response.
-     * @param {Array<string>} [aSINList] A list of ASIN values. Used to identify items for which you want item preparation instructions to help with item sourcing decisions.  Note: ASINs must be included in the product catalog for at least one of the marketplaces that the seller  participates in. Any ASIN that is not included in the product catalog for at least one of the marketplaces that the seller participates in is returned in the InvalidASINList property in the response. You can find out which marketplaces a seller participates in by calling the getMarketplaceParticipations operation in the Selling Partner API for Sellers.
+     * @param {FbaInboundApiGetPrepInstructionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getPrepInstructions(shipToCountryCode: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any) {
-        return FbaInboundApiFp(this.configuration).getPrepInstructions(shipToCountryCode, sellerSKUList, aSINList, options)(this.axios, this.basePath);
+    public getPrepInstructions(requestParameters: FbaInboundApiGetPrepInstructionsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getPrepInstructions(requestParameters.shipToCountryCode, requestParameters.sellerSKUList, requestParameters.aSINList, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of items in a specified inbound shipment, or a list of items that were updated within a specified time frame.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {'DATE_RANGE' | 'NEXT_TOKEN'} queryType Indicates whether items are returned using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or using NextToken, which continues returning items specified in a previous request.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-     * @param {Date} [lastUpdatedAfter] A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-     * @param {Date} [lastUpdatedBefore] A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-     * @param {string} [nextToken] A string token returned in the response to your previous request.
+     * @param {FbaInboundApiGetShipmentItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getShipmentItems(queryType: 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, lastUpdatedAfter?: Date, lastUpdatedBefore?: Date, nextToken?: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).getShipmentItems(queryType, marketplaceId, lastUpdatedAfter, lastUpdatedBefore, nextToken, options)(this.axios, this.basePath);
+    public getShipmentItems(requestParameters: FbaInboundApiGetShipmentItemsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getShipmentItems(requestParameters.queryType, requestParameters.marketplaceId, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of items in a specified inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier used for selecting items in a specific inbound shipment.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
+     * @param {FbaInboundApiGetShipmentItemsByShipmentIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getShipmentItemsByShipmentId(shipmentId: string, marketplaceId: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).getShipmentItemsByShipmentId(shipmentId, marketplaceId, options)(this.axios, this.basePath);
+    public getShipmentItemsByShipmentId(requestParameters: FbaInboundApiGetShipmentItemsByShipmentIdRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getShipmentItemsByShipmentId(requestParameters.shipmentId, requestParameters.marketplaceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of inbound shipments based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN'} queryType Indicates whether shipments are returned using shipment information (by providing the ShipmentStatusList or ShipmentIdList parameters), using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or by using NextToken to continue returning items specified in a previous request.
-     * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-     * @param {Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>} [shipmentStatusList] A list of ShipmentStatus values. Used to select shipments with a current status that matches the status values that you specify.
-     * @param {Array<string>} [shipmentIdList] A list of shipment IDs used to select the shipments that you want. If both ShipmentStatusList and ShipmentIdList are specified, only shipments that match both parameters are returned.
-     * @param {Date} [lastUpdatedAfter] A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-     * @param {Date} [lastUpdatedBefore] A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
-     * @param {string} [nextToken] A string token returned in the response to your previous request.
+     * @param {FbaInboundApiGetShipmentsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getShipments(queryType: 'SHIPMENT' | 'DATE_RANGE' | 'NEXT_TOKEN', marketplaceId: string, shipmentStatusList?: Array<'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN'>, shipmentIdList?: Array<string>, lastUpdatedAfter?: Date, lastUpdatedBefore?: Date, nextToken?: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).getShipments(queryType, marketplaceId, shipmentStatusList, shipmentIdList, lastUpdatedAfter, lastUpdatedBefore, nextToken, options)(this.axios, this.basePath);
+    public getShipments(requestParameters: FbaInboundApiGetShipmentsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getShipments(requestParameters.queryType, requestParameters.marketplaceId, requestParameters.shipmentStatusList, requestParameters.shipmentIdList, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns current transportation information about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @param {FbaInboundApiGetTransportDetailsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public getTransportDetails(shipmentId: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).getTransportDetails(shipmentId, options)(this.axios, this.basePath);
+    public getTransportDetails(requestParameters: FbaInboundApiGetTransportDetailsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getTransportDetails(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Sends transportation information to Amazon about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-     * @param {PutTransportDetailsRequest} body 
+     * @param {FbaInboundApiPutTransportDetailsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public putTransportDetails(shipmentId: string, body: PutTransportDetailsRequest, options?: any) {
-        return FbaInboundApiFp(this.configuration).putTransportDetails(shipmentId, body, options)(this.axios, this.basePath);
+    public putTransportDetails(requestParameters: FbaInboundApiPutTransportDetailsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).putTransportDetails(requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Adds, updates, or removes items from the inbound shipment identified by the specified shipment identifier.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-     * @param {InboundShipmentRequest} body 
+     * @param {FbaInboundApiUpdateInboundShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public updateInboundShipment(shipmentId: string, body: InboundShipmentRequest, options?: any) {
-        return FbaInboundApiFp(this.configuration).updateInboundShipment(shipmentId, body, options)(this.axios, this.basePath);
+    public updateInboundShipment(requestParameters: FbaInboundApiUpdateInboundShipmentRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).updateInboundShipment(requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Cancels a previously-confirmed request to ship an inbound shipment using an Amazon-partnered carrier.  To be successful, you must call this operation before the VoidDeadline date that is returned by the getTransportDetails operation.  Important: The VoidDeadline date is 24 hours after you confirm a Small Parcel shipment transportation request or one hour after you confirm a Less Than Truckload/Full Truckload (LTL/FTL) shipment transportation request. After the void deadline passes, your account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
+     * @param {FbaInboundApiVoidTransportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public voidTransport(shipmentId: string, options?: any) {
-        return FbaInboundApiFp(this.configuration).voidTransport(shipmentId, options)(this.axios, this.basePath);
+    public voidTransport(requestParameters: FbaInboundApiVoidTransportRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).voidTransport(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

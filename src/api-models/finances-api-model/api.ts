@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Finances
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller\'s business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -31,25 +32,25 @@ export interface AdjustmentEvent {
      * @type {string}
      * @memberof AdjustmentEvent
      */
-    adjustmentType?: string;
+    AdjustmentType?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof AdjustmentEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * 
      * @type {Currency}
      * @memberof AdjustmentEvent
      */
-    adjustmentAmount?: Currency;
+    AdjustmentAmount?: Currency;
     /**
      * A list of information about items in an adjustment to the seller\'s account.
      * @type {Array<AdjustmentItem>}
      * @memberof AdjustmentEvent
      */
-    adjustmentItemList?: Array<AdjustmentItem>;
+    AdjustmentItemList?: Array<AdjustmentItem>;
 }
 /**
  * An item in an adjustment to the seller\'s account.
@@ -62,37 +63,37 @@ export interface AdjustmentItem {
      * @type {string}
      * @memberof AdjustmentItem
      */
-    quantity?: string;
+    Quantity?: string;
     /**
      * 
      * @type {Currency}
      * @memberof AdjustmentItem
      */
-    perUnitAmount?: Currency;
+    PerUnitAmount?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof AdjustmentItem
      */
-    totalAmount?: Currency;
+    TotalAmount?: Currency;
     /**
      * The seller SKU of the item. The seller SKU is qualified by the seller\'s seller ID, which is included with every call to the Selling Partner API.
      * @type {string}
      * @memberof AdjustmentItem
      */
-    sellerSKU?: string;
+    SellerSKU?: string;
     /**
      * A unique identifier assigned to products stored in and fulfilled from a fulfillment center.
      * @type {string}
      * @memberof AdjustmentItem
      */
-    fnSKU?: string;
+    FnSKU?: string;
     /**
      * A short description of the item.
      * @type {string}
      * @memberof AdjustmentItem
      */
-    productDescription?: string;
+    ProductDescription?: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -111,55 +112,55 @@ export interface AffordabilityExpenseEvent {
      * @type {string}
      * @memberof AffordabilityExpenseEvent
      */
-    amazonOrderId?: string;
+    AmazonOrderId?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof AffordabilityExpenseEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * An encrypted, Amazon-defined marketplace identifier.
      * @type {string}
      * @memberof AffordabilityExpenseEvent
      */
-    marketplaceId?: string;
+    MarketplaceId?: string;
     /**
      * Indicates the type of transaction.   Possible values:  * Charge - For an affordability promotion expense.  * Refund - For an affordability promotion expense reversal.
      * @type {string}
      * @memberof AffordabilityExpenseEvent
      */
-    transactionType?: string;
+    TransactionType?: string;
     /**
      * 
      * @type {Currency}
      * @memberof AffordabilityExpenseEvent
      */
-    baseExpense?: Currency;
+    BaseExpense?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof AffordabilityExpenseEvent
      */
-    taxTypeCGST: Currency;
+    TaxTypeCGST: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof AffordabilityExpenseEvent
      */
-    taxTypeSGST: Currency;
+    TaxTypeSGST: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof AffordabilityExpenseEvent
      */
-    taxTypeIGST: Currency;
+    TaxTypeIGST: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof AffordabilityExpenseEvent
      */
-    totalExpense?: Currency;
+    TotalExpense?: Currency;
 }
 /**
  * A charge on the seller\'s account.  Possible values:  * Principal - The selling price of the order item, equal to the selling price of the item multiplied by the quantity ordered.  * Tax - The tax collected by the seller on the Principal.  * MarketplaceFacilitatorTax-Principal - The tax withheld on the Principal.  * MarketplaceFacilitatorTax-Shipping - The tax withheld on the ShippingCharge.  * MarketplaceFacilitatorTax-Giftwrap - The tax withheld on the Giftwrap charge.  * MarketplaceFacilitatorTax-Other - The tax withheld on other miscellaneous charges.  * Discount - The promotional discount for an order item.  * TaxDiscount - The tax amount deducted for promotional rebates.  * CODItemCharge - The COD charge for an order item.  * CODItemTaxCharge - The tax collected by the seller on a CODItemCharge.  * CODOrderCharge - The COD charge for an order.  * CODOrderTaxCharge - The tax collected by the seller on a CODOrderCharge.  * CODShippingCharge - Shipping charges for a COD order.  * CODShippingTaxCharge - The tax collected by the seller on a CODShippingCharge.  * ShippingCharge - The shipping charge.  * ShippingTax - The tax collected by the seller on a ShippingCharge.  * Goodwill - The amount given to a buyer as a gesture of goodwill or to compensate for pain and suffering in the buying experience.  * Giftwrap - The gift wrap charge.  * GiftwrapTax - The tax collected by the seller on a Giftwrap charge.  * RestockingFee - The charge applied to the buyer when returning a product in certain categories.  * ReturnShipping - The amount given to the buyer to compensate for shipping the item back in the event we are at fault.  * PointsFee - The value of Amazon Points deducted from the refund if the buyer does not have enough Amazon Points to cover the deduction.  * GenericDeduction - A generic bad debt deduction.  * FreeReplacementReturnShipping - The compensation for return shipping when a buyer receives the wrong item, requests a free replacement, and returns the incorrect item.  * PaymentMethodFee - The fee collected for certain payment methods in certain marketplaces.  * ExportCharge - The export duty that is charged when an item is shipped to an international destination as part of the Amazon Global program.  * SAFE-TReimbursement - The SAFE-T claim amount for the item.  * TCS-CGST - Tax Collected at Source (TCS) for Central Goods and Services Tax (CGST).  * TCS-SGST - Tax Collected at Source for State Goods and Services Tax (SGST).  * TCS-IGST - Tax Collected at Source for Integrated Goods and Services Tax (IGST).  * TCS-UTGST - Tax Collected at Source for Union Territories Goods and Services Tax (UTGST).
@@ -172,13 +173,13 @@ export interface ChargeComponent {
      * @type {string}
      * @memberof ChargeComponent
      */
-    chargeType?: string;
+    ChargeType?: string;
     /**
      * 
      * @type {Currency}
      * @memberof ChargeComponent
      */
-    chargeAmount?: Currency;
+    ChargeAmount?: Currency;
 }
 /**
  * A payment instrument.
@@ -191,19 +192,19 @@ export interface ChargeInstrument {
      * @type {string}
      * @memberof ChargeInstrument
      */
-    description?: string;
+    Description?: string;
     /**
      * The account tail (trailing digits) of the charge instrument.
      * @type {string}
      * @memberof ChargeInstrument
      */
-    tail?: string;
+    Tail?: string;
     /**
      * 
      * @type {Currency}
      * @memberof ChargeInstrument
      */
-    amount?: Currency;
+    Amount?: Currency;
 }
 /**
  * An event related to coupon payments.
@@ -213,52 +214,52 @@ export interface ChargeInstrument {
 export interface CouponPaymentEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof CouponPaymentEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * A coupon identifier.
      * @type {string}
      * @memberof CouponPaymentEvent
      */
-    couponId?: string;
+    CouponId?: string;
     /**
      * The description provided by the seller when they created the coupon.
      * @type {string}
      * @memberof CouponPaymentEvent
      */
-    sellerCouponDescription?: string;
+    SellerCouponDescription?: string;
     /**
      * The number of coupon clips or redemptions.
      * @type {number}
      * @memberof CouponPaymentEvent
      */
-    clipOrRedemptionCount?: number;
+    ClipOrRedemptionCount?: number;
     /**
      * A payment event identifier.
      * @type {string}
      * @memberof CouponPaymentEvent
      */
-    paymentEventId?: string;
+    PaymentEventId?: string;
     /**
      * 
      * @type {FeeComponent}
      * @memberof CouponPaymentEvent
      */
-    feeComponent?: FeeComponent;
+    FeeComponent?: FeeComponent;
     /**
      * 
      * @type {ChargeComponent}
      * @memberof CouponPaymentEvent
      */
-    chargeComponent?: ChargeComponent;
+    ChargeComponent?: ChargeComponent;
     /**
      * 
      * @type {Currency}
      * @memberof CouponPaymentEvent
      */
-    totalAmount?: Currency;
+    TotalAmount?: Currency;
 }
 /**
  * A currency type and amount.
@@ -271,13 +272,13 @@ export interface Currency {
      * @type {string}
      * @memberof Currency
      */
-    currencyCode?: string;
+    CurrencyCode?: string;
     /**
      * 
      * @type {number}
      * @memberof Currency
      */
-    currencyAmount?: number;
+    CurrencyAmount?: number;
 }
 /**
  * A debt payment or debt adjustment.
@@ -290,31 +291,31 @@ export interface DebtRecoveryEvent {
      * @type {string}
      * @memberof DebtRecoveryEvent
      */
-    debtRecoveryType?: string;
+    DebtRecoveryType?: string;
     /**
      * 
      * @type {Currency}
      * @memberof DebtRecoveryEvent
      */
-    recoveryAmount?: Currency;
+    RecoveryAmount?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof DebtRecoveryEvent
      */
-    overPaymentCredit?: Currency;
+    OverPaymentCredit?: Currency;
     /**
      * A list of debt recovery item information.
      * @type {Array<DebtRecoveryItem>}
      * @memberof DebtRecoveryEvent
      */
-    debtRecoveryItemList?: Array<DebtRecoveryItem>;
+    DebtRecoveryItemList?: Array<DebtRecoveryItem>;
     /**
      * A list of payment instruments.
      * @type {Array<ChargeInstrument>}
      * @memberof DebtRecoveryEvent
      */
-    chargeInstrumentList?: Array<ChargeInstrument>;
+    ChargeInstrumentList?: Array<ChargeInstrument>;
 }
 /**
  * An item of a debt payment or debt adjustment.
@@ -327,25 +328,25 @@ export interface DebtRecoveryItem {
      * @type {Currency}
      * @memberof DebtRecoveryItem
      */
-    recoveryAmount?: Currency;
+    RecoveryAmount?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof DebtRecoveryItem
      */
-    originalAmount?: Currency;
+    OriginalAmount?: Currency;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof DebtRecoveryItem
      */
-    groupBeginDate?: Date;
+    GroupBeginDate?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof DebtRecoveryItem
      */
-    groupEndDate?: Date;
+    GroupEndDate?: string;
 }
 /**
  * A payment made directly to a seller.
@@ -358,13 +359,13 @@ export interface DirectPayment {
      * @type {string}
      * @memberof DirectPayment
      */
-    directPaymentType?: string;
+    DirectPaymentType?: string;
     /**
      * 
      * @type {Currency}
      * @memberof DirectPayment
      */
-    directPaymentAmount?: Currency;
+    DirectPaymentAmount?: Currency;
 }
 /**
  * A payment event for Fulfillment by Amazon (FBA) inventory liquidation. This event is used only in the US marketplace.
@@ -374,28 +375,28 @@ export interface DirectPayment {
 export interface FBALiquidationEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FBALiquidationEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * The identifier for the original removal order.
      * @type {string}
      * @memberof FBALiquidationEvent
      */
-    originalRemovalOrderId?: string;
+    OriginalRemovalOrderId?: string;
     /**
      * 
      * @type {Currency}
      * @memberof FBALiquidationEvent
      */
-    liquidationProceedsAmount?: Currency;
+    LiquidationProceedsAmount?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof FBALiquidationEvent
      */
-    liquidationFeeAmount?: Currency;
+    LiquidationFeeAmount?: Currency;
 }
 /**
  * A fee associated with the event.
@@ -408,13 +409,13 @@ export interface FeeComponent {
      * @type {string}
      * @memberof FeeComponent
      */
-    feeType?: string;
+    FeeType?: string;
     /**
      * 
      * @type {Currency}
      * @memberof FeeComponent
      */
-    feeAmount?: Currency;
+    FeeAmount?: Currency;
 }
 /**
  * Information related to a financial event group.
@@ -427,67 +428,67 @@ export interface FinancialEventGroup {
      * @type {string}
      * @memberof FinancialEventGroup
      */
-    financialEventGroupId?: string;
+    FinancialEventGroupId?: string;
     /**
      * The processing status of the financial event group indicates whether the balance of the financial event group is settled.  Possible values:  * Open  * Closed
      * @type {string}
      * @memberof FinancialEventGroup
      */
-    processingStatus?: string;
+    ProcessingStatus?: string;
     /**
      * The status of the fund transfer.
      * @type {string}
      * @memberof FinancialEventGroup
      */
-    fundTransferStatus?: string;
+    FundTransferStatus?: string;
     /**
      * 
      * @type {Currency}
      * @memberof FinancialEventGroup
      */
-    originalTotal?: Currency;
+    OriginalTotal?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof FinancialEventGroup
      */
-    convertedTotal?: Currency;
+    ConvertedTotal?: Currency;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FinancialEventGroup
      */
-    fundTransferDate?: Date;
+    FundTransferDate?: string;
     /**
      * The trace identifier used by sellers to look up transactions externally.
      * @type {string}
      * @memberof FinancialEventGroup
      */
-    traceId?: string;
+    TraceId?: string;
     /**
      * The account tail of the payment instrument.
      * @type {string}
      * @memberof FinancialEventGroup
      */
-    accountTail?: string;
+    AccountTail?: string;
     /**
      * 
      * @type {Currency}
      * @memberof FinancialEventGroup
      */
-    beginningBalance?: Currency;
+    BeginningBalance?: Currency;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FinancialEventGroup
      */
-    financialEventGroupStart?: Date;
+    FinancialEventGroupStart?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof FinancialEventGroup
      */
-    financialEventGroupEnd?: Date;
+    FinancialEventGroupEnd?: string;
 }
 /**
  * Contains all information related to a financial event.
@@ -500,133 +501,133 @@ export interface FinancialEvents {
      * @type {Array<ShipmentEvent>}
      * @memberof FinancialEvents
      */
-    shipmentEventList?: Array<ShipmentEvent>;
+    ShipmentEventList?: Array<ShipmentEvent>;
     /**
      * A list of shipment event information.
      * @type {Array<ShipmentEvent>}
      * @memberof FinancialEvents
      */
-    refundEventList?: Array<ShipmentEvent>;
+    RefundEventList?: Array<ShipmentEvent>;
     /**
      * A list of shipment event information.
      * @type {Array<ShipmentEvent>}
      * @memberof FinancialEvents
      */
-    guaranteeClaimEventList?: Array<ShipmentEvent>;
+    GuaranteeClaimEventList?: Array<ShipmentEvent>;
     /**
      * A list of shipment event information.
      * @type {Array<ShipmentEvent>}
      * @memberof FinancialEvents
      */
-    chargebackEventList?: Array<ShipmentEvent>;
+    ChargebackEventList?: Array<ShipmentEvent>;
     /**
      * A list of events related to the seller\'s Pay with Amazon account.
      * @type {Array<PayWithAmazonEvent>}
      * @memberof FinancialEvents
      */
-    payWithAmazonEventList?: Array<PayWithAmazonEvent>;
+    PayWithAmazonEventList?: Array<PayWithAmazonEvent>;
     /**
      * A list of information about solution provider credits.
      * @type {Array<SolutionProviderCreditEvent>}
      * @memberof FinancialEvents
      */
-    serviceProviderCreditEventList?: Array<SolutionProviderCreditEvent>;
+    ServiceProviderCreditEventList?: Array<SolutionProviderCreditEvent>;
     /**
      * A list of information about Retrocharge or RetrochargeReversal events.
      * @type {Array<RetrochargeEvent>}
      * @memberof FinancialEvents
      */
-    retrochargeEventList?: Array<RetrochargeEvent>;
+    RetrochargeEventList?: Array<RetrochargeEvent>;
     /**
      * A list of rental transaction event information.
      * @type {Array<RentalTransactionEvent>}
      * @memberof FinancialEvents
      */
-    rentalTransactionEventList?: Array<RentalTransactionEvent>;
+    RentalTransactionEventList?: Array<RentalTransactionEvent>;
     /**
      * A list of sponsored products payment events.
      * @type {Array<ProductAdsPaymentEvent>}
      * @memberof FinancialEvents
      */
-    productAdsPaymentEventList?: Array<ProductAdsPaymentEvent>;
+    ProductAdsPaymentEventList?: Array<ProductAdsPaymentEvent>;
     /**
      * A list of information about service fee events.
      * @type {Array<ServiceFeeEvent>}
      * @memberof FinancialEvents
      */
-    serviceFeeEventList?: Array<ServiceFeeEvent>;
+    ServiceFeeEventList?: Array<ServiceFeeEvent>;
     /**
      * A list of payment events for deal-related fees.
      * @type {Array<SellerDealPaymentEvent>}
      * @memberof FinancialEvents
      */
-    sellerDealPaymentEventList?: Array<SellerDealPaymentEvent>;
+    SellerDealPaymentEventList?: Array<SellerDealPaymentEvent>;
     /**
      * A list of debt recovery event information.
      * @type {Array<DebtRecoveryEvent>}
      * @memberof FinancialEvents
      */
-    debtRecoveryEventList?: Array<DebtRecoveryEvent>;
+    DebtRecoveryEventList?: Array<DebtRecoveryEvent>;
     /**
      * A list of loan servicing events.
      * @type {Array<LoanServicingEvent>}
      * @memberof FinancialEvents
      */
-    loanServicingEventList?: Array<LoanServicingEvent>;
+    LoanServicingEventList?: Array<LoanServicingEvent>;
     /**
      * A list of adjustment event information for the seller\'s account.
      * @type {Array<AdjustmentEvent>}
      * @memberof FinancialEvents
      */
-    adjustmentEventList?: Array<AdjustmentEvent>;
+    AdjustmentEventList?: Array<AdjustmentEvent>;
     /**
      * A list of SAFETReimbursementEvents.
      * @type {Array<SAFETReimbursementEvent>}
      * @memberof FinancialEvents
      */
-    sAFETReimbursementEventList?: Array<SAFETReimbursementEvent>;
+    SAFETReimbursementEventList?: Array<SAFETReimbursementEvent>;
     /**
      * A list of information about fee events for the Early Reviewer Program.
      * @type {Array<SellerReviewEnrollmentPaymentEvent>}
      * @memberof FinancialEvents
      */
-    sellerReviewEnrollmentPaymentEventList?: Array<SellerReviewEnrollmentPaymentEvent>;
+    SellerReviewEnrollmentPaymentEventList?: Array<SellerReviewEnrollmentPaymentEvent>;
     /**
      * A list of FBA inventory liquidation payment events.
      * @type {Array<FBALiquidationEvent>}
      * @memberof FinancialEvents
      */
-    fBALiquidationEventList?: Array<FBALiquidationEvent>;
+    FBALiquidationEventList?: Array<FBALiquidationEvent>;
     /**
      * A list of coupon payment event information.
      * @type {Array<CouponPaymentEvent>}
      * @memberof FinancialEvents
      */
-    couponPaymentEventList?: Array<CouponPaymentEvent>;
+    CouponPaymentEventList?: Array<CouponPaymentEvent>;
     /**
      * A list of fee events related to Amazon Imaging services.
      * @type {Array<ImagingServicesFeeEvent>}
      * @memberof FinancialEvents
      */
-    imagingServicesFeeEventList?: Array<ImagingServicesFeeEvent>;
+    ImagingServicesFeeEventList?: Array<ImagingServicesFeeEvent>;
     /**
      * A list of network commingling transaction events.
      * @type {Array<NetworkComminglingTransactionEvent>}
      * @memberof FinancialEvents
      */
-    networkComminglingTransactionEventList?: Array<NetworkComminglingTransactionEvent>;
+    NetworkComminglingTransactionEventList?: Array<NetworkComminglingTransactionEvent>;
     /**
      * A list of expense information related to an affordability promotion.
      * @type {Array<AffordabilityExpenseEvent>}
      * @memberof FinancialEvents
      */
-    affordabilityExpenseEventList?: Array<AffordabilityExpenseEvent>;
+    AffordabilityExpenseEventList?: Array<AffordabilityExpenseEvent>;
     /**
      * A list of expense information related to an affordability promotion.
      * @type {Array<AffordabilityExpenseEvent>}
      * @memberof FinancialEvents
      */
-    affordabilityExpenseReversalEventList?: Array<AffordabilityExpenseEvent>;
+    AffordabilityExpenseReversalEventList?: Array<AffordabilityExpenseEvent>;
 }
 /**
  * A fee event related to Amazon Imaging services.
@@ -639,7 +640,7 @@ export interface ImagingServicesFeeEvent {
      * @type {string}
      * @memberof ImagingServicesFeeEvent
      */
-    imagingRequestBillingItemID?: string;
+    ImagingRequestBillingItemID?: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item for which the imaging service was requested.
      * @type {string}
@@ -648,16 +649,16 @@ export interface ImagingServicesFeeEvent {
     ASIN?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ImagingServicesFeeEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof ImagingServicesFeeEvent
      */
-    feeList?: Array<FeeComponent>;
+    FeeList?: Array<FeeComponent>;
 }
 /**
  * The payload for the listFinancialEventGroups operation.
@@ -670,13 +671,13 @@ export interface ListFinancialEventGroupsPayload {
      * @type {string}
      * @memberof ListFinancialEventGroupsPayload
      */
-    nextToken?: string;
+    NextToken?: string;
     /**
      * A list of financial event group information.
      * @type {Array<FinancialEventGroup>}
      * @memberof ListFinancialEventGroupsPayload
      */
-    financialEventGroupList?: Array<FinancialEventGroup>;
+    FinancialEventGroupList?: Array<FinancialEventGroup>;
 }
 /**
  * The response schema for the listFinancialEventGroups operation.
@@ -708,13 +709,13 @@ export interface ListFinancialEventsPayload {
      * @type {string}
      * @memberof ListFinancialEventsPayload
      */
-    nextToken?: string;
+    NextToken?: string;
     /**
      * 
      * @type {FinancialEvents}
      * @memberof ListFinancialEventsPayload
      */
-    financialEvents?: FinancialEvents;
+    FinancialEvents?: FinancialEvents;
 }
 /**
  * The response schema for the listFinancialEvents operation.
@@ -746,13 +747,13 @@ export interface LoanServicingEvent {
      * @type {Currency}
      * @memberof LoanServicingEvent
      */
-    loanAmount?: Currency;
+    LoanAmount?: Currency;
     /**
      * The type of event.  Possible values:  * LoanAdvance  * LoanPayment  * LoanRefund
      * @type {string}
      * @memberof LoanServicingEvent
      */
-    sourceBusinessEventType?: string;
+    SourceBusinessEventType?: string;
 }
 /**
  * Error response returned when the request is unsuccessful.
@@ -790,25 +791,25 @@ export interface NetworkComminglingTransactionEvent {
      * @type {string}
      * @memberof NetworkComminglingTransactionEvent
      */
-    transactionType?: string;
+    TransactionType?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof NetworkComminglingTransactionEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * The identifier for the network item swap.
      * @type {string}
      * @memberof NetworkComminglingTransactionEvent
      */
-    netCoTransactionID?: string;
+    NetCoTransactionID?: string;
     /**
      * The reason for the network item swap.
      * @type {string}
      * @memberof NetworkComminglingTransactionEvent
      */
-    swapReason?: string;
+    SwapReason?: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the swapped item.
      * @type {string}
@@ -820,19 +821,19 @@ export interface NetworkComminglingTransactionEvent {
      * @type {string}
      * @memberof NetworkComminglingTransactionEvent
      */
-    marketplaceId?: string;
+    MarketplaceId?: string;
     /**
      * 
      * @type {Currency}
      * @memberof NetworkComminglingTransactionEvent
      */
-    taxExclusiveAmount?: Currency;
+    TaxExclusiveAmount?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof NetworkComminglingTransactionEvent
      */
-    taxAmount?: Currency;
+    TaxAmount?: Currency;
 }
 /**
  * An event related to the seller\'s Pay with Amazon account.
@@ -845,61 +846,61 @@ export interface PayWithAmazonEvent {
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
-    sellerOrderId?: string;
+    SellerOrderId?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof PayWithAmazonEvent
      */
-    transactionPostedDate?: Date;
+    TransactionPostedDate?: string;
     /**
      * The type of business object.
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
-    businessObjectType?: string;
+    BusinessObjectType?: string;
     /**
      * The sales channel for the transaction.
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
-    salesChannel?: string;
+    SalesChannel?: string;
     /**
      * 
      * @type {ChargeComponent}
      * @memberof PayWithAmazonEvent
      */
-    charge?: ChargeComponent;
+    Charge?: ChargeComponent;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof PayWithAmazonEvent
      */
-    feeList?: Array<FeeComponent>;
+    FeeList?: Array<FeeComponent>;
     /**
      * The type of payment.  Possible values:  * Sales
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
-    paymentAmountType?: string;
+    PaymentAmountType?: string;
     /**
      * A short description of this payment event.
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
-    amountDescription?: string;
+    AmountDescription?: string;
     /**
      * The fulfillment channel.  Possible values:  * AFN - Amazon Fulfillment Network (Fulfillment by Amazon)  * MFN - Merchant Fulfillment Network (self-fulfilled)
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
-    fulfillmentChannel?: string;
+    FulfillmentChannel?: string;
     /**
      * The store name where the event occurred.
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
-    storeName?: string;
+    StoreName?: string;
 }
 /**
  * A Sponsored Products payment event.
@@ -909,10 +910,10 @@ export interface PayWithAmazonEvent {
 export interface ProductAdsPaymentEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ProductAdsPaymentEvent
      */
-    postedDate?: Date;
+    postedDate?: string;
     /**
      * Indicates if the transaction is for a charge or a refund.  Possible values:  * charge - Charge  * refund - Refund
      * @type {string}
@@ -955,19 +956,19 @@ export interface Promotion {
      * @type {string}
      * @memberof Promotion
      */
-    promotionType?: string;
+    PromotionType?: string;
     /**
      * The seller-specified identifier for the promotion.
      * @type {string}
      * @memberof Promotion
      */
-    promotionId?: string;
+    PromotionId?: string;
     /**
      * 
      * @type {Currency}
      * @memberof Promotion
      */
-    promotionAmount?: Currency;
+    PromotionAmount?: Currency;
 }
 /**
  * A removal shipment event for a removal order.
@@ -977,28 +978,28 @@ export interface Promotion {
 export interface RemovalShipmentEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof RemovalShipmentEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * The identifier for the removal shipment order.
      * @type {string}
      * @memberof RemovalShipmentEvent
      */
-    orderId?: string;
+    OrderId?: string;
     /**
      * The type of removal order.  Possible values:  * WHOLESALE_LIQUIDATION
      * @type {string}
      * @memberof RemovalShipmentEvent
      */
-    transactionType?: string;
+    TransactionType?: string;
     /**
      * A list of information about removal shipment items.
      * @type {Array<RemovalShipmentItem>}
      * @memberof RemovalShipmentEvent
      */
-    removalShipmentItemList?: Array<RemovalShipmentItem>;
+    RemovalShipmentItemList?: Array<RemovalShipmentItem>;
 }
 /**
  * Item-level information for a removal shipment.
@@ -1011,49 +1012,49 @@ export interface RemovalShipmentItem {
      * @type {string}
      * @memberof RemovalShipmentItem
      */
-    removalShipmentItemId?: string;
+    RemovalShipmentItemId?: string;
     /**
      * The tax collection model applied to the item.  Possible values:  * MarketplaceFacilitator - Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller.  * Standard - Tax is paid to the seller and not remitted to the taxing authority by Amazon.
      * @type {string}
      * @memberof RemovalShipmentItem
      */
-    taxCollectionModel?: string;
+    TaxCollectionModel?: string;
     /**
      * The Amazon fulfillment network SKU for the item.
      * @type {string}
      * @memberof RemovalShipmentItem
      */
-    fulfillmentNetworkSKU?: string;
+    FulfillmentNetworkSKU?: string;
     /**
      * The quantity of the item.
      * @type {number}
      * @memberof RemovalShipmentItem
      */
-    quantity?: number;
+    Quantity?: number;
     /**
      * 
      * @type {Currency}
      * @memberof RemovalShipmentItem
      */
-    revenue?: Currency;
+    Revenue?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof RemovalShipmentItem
      */
-    feeAmount?: Currency;
+    FeeAmount?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof RemovalShipmentItem
      */
-    taxAmount?: Currency;
+    TaxAmount?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof RemovalShipmentItem
      */
-    taxWithheld?: Currency;
+    TaxWithheld?: Currency;
 }
 /**
  * An event related to a rental transaction.
@@ -1066,61 +1067,61 @@ export interface RentalTransactionEvent {
      * @type {string}
      * @memberof RentalTransactionEvent
      */
-    amazonOrderId?: string;
+    AmazonOrderId?: string;
     /**
      * The type of rental event.  Possible values:  * RentalCustomerPayment-Buyout - Transaction type that represents when the customer wants to buy out a rented item.  * RentalCustomerPayment-Extension - Transaction type that represents when the customer wants to extend the rental period.  * RentalCustomerRefund-Buyout - Transaction type that represents when the customer requests a refund for the buyout of the rented item.  * RentalCustomerRefund-Extension - Transaction type that represents when the customer requests a refund over the extension on the rented item.  * RentalHandlingFee - Transaction type that represents the fee that Amazon charges sellers who rent through Amazon.  * RentalChargeFailureReimbursement - Transaction type that represents when Amazon sends money to the seller to compensate for a failed charge.  * RentalLostItemReimbursement - Transaction type that represents when Amazon sends money to the seller to compensate for a lost item.
      * @type {string}
      * @memberof RentalTransactionEvent
      */
-    rentalEventType?: string;
+    RentalEventType?: string;
     /**
      * The number of days that the buyer extended an already rented item. This value is only returned for RentalCustomerPayment-Extension and RentalCustomerRefund-Extension events.
      * @type {number}
      * @memberof RentalTransactionEvent
      */
-    extensionLength?: number;
+    ExtensionLength?: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof RentalTransactionEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * A list of charge information on the seller\'s account.
      * @type {Array<ChargeComponent>}
      * @memberof RentalTransactionEvent
      */
-    rentalChargeList?: Array<ChargeComponent>;
+    RentalChargeList?: Array<ChargeComponent>;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof RentalTransactionEvent
      */
-    rentalFeeList?: Array<FeeComponent>;
+    RentalFeeList?: Array<FeeComponent>;
     /**
      * The name of the marketplace.
      * @type {string}
      * @memberof RentalTransactionEvent
      */
-    marketplaceName?: string;
+    MarketplaceName?: string;
     /**
      * 
      * @type {Currency}
      * @memberof RentalTransactionEvent
      */
-    rentalInitialValue?: Currency;
+    RentalInitialValue?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof RentalTransactionEvent
      */
-    rentalReimbursement?: Currency;
+    RentalReimbursement?: Currency;
     /**
      * A list of information about taxes withheld.
      * @type {Array<TaxWithheldComponent>}
      * @memberof RentalTransactionEvent
      */
-    rentalTaxWithheldList?: Array<TaxWithheldComponent>;
+    RentalTaxWithheldList?: Array<TaxWithheldComponent>;
 }
 /**
  * A retrocharge or retrocharge reversal.
@@ -1133,43 +1134,43 @@ export interface RetrochargeEvent {
      * @type {string}
      * @memberof RetrochargeEvent
      */
-    retrochargeEventType?: string;
+    RetrochargeEventType?: string;
     /**
      * An Amazon-defined identifier for an order.
      * @type {string}
      * @memberof RetrochargeEvent
      */
-    amazonOrderId?: string;
+    AmazonOrderId?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof RetrochargeEvent
      */
-    postedDate?: Date;
-    /**
-     * 
-     * @type {Currency}
-     * @memberof RetrochargeEvent
-     */
-    baseTax?: Currency;
+    PostedDate?: string;
     /**
      * 
      * @type {Currency}
      * @memberof RetrochargeEvent
      */
-    shippingTax?: Currency;
+    BaseTax?: Currency;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof RetrochargeEvent
+     */
+    ShippingTax?: Currency;
     /**
      * The name of the marketplace where the retrocharge event occurred.
      * @type {string}
      * @memberof RetrochargeEvent
      */
-    marketplaceName?: string;
+    MarketplaceName?: string;
     /**
      * A list of information about taxes withheld.
      * @type {Array<TaxWithheldComponent>}
      * @memberof RetrochargeEvent
      */
-    retrochargeTaxWithheldList?: Array<TaxWithheldComponent>;
+    RetrochargeTaxWithheldList?: Array<TaxWithheldComponent>;
 }
 /**
  * A SAFE-T claim reimbursement on the seller\'s account.
@@ -1179,34 +1180,34 @@ export interface RetrochargeEvent {
 export interface SAFETReimbursementEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof SAFETReimbursementEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * A SAFE-T claim identifier.
      * @type {string}
      * @memberof SAFETReimbursementEvent
      */
-    sAFETClaimId?: string;
+    SAFETClaimId?: string;
     /**
      * 
      * @type {Currency}
      * @memberof SAFETReimbursementEvent
      */
-    reimbursedAmount?: Currency;
+    ReimbursedAmount?: Currency;
     /**
      * Indicates why the seller was reimbursed.
      * @type {string}
      * @memberof SAFETReimbursementEvent
      */
-    reasonCode?: string;
+    ReasonCode?: string;
     /**
      * A list of SAFETReimbursementItems.
      * @type {Array<SAFETReimbursementItem>}
      * @memberof SAFETReimbursementEvent
      */
-    sAFETReimbursementItemList?: Array<SAFETReimbursementItem>;
+    SAFETReimbursementItemList?: Array<SAFETReimbursementItem>;
 }
 /**
  * An item from a SAFE-T claim reimbursement.
@@ -1241,10 +1242,10 @@ export interface SAFETReimbursementItem {
 export interface SellerDealPaymentEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof SellerDealPaymentEvent
      */
-    postedDate?: Date;
+    postedDate?: string;
     /**
      * The unique identifier of the deal.
      * @type {string}
@@ -1296,40 +1297,40 @@ export interface SellerDealPaymentEvent {
 export interface SellerReviewEnrollmentPaymentEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof SellerReviewEnrollmentPaymentEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * An enrollment identifier.
      * @type {string}
      * @memberof SellerReviewEnrollmentPaymentEvent
      */
-    enrollmentId?: string;
+    EnrollmentId?: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item that was enrolled in the Early Reviewer Program.
      * @type {string}
      * @memberof SellerReviewEnrollmentPaymentEvent
      */
-    parentASIN?: string;
+    ParentASIN?: string;
     /**
      * 
      * @type {FeeComponent}
      * @memberof SellerReviewEnrollmentPaymentEvent
      */
-    feeComponent?: FeeComponent;
+    FeeComponent?: FeeComponent;
     /**
      * 
      * @type {ChargeComponent}
      * @memberof SellerReviewEnrollmentPaymentEvent
      */
-    chargeComponent?: ChargeComponent;
+    ChargeComponent?: ChargeComponent;
     /**
      * 
      * @type {Currency}
      * @memberof SellerReviewEnrollmentPaymentEvent
      */
-    totalAmount?: Currency;
+    TotalAmount?: Currency;
 }
 /**
  * A service fee on the seller\'s account.
@@ -1342,37 +1343,37 @@ export interface ServiceFeeEvent {
      * @type {string}
      * @memberof ServiceFeeEvent
      */
-    amazonOrderId?: string;
+    AmazonOrderId?: string;
     /**
      * A short description of the service fee reason.
      * @type {string}
      * @memberof ServiceFeeEvent
      */
-    feeReason?: string;
+    FeeReason?: string;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof ServiceFeeEvent
      */
-    feeList?: Array<FeeComponent>;
+    FeeList?: Array<FeeComponent>;
     /**
      * The seller SKU of the item. The seller SKU is qualified by the seller\'s seller ID, which is included with every call to the Selling Partner API.
      * @type {string}
      * @memberof ServiceFeeEvent
      */
-    sellerSKU?: string;
+    SellerSKU?: string;
     /**
      * A unique identifier assigned by Amazon to products stored in and fulfilled from an Amazon fulfillment center.
      * @type {string}
      * @memberof ServiceFeeEvent
      */
-    fnSKU?: string;
+    FnSKU?: string;
     /**
      * A short description of the service fee event.
      * @type {string}
      * @memberof ServiceFeeEvent
      */
-    feeDescription?: string;
+    FeeDescription?: string;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item.
      * @type {string}
@@ -1391,79 +1392,79 @@ export interface ShipmentEvent {
      * @type {string}
      * @memberof ShipmentEvent
      */
-    amazonOrderId?: string;
+    AmazonOrderId?: string;
     /**
      * A seller-defined identifier for an order.
      * @type {string}
      * @memberof ShipmentEvent
      */
-    sellerOrderId?: string;
+    SellerOrderId?: string;
     /**
      * The name of the marketplace where the event occurred.
      * @type {string}
      * @memberof ShipmentEvent
      */
-    marketplaceName?: string;
+    MarketplaceName?: string;
     /**
      * A list of charge information on the seller\'s account.
      * @type {Array<ChargeComponent>}
      * @memberof ShipmentEvent
      */
-    orderChargeList?: Array<ChargeComponent>;
+    OrderChargeList?: Array<ChargeComponent>;
     /**
      * A list of charge information on the seller\'s account.
      * @type {Array<ChargeComponent>}
      * @memberof ShipmentEvent
      */
-    orderChargeAdjustmentList?: Array<ChargeComponent>;
+    OrderChargeAdjustmentList?: Array<ChargeComponent>;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof ShipmentEvent
      */
-    shipmentFeeList?: Array<FeeComponent>;
+    ShipmentFeeList?: Array<FeeComponent>;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof ShipmentEvent
      */
-    shipmentFeeAdjustmentList?: Array<FeeComponent>;
+    ShipmentFeeAdjustmentList?: Array<FeeComponent>;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof ShipmentEvent
      */
-    orderFeeList?: Array<FeeComponent>;
+    OrderFeeList?: Array<FeeComponent>;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof ShipmentEvent
      */
-    orderFeeAdjustmentList?: Array<FeeComponent>;
+    OrderFeeAdjustmentList?: Array<FeeComponent>;
     /**
      * A list of direct payment information.
      * @type {Array<DirectPayment>}
      * @memberof ShipmentEvent
      */
-    directPaymentList?: Array<DirectPayment>;
+    DirectPaymentList?: Array<DirectPayment>;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ShipmentEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * A list of shipment items.
      * @type {Array<ShipmentItem>}
      * @memberof ShipmentEvent
      */
-    shipmentItemList?: Array<ShipmentItem>;
+    ShipmentItemList?: Array<ShipmentItem>;
     /**
      * A list of shipment items.
      * @type {Array<ShipmentItem>}
      * @memberof ShipmentEvent
      */
-    shipmentItemAdjustmentList?: Array<ShipmentItem>;
+    ShipmentItemAdjustmentList?: Array<ShipmentItem>;
 }
 /**
  * An item of a shipment, refund, guarantee claim, or chargeback.
@@ -1476,79 +1477,79 @@ export interface ShipmentItem {
      * @type {string}
      * @memberof ShipmentItem
      */
-    sellerSKU?: string;
+    SellerSKU?: string;
     /**
      * An Amazon-defined order item identifier.
      * @type {string}
      * @memberof ShipmentItem
      */
-    orderItemId?: string;
+    OrderItemId?: string;
     /**
      * An Amazon-defined order adjustment identifier defined for refunds, guarantee claims, and chargeback events.
      * @type {string}
      * @memberof ShipmentItem
      */
-    orderAdjustmentItemId?: string;
+    OrderAdjustmentItemId?: string;
     /**
      * The number of items shipped.
      * @type {number}
      * @memberof ShipmentItem
      */
-    quantityShipped?: number;
+    QuantityShipped?: number;
     /**
      * A list of charge information on the seller\'s account.
      * @type {Array<ChargeComponent>}
      * @memberof ShipmentItem
      */
-    itemChargeList?: Array<ChargeComponent>;
+    ItemChargeList?: Array<ChargeComponent>;
     /**
      * A list of charge information on the seller\'s account.
      * @type {Array<ChargeComponent>}
      * @memberof ShipmentItem
      */
-    itemChargeAdjustmentList?: Array<ChargeComponent>;
+    ItemChargeAdjustmentList?: Array<ChargeComponent>;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof ShipmentItem
      */
-    itemFeeList?: Array<FeeComponent>;
+    ItemFeeList?: Array<FeeComponent>;
     /**
      * A list of fee component information.
      * @type {Array<FeeComponent>}
      * @memberof ShipmentItem
      */
-    itemFeeAdjustmentList?: Array<FeeComponent>;
+    ItemFeeAdjustmentList?: Array<FeeComponent>;
     /**
      * A list of information about taxes withheld.
      * @type {Array<TaxWithheldComponent>}
      * @memberof ShipmentItem
      */
-    itemTaxWithheldList?: Array<TaxWithheldComponent>;
+    ItemTaxWithheldList?: Array<TaxWithheldComponent>;
     /**
      * A list of promotions.
      * @type {Array<Promotion>}
      * @memberof ShipmentItem
      */
-    promotionList?: Array<Promotion>;
+    PromotionList?: Array<Promotion>;
     /**
      * A list of promotions.
      * @type {Array<Promotion>}
      * @memberof ShipmentItem
      */
-    promotionAdjustmentList?: Array<Promotion>;
+    PromotionAdjustmentList?: Array<Promotion>;
     /**
      * 
      * @type {Currency}
      * @memberof ShipmentItem
      */
-    costOfPointsGranted?: Currency;
+    CostOfPointsGranted?: Currency;
     /**
      * 
      * @type {Currency}
      * @memberof ShipmentItem
      */
-    costOfPointsReturned?: Currency;
+    CostOfPointsReturned?: Currency;
 }
 /**
  * A credit given to a solution provider.
@@ -1561,61 +1562,61 @@ export interface SolutionProviderCreditEvent {
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    providerTransactionType?: string;
+    ProviderTransactionType?: string;
     /**
      * A seller-defined identifier for an order.
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    sellerOrderId?: string;
+    SellerOrderId?: string;
     /**
      * The identifier of the marketplace where the order was placed.
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    marketplaceId?: string;
+    MarketplaceId?: string;
     /**
      * The two-letter country code of the country associated with the marketplace where the order was placed.
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    marketplaceCountryCode?: string;
+    MarketplaceCountryCode?: string;
     /**
      * The Amazon-defined identifier of the seller.
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    sellerId?: string;
+    SellerId?: string;
     /**
      * The store name where the payment event occurred.
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    sellerStoreName?: string;
+    SellerStoreName?: string;
     /**
      * The Amazon-defined identifier of the solution provider.
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    providerId?: string;
+    ProviderId?: string;
     /**
      * The store name where the payment event occurred.
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    providerStoreName?: string;
+    ProviderStoreName?: string;
     /**
      * 
      * @type {Currency}
      * @memberof SolutionProviderCreditEvent
      */
-    transactionAmount?: Currency;
+    TransactionAmount?: Currency;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
-    transactionCreationDate?: Date;
+    TransactionCreationDate?: string;
 }
 /**
  * A tax deduction at source (TDS) claim reimbursement event on the seller\'s account.
@@ -1625,22 +1626,22 @@ export interface SolutionProviderCreditEvent {
 export interface TDSReimbursementEvent {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof TDSReimbursementEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * A tax deduction at source (TDS) claim identifier.
      * @type {string}
      * @memberof TDSReimbursementEvent
      */
-    tdsOrderId?: string;
+    TdsOrderId?: string;
     /**
      * 
      * @type {Currency}
      * @memberof TDSReimbursementEvent
      */
-    reimbursedAmount?: Currency;
+    ReimbursedAmount?: Currency;
 }
 /**
  * Information about the taxes withheld.
@@ -1653,13 +1654,13 @@ export interface TaxWithheldComponent {
      * @type {string}
      * @memberof TaxWithheldComponent
      */
-    taxCollectionModel?: string;
+    TaxCollectionModel?: string;
     /**
      * A list of charge information on the seller\'s account.
      * @type {Array<ChargeComponent>}
      * @memberof TaxWithheldComponent
      */
-    taxesWithheld?: Array<ChargeComponent>;
+    TaxesWithheld?: Array<ChargeComponent>;
 }
 /**
  * An event related to a trial shipment.
@@ -1672,19 +1673,19 @@ export interface TrialShipmentEvent {
      * @type {string}
      * @memberof TrialShipmentEvent
      */
-    amazonOrderId?: string;
+    AmazonOrderId?: string;
     /**
      * The identifier of the financial event group.
      * @type {string}
      * @memberof TrialShipmentEvent
      */
-    financialEventGroupId?: string;
+    FinancialEventGroupId?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof TrialShipmentEvent
      */
-    postedDate?: Date;
+    PostedDate?: string;
     /**
      * The seller SKU of the item. The seller SKU is qualified by the seller\'s seller ID, which is included with every call to the Selling Partner API.
      * @type {string}
@@ -1696,7 +1697,7 @@ export interface TrialShipmentEvent {
      * @type {Array<FeeComponent>}
      * @memberof TrialShipmentEvent
      */
-    feeList?: Array<FeeComponent>;
+    FeeList?: Array<FeeComponent>;
 }
 
 /**
@@ -1708,19 +1709,21 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-         * @param {Date} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
-         * @param {Date} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
+         * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
+         * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventGroups(maxResultsPerPage?: number, financialEventGroupStartedBefore?: Date, financialEventGroupStartedAfter?: Date, nextToken?: string, options: any = {}): RequestArgs {
+        listFinancialEventGroups: async (maxResultsPerPage?: number, financialEventGroupStartedBefore?: string, financialEventGroupStartedAfter?: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/finances/v0/financialEventGroups`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1730,11 +1733,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (financialEventGroupStartedBefore !== undefined) {
-                localVarQueryParameter['FinancialEventGroupStartedBefore'] = (financialEventGroupStartedBefore as any).toISOString();
+                localVarQueryParameter['FinancialEventGroupStartedBefore'] = (financialEventGroupStartedBefore as any instanceof Date) ?
+                    (financialEventGroupStartedBefore as any).toISOString() :
+                    financialEventGroupStartedBefore;
             }
 
             if (financialEventGroupStartedAfter !== undefined) {
-                localVarQueryParameter['FinancialEventGroupStartedAfter'] = (financialEventGroupStartedAfter as any).toISOString();
+                localVarQueryParameter['FinancialEventGroupStartedAfter'] = (financialEventGroupStartedAfter as any instanceof Date) ?
+                    (financialEventGroupStartedAfter as any).toISOString() :
+                    financialEventGroupStartedAfter;
             }
 
             if (nextToken !== undefined) {
@@ -1743,32 +1750,33 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
         /**
          * Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-         * @param {Date} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
-         * @param {Date} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
+         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
+         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEvents(maxResultsPerPage?: number, postedAfter?: Date, postedBefore?: Date, nextToken?: string, options: any = {}): RequestArgs {
+        listFinancialEvents: async (maxResultsPerPage?: number, postedAfter?: string, postedBefore?: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/finances/v0/financialEvents`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1778,11 +1786,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (postedAfter !== undefined) {
-                localVarQueryParameter['PostedAfter'] = (postedAfter as any).toISOString();
+                localVarQueryParameter['PostedAfter'] = (postedAfter as any instanceof Date) ?
+                    (postedAfter as any).toISOString() :
+                    postedAfter;
             }
 
             if (postedBefore !== undefined) {
-                localVarQueryParameter['PostedBefore'] = (postedBefore as any).toISOString();
+                localVarQueryParameter['PostedBefore'] = (postedBefore as any instanceof Date) ?
+                    (postedBefore as any).toISOString() :
+                    postedBefore;
             }
 
             if (nextToken !== undefined) {
@@ -1791,13 +1803,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1809,18 +1820,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options: any = {}): RequestArgs {
+        listFinancialEventsByGroupId: async (eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'eventGroupId' is not null or undefined
-            if (eventGroupId === null || eventGroupId === undefined) {
-                throw new RequiredError('eventGroupId','Required parameter eventGroupId was null or undefined when calling listFinancialEventsByGroupId.');
-            }
+            assertParamExists('listFinancialEventsByGroupId', 'eventGroupId', eventGroupId)
             const localVarPath = `/finances/v0/financialEventGroups/{eventGroupId}/financialEvents`
                 .replace(`{${"eventGroupId"}}`, encodeURIComponent(String(eventGroupId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1835,13 +1846,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1853,18 +1863,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventsByOrderId(orderId: string, maxResultsPerPage?: number, nextToken?: string, options: any = {}): RequestArgs {
+        listFinancialEventsByOrderId: async (orderId: string, maxResultsPerPage?: number, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
-            if (orderId === null || orderId === undefined) {
-                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling listFinancialEventsByOrderId.');
-            }
+            assertParamExists('listFinancialEventsByOrderId', 'orderId', orderId)
             const localVarPath = `/finances/v0/orders/{orderId}/financialEvents`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -1879,13 +1889,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -1897,38 +1906,33 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
  * @export
  */
 export const DefaultApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
     return {
         /**
          * Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-         * @param {Date} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
-         * @param {Date} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
+         * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
+         * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventGroups(maxResultsPerPage?: number, financialEventGroupStartedBefore?: Date, financialEventGroupStartedAfter?: Date, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventGroupsResponse> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).listFinancialEventGroups(maxResultsPerPage, financialEventGroupStartedBefore, financialEventGroupStartedAfter, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async listFinancialEventGroups(maxResultsPerPage?: number, financialEventGroupStartedBefore?: string, financialEventGroupStartedAfter?: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventGroupsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listFinancialEventGroups(maxResultsPerPage, financialEventGroupStartedBefore, financialEventGroupStartedAfter, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-         * @param {Date} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
-         * @param {Date} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
+         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
+         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEvents(maxResultsPerPage?: number, postedAfter?: Date, postedBefore?: Date, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventsResponse> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).listFinancialEvents(maxResultsPerPage, postedAfter, postedBefore, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async listFinancialEvents(maxResultsPerPage?: number, postedAfter?: string, postedBefore?: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listFinancialEvents(maxResultsPerPage, postedAfter, postedBefore, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns all financial events for the specified financial event group.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1938,12 +1942,9 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventsResponse> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns all financial events for the specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1953,12 +1954,9 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventsByOrderId(orderId: string, maxResultsPerPage?: number, nextToken?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventsResponse> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).listFinancialEventsByOrderId(orderId, maxResultsPerPage, nextToken, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async listFinancialEventsByOrderId(orderId: string, maxResultsPerPage?: number, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listFinancialEventsByOrderId(orderId, maxResultsPerPage, nextToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -1968,30 +1966,31 @@ export const DefaultApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DefaultApiFp(configuration)
     return {
         /**
          * Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-         * @param {Date} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
-         * @param {Date} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
+         * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
+         * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventGroups(maxResultsPerPage?: number, financialEventGroupStartedBefore?: Date, financialEventGroupStartedAfter?: Date, nextToken?: string, options?: any) {
-            return DefaultApiFp(configuration).listFinancialEventGroups(maxResultsPerPage, financialEventGroupStartedBefore, financialEventGroupStartedAfter, nextToken, options)(axios, basePath);
+        listFinancialEventGroups(maxResultsPerPage?: number, financialEventGroupStartedBefore?: string, financialEventGroupStartedAfter?: string, nextToken?: string, options?: any): AxiosPromise<ListFinancialEventGroupsResponse> {
+            return localVarFp.listFinancialEventGroups(maxResultsPerPage, financialEventGroupStartedBefore, financialEventGroupStartedAfter, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-         * @param {Date} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
-         * @param {Date} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
+         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
+         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEvents(maxResultsPerPage?: number, postedAfter?: Date, postedBefore?: Date, nextToken?: string, options?: any) {
-            return DefaultApiFp(configuration).listFinancialEvents(maxResultsPerPage, postedAfter, postedBefore, nextToken, options)(axios, basePath);
+        listFinancialEvents(maxResultsPerPage?: number, postedAfter?: string, postedBefore?: string, nextToken?: string, options?: any): AxiosPromise<ListFinancialEventsResponse> {
+            return localVarFp.listFinancialEvents(maxResultsPerPage, postedAfter, postedBefore, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns all financial events for the specified financial event group.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2001,8 +2000,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options?: any) {
-            return DefaultApiFp(configuration).listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, nextToken, options)(axios, basePath);
+        listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options?: any): AxiosPromise<ListFinancialEventsResponse> {
+            return localVarFp.listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns all financial events for the specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -2012,11 +2011,137 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventsByOrderId(orderId: string, maxResultsPerPage?: number, nextToken?: string, options?: any) {
-            return DefaultApiFp(configuration).listFinancialEventsByOrderId(orderId, maxResultsPerPage, nextToken, options)(axios, basePath);
+        listFinancialEventsByOrderId(orderId: string, maxResultsPerPage?: number, nextToken?: string, options?: any): AxiosPromise<ListFinancialEventsResponse> {
+            return localVarFp.listFinancialEventsByOrderId(orderId, maxResultsPerPage, nextToken, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for listFinancialEventGroups operation in DefaultApi.
+ * @export
+ * @interface DefaultApiListFinancialEventGroupsRequest
+ */
+export interface DefaultApiListFinancialEventGroupsRequest {
+    /**
+     * The maximum number of results to return per page.
+     * @type {number}
+     * @memberof DefaultApiListFinancialEventGroups
+     */
+    readonly maxResultsPerPage?: number
+
+    /**
+     * A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventGroups
+     */
+    readonly financialEventGroupStartedBefore?: string
+
+    /**
+     * A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventGroups
+     */
+    readonly financialEventGroupStartedAfter?: string
+
+    /**
+     * A string token returned in the response of your previous request.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventGroups
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for listFinancialEvents operation in DefaultApi.
+ * @export
+ * @interface DefaultApiListFinancialEventsRequest
+ */
+export interface DefaultApiListFinancialEventsRequest {
+    /**
+     * The maximum number of results to return per page.
+     * @type {number}
+     * @memberof DefaultApiListFinancialEvents
+     */
+    readonly maxResultsPerPage?: number
+
+    /**
+     * A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEvents
+     */
+    readonly postedAfter?: string
+
+    /**
+     * A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEvents
+     */
+    readonly postedBefore?: string
+
+    /**
+     * A string token returned in the response of your previous request.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEvents
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for listFinancialEventsByGroupId operation in DefaultApi.
+ * @export
+ * @interface DefaultApiListFinancialEventsByGroupIdRequest
+ */
+export interface DefaultApiListFinancialEventsByGroupIdRequest {
+    /**
+     * The identifier of the financial event group to which the events belong.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventsByGroupId
+     */
+    readonly eventGroupId: string
+
+    /**
+     * The maximum number of results to return per page.
+     * @type {number}
+     * @memberof DefaultApiListFinancialEventsByGroupId
+     */
+    readonly maxResultsPerPage?: number
+
+    /**
+     * A string token returned in the response of your previous request.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventsByGroupId
+     */
+    readonly nextToken?: string
+}
+
+/**
+ * Request parameters for listFinancialEventsByOrderId operation in DefaultApi.
+ * @export
+ * @interface DefaultApiListFinancialEventsByOrderIdRequest
+ */
+export interface DefaultApiListFinancialEventsByOrderIdRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventsByOrderId
+     */
+    readonly orderId: string
+
+    /**
+     * The maximum number of results to return per page.
+     * @type {number}
+     * @memberof DefaultApiListFinancialEventsByOrderId
+     */
+    readonly maxResultsPerPage?: number
+
+    /**
+     * A string token returned in the response of your previous request.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventsByOrderId
+     */
+    readonly nextToken?: string
+}
 
 /**
  * DefaultApi - object-oriented interface
@@ -2027,58 +2152,47 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 export class DefaultApi extends BaseAPI {
     /**
      * Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-     * @param {Date} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
-     * @param {Date} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
-     * @param {string} [nextToken] A string token returned in the response of your previous request.
+     * @param {DefaultApiListFinancialEventGroupsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public listFinancialEventGroups(maxResultsPerPage?: number, financialEventGroupStartedBefore?: Date, financialEventGroupStartedAfter?: Date, nextToken?: string, options?: any) {
-        return DefaultApiFp(this.configuration).listFinancialEventGroups(maxResultsPerPage, financialEventGroupStartedBefore, financialEventGroupStartedAfter, nextToken, options)(this.axios, this.basePath);
+    public listFinancialEventGroups(requestParameters: DefaultApiListFinancialEventGroupsRequest = {}, options?: any) {
+        return DefaultApiFp(this.configuration).listFinancialEventGroups(requestParameters.maxResultsPerPage, requestParameters.financialEventGroupStartedBefore, requestParameters.financialEventGroupStartedAfter, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-     * @param {Date} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
-     * @param {Date} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
-     * @param {string} [nextToken] A string token returned in the response of your previous request.
+     * @param {DefaultApiListFinancialEventsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public listFinancialEvents(maxResultsPerPage?: number, postedAfter?: Date, postedBefore?: Date, nextToken?: string, options?: any) {
-        return DefaultApiFp(this.configuration).listFinancialEvents(maxResultsPerPage, postedAfter, postedBefore, nextToken, options)(this.axios, this.basePath);
+    public listFinancialEvents(requestParameters: DefaultApiListFinancialEventsRequest = {}, options?: any) {
+        return DefaultApiFp(this.configuration).listFinancialEvents(requestParameters.maxResultsPerPage, requestParameters.postedAfter, requestParameters.postedBefore, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns all financial events for the specified financial event group.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} eventGroupId The identifier of the financial event group to which the events belong.
-     * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-     * @param {string} [nextToken] A string token returned in the response of your previous request.
+     * @param {DefaultApiListFinancialEventsByGroupIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options?: any) {
-        return DefaultApiFp(this.configuration).listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, nextToken, options)(this.axios, this.basePath);
+    public listFinancialEventsByGroupId(requestParameters: DefaultApiListFinancialEventsByGroupIdRequest, options?: any) {
+        return DefaultApiFp(this.configuration).listFinancialEventsByGroupId(requestParameters.eventGroupId, requestParameters.maxResultsPerPage, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns all financial events for the specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-     * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
-     * @param {string} [nextToken] A string token returned in the response of your previous request.
+     * @param {DefaultApiListFinancialEventsByOrderIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public listFinancialEventsByOrderId(orderId: string, maxResultsPerPage?: number, nextToken?: string, options?: any) {
-        return DefaultApiFp(this.configuration).listFinancialEventsByOrderId(orderId, maxResultsPerPage, nextToken, options)(this.axios, this.basePath);
+    public listFinancialEventsByOrderId(requestParameters: DefaultApiListFinancialEventsByOrderIdRequest, options?: any) {
+        return DefaultApiFp(this.configuration).listFinancialEventsByOrderId(requestParameters.orderId, requestParameters.maxResultsPerPage, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

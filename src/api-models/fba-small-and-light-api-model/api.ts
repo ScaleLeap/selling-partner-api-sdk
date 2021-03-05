@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for FBA Small And Light
  * The Selling Partner API for FBA Small and Light lets you help sellers manage their listings in the Small and Light program. The program reduces the cost of fulfilling orders for small and lightweight FBA inventory. You can enroll or remove items from the program and check item eligibility and enrollment status. You can also preview the estimated program fees charged to a seller for items sold while enrolled in the program.
@@ -13,10 +13,11 @@
  */
 
 
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -58,9 +59,9 @@ export interface FeeLineItem {
     * @enum {string}
     */
 export enum FeeLineItemFeeTypeEnum {
-    FBAWeightBasedFee = 'FBAWeightBasedFee',
-    FBAPerOrderFulfillmentFee = 'FBAPerOrderFulfillmentFee',
-    FBAPerUnitFulfillmentFee = 'FBAPerUnitFulfillmentFee',
+    FbaWeightBasedFee = 'FBAWeightBasedFee',
+    FbaPerOrderFulfillmentFee = 'FBAPerOrderFulfillmentFee',
+    FbaPerUnitFulfillmentFee = 'FBAPerUnitFulfillmentFee',
     Commission = 'Commission'
 }
 
@@ -195,8 +196,8 @@ export interface SmallAndLightEligibility {
  * @enum {string}
  */
 export enum SmallAndLightEligibilityStatus {
-    ELIGIBLE = 'ELIGIBLE',
-    NOTELIGIBLE = 'NOT_ELIGIBLE'
+    Eligible = 'ELIGIBLE',
+    NotEligible = 'NOT_ELIGIBLE'
 }
 
 /**
@@ -230,8 +231,8 @@ export interface SmallAndLightEnrollment {
  * @enum {string}
  */
 export enum SmallAndLightEnrollmentStatus {
-    ENROLLED = 'ENROLLED',
-    NOTENROLLED = 'NOT_ENROLLED'
+    Enrolled = 'ENROLLED',
+    NotEnrolled = 'NOT_ENROLLED'
 }
 
 /**
@@ -280,22 +281,20 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
+        deleteSmallAndLightEnrollmentBySellerSKU: async (sellerSKU: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerSKU' is not null or undefined
-            if (sellerSKU === null || sellerSKU === undefined) {
-                throw new RequiredError('sellerSKU','Required parameter sellerSKU was null or undefined when calling deleteSmallAndLightEnrollmentBySellerSKU.');
-            }
+            assertParamExists('deleteSmallAndLightEnrollmentBySellerSKU', 'sellerSKU', sellerSKU)
             // verify required parameter 'marketplaceIds' is not null or undefined
-            if (marketplaceIds === null || marketplaceIds === undefined) {
-                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling deleteSmallAndLightEnrollmentBySellerSKU.');
-            }
+            assertParamExists('deleteSmallAndLightEnrollmentBySellerSKU', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/fba/smallAndLight/v1/enrollments/{sellerSKU}`
                 .replace(`{${"sellerSKU"}}`, encodeURIComponent(String(sellerSKU)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -306,13 +305,12 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -323,22 +321,20 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightEligibilityBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
+        getSmallAndLightEligibilityBySellerSKU: async (sellerSKU: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerSKU' is not null or undefined
-            if (sellerSKU === null || sellerSKU === undefined) {
-                throw new RequiredError('sellerSKU','Required parameter sellerSKU was null or undefined when calling getSmallAndLightEligibilityBySellerSKU.');
-            }
+            assertParamExists('getSmallAndLightEligibilityBySellerSKU', 'sellerSKU', sellerSKU)
             // verify required parameter 'marketplaceIds' is not null or undefined
-            if (marketplaceIds === null || marketplaceIds === undefined) {
-                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling getSmallAndLightEligibilityBySellerSKU.');
-            }
+            assertParamExists('getSmallAndLightEligibilityBySellerSKU', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/fba/smallAndLight/v1/eligibilities/{sellerSKU}`
                 .replace(`{${"sellerSKU"}}`, encodeURIComponent(String(sellerSKU)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -349,13 +345,12 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -366,22 +361,20 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
+        getSmallAndLightEnrollmentBySellerSKU: async (sellerSKU: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerSKU' is not null or undefined
-            if (sellerSKU === null || sellerSKU === undefined) {
-                throw new RequiredError('sellerSKU','Required parameter sellerSKU was null or undefined when calling getSmallAndLightEnrollmentBySellerSKU.');
-            }
+            assertParamExists('getSmallAndLightEnrollmentBySellerSKU', 'sellerSKU', sellerSKU)
             // verify required parameter 'marketplaceIds' is not null or undefined
-            if (marketplaceIds === null || marketplaceIds === undefined) {
-                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling getSmallAndLightEnrollmentBySellerSKU.');
-            }
+            assertParamExists('getSmallAndLightEnrollmentBySellerSKU', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/fba/smallAndLight/v1/enrollments/{sellerSKU}`
                 .replace(`{${"sellerSKU"}}`, encodeURIComponent(String(sellerSKU)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -392,13 +385,12 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -408,17 +400,17 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightFeePreview(body: SmallAndLightFeePreviewRequest, options: any = {}): RequestArgs {
+        getSmallAndLightFeePreview: async (body: SmallAndLightFeePreviewRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling getSmallAndLightFeePreview.');
-            }
+            assertParamExists('getSmallAndLightFeePreview', 'body', body)
             const localVarPath = `/fba/smallAndLight/v1/feePreviews`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -427,15 +419,13 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (<any>"SmallAndLightFeePreviewRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -446,22 +436,20 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options: any = {}): RequestArgs {
+        putSmallAndLightEnrollmentBySellerSKU: async (sellerSKU: string, marketplaceIds: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerSKU' is not null or undefined
-            if (sellerSKU === null || sellerSKU === undefined) {
-                throw new RequiredError('sellerSKU','Required parameter sellerSKU was null or undefined when calling putSmallAndLightEnrollmentBySellerSKU.');
-            }
+            assertParamExists('putSmallAndLightEnrollmentBySellerSKU', 'sellerSKU', sellerSKU)
             // verify required parameter 'marketplaceIds' is not null or undefined
-            if (marketplaceIds === null || marketplaceIds === undefined) {
-                throw new RequiredError('marketplaceIds','Required parameter marketplaceIds was null or undefined when calling putSmallAndLightEnrollmentBySellerSKU.');
-            }
+            assertParamExists('putSmallAndLightEnrollmentBySellerSKU', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/fba/smallAndLight/v1/enrollments/{sellerSKU}`
                 .replace(`{${"sellerSKU"}}`, encodeURIComponent(String(sellerSKU)));
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
+
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
@@ -472,13 +460,12 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
@@ -490,6 +477,7 @@ export const SmallAndLightApiAxiosParamCreator = function (configuration?: Confi
  * @export
  */
 export const SmallAndLightApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = SmallAndLightApiAxiosParamCreator(configuration)
     return {
         /**
          * Removes the item indicated by the specified seller SKU from the Small and Light program in the specified marketplace. If the item is not eligible for disenrollment, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -498,12 +486,9 @@ export const SmallAndLightApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-            const localVarAxiosArgs = SmallAndLightApiAxiosParamCreator(configuration).deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the Small and Light program eligibility status of the item indicated by the specified seller SKU in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -512,12 +497,9 @@ export const SmallAndLightApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightEligibilityBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmallAndLightEligibility> {
-            const localVarAxiosArgs = SmallAndLightApiAxiosParamCreator(configuration).getSmallAndLightEligibilityBySellerSKU(sellerSKU, marketplaceIds, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getSmallAndLightEligibilityBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmallAndLightEligibility>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSmallAndLightEligibilityBySellerSKU(sellerSKU, marketplaceIds, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the Small and Light enrollment status for the item indicated by the specified seller SKU in the specified marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -526,12 +508,9 @@ export const SmallAndLightApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmallAndLightEnrollment> {
-            const localVarAxiosArgs = SmallAndLightApiAxiosParamCreator(configuration).getSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmallAndLightEnrollment>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns the Small and Light fee estimates for the specified items. You must include a marketplaceId parameter to retrieve the proper fee estimates for items to be sold in that marketplace. The ordering of items in the response will mirror the order of the items in the request. Duplicate ASIN/price combinations are removed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 3 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -539,12 +518,9 @@ export const SmallAndLightApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightFeePreview(body: SmallAndLightFeePreviewRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmallAndLightFeePreviews> {
-            const localVarAxiosArgs = SmallAndLightApiAxiosParamCreator(configuration).getSmallAndLightFeePreview(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async getSmallAndLightFeePreview(body: SmallAndLightFeePreviewRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmallAndLightFeePreviews>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSmallAndLightFeePreview(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Enrolls the item indicated by the specified seller SKU in the Small and Light program in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -553,12 +529,9 @@ export const SmallAndLightApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmallAndLightEnrollment> {
-            const localVarAxiosArgs = SmallAndLightApiAxiosParamCreator(configuration).putSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
+        async putSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SmallAndLightEnrollment>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
@@ -568,6 +541,7 @@ export const SmallAndLightApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const SmallAndLightApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = SmallAndLightApiFp(configuration)
     return {
         /**
          * Removes the item indicated by the specified seller SKU from the Small and Light program in the specified marketplace. If the item is not eligible for disenrollment, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -576,8 +550,8 @@ export const SmallAndLightApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any) {
-            return SmallAndLightApiFp(configuration).deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options)(axios, basePath);
+        deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the Small and Light program eligibility status of the item indicated by the specified seller SKU in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -586,8 +560,8 @@ export const SmallAndLightApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightEligibilityBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any) {
-            return SmallAndLightApiFp(configuration).getSmallAndLightEligibilityBySellerSKU(sellerSKU, marketplaceIds, options)(axios, basePath);
+        getSmallAndLightEligibilityBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<SmallAndLightEligibility> {
+            return localVarFp.getSmallAndLightEligibilityBySellerSKU(sellerSKU, marketplaceIds, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the Small and Light enrollment status for the item indicated by the specified seller SKU in the specified marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -596,8 +570,8 @@ export const SmallAndLightApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any) {
-            return SmallAndLightApiFp(configuration).getSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options)(axios, basePath);
+        getSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<SmallAndLightEnrollment> {
+            return localVarFp.getSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the Small and Light fee estimates for the specified items. You must include a marketplaceId parameter to retrieve the proper fee estimates for items to be sold in that marketplace. The ordering of items in the response will mirror the order of the items in the request. Duplicate ASIN/price combinations are removed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 3 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -605,8 +579,8 @@ export const SmallAndLightApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSmallAndLightFeePreview(body: SmallAndLightFeePreviewRequest, options?: any) {
-            return SmallAndLightApiFp(configuration).getSmallAndLightFeePreview(body, options)(axios, basePath);
+        getSmallAndLightFeePreview(body: SmallAndLightFeePreviewRequest, options?: any): AxiosPromise<SmallAndLightFeePreviews> {
+            return localVarFp.getSmallAndLightFeePreview(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Enrolls the item indicated by the specified seller SKU in the Small and Light program in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -615,11 +589,109 @@ export const SmallAndLightApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any) {
-            return SmallAndLightApiFp(configuration).putSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options)(axios, basePath);
+        putSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<SmallAndLightEnrollment> {
+            return localVarFp.putSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for deleteSmallAndLightEnrollmentBySellerSKU operation in SmallAndLightApi.
+ * @export
+ * @interface SmallAndLightApiDeleteSmallAndLightEnrollmentBySellerSKURequest
+ */
+export interface SmallAndLightApiDeleteSmallAndLightEnrollmentBySellerSKURequest {
+    /**
+     * The seller SKU that identifies the item.
+     * @type {string}
+     * @memberof SmallAndLightApiDeleteSmallAndLightEnrollmentBySellerSKU
+     */
+    readonly sellerSKU: string
+
+    /**
+     * The marketplace in which to remove the item from the Small and Light program. Note: Accepts a single marketplace only.
+     * @type {Array<string>}
+     * @memberof SmallAndLightApiDeleteSmallAndLightEnrollmentBySellerSKU
+     */
+    readonly marketplaceIds: Array<string>
+}
+
+/**
+ * Request parameters for getSmallAndLightEligibilityBySellerSKU operation in SmallAndLightApi.
+ * @export
+ * @interface SmallAndLightApiGetSmallAndLightEligibilityBySellerSKURequest
+ */
+export interface SmallAndLightApiGetSmallAndLightEligibilityBySellerSKURequest {
+    /**
+     * The seller SKU that identifies the item.
+     * @type {string}
+     * @memberof SmallAndLightApiGetSmallAndLightEligibilityBySellerSKU
+     */
+    readonly sellerSKU: string
+
+    /**
+     * The marketplace for which the eligibility status is retrieved. NOTE: Accepts a single marketplace only.
+     * @type {Array<string>}
+     * @memberof SmallAndLightApiGetSmallAndLightEligibilityBySellerSKU
+     */
+    readonly marketplaceIds: Array<string>
+}
+
+/**
+ * Request parameters for getSmallAndLightEnrollmentBySellerSKU operation in SmallAndLightApi.
+ * @export
+ * @interface SmallAndLightApiGetSmallAndLightEnrollmentBySellerSKURequest
+ */
+export interface SmallAndLightApiGetSmallAndLightEnrollmentBySellerSKURequest {
+    /**
+     * The seller SKU that identifies the item.
+     * @type {string}
+     * @memberof SmallAndLightApiGetSmallAndLightEnrollmentBySellerSKU
+     */
+    readonly sellerSKU: string
+
+    /**
+     * The marketplace for which the enrollment status is retrieved. Note: Accepts a single marketplace only.
+     * @type {Array<string>}
+     * @memberof SmallAndLightApiGetSmallAndLightEnrollmentBySellerSKU
+     */
+    readonly marketplaceIds: Array<string>
+}
+
+/**
+ * Request parameters for getSmallAndLightFeePreview operation in SmallAndLightApi.
+ * @export
+ * @interface SmallAndLightApiGetSmallAndLightFeePreviewRequest
+ */
+export interface SmallAndLightApiGetSmallAndLightFeePreviewRequest {
+    /**
+     * 
+     * @type {SmallAndLightFeePreviewRequest}
+     * @memberof SmallAndLightApiGetSmallAndLightFeePreview
+     */
+    readonly body: SmallAndLightFeePreviewRequest
+}
+
+/**
+ * Request parameters for putSmallAndLightEnrollmentBySellerSKU operation in SmallAndLightApi.
+ * @export
+ * @interface SmallAndLightApiPutSmallAndLightEnrollmentBySellerSKURequest
+ */
+export interface SmallAndLightApiPutSmallAndLightEnrollmentBySellerSKURequest {
+    /**
+     * The seller SKU that identifies the item.
+     * @type {string}
+     * @memberof SmallAndLightApiPutSmallAndLightEnrollmentBySellerSKU
+     */
+    readonly sellerSKU: string
+
+    /**
+     * The marketplace in which to enroll the item. Note: Accepts a single marketplace only.
+     * @type {Array<string>}
+     * @memberof SmallAndLightApiPutSmallAndLightEnrollmentBySellerSKU
+     */
+    readonly marketplaceIds: Array<string>
+}
 
 /**
  * SmallAndLightApi - object-oriented interface
@@ -630,63 +702,58 @@ export const SmallAndLightApiFactory = function (configuration?: Configuration, 
 export class SmallAndLightApi extends BaseAPI {
     /**
      * Removes the item indicated by the specified seller SKU from the Small and Light program in the specified marketplace. If the item is not eligible for disenrollment, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerSKU The seller SKU that identifies the item.
-     * @param {Array<string>} marketplaceIds The marketplace in which to remove the item from the Small and Light program. Note: Accepts a single marketplace only.
+     * @param {SmallAndLightApiDeleteSmallAndLightEnrollmentBySellerSKURequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SmallAndLightApi
      */
-    public deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any) {
-        return SmallAndLightApiFp(this.configuration).deleteSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options)(this.axios, this.basePath);
+    public deleteSmallAndLightEnrollmentBySellerSKU(requestParameters: SmallAndLightApiDeleteSmallAndLightEnrollmentBySellerSKURequest, options?: any) {
+        return SmallAndLightApiFp(this.configuration).deleteSmallAndLightEnrollmentBySellerSKU(requestParameters.sellerSKU, requestParameters.marketplaceIds, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the Small and Light program eligibility status of the item indicated by the specified seller SKU in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerSKU The seller SKU that identifies the item.
-     * @param {Array<string>} marketplaceIds The marketplace for which the eligibility status is retrieved. NOTE: Accepts a single marketplace only.
+     * @param {SmallAndLightApiGetSmallAndLightEligibilityBySellerSKURequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SmallAndLightApi
      */
-    public getSmallAndLightEligibilityBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any) {
-        return SmallAndLightApiFp(this.configuration).getSmallAndLightEligibilityBySellerSKU(sellerSKU, marketplaceIds, options)(this.axios, this.basePath);
+    public getSmallAndLightEligibilityBySellerSKU(requestParameters: SmallAndLightApiGetSmallAndLightEligibilityBySellerSKURequest, options?: any) {
+        return SmallAndLightApiFp(this.configuration).getSmallAndLightEligibilityBySellerSKU(requestParameters.sellerSKU, requestParameters.marketplaceIds, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the Small and Light enrollment status for the item indicated by the specified seller SKU in the specified marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerSKU The seller SKU that identifies the item.
-     * @param {Array<string>} marketplaceIds The marketplace for which the enrollment status is retrieved. Note: Accepts a single marketplace only.
+     * @param {SmallAndLightApiGetSmallAndLightEnrollmentBySellerSKURequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SmallAndLightApi
      */
-    public getSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any) {
-        return SmallAndLightApiFp(this.configuration).getSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options)(this.axios, this.basePath);
+    public getSmallAndLightEnrollmentBySellerSKU(requestParameters: SmallAndLightApiGetSmallAndLightEnrollmentBySellerSKURequest, options?: any) {
+        return SmallAndLightApiFp(this.configuration).getSmallAndLightEnrollmentBySellerSKU(requestParameters.sellerSKU, requestParameters.marketplaceIds, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the Small and Light fee estimates for the specified items. You must include a marketplaceId parameter to retrieve the proper fee estimates for items to be sold in that marketplace. The ordering of items in the response will mirror the order of the items in the request. Duplicate ASIN/price combinations are removed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 3 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {SmallAndLightFeePreviewRequest} body 
+     * @param {SmallAndLightApiGetSmallAndLightFeePreviewRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SmallAndLightApi
      */
-    public getSmallAndLightFeePreview(body: SmallAndLightFeePreviewRequest, options?: any) {
-        return SmallAndLightApiFp(this.configuration).getSmallAndLightFeePreview(body, options)(this.axios, this.basePath);
+    public getSmallAndLightFeePreview(requestParameters: SmallAndLightApiGetSmallAndLightFeePreviewRequest, options?: any) {
+        return SmallAndLightApiFp(this.configuration).getSmallAndLightFeePreview(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Enrolls the item indicated by the specified seller SKU in the Small and Light program in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-     * @param {string} sellerSKU The seller SKU that identifies the item.
-     * @param {Array<string>} marketplaceIds The marketplace in which to enroll the item. Note: Accepts a single marketplace only.
+     * @param {SmallAndLightApiPutSmallAndLightEnrollmentBySellerSKURequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SmallAndLightApi
      */
-    public putSmallAndLightEnrollmentBySellerSKU(sellerSKU: string, marketplaceIds: Array<string>, options?: any) {
-        return SmallAndLightApiFp(this.configuration).putSmallAndLightEnrollmentBySellerSKU(sellerSKU, marketplaceIds, options)(this.axios, this.basePath);
+    public putSmallAndLightEnrollmentBySellerSKU(requestParameters: SmallAndLightApiPutSmallAndLightEnrollmentBySellerSKURequest, options?: any) {
+        return SmallAndLightApiFp(this.configuration).putSmallAndLightEnrollmentBySellerSKU(requestParameters.sellerSKU, requestParameters.marketplaceIds, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

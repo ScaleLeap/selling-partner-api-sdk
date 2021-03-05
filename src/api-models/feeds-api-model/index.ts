@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Selling Partner API for Feeds
  * The Selling Partner API for Feeds lets you upload data to Amazon on behalf of a selling partner.
@@ -14,3 +15,4 @@
 
 export * from "./api";
 export * from "./configuration";
+
