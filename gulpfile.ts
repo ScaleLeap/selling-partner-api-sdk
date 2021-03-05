@@ -1,6 +1,5 @@
 import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extraneous-dependencies
 import { series } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
-import { flatten } from 'lodash' // eslint-disable-line import/no-extraneous-dependencies
 import path from 'path'
 import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec'
 
@@ -75,7 +74,10 @@ async function generateModels() {
   const githubFolders = await fetchContentsByPath()
   const githubFilePromises = githubFolders.map((folder) => fetchContentsByPath(folder.path))
 
-  return flatten(await Promise.all(githubFilePromises))
+  const githubFiles = await Promise.all(githubFilePromises)
+
+  return githubFiles
+    .flat()
     .map(generateAPIModel)
     .map(executeGeneratorCLI)
     .map(removeRedundantObjects)
