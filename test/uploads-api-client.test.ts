@@ -6,7 +6,7 @@ import {
   UploadsApiClient,
   UploadsApiClientConfigurationParameters,
   UploadsApiClientCreateUploadDestinationForResourceRequest,
-} from '../src/clients/uploads-api-client'
+} from '../src'
 
 describe(`${UploadsApiClient.name}`, () => {
   const contentMD5 = 'MD5'

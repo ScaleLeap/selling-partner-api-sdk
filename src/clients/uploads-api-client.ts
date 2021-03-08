@@ -1,23 +1,13 @@
-import { AmazonMarketplace } from '@scaleleap/amazon-marketplaces'
 import globalAxios, { AxiosInstance } from 'axios'
 
 import {
   Configuration,
-  ConfigurationParameters,
   UploadsApi,
   UploadsApiCreateUploadDestinationForResourceRequest,
 } from '../api-models/uploads-api-model'
 import { BASE_PATH } from '../api-models/uploads-api-model/base'
-
-export type UploadsApiClientCreateUploadDestinationForResourceRequest = Omit<
-  UploadsApiCreateUploadDestinationForResourceRequest,
-  'marketplaceIds'
->
-
-export interface UploadsApiClientConfigurationParameters
-  extends Omit<ConfigurationParameters, 'basePath'> {
-  marketplace?: AmazonMarketplace
-}
+import { UploadsApiClientConfigurationParameters } from '../types/uploads-api-client/uploads-api-client-configuration-parameters'
+import { UploadsApiClientCreateUploadDestinationForResourceRequest } from '../types/uploads-api-client/uploads-api-client-create-upload-destination-for-resource-request'
 
 export class UploadsApiClient {
   private uploadsApi: UploadsApi
