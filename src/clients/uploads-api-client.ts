@@ -31,14 +31,12 @@ export class UploadsApiClient {
     apiClientParameters: UploadsApiClientCreateUploadDestinationForResourceRequest,
     options?: unknown,
   ): Promise<CreateUploadDestinationResponse> {
-    const marketplaceId = this.configuration?.marketplace?.id
-    let marketplaceIds: string[] = []
-    if (marketplaceId) {
-      marketplaceIds = [marketplaceId]
-    }
+    const { marketplaces, ...rest } = apiClientParameters
+
+    const marketplaceIds: string[] = marketplaces.map((marketplace) => marketplace.id)
 
     const apiParameters: UploadsApiCreateUploadDestinationForResourceRequest = {
-      ...apiClientParameters,
+      ...rest,
       marketplaceIds,
     }
 

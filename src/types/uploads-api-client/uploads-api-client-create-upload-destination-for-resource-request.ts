@@ -1,6 +1,8 @@
+import { AmazonMarketplace } from '@scaleleap/amazon-marketplaces'
+
 import { UploadsApiCreateUploadDestinationForResourceRequest } from '../../api-models/uploads-api-model'
 
-export type UploadsApiClientCreateUploadDestinationForResourceRequest = Omit<
-  UploadsApiCreateUploadDestinationForResourceRequest,
-  'marketplaceIds'
->
+export interface UploadsApiClientCreateUploadDestinationForResourceRequest
+  extends Omit<UploadsApiCreateUploadDestinationForResourceRequest, 'marketplaceIds'> {
+  readonly marketplaces: AmazonMarketplace[]
+}

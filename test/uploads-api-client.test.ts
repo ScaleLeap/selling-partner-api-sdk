@@ -26,6 +26,7 @@ describe(`${UploadsApiClient.name}`, () => {
 
     const client = new UploadsApiClient(configuration)
     const parameters: UploadsApiClientCreateUploadDestinationForResourceRequest = {
+      marketplaces: [amazonMarketplaces.CA, amazonMarketplaces.US, amazonMarketplaces.BR],
       contentMD5,
       resource,
     }
