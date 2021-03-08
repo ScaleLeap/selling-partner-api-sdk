@@ -34,6 +34,7 @@
   },
   "types": "lib/index.d.ts",
   "dependencies": {
+    "@scaleleap/amazon-marketplaces": "10.2.0",
     "axios": "0.21.1",
     "purify-ts": "0.16.1",
     "ts-error": "1.0.6"
