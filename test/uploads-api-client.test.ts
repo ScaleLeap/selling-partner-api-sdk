@@ -1,8 +1,8 @@
 import { amazonMarketplaces } from '@scaleleap/amazon-marketplaces'
-import { AxiosError } from 'axios'
-import { URL } from 'url'
 
 import {
+  SellingPartnerForbiddenError,
+  SellingPartnerGenericError,
   UploadsApiClient,
   UploadsApiClientConfigurationParameters,
   UploadsApiClientCreateUploadDestinationForResourceRequest,
@@ -12,27 +12,8 @@ describe(`${UploadsApiClient.name}`, () => {
   const contentMD5 = 'MD5'
   const resource = 'resource'
 
-  it('should pass without api client options', async () => {
-    expect.assertions(4)
-
-    const client = new UploadsApiClient()
-    const parameters: UploadsApiClientCreateUploadDestinationForResourceRequest = {
-      contentMD5,
-      resource,
-    }
-
-    await client.createUploadDestinationForResource(parameters).catch((error: AxiosError) => {
-      const url = new URL(error.config.url || '')
-
-      expect(url.origin).toStrictEqual(amazonMarketplaces.CA.sellingPartner?.region.endpoint)
-      expect(url.searchParams.get('marketplaceIds') === '').toBeTruthy()
-      expect(url.searchParams.get('contentMD5')).toStrictEqual(contentMD5)
-      expect(url.pathname).toContain(resource)
-    })
-  })
-
-  it('should pass with api client options', async () => {
-    expect.assertions(4)
+  it('should return error objects', async () => {
+    expect.assertions(2)
 
     const configuration: UploadsApiClientConfigurationParameters = {
       marketplace: amazonMarketplaces.JP,
@@ -49,13 +30,14 @@ describe(`${UploadsApiClient.name}`, () => {
       resource,
     }
 
-    await client.createUploadDestinationForResource(parameters).catch((error: AxiosError) => {
-      const url = new URL(error.config.url || '')
+    await client
+      .createUploadDestinationForResource(parameters)
+      .catch((error: SellingPartnerGenericError) => {
+        expect(error.requestId).toBeDefined()
+      })
 
-      expect(url.origin).toStrictEqual(amazonMarketplaces.JP.sellingPartner?.region.endpoint)
-      expect(url.searchParams.get('marketplaceIds')).toStrictEqual(amazonMarketplaces.JP.id)
-      expect(url.searchParams.get('contentMD5')).toStrictEqual(contentMD5)
-      expect(url.pathname).toContain(resource)
-    })
+    await expect(client.createUploadDestinationForResource(parameters)).rejects.toThrow(
+      SellingPartnerForbiddenError,
+    )
   })
 })
