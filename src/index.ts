@@ -1,5 +1,6 @@
+export * from './clients'
 export * from './helpers'
-export * from './types/errors'
+export * from './types'
 export * as CatalogItemsApiModel from './api-models/catalog-items-api-model'
 export * as FeedsApiModel from './api-models/feeds-api-model'
 export * as AuthorizationApiModel from './api-models/authorization-api-model'
