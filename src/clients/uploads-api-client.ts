@@ -7,13 +7,13 @@ import { isJsonMime } from '../helpers/is-json-mime'
 import { APIConfigurationParameters } from '../types/api-configuration-parameters'
 
 export class UploadsApiClient extends UploadsApi {
-  constructor(parameters?: APIConfigurationParameters, axios?: AxiosInstance) {
+  constructor(parameters?: APIConfigurationParameters) {
     const { sellingPartner } = amazonMarketplaces.US
     const basePath: string = sellingPartner ? sellingPartner.region.endpoint : ''
     let axiosInstance: AxiosInstance
 
-    if (axios) {
-      axiosInstance = axios
+    if (parameters && parameters.axios) {
+      axiosInstance = parameters.axios
     } else {
       axiosInstance = globalAxios.create()
       axiosInstance.interceptors.response.use(

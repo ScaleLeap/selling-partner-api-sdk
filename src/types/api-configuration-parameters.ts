@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios'
+import { AxiosInstance, AxiosRequestConfig } from 'axios'
 
 export interface APIConfigurationParameters {
   /**
@@ -11,20 +11,15 @@ export interface APIConfigurationParameters {
     | Promise<string>
     | ((name: string) => string)
     | ((name: string) => Promise<string>)
+
   /**
-   * parameter for basic security
+   * Axios Instance
    *
-   * @type {string}
+   * @type {AxiosInstance}
    * @memberof APIConfigurationParameters
    */
-  username?: string
-  /**
-   * parameter for basic security
-   *
-   * @type {string}
-   * @memberof APIConfigurationParameters
-   */
-  password?: string
+  axios?: AxiosInstance
+
   /**
    * parameter for oauth2 security
    * @param name security name
