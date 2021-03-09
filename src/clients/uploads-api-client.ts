@@ -1,50 +1,36 @@
-import globalAxios, { AxiosError, AxiosInstance } from 'axios'
+import { amazonMarketplaces } from '@scaleleap/amazon-marketplaces'
+import globalAxios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
-import {
-  Configuration,
-  CreateUploadDestinationResponse,
-  ModelError,
-  UploadsApi,
-  UploadsApiCreateUploadDestinationForResourceRequest,
-} from '../api-models/uploads-api-model'
-import { BASE_PATH } from '../api-models/uploads-api-model/base'
+import { UploadsApi } from '../api-models/uploads-api-model'
 import { apiErrorFactory } from '../helpers'
-import { UploadsApiClientConfigurationParameters } from '../types/uploads-api-client/uploads-api-client-configuration-parameters'
-import { UploadsApiClientCreateUploadDestinationForResourceRequest } from '../types/uploads-api-client/uploads-api-client-create-upload-destination-for-resource-request'
+import { isJsonMime } from '../helpers/is-json-mime'
+import { APIConfigurationParameters } from '../types/api-configuration-parameters'
 
-export class UploadsApiClient {
-  private uploadsApi: UploadsApi
+export class UploadsApiClient extends UploadsApi {
+  constructor(parameters?: APIConfigurationParameters, axios?: AxiosInstance) {
+    const { sellingPartner } = amazonMarketplaces.US
+    const basePath: string = sellingPartner ? sellingPartner.region.endpoint : ''
+    let axiosInstance: AxiosInstance
 
-  constructor(
-    protected configuration?: UploadsApiClientConfigurationParameters,
-    protected axios: AxiosInstance = globalAxios,
-  ) {
-    const basePath: string | undefined = configuration?.marketplace?.sellingPartner?.region.endpoint
-    const uploadsApiConfiguration: Configuration = new Configuration({
-      ...configuration,
-      basePath,
-    })
-    this.uploadsApi = new UploadsApi(uploadsApiConfiguration, BASE_PATH, axios)
-  }
-
-  public async createUploadDestinationForResource(
-    apiClientParameters: UploadsApiClientCreateUploadDestinationForResourceRequest,
-    options?: unknown,
-  ): Promise<CreateUploadDestinationResponse> {
-    const { marketplaces, ...rest } = apiClientParameters
-
-    const marketplaceIds: string[] = marketplaces.map((marketplace) => marketplace.id)
-
-    const apiParameters: UploadsApiCreateUploadDestinationForResourceRequest = {
-      ...rest,
-      marketplaceIds,
+    if (axios) {
+      axiosInstance = axios
+    } else {
+      axiosInstance = globalAxios.create()
+      axiosInstance.interceptors.response.use(
+        (response: AxiosResponse) => response.data,
+        (error: AxiosError) => {
+          throw apiErrorFactory(error)
+        },
+      )
     }
 
-    return this.uploadsApi
-      .createUploadDestinationForResource(apiParameters, options)
-      .then((response) => response.data)
-      .catch((error: AxiosError) => {
-        throw apiErrorFactory<ModelError>(error)
-      })
+    super(
+      {
+        isJsonMime,
+        ...parameters,
+      },
+      basePath,
+      axiosInstance,
+    )
   }
 }

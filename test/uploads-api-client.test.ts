@@ -4,8 +4,7 @@ import {
   SellingPartnerForbiddenError,
   SellingPartnerGenericError,
   UploadsApiClient,
-  UploadsApiClientConfigurationParameters,
-  UploadsApiClientCreateUploadDestinationForResourceRequest,
+  UploadsApiModel, // eslint-disable-line import/named
 } from '../src'
 
 describe(`${UploadsApiClient.name}`, () => {
@@ -15,18 +14,13 @@ describe(`${UploadsApiClient.name}`, () => {
   it('should return error objects', async () => {
     expect.assertions(2)
 
-    const configuration: UploadsApiClientConfigurationParameters = {
-      marketplace: amazonMarketplaces.JP,
-      apiKey: '',
-      username: '',
-      password: '',
-      accessToken: '',
-      baseOptions: '',
-    }
-
-    const client = new UploadsApiClient(configuration)
-    const parameters: UploadsApiClientCreateUploadDestinationForResourceRequest = {
-      marketplaces: [amazonMarketplaces.CA, amazonMarketplaces.US, amazonMarketplaces.BR],
+    const client = new UploadsApiClient()
+    const parameters: UploadsApiModel.UploadsApiCreateUploadDestinationForResourceRequest = {
+      marketplaceIds: [
+        amazonMarketplaces.CA.id,
+        amazonMarketplaces.US.id,
+        amazonMarketplaces.BR.id,
+      ],
       contentMD5,
       resource,
     }
