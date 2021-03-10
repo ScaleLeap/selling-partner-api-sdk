@@ -4,8 +4,8 @@ import { APIConfigurationParameters } from '../types/api-clients/api-configurati
 
 // TODO: duplicated API model with fba inbound
 export class FulfillmentFbaInboundApiClient extends FbaInboundApi {
-  constructor(parameters?: APIConfigurationParameters) {
-    const axios = ApiClientHelpers.assertAxiosInstance(parameters)
+  constructor(parameters: APIConfigurationParameters) {
+    const axios = ApiClientHelpers.getAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()
 
     super(

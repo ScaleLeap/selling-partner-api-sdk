@@ -3,8 +3,8 @@ import { ApiClientHelpers } from '../helpers'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
 export class ReportsApiClient extends ReportsApi {
-  constructor(parameters?: APIConfigurationParameters) {
-    const axios = ApiClientHelpers.assertAxiosInstance(parameters)
+  constructor(parameters: APIConfigurationParameters) {
+    const axios = ApiClientHelpers.getAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()
 
     super(

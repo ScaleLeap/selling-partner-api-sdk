@@ -1,6 +1,7 @@
 import { amazonMarketplaces } from '@scaleleap/amazon-marketplaces'
 
 import {
+  APIConfigurationParameters,
   SellingPartnerForbiddenError,
   SellingPartnerGenericError,
   UploadsApiClient,
@@ -14,13 +15,16 @@ describe(`${UploadsApiClient.name}`, () => {
   it('should return error objects', async () => {
     expect.assertions(2)
 
-    const client = new UploadsApiClient()
+    const configuration: APIConfigurationParameters = {
+      accessToken: 'Atza|...',
+      apiModelProperties: {
+        region: 'us-east-1',
+      },
+    }
+
+    const client = new UploadsApiClient(configuration)
     const parameters: UploadsApiModel.UploadsApiCreateUploadDestinationForResourceRequest = {
-      marketplaceIds: [
-        amazonMarketplaces.CA.id,
-        amazonMarketplaces.US.id,
-        amazonMarketplaces.BR.id,
-      ],
+      marketplaceIds: [amazonMarketplaces.CA.id],
       contentMD5,
       resource,
     }

@@ -6,21 +6,23 @@ import { APIConfigurationParameters } from '../types'
 import { apiErrorFactory } from './api-error-factory'
 
 export class ApiClientHelpers {
-  static assertAxiosInstance(parameters?: APIConfigurationParameters): AxiosInstance {
+  static getAxiosInstance(parameters: APIConfigurationParameters): AxiosInstance {
     let axiosInstance: AxiosInstance
+    const { axios } = parameters
 
-    if (parameters && parameters.axios) {
-      axiosInstance = parameters.axios
+    if (axios) {
+      axiosInstance = axios
     } else {
       axiosInstance = globalAxios.create()
+      const { apiModelProperties } = parameters
 
       axiosInstance.interceptors.request.use(
         aws4Interceptor(
           {
-            region: parameters?.apiModelProperties.region,
-            service: parameters?.apiModelProperties.service || 'execute-api',
+            region: apiModelProperties.region,
+            service: 'execute-api',
           },
-          parameters?.apiModelProperties.credentials,
+          apiModelProperties.credentials,
         ),
       )
 
