@@ -5,7 +5,7 @@ import {
   SellingPartnerGenericError,
   UploadsApiClient,
   UploadsApiModel, // eslint-disable-line import/named
-} from '../src'
+} from '../../src'
 
 describe(`${UploadsApiClient.name}`, () => {
   const contentMD5 = 'MD5'
