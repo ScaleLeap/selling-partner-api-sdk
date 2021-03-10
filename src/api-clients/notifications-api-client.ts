@@ -1,8 +1,8 @@
-import { DefaultApi } from '../api-models/finances-api-model'
+import { NotificationsApi } from '../api-models/notifications-api-model'
 import { ApiClientHelpers } from '../helpers'
-import { APIConfigurationParameters } from '../types/api-configuration-parameters'
+import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class DefaultApiClient extends DefaultApi {
+export class NotificationsApiClient extends NotificationsApi {
   constructor(parameters?: APIConfigurationParameters) {
     const axios = ApiClientHelpers.assertAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()

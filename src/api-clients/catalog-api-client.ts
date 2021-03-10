@@ -1,8 +1,8 @@
-import { SmallAndLightApi } from '../api-models/fba-small-and-light-api-model'
+import { CatalogApi } from '../api-models/catalog-items-api-model'
 import { ApiClientHelpers } from '../helpers'
-import { APIConfigurationParameters } from '../types/api-configuration-parameters'
+import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class SmallAndLightApiClient extends SmallAndLightApi {
+export class CatalogApiClient extends CatalogApi {
   constructor(parameters?: APIConfigurationParameters) {
     const axios = ApiClientHelpers.assertAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()

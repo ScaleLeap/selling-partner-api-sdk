@@ -1,8 +1,8 @@
-import { UploadsApi } from '../api-models/uploads-api-model'
+import { MessagingApi } from '../api-models/messaging-api-model'
 import { ApiClientHelpers } from '../helpers'
-import { APIConfigurationParameters } from '../types/api-configuration-parameters'
+import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class UploadsApiClient extends UploadsApi {
+export class MessagingApiClient extends MessagingApi {
   constructor(parameters?: APIConfigurationParameters) {
     const axios = ApiClientHelpers.assertAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()

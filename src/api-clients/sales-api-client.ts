@@ -1,8 +1,8 @@
-import { SellersApi } from '../api-models/sellers-api-model'
+import { SalesApi } from '../api-models/sales-api-model'
 import { ApiClientHelpers } from '../helpers'
-import { APIConfigurationParameters } from '../types/api-configuration-parameters'
+import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class SellersApiClient extends SellersApi {
+export class SalesApiClient extends SalesApi {
   constructor(parameters?: APIConfigurationParameters) {
     const axios = ApiClientHelpers.assertAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()

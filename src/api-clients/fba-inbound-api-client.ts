@@ -1,8 +1,8 @@
-import { ProductPricingApi } from '../api-models/product-pricing-api-model'
+import { FbaInboundApi } from '../api-models/fba-inbound-eligibility-api-model'
 import { ApiClientHelpers } from '../helpers'
-import { APIConfigurationParameters } from '../types/api-configuration-parameters'
+import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class ProductPricingApiClient extends ProductPricingApi {
+export class FbaInboundApiClient extends FbaInboundApi {
   constructor(parameters?: APIConfigurationParameters) {
     const axios = ApiClientHelpers.assertAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()

@@ -1,8 +1,8 @@
-import { AuthorizationApi } from '../api-models/authorization-api-model'
+import { FbaInventoryApi } from '../api-models/fba-inventory-api-model'
 import { ApiClientHelpers } from '../helpers'
-import { APIConfigurationParameters } from '../types/api-configuration-parameters'
+import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class AuthorizationApiClient extends AuthorizationApi {
+export class FbaInventoryApiClient extends FbaInventoryApi {
   constructor(parameters?: APIConfigurationParameters) {
     const axios = ApiClientHelpers.assertAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()

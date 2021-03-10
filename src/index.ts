@@ -1,4 +1,4 @@
-export * from './clients'
+export * from './api-clients'
 export * from './helpers'
 export * from './types'
 export * as CatalogItemsApiModel from './api-models/catalog-items-api-model'

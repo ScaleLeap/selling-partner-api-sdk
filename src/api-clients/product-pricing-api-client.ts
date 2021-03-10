@@ -1,9 +1,8 @@
-import { OrdersV0Api } from '../api-models/orders-api-model'
+import { ProductPricingApi } from '../api-models/product-pricing-api-model'
 import { ApiClientHelpers } from '../helpers'
-import { APIConfigurationParameters } from '../types/api-configuration-parameters'
+import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-// TODO: remove V0 in client name when generate automatically
-export class OrdersApiClient extends OrdersV0Api {
+export class ProductPricingApiClient extends ProductPricingApi {
   constructor(parameters?: APIConfigurationParameters) {
     const axios = ApiClientHelpers.assertAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()
