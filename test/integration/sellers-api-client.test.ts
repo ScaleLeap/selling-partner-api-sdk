@@ -67,6 +67,7 @@ describe(`${SellersApiClient.name}`, () => {
       console.log(JSON.stringify(response, undefined, 2))
 
       // expect(data.payload).toBeInstanceOf(Array)
+      expect(response).toBeDefined() // TODO: remove this test when we have actual tests
     },
     30 * 1000,
   )
