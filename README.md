@@ -47,7 +47,7 @@ const resource = 'resource'
 const configuration: APIConfigurationParameters  = {
   accessToken: 'Atza|...',
   apiModelProperties: {
-    region: 'us-east-1',
+    region: amazonMarketplaces.CA.sellingPartner?.region.awsRegion || '',
   }
 }
 
