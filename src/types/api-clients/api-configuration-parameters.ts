@@ -1,5 +1,7 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 
+import { SellingPartnerApiModelProperties } from './selling-partner-api-model-properties'
+
 export interface APIConfigurationParameters {
   /**
    * parameter for apiKey security
@@ -11,6 +13,15 @@ export interface APIConfigurationParameters {
     | Promise<string>
     | ((name: string) => string)
     | ((name: string) => Promise<string>)
+
+  /**
+   * Selling Partner API model properties.
+   * Use for signing requests.
+   *
+   * @type {SellingPartnerApiModelProperties}
+   * @memberof APIConfigurationParameters
+   */
+  apiModelProperties: SellingPartnerApiModelProperties
 
   /**
    * Axios Instance
