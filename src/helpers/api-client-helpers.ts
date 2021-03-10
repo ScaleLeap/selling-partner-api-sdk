@@ -13,8 +13,15 @@ export class ApiClientHelpers {
     if (axios) {
       axiosInstance = axios
     } else {
-      axiosInstance = globalAxios.create()
-      const { apiModelProperties } = parameters
+      const { apiModelProperties, accessToken } = parameters
+
+      axiosInstance = globalAxios.create({
+        headers: {
+          // TODO: automate version number
+          'user-agent': '@scaleleap/selling-partner-api-sdk (Language=TypeScript/0.0.0)',
+          'x-amz-access-token': accessToken,
+        },
+      })
 
       axiosInstance.interceptors.request.use(
         aws4Interceptor(

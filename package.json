@@ -30,6 +30,7 @@
     "semantic-release": "npx @scaleleap/semantic-release-config",
     "start": "ts-node --transpile-only --pretty src",
     "test": "jest",
+    "test:integration": "ts-node -r dotenv/config node_modules/.bin/jest test/integration/",
     "test:watch": "jest --watchAll"
   },
   "types": "lib/index.d.ts",
@@ -42,6 +43,7 @@
     "ts-error": "1.0.6"
   },
   "devDependencies": {
+    "@aws-sdk/client-sts": "3.8.0",
     "@octokit/rest": "18.3.5",
     "@octokit/types": "6.12.2",
     "@openapitools/openapi-generator-cli": "2.1.26",
@@ -50,6 +52,9 @@
     "@types/jest": "26.0.20",
     "@types/node": "13.13.45",
     "danger": "10.6.3",
+    "dotenv": "8.2.0",
+    "env-var": "7.0.0",
+    "global-agent": "2.1.12",
     "gulp": "4.0.2",
     "jest": "26.6.3",
     "rimraf": "3.0.2",
