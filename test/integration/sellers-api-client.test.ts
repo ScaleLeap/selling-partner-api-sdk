@@ -57,17 +57,11 @@ describe(`${SellersApiClient.name}`, () => {
         },
       })
 
-      /**
-       * TODO: response does not match types.
-       */
+      const marketplaceParticipations = await client
+        .getMarketplaceParticipations()
+        .then((response) => response.data)
 
-      const response = await client.getMarketplaceParticipations()
-
-      // TODO: remove this and add canary tests
-      console.log(JSON.stringify(response, undefined, 2))
-
-      // expect(data.payload).toBeInstanceOf(Array)
-      expect(response).toBeDefined() // TODO: remove this test when we have actual tests
+      expect(marketplaceParticipations.payload).toBeInstanceOf(Array)
     },
     30 * 1000,
   )
