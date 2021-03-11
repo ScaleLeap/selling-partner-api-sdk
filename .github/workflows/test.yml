@@ -23,7 +23,7 @@ jobs:
           - 14
         os:
           - ubuntu-latest
-          # - macOS-latest
+          - macOS-latest
           - windows-latest
 
     steps:
@@ -43,6 +43,15 @@ jobs:
 
       - name: Test
         run: npm t
+        env:
+          API_URL: https://sellingpartnerapi-eu.amazon.com
+          API_REGION: eu-west-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          ROLE_ARN: ${{ secrets.ROLE_ARN }}
 
       - name: Build
         run: npm run build

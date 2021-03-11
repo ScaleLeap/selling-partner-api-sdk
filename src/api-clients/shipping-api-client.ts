@@ -1,10 +1,10 @@
 import { ShippingApi } from '../api-models/shipping-api-model'
 import { ApiClientHelpers } from '../helpers'
-import { APIConfigurationParameters } from '../types/api-configuration-parameters'
+import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
 export class ShippingApiClient extends ShippingApi {
-  constructor(parameters?: APIConfigurationParameters) {
-    const axios = ApiClientHelpers.assertAxiosInstance(parameters)
+  constructor(parameters: APIConfigurationParameters) {
+    const axios = ApiClientHelpers.getAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()
 
     super(

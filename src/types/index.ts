@@ -1,2 +1,2 @@
-export * from './api-configuration-parameters'
+export * from './api-clients'
 export * from './errors'

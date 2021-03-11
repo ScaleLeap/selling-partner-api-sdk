@@ -45,7 +45,10 @@ import {
 const contentMD5 = 'MD5'
 const resource = 'resource'
 const configuration: APIConfigurationParameters  = {
-  accessToken: 'Atza|...'
+  accessToken: 'Atza|...',
+  apiModelProperties: {
+    region: amazonMarketplaces.CA.sellingPartner?.region.awsRegion || '',
+  }
 }
 
 const client = new UploadsApiClient(configuration)
