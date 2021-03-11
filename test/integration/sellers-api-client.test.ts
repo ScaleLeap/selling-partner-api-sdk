@@ -49,10 +49,9 @@ describe(`${SellersApiClient.name}`, () => {
         apiModelProperties: {
           region: environment.API_REGION,
           credentials: {
-            // TODO: fix these warnings
-            accessKeyId: Credentials!.AccessKeyId || '',
-            secretAccessKey: Credentials!.SecretAccessKey || '',
-            sessionToken: Credentials!.SessionToken || '',
+            accessKeyId: Credentials?.AccessKeyId || '',
+            secretAccessKey: Credentials?.SecretAccessKey || '',
+            sessionToken: Credentials?.SessionToken || '',
           },
         },
       })
