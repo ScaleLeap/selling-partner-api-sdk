@@ -29,7 +29,7 @@
     "lint:fix": "npm run lint -- --fix",
     "semantic-release": "npx @scaleleap/semantic-release-config",
     "start": "ts-node --transpile-only --pretty src",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns test/integration/ ",
     "test:integration": "ts-node -r dotenv/config node_modules/.bin/jest test/integration/",
     "test:watch": "jest --watchAll"
   },
