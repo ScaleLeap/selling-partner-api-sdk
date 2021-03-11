@@ -57,9 +57,7 @@ describe(`${SellersApiClient.name}`, () => {
         },
       })
 
-      const marketplaceParticipations = await client
-        .getMarketplaceParticipations()
-        .then((response) => response.data)
+      const { data: marketplaceParticipations } = await client.getMarketplaceParticipations()
 
       expect(marketplaceParticipations.payload).toBeInstanceOf(Array)
     },
