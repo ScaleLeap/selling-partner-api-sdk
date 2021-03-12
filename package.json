@@ -30,7 +30,7 @@
     "semantic-release": "npx @scaleleap/semantic-release-config",
     "start": "ts-node --transpile-only --pretty src",
     "test": "jest --testPathIgnorePatterns test/integration/ ",
-    "test:integration": "ts-node -r dotenv/config node_modules/.bin/jest test/integration/",
+    "test:integration": "ts-node -r dotenv/config node_modules/jest/bin/jest.js test/integration/",
     "test:watch": "jest --watchAll"
   },
   "types": "lib/index.d.ts",
