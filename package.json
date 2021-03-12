@@ -29,8 +29,8 @@
     "lint:fix": "npm run lint -- --fix",
     "semantic-release": "npx @scaleleap/semantic-release-config",
     "start": "ts-node --transpile-only --pretty src",
-    "test": "jest",
-    "test:integration": "ts-node -r dotenv/config node_modules/.bin/jest test/integration/",
+    "test": "jest --testPathIgnorePatterns test/integration/ ",
+    "test:integration": "jest test/integration/ --setupFiles dotenv/config",
     "test:watch": "jest --watchAll"
   },
   "types": "lib/index.d.ts",
