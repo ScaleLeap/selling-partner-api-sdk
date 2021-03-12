@@ -43,7 +43,7 @@
     "ts-error": "1.0.6"
   },
   "devDependencies": {
-    "@aws-sdk/client-sts": "3.8.0",
+    "@aws-sdk/client-sts": "3.8.1",
     "@octokit/rest": "18.3.5",
     "@octokit/types": "6.12.2",
     "@openapitools/openapi-generator-cli": "2.2.1",
