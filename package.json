@@ -46,7 +46,7 @@
     "@aws-sdk/client-sts": "3.8.1",
     "@octokit/rest": "18.3.5",
     "@octokit/types": "6.12.2",
-    "@openapitools/openapi-generator-cli": "2.2.1",
+    "@openapitools/openapi-generator-cli": "2.2.2",
     "@scaleleap/utils": "1.9.10",
     "@types/gulp": "4.0.8",
     "@types/jest": "26.0.20",
