@@ -43,6 +43,9 @@ jobs:
 
       - name: Test
         run: npm t
+
+      - name: Test integration
+        run: npm run test:integration
         env:
           API_URL: https://sellingpartnerapi-eu.amazon.com
           API_REGION: eu-west-1
