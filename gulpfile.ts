@@ -1,8 +1,9 @@
 import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extraneous-dependencies
+import { exec, ExecException } from 'child_process'
+import { promises as fsPromises } from 'fs'
 import { task } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
 import path from 'path'
 import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec' // eslint-disable-line import/no-extraneous-dependencies
-import {exec, ExecException} from 'child_process'
 
 import { Decoder } from './utils/decoder'
 
@@ -15,12 +16,16 @@ type GithubObject = GetType<typeof GithubObject>
 
 interface APIModel extends GithubObject {
   command: string
+  outputPath: string
 }
 
 // Using authentication to increases Github API rate limit.
 const octokit = new Octokit()
 const owner = 'amzn'
 const repo = 'selling-partner-api-models'
+const redundantFiles: string[] = ['.gitignore', '.openapi-generator-ignore', 'git_push.sh']
+
+const redundantDirectories: string[] = ['.openapi-generator']
 
 async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]> {
   return octokit.repos
@@ -37,26 +42,27 @@ async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]>
 }
 
 function generateAPIModel(model: GithubObject): APIModel {
-  const outputFolder = path.basename(path.dirname(model.path))
-  const out = `src/api-models/${outputFolder}`
-  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${out} -i ${model.download_url}`
+  const outputDirectory = path.basename(path.dirname(model.path))
+  const outputPath = `src/api-models/${outputDirectory}`
+  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${outputPath} -i ${model.download_url}`
 
   return {
     ...model,
     command,
+    outputPath,
   }
 }
 
 async function executeGeneratorCLI(model: APIModel): Promise<APIModel> {
   return new Promise((resolve, reject) => {
-    exec(model.command, (error: ExecException) => {
+    exec(model.command, (error: ExecException | null) => {
       if (error) reject(error)
       else resolve(model)
     })
   })
 }
 
-function removeRedundantObjects(model: APIModel): APIModel {
+async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
   /**
    * TODO: clean up:
    *- .openapi-generator
@@ -65,7 +71,12 @@ function removeRedundantObjects(model: APIModel): APIModel {
    *- git_push.sh
    */
 
-  return model
+  return Promise.all([
+    ...redundantFiles.map((object) => fsPromises.unlink(`${model.outputPath}/${object}`)),
+    ...redundantDirectories.map((object) =>
+      fsPromises.rmdir(`${model.outputPath}/${object}`, { recursive: true }),
+    ),
+  ]).then((_) => model) // eslint-disable-line @typescript-eslint/no-unused-vars
 }
 
 function exportAPIModel(model: APIModel): APIModel {
@@ -75,8 +86,10 @@ function exportAPIModel(model: APIModel): APIModel {
 }
 
 async function generateModels() {
-  const githubFolders = await fetchContentsByPath()
-  const githubFilePromises = githubFolders.map((folder) => fetchContentsByPath(folder.path))
+  const githubDirectories = await fetchContentsByPath()
+  const githubFilePromises = githubDirectories.map((directory) =>
+    fetchContentsByPath(directory.path),
+  )
 
   const githubFiles = await Promise.all(githubFilePromises)
 
@@ -84,11 +97,10 @@ async function generateModels() {
     .flat()
     .map(generateAPIModel)
     .map(executeGeneratorCLI)
-    
-  const apiModels: APIModel[] = await Promise.all(apiModelGeneratorPromises)
-  apiModels
-    .map(removeRedundantObjects)
-    .map(exportAPIModel)
+
+  await Promise.all<APIModel>(apiModelGeneratorPromises)
+    .then((apiModels) => Promise.all(apiModels.map(removeRedundantObjects)))
+    .then((apiModels) => apiModels.map(exportAPIModel))
 }
 
 task(generateModels)
