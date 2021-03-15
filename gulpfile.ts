@@ -2,6 +2,7 @@ import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extrane
 import { task } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
 import path from 'path'
 import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec' // eslint-disable-line import/no-extraneous-dependencies
+import {exec, ExecException} from 'child_process'
 
 import { Decoder } from './utils/decoder'
 
@@ -46,10 +47,13 @@ function generateAPIModel(model: GithubObject): APIModel {
   }
 }
 
-function executeGeneratorCLI(model: APIModel): APIModel {
-  // TODO: generate model from API model
-
-  return model
+async function executeGeneratorCLI(model: APIModel): Promise<APIModel> {
+  return new Promise((resolve, reject) => {
+    exec(model.command, (error: ExecException) => {
+      if (error) reject(error)
+      else resolve(model)
+    })
+  })
 }
 
 function removeRedundantObjects(model: APIModel): APIModel {
@@ -76,10 +80,13 @@ async function generateModels() {
 
   const githubFiles = await Promise.all(githubFilePromises)
 
-  return githubFiles
+  const apiModelGeneratorPromises = githubFiles
     .flat()
     .map(generateAPIModel)
     .map(executeGeneratorCLI)
+    
+  const apiModels: APIModel[] = await Promise.all(apiModelGeneratorPromises)
+  apiModels
     .map(removeRedundantObjects)
     .map(exportAPIModel)
 }
