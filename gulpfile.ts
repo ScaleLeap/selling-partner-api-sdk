@@ -64,7 +64,7 @@ async function executeGeneratorCLI(model: APIModel): Promise<APIModel> {
 
 async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
   /**
-   * TODO: clean up:
+   * Clean up:
    *- .openapi-generator
    *- .gitignore
    *- .openapi-generator-ignore
