@@ -1,4 +1,4 @@
-import { ProductPricingApi } from '../api-models/product-pricing-api-model'
+import { Configuration, ProductPricingApi } from '../api-models/product-pricing-api-model'
 import { ApiClientHelpers } from '../helpers'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
@@ -6,14 +6,8 @@ export class ProductPricingApiClient extends ProductPricingApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
     const basePath = ApiClientHelpers.getDefaultBasePath()
+    const configuration = new Configuration(parameters)
 
-    super(
-      {
-        isJsonMime: ApiClientHelpers.isJsonMime,
-        ...parameters,
-      },
-      basePath,
-      axios,
-    )
+    super(configuration, basePath, axios)
   }
 }
