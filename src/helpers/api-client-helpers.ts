@@ -13,7 +13,7 @@ export class ApiClientHelpers {
     if (axios) {
       axiosInstance = axios
     } else {
-      const { apiModelProperties, accessToken } = parameters
+      const { accessToken, credentials, region } = parameters
 
       axiosInstance = globalAxios.create({
         headers: {
@@ -25,10 +25,10 @@ export class ApiClientHelpers {
       axiosInstance.interceptors.request.use(
         aws4Interceptor(
           {
-            region: apiModelProperties.region.awsRegion,
+            region: region.awsRegion,
             service: 'execute-api',
           },
-          apiModelProperties.credentials,
+          credentials,
         ),
       )
     }

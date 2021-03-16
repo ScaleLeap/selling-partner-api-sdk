@@ -23,7 +23,7 @@ describe(`${UploadsApiClient.name}`, () => {
 
     const configuration: APIConfigurationParameters = {
       accessToken: 'Atza|...',
-      apiModelProperties: { region: CA.sellingPartner.region },
+      region: CA.sellingPartner.region,
     }
 
     const client = new UploadsApiClient(configuration)
