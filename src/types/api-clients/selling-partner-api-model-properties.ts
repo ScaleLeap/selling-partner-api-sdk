@@ -1,6 +1,7 @@
+import { AmazonSellingPartnerApiRegion } from './amazon-selling-partner-api-region'
 import { SellingPartnerAPICredentials } from './selling-partner-api-credentials'
 
 export interface SellingPartnerApiModelProperties {
-  region: string
+  region: AmazonSellingPartnerApiRegion
   credentials?: SellingPartnerAPICredentials
 }

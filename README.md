@@ -33,7 +33,11 @@ A few things to get started:
 The general format applies to any Selling Partner API request:
 
 ```ts
-import { amazonMarketplaces } from '@scaleleap/amazon-marketplaces'
+import {
+  amazonMarketplaces,
+  assertMarketplaceHasSellingPartner,
+} from '@scaleleap/amazon-marketplaces'
+
 import { 
   APIConfigurationParameters,
   SellingPartnerForbiddenError,
@@ -44,16 +48,19 @@ import {
 
 const contentMD5 = 'MD5'
 const resource = 'resource'
-const configuration: APIConfigurationParameters  = {
+
+// We could use @scaleleap/amazon-marketplaces package to get aws region and marketplace id
+const { CA } = amazonMarketplaces
+assertMarketplaceHasSellingPartner(CA)
+
+const configuration: APIConfigurationParameters = {
   accessToken: 'Atza|...',
-  apiModelProperties: {
-    region: amazonMarketplaces.CA.sellingPartner?.region.awsRegion || '',
-  }
+  apiModelProperties: { region: CA.sellingPartner.region },
 }
 
 const client = new UploadsApiClient(configuration)
 const parameters: UploadsApiModel.UploadsApiCreateUploadDestinationForResourceRequest = {
-  marketplaceIds: [amazonMarketplaces.CA.id],
+  marketplaceIds: [CA.id],
   contentMD5,
   resource,
 }

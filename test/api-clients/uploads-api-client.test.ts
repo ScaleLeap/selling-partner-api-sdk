@@ -1,4 +1,7 @@
-import { amazonMarketplaces } from '@scaleleap/amazon-marketplaces'
+import {
+  amazonMarketplaces,
+  assertMarketplaceHasSellingPartner,
+} from '@scaleleap/amazon-marketplaces'
 
 import {
   APIConfigurationParameters,
@@ -15,16 +18,17 @@ describe(`${UploadsApiClient.name}`, () => {
   it('should return error objects', async () => {
     expect.assertions(2)
 
+    const { CA } = amazonMarketplaces
+    assertMarketplaceHasSellingPartner(CA)
+
     const configuration: APIConfigurationParameters = {
       accessToken: 'Atza|...',
-      apiModelProperties: {
-        region: amazonMarketplaces.CA.sellingPartner?.region.awsRegion || '',
-      },
+      apiModelProperties: { region: CA.sellingPartner.region },
     }
 
     const client = new UploadsApiClient(configuration)
     const parameters: UploadsApiModel.UploadsApiCreateUploadDestinationForResourceRequest = {
-      marketplaceIds: [amazonMarketplaces.CA.id],
+      marketplaceIds: [CA.id],
       contentMD5,
       resource,
     }

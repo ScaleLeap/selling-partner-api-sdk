@@ -47,7 +47,9 @@ describe(`${SellersApiClient.name}`, () => {
         basePath: environment.API_URL,
         accessToken: tokens.access_token,
         apiModelProperties: {
-          region: environment.API_REGION,
+          region: {
+            awsRegion: environment.API_REGION,
+          },
           credentials: {
             accessKeyId: Credentials?.AccessKeyId || '',
             secretAccessKey: Credentials?.SecretAccessKey || '',
