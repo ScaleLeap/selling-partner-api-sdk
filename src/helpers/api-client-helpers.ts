@@ -1,6 +1,7 @@
 import { aws4Interceptor } from 'aws4-axios'
 import globalAxios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
+import { USER_AGENT } from '../constants'
 import { APIConfigurationParameters } from '../types'
 import { apiErrorFactory } from './api-error-factory'
 
@@ -16,8 +17,7 @@ export class ApiClientHelpers {
 
       axiosInstance = globalAxios.create({
         headers: {
-          // TODO: automate version number
-          'user-agent': '@scaleleap/selling-partner-api-sdk (Language=TypeScript/0.0.0)',
+          'user-agent': USER_AGENT,
           'x-amz-access-token': accessToken,
         },
       })

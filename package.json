@@ -31,7 +31,8 @@
     "start": "ts-node --transpile-only --pretty src",
     "test": "jest --testPathIgnorePatterns test/integration/ ",
     "test:integration": "jest test/integration/ --setupFiles dotenv/config",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "postversion": "ts-node --transpile-only --pretty utils/bump-version.ts"
   },
   "types": "lib/index.d.ts",
   "dependencies": {
