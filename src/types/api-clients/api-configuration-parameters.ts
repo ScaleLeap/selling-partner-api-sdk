@@ -1,28 +1,10 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 
-import { SellingPartnerApiModelProperties } from './selling-partner-api-model-properties'
+import { ApiBasePath } from './amazon-selling-partner-api-base-path'
+import { AmazonSellingPartnerAPICredentials } from './amazon-selling-partner-api-credentials'
+import { AmazonSellingPartnerApiRegion } from './amazon-selling-partner-api-region'
 
 export interface APIConfigurationParameters {
-  /**
-   * parameter for apiKey security
-   * @param name security name
-   * @memberof APIConfigurationParameters
-   */
-  apiKey?:
-    | string
-    | Promise<string>
-    | ((name: string) => string)
-    | ((name: string) => Promise<string>)
-
-  /**
-   * Selling Partner API model properties.
-   * Use for signing requests.
-   *
-   * @type {SellingPartnerApiModelProperties}
-   * @memberof APIConfigurationParameters
-   */
-  apiModelProperties: SellingPartnerApiModelProperties
-
   /**
    * Axios Instance
    *
@@ -33,22 +15,19 @@ export interface APIConfigurationParameters {
 
   /**
    * parameter for oauth2 security
-   * @param name security name
-   * @param scopes oauth2 scope
+   *
    * @memberof APIConfigurationParameters
    */
-  accessToken?:
-    | string
-    | Promise<string>
-    | ((name?: string, scopes?: string[]) => string)
-    | ((name?: string, scopes?: string[]) => Promise<string>)
+  accessToken?: string
+
   /**
    * override base path
    *
-   * @type {string}
+   * @type {ApiBasePath}
    * @memberof APIConfigurationParameters
    */
-  basePath?: string
+  basePath?: ApiBasePath
+
   /**
    * base options for axios calls
    *
@@ -56,12 +35,20 @@ export interface APIConfigurationParameters {
    * @memberof APIConfigurationParameters
    */
   baseOptions?: AxiosRequestConfig
+
   /**
-   * The FormData constructor that will be used to create multipart form data
-   * requests. You can inject this here so that execution environments that
-   * do not support the FormData class can still run the generated client.
+   * Selling partner API credentials
    *
-   * @type {new () => FormData}
+   * @type {AmazonSellingPartnerAPICredentials}
+   * @memberof APIConfigurationParameters
    */
-  formDataCtor?: new () => FormData
+  credentials?: AmazonSellingPartnerAPICredentials
+
+  /**
+   * Selling partner API region
+   *
+   * @type {AmazonSellingPartnerApiRegion}
+   * @memberof APIConfigurationParameters
+   */
+  region: AmazonSellingPartnerApiRegion
 }

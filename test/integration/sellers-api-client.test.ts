@@ -1,6 +1,7 @@
 import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts'
 import axios from 'axios'
 
+import { SandboxApiBasePath } from '../../src'
 import { SellersApiClient } from '../../src/api-clients/sellers-api-client'
 import * as environment from '../environment'
 
@@ -44,17 +45,15 @@ describe(`${SellersApiClient.name}`, () => {
       )
 
       const client = new SellersApiClient({
-        basePath: environment.API_URL,
+        basePath: SandboxApiBasePath.EU,
         accessToken: tokens.access_token,
-        apiModelProperties: {
-          region: {
-            awsRegion: environment.API_REGION,
-          },
-          credentials: {
-            accessKeyId: Credentials?.AccessKeyId || '',
-            secretAccessKey: Credentials?.SecretAccessKey || '',
-            sessionToken: Credentials?.SessionToken || '',
-          },
+        region: {
+          awsRegion: environment.API_REGION,
+        },
+        credentials: {
+          accessKeyId: Credentials?.AccessKeyId || '',
+          secretAccessKey: Credentials?.SecretAccessKey || '',
+          sessionToken: Credentials?.SessionToken || '',
         },
       })
 

@@ -20,13 +20,6 @@ export const CLIENT_SECRET = env.get('CLIENT_SECRET').required().asString()
 
 export const REFRESH_TOKEN = env.get('REFRESH_TOKEN').required().asString()
 
-export const API_URL = env
-  .get('API_URL')
-  .default('https://sellingpartnerapi-na.amazon.com')
-  .required()
-  // cannot use asUriString: https://github.com/evanshortiss/env-var/issues/126
-  .asString()
-
 export const API_REGION = env.get('API_REGION').default('us-east-1').required().asString()
 
 export const ROLE_ARN = env.get('ROLE_ARN').required().asString()
