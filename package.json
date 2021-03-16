@@ -35,7 +35,6 @@
   },
   "types": "lib/index.d.ts",
   "dependencies": {
-    "@scaleleap/amazon-marketplaces": "10.2.0",
     "aws4-axios": "2.3.1",
     "axios": "0.21.1",
     "http-status-codes": "2.1.4",
@@ -47,6 +46,7 @@
     "@octokit/rest": "18.3.5",
     "@octokit/types": "6.12.2",
     "@openapitools/openapi-generator-cli": "2.2.2",
+    "@scaleleap/amazon-marketplaces": "10.2.0",
     "@scaleleap/utils": "1.9.10",
     "@types/gulp": "4.0.8",
     "@types/jest": "26.0.20",

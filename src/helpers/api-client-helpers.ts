@@ -1,4 +1,3 @@
-import { amazonMarketplaces } from '@scaleleap/amazon-marketplaces'
 import { aws4Interceptor } from 'aws4-axios'
 import globalAxios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
@@ -26,7 +25,7 @@ export class ApiClientHelpers {
       axiosInstance.interceptors.request.use(
         aws4Interceptor(
           {
-            region: apiModelProperties.region,
+            region: apiModelProperties.region.awsRegion,
             service: 'execute-api',
           },
           apiModelProperties.credentials,
@@ -42,10 +41,5 @@ export class ApiClientHelpers {
     )
 
     return axiosInstance
-  }
-
-  static getDefaultBasePath(): string {
-    const { sellingPartner } = amazonMarketplaces.US
-    return sellingPartner ? sellingPartner.region.endpoint : ''
   }
 }
