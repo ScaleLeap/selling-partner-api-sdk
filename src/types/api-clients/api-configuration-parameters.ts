@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 
-import { ApiBasePath } from './amazon-selling-partner-api-base-path'
+import { AmazonSellingPartnerApiBasePath } from './amazon-selling-partner-api-base-path'
 import { AmazonSellingPartnerAPICredentials } from './amazon-selling-partner-api-credentials'
 import { AmazonSellingPartnerApiRegion } from './amazon-selling-partner-api-region'
 
@@ -23,10 +23,10 @@ export interface APIConfigurationParameters {
   /**
    * override base path
    *
-   * @type {ApiBasePath}
+   * @type {AmazonSellingPartnerApiBasePath}
    * @memberof APIConfigurationParameters
    */
-  basePath?: ApiBasePath
+  basePath?: AmazonSellingPartnerApiBasePath
 
   /**
    * base options for axios calls
@@ -51,4 +51,12 @@ export interface APIConfigurationParameters {
    * @memberof APIConfigurationParameters
    */
   region: AmazonSellingPartnerApiRegion
+
+  /**
+   * Call to sandbox API.
+   *
+   * @type {boolean}
+   * @memberof APIConfigurationParameters
+   */
+  isSandbox?: boolean
 }
