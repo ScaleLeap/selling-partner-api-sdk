@@ -42,4 +42,11 @@ export class ApiClientHelpers {
 
     return axiosInstance
   }
+
+  static getBasePath(parameters: APIConfigurationParameters): string | undefined {
+    if (parameters.basePath && parameters.isSandbox) {
+      return parameters.basePath.replace('sellingpartnerapi', 'sandbox.sellingpartnerapi')
+    }
+    return parameters.basePath
+  }
 }

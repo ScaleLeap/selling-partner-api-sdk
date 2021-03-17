@@ -8,7 +8,10 @@ export class FulfillmentFbaInboundApiClient extends FbaInboundApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 
-    const configuration = new Configuration(parameters)
+    const configuration = new Configuration({
+      ...parameters,
+      basePath: ApiClientHelpers.getBasePath(parameters),
+    })
 
     super(configuration, DEFAULT_API_BASE_PATH, axios)
   }

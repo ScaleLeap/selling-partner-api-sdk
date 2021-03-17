@@ -1,7 +1,7 @@
 import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts'
 import axios from 'axios'
 
-import { SandboxApiBasePath } from '../../src'
+import { AmazonSellingPartnerApiBasePath } from '../../src'
 import { SellersApiClient } from '../../src/api-clients/sellers-api-client'
 import * as environment from '../environment'
 
@@ -45,7 +45,7 @@ describe(`${SellersApiClient.name}`, () => {
       )
 
       const client = new SellersApiClient({
-        basePath: SandboxApiBasePath.EU,
+        basePath: AmazonSellingPartnerApiBasePath.EU,
         accessToken: tokens.access_token,
         region: {
           awsRegion: environment.API_REGION,
@@ -55,6 +55,7 @@ describe(`${SellersApiClient.name}`, () => {
           secretAccessKey: Credentials?.SecretAccessKey || '',
           sessionToken: Credentials?.SessionToken || '',
         },
+        isSandbox: true,
       })
 
       const { data: marketplaceParticipations } = await client.getMarketplaceParticipations()
