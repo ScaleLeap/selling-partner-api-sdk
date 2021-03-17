@@ -1,9 +1,9 @@
 import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extraneous-dependencies
 import { task } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
 import path from 'path'
-import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec'
+import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec' // eslint-disable-line import/no-extraneous-dependencies
 
-import { Decoder } from './src/helpers/decoder'
+import { Decoder } from './utils/decoder'
 
 const GithubObject = Codec.interface({
   name: string,
