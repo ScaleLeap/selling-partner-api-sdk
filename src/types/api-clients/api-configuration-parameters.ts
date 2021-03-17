@@ -59,4 +59,12 @@ export interface APIConfigurationParameters {
    * @memberof APIConfigurationParameters
    */
   isSandbox?: boolean
+
+  /**
+   * ARN of the IAM Role to be assumed to get the credentials from.
+   *
+   * @type {string}
+   * @memberof APIConfigurationParameters
+   */
+  roleArn?: string
 }
