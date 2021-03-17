@@ -13,7 +13,7 @@ export class ApiClientHelpers {
     if (axios) {
       axiosInstance = axios
     } else {
-      const { accessToken, credentials, region } = parameters
+      const { accessToken, credentials, region, roleArn } = parameters
 
       axiosInstance = globalAxios.create({
         headers: {
@@ -27,6 +27,7 @@ export class ApiClientHelpers {
           {
             region: region.awsRegion,
             service: 'execute-api',
+            assumeRoleArn: roleArn,
           },
           credentials,
         ),
