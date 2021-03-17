@@ -39,7 +39,6 @@
     "aws4-axios": "2.3.1",
     "axios": "0.21.1",
     "http-status-codes": "2.1.4",
-    "purify-ts": "0.16.1",
     "ts-error": "1.0.6"
   },
   "devDependencies": {
@@ -58,6 +57,7 @@
     "global-agent": "2.1.12",
     "gulp": "4.0.2",
     "jest": "26.6.3",
+    "purify-ts": "0.16.1",
     "rimraf": "3.0.2",
     "ts-jest": "26.5.0",
     "ts-node": "9.1.1",
