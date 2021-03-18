@@ -1,7 +1,9 @@
+import SwaggerParser from '@apidevtools/swagger-parser' // eslint-disable-line import/no-extraneous-dependencies
 import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extraneous-dependencies
 import { exec, ExecException } from 'child_process'
 import { promises as fsPromises } from 'fs'
 import { task } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
+import { camelCase, has, upperFirst } from 'lodash' // eslint-disable-line import/no-extraneous-dependencies
 import path from 'path'
 import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec' // eslint-disable-line import/no-extraneous-dependencies
 
@@ -16,6 +18,7 @@ type GithubObject = GetType<typeof GithubObject>
 
 interface APIModel extends GithubObject {
   command: string
+  modelName: string
   outputPath: string
 }
 
@@ -24,8 +27,8 @@ const octokit = new Octokit()
 const owner = 'amzn'
 const repo = 'selling-partner-api-models'
 const redundantFiles: string[] = ['.gitignore', '.openapi-generator-ignore', 'git_push.sh']
-
 const redundantDirectories: string[] = ['.openapi-generator']
+const exclusionExportingObjects = new Set(['ErrorList', 'Error', 'Schema'])
 
 async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]> {
   return octokit.repos
@@ -42,14 +45,15 @@ async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]>
 }
 
 function generateAPIModel(model: GithubObject): APIModel {
-  const outputDirectory = path.basename(path.dirname(model.path))
-  const outputPath = `src/api-models/${outputDirectory}`
+  const modelName = path.basename(path.dirname(model.path))
+  const outputPath = `src/api-models/${modelName}`
   const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${outputPath} -i ${model.download_url}`
 
   return {
     ...model,
     command,
     outputPath,
+    modelName,
   }
 }
 
@@ -79,10 +83,28 @@ async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
   ]).then((_) => model) // eslint-disable-line @typescript-eslint/no-unused-vars
 }
 
-function exportAPIModel(model: APIModel): APIModel {
+async function exportAPIModel(model: APIModel): Promise<string> {
   // TODO: export models into src/index.ts and commit files
 
-  return model
+  const { definitions } = await SwaggerParser.parse(model.download_url)
+  const exportings: string[] = []
+
+  for (const key in definitions) {
+    if (has(definitions, key)) {
+      const definitionType = definitions[key].type
+
+      if (
+        (definitionType === 'object' &&
+          !exclusionExportingObjects.has(key) &&
+          !has(definitions[key], 'additionalProperties')) ||
+        (definitionType === 'string' && has(definitions[key], 'enum'))
+      ) {
+        exportings.push(`${key} as ${upperFirst(camelCase(model.modelName))}${key}`)
+      }
+    }
+  }
+
+  return `export { ${exportings.join(', ')} } from './api-models/${model.modelName}'`
 }
 
 async function generateModels() {
