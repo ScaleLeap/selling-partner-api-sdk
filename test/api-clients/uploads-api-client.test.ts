@@ -8,7 +8,6 @@ import {
   SellingPartnerForbiddenError,
   SellingPartnerGenericError,
   UploadsApiClient,
-  UploadsApiModel, // eslint-disable-line import/named
 } from '../../src'
 
 describe(`${UploadsApiClient.name}`, () => {
@@ -27,7 +26,7 @@ describe(`${UploadsApiClient.name}`, () => {
     }
 
     const client = new UploadsApiClient(configuration)
-    const parameters: UploadsApiModel.UploadsApiCreateUploadDestinationForResourceRequest = {
+    const parameters = {
       marketplaceIds: [CA.id],
       contentMD5,
       resource,
