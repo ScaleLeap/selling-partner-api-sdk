@@ -160,10 +160,8 @@ async function generateModels() {
     .map(executeGeneratorCLI)
 
   const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
-  await Promise.all([
-    ...apiModels.map(removeRedundantObjects),
-    apiModels.map(generateExportStatement).then(writeStatementsToFile),
-  ])
+  await Promise.all(apiModels.map(removeRedundantObjects))
+  await Promise.all(apiModels.map(generateExportStatement)).then(writeStatementsToFile)
 }
 
 task(generateModels)
