@@ -3,7 +3,7 @@ import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extrane
 import { exec, ExecException } from 'child_process'
 import { promises as fsPromises } from 'fs'
 import { task } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
-import { camelCase, has, upperFirst } from 'lodash' // eslint-disable-line import/no-extraneous-dependencies
+import { camelCase, has, isEmpty, upperFirst } from 'lodash' // eslint-disable-line import/no-extraneous-dependencies
 import path from 'path'
 import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec' // eslint-disable-line import/no-extraneous-dependencies
 
@@ -83,28 +83,49 @@ async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
   ]).then((_) => model) // eslint-disable-line @typescript-eslint/no-unused-vars
 }
 
+function verifyObjectDefinition(definitions: Record<string, any>, key: string): boolean {
+  const definitionType = definitions[key].type
+
+  return (
+    (definitionType === 'object' &&
+      !exclusionExportingObjects.has(key) &&
+      /**
+       * The 'properties' keyword is used to define the object properties.
+       * Docs: https://swagger.io/docs/specification/data-models/data-types/#ctxM:~:text=The%20properties%20keyword%20is%20used%20to%20define%20the%20object%20properties
+       */
+      has(definitions[key], 'properties') &&
+      /**
+       * 'additionalProperties' is used to define a free form object.
+       * Docs: https://swagger.io/docs/specification/data-models/dictionaries/#free-form:~:text=Free%2DForm%20Objects
+       */
+
+      isEmpty(definitions[key].additionalProperties)) ||
+    /**
+     * Use to combine schemas
+     * Docs: https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/
+     */
+    has(definitions[key], 'oneOf') ||
+    has(definitions[key], 'allOf') ||
+    has(definitions[key], 'oneOf') ||
+    /**
+     *
+     */
+    (definitionType === 'string' && has(definitions[key], 'enum'))
+  )
+}
+
 async function exportAPIModel(model: APIModel): Promise<string> {
-  // TODO: export models into src/index.ts and commit files
+  return SwaggerParser.parse(model.download_url).then(({ definitions }) => {
+    const exportings: string[] = []
 
-  const { definitions } = await SwaggerParser.parse(model.download_url)
-  const exportings: string[] = []
-
-  for (const key in definitions) {
-    if (has(definitions, key)) {
-      const definitionType = definitions[key].type
-
-      if (
-        (definitionType === 'object' &&
-          !exclusionExportingObjects.has(key) &&
-          !has(definitions[key], 'additionalProperties')) ||
-        (definitionType === 'string' && has(definitions[key], 'enum'))
-      ) {
+    for (const key in definitions) {
+      if (has(definitions, key) && verifyObjectDefinition(definitions, key)) {
         exportings.push(`${key} as ${upperFirst(camelCase(model.modelName))}${key}`)
       }
     }
-  }
 
-  return `export { ${exportings.join(', ')} } from './api-models/${model.modelName}'`
+    return `export { ${exportings.join(', ')} } from './${model.modelName}'`
+  })
 }
 
 async function generateModels() {
@@ -122,7 +143,10 @@ async function generateModels() {
 
   await Promise.all<APIModel>(apiModelGeneratorPromises)
     .then((apiModels) => Promise.all(apiModels.map(removeRedundantObjects)))
-    .then((apiModels) => apiModels.map(exportAPIModel))
+    .then((apiModels) => Promise.all(apiModels.map(exportAPIModel)))
+    .then((exportStatements) =>
+      fsPromises.writeFile('src/api-models/index.ts', exportStatements.join('\n')),
+    )
 }
 
 task(generateModels)
