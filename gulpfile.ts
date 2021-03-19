@@ -1,11 +1,11 @@
-import SwaggerParser from '@apidevtools/swagger-parser' // eslint-disable-line import/no-extraneous-dependencies
-import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extraneous-dependencies
+import SwaggerParser from '@apidevtools/swagger-parser'
+import { Octokit } from '@octokit/rest'
 import { exec, ExecException } from 'child_process'
 import { promises as fsPromises } from 'fs'
-import { task } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
-import { camelCase, has, isEmpty, upperFirst } from 'lodash' // eslint-disable-line import/no-extraneous-dependencies
+import { task } from 'gulp'
+import { camelCase, has, isEmpty, upperFirst } from 'lodash'
 import path from 'path'
-import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec' // eslint-disable-line import/no-extraneous-dependencies
+import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec'
 
 import { Decoder } from './utils/decoder'
 
@@ -24,17 +24,17 @@ interface APIModel extends GithubObject {
 
 // Using authentication to increases Github API rate limit.
 const octokit = new Octokit()
-const owner = 'amzn'
-const repo = 'selling-partner-api-models'
-const redundantFiles: string[] = ['.gitignore', '.openapi-generator-ignore', 'git_push.sh']
-const redundantDirectories: string[] = ['.openapi-generator']
-const exclusionExportingObjects = new Set(['ErrorList', 'Error'])
+const OWNER = 'amzn'
+const REPO = 'selling-partner-api-models'
+const REDUNDANT_FILES: string[] = ['.gitignore', '.openapi-generator-ignore', 'git_push.sh']
+const REDUNDANT_DIRECTORIES: string[] = ['.openapi-generator']
+const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
 async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]> {
   return octokit.repos
     .getContent({
-      owner,
-      repo,
+      owner: OWNER,
+      repo: REPO,
       path: repoPath,
     })
     .then((response) =>
@@ -60,8 +60,11 @@ function generateAPIModel(model: GithubObject): APIModel {
 async function executeGeneratorCLI(model: APIModel): Promise<APIModel> {
   return new Promise((resolve, reject) => {
     exec(model.command, (error: ExecException | null) => {
-      if (error) reject(error)
-      else resolve(model)
+      if (error) {
+        reject(error)
+      } else {
+        resolve(model)
+      }
     })
   })
 }
@@ -75,20 +78,31 @@ async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
    *- git_push.sh
    */
 
-  return Promise.all([
-    ...redundantFiles.map((object) => fsPromises.unlink(`${model.outputPath}/${object}`)),
-    ...redundantDirectories.map((object) =>
+  await Promise.all([
+    ...REDUNDANT_FILES.map((object) => fsPromises.unlink(`${model.outputPath}/${object}`)),
+    ...REDUNDANT_DIRECTORIES.map((object) =>
       fsPromises.rmdir(`${model.outputPath}/${object}`, { recursive: true }),
     ),
-  ]).then((_) => model) // eslint-disable-line @typescript-eslint/no-unused-vars
+  ])
+
+  return model
 }
 
+/**
+ * Verify Data Models (Schemas) in OpenAPI definitions.
+ * OpenAPI definitions have various data models. Such as: array, boolean, object.
+ * We don't need to export all of them. Only export: concrete objects and enums.
+ *
+ * @param definitions Record<string, any>
+ * @param key string
+ * @returns boolean
+ */
 function verifyObjectDefinition(definitions: Record<string, any>, key: string): boolean {
   const definitionType = definitions[key].type
 
   return (
     (definitionType === 'object' &&
-      !exclusionExportingObjects.has(key) &&
+      !EXCLUDE_EXPORTED_OBJECTS.has(key) &&
       /**
        * The 'properties' keyword is used to define the object properties.
        * Docs: https://swagger.io/docs/specification/data-models/data-types/#ctxM:~:text=The%20properties%20keyword%20is%20used%20to%20define%20the%20object%20properties
@@ -114,7 +128,7 @@ function verifyObjectDefinition(definitions: Record<string, any>, key: string): 
   )
 }
 
-async function exportAPIModel(model: APIModel): Promise<string> {
+async function generateExportStatement(model: APIModel): Promise<string> {
   return SwaggerParser.parse(model.download_url).then(({ definitions }) => {
     const exportings: string[] = []
 
@@ -126,6 +140,10 @@ async function exportAPIModel(model: APIModel): Promise<string> {
 
     return `export { ${exportings.join(', ')} } from './${model.modelName}'`
   })
+}
+
+async function writeStatementsToFile(statements: string[]): Promise<void> {
+  return fsPromises.writeFile('src/api-models/index.ts', statements.join('\n'))
 }
 
 async function generateModels() {
@@ -141,12 +159,11 @@ async function generateModels() {
     .map(generateAPIModel)
     .map(executeGeneratorCLI)
 
-  await Promise.all<APIModel>(apiModelGeneratorPromises)
-    .then((apiModels) => Promise.all(apiModels.map(removeRedundantObjects)))
-    .then((apiModels) => Promise.all(apiModels.map(exportAPIModel)))
-    .then((exportStatements) =>
-      fsPromises.writeFile('src/api-models/index.ts', exportStatements.join('\n')),
-    )
+  const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
+  await Promise.all([
+    ...apiModels.map(removeRedundantObjects),
+    apiModels.map(generateExportStatement).then(writeStatementsToFile),
+  ])
 }
 
 task(generateModels)

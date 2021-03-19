@@ -47,7 +47,7 @@
     "@octokit/types": "6.12.2",
     "@openapitools/openapi-generator-cli": "2.2.2",
     "@scaleleap/amazon-marketplaces": "10.2.0",
-    "@scaleleap/utils": "1.9.10",
+    "@scaleleap/utils": "1.9.18",
     "@types/gulp": "4.0.8",
     "@types/jest": "26.0.20",
     "@types/lodash": "4.14.168",
