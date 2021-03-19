@@ -1,3 +1,3 @@
 export * from './api-clients'
 export * from './types'
-export * from './api-models.index'
+export * from './api-models'
