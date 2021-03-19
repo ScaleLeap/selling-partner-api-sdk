@@ -1,7 +1,7 @@
 import SwaggerParser from '@apidevtools/swagger-parser'
 import { Octokit } from '@octokit/rest'
 import { exec, ExecException } from 'child_process'
-import { promises as fsPromises } from 'fs'
+import fs, { promises as fsPromises } from 'fs'
 import { task } from 'gulp'
 import { camelCase, has, isEmpty, upperFirst } from 'lodash'
 import path from 'path'
@@ -142,8 +142,8 @@ async function generateExportStatement(model: APIModel): Promise<string> {
   })
 }
 
-async function writeStatementsToFile(statements: string[]): Promise<void> {
-  return fsPromises.writeFile('src/api-models/index.ts', statements.join('\n'))
+function writeStatementsToFile(statements: string[]): void {
+  return fs.writeFileSync('src/api-models/index.ts', statements.join('\n'))
 }
 
 async function generateModels() {
@@ -161,7 +161,8 @@ async function generateModels() {
 
   const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
   await Promise.all(apiModels.map(removeRedundantObjects))
-  await Promise.all(apiModels.map(generateExportStatement)).then(writeStatementsToFile)
+  const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
+  writeStatementsToFile(statements)
 }
 
 task(generateModels)
