@@ -28,7 +28,7 @@ const owner = 'amzn'
 const repo = 'selling-partner-api-models'
 const redundantFiles: string[] = ['.gitignore', '.openapi-generator-ignore', 'git_push.sh']
 const redundantDirectories: string[] = ['.openapi-generator']
-const exclusionExportingObjects = new Set(['ErrorList', 'Error', 'Schema'])
+const exclusionExportingObjects = new Set(['ErrorList', 'Error'])
 
 async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]> {
   return octokit.repos
