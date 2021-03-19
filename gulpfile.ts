@@ -1,7 +1,11 @@
-import { Octokit } from '@octokit/rest' // eslint-disable-line import/no-extraneous-dependencies
-import { task } from 'gulp' // eslint-disable-line import/no-extraneous-dependencies
+import SwaggerParser from '@apidevtools/swagger-parser'
+import { Octokit } from '@octokit/rest'
+import { exec, ExecException } from 'child_process'
+import fs, { promises as fsPromises } from 'fs'
+import { task } from 'gulp'
+import { camelCase, has, isEmpty, upperFirst } from 'lodash'
 import path from 'path'
-import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec' // eslint-disable-line import/no-extraneous-dependencies
+import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec'
 
 import { Decoder } from './utils/decoder'
 
@@ -14,18 +18,23 @@ type GithubObject = GetType<typeof GithubObject>
 
 interface APIModel extends GithubObject {
   command: string
+  modelName: string
+  outputPath: string
 }
 
 // Using authentication to increases Github API rate limit.
 const octokit = new Octokit()
-const owner = 'amzn'
-const repo = 'selling-partner-api-models'
+const OWNER = 'amzn'
+const REPO = 'selling-partner-api-models'
+const REDUNDANT_FILES: string[] = ['.gitignore', '.openapi-generator-ignore', 'git_push.sh']
+const REDUNDANT_DIRECTORIES: string[] = ['.openapi-generator']
+const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
 async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]> {
   return octokit.repos
     .getContent({
-      owner,
-      repo,
+      owner: OWNER,
+      repo: REPO,
       path: repoPath,
     })
     .then((response) =>
@@ -36,52 +45,124 @@ async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]>
 }
 
 function generateAPIModel(model: GithubObject): APIModel {
-  const outputFolder = path.basename(path.dirname(model.path))
-  const out = `src/api-models/${outputFolder}`
-  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${out} -i ${model.download_url}`
+  const modelName = path.basename(path.dirname(model.path))
+  const outputPath = `src/api-models/${modelName}`
+  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${outputPath} -i ${model.download_url}`
 
   return {
     ...model,
     command,
+    outputPath,
+    modelName,
   }
 }
 
-function executeGeneratorCLI(model: APIModel): APIModel {
-  // TODO: generate model from API model
-
-  return model
+async function executeGeneratorCLI(model: APIModel): Promise<APIModel> {
+  return new Promise((resolve, reject) => {
+    exec(model.command, (error: ExecException | null) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(model)
+      }
+    })
+  })
 }
 
-function removeRedundantObjects(model: APIModel): APIModel {
+async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
   /**
-   * TODO: clean up:
+   * Clean up:
    *- .openapi-generator
    *- .gitignore
    *- .openapi-generator-ignore
    *- git_push.sh
    */
 
+  await Promise.all([
+    ...REDUNDANT_FILES.map((object) => fsPromises.unlink(`${model.outputPath}/${object}`)),
+    ...REDUNDANT_DIRECTORIES.map((object) =>
+      fsPromises.rmdir(`${model.outputPath}/${object}`, { recursive: true }),
+    ),
+  ])
+
   return model
 }
 
-function exportAPIModel(model: APIModel): APIModel {
-  // TODO: export models into src/index.ts and commit files
+/**
+ * Verify Data Models (Schemas) in OpenAPI definitions.
+ * OpenAPI definitions have various data models. Such as: array, boolean, object.
+ * We don't need to export all of them. Only export: concrete objects and enums.
+ *
+ * @param definitions Record<string, any>
+ * @param key string
+ * @returns boolean
+ */
+function verifyObjectDefinition(definitions: Record<string, any>, key: string): boolean {
+  const definitionType = definitions[key].type
 
-  return model
+  return (
+    (definitionType === 'object' &&
+      !EXCLUDE_EXPORTED_OBJECTS.has(key) &&
+      /**
+       * The 'properties' keyword is used to define the object properties.
+       * Docs: https://swagger.io/docs/specification/data-models/data-types/#ctxM:~:text=The%20properties%20keyword%20is%20used%20to%20define%20the%20object%20properties
+       */
+      has(definitions[key], 'properties') &&
+      /**
+       * 'additionalProperties' is used to define a free form object.
+       * Docs: https://swagger.io/docs/specification/data-models/dictionaries/#free-form:~:text=Free%2DForm%20Objects
+       */
+
+      isEmpty(definitions[key].additionalProperties)) ||
+    /**
+     * Use to combine schemas
+     * Docs: https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/
+     */
+    has(definitions[key], 'oneOf') ||
+    has(definitions[key], 'allOf') ||
+    has(definitions[key], 'oneOf') ||
+    /**
+     *
+     */
+    (definitionType === 'string' && has(definitions[key], 'enum'))
+  )
+}
+
+async function generateExportStatement(model: APIModel): Promise<string> {
+  return SwaggerParser.parse(model.download_url).then(({ definitions }) => {
+    const exportings: string[] = []
+
+    for (const key in definitions) {
+      if (has(definitions, key) && verifyObjectDefinition(definitions, key)) {
+        exportings.push(`${key} as ${upperFirst(camelCase(model.modelName))}${key}`)
+      }
+    }
+
+    return `export { ${exportings.join(', ')} } from './${model.modelName}'`
+  })
+}
+
+function writeStatementsToFile(statements: string[]): void {
+  return fs.writeFileSync('src/api-models/index.ts', statements.join('\n'))
 }
 
 async function generateModels() {
-  const githubFolders = await fetchContentsByPath()
-  const githubFilePromises = githubFolders.map((folder) => fetchContentsByPath(folder.path))
+  const githubDirectories = await fetchContentsByPath()
+  const githubFilePromises = githubDirectories.map((directory) =>
+    fetchContentsByPath(directory.path),
+  )
 
   const githubFiles = await Promise.all(githubFilePromises)
 
-  return githubFiles
+  const apiModelGeneratorPromises = githubFiles
     .flat()
     .map(generateAPIModel)
     .map(executeGeneratorCLI)
-    .map(removeRedundantObjects)
-    .map(exportAPIModel)
+
+  const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
+  await Promise.all(apiModels.map(removeRedundantObjects))
+  const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
+  writeStatementsToFile(statements)
 }
 
 task(generateModels)

@@ -39,5 +39,7 @@ export function apiErrorFactory<T extends ModelError>(error: AxiosError<T>): Ext
       default:
         return new SellingPartnerGenericError(data, headers)
     }
-  } else return error
+  } else {
+    return error
+  }
 }
