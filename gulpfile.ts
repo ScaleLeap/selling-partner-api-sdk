@@ -1,7 +1,6 @@
 import SwaggerParser from '@apidevtools/swagger-parser'
 import { Octokit } from '@octokit/rest'
 import { exec, ExecException } from 'child_process'
-import dotenv from 'dotenv'
 import env from 'env-var'
 import fs, { promises as fsPromises } from 'fs'
 import { task } from 'gulp'
@@ -24,8 +23,6 @@ interface APIModel extends GithubObject {
   outputPath: string
 }
 
-// configure dotenv and get github token
-dotenv.config()
 const GITHUB_TOKEN = env.get('GITHUB_TOKEN').required().asString()
 
 // Using authentication to increases Github API rate limit.
