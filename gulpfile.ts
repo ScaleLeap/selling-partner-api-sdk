@@ -33,7 +33,7 @@ const REDUNDANT_FILES: string[] = ['.gitignore', '.openapi-generator-ignore', 'g
 const REDUNDANT_DIRECTORIES: string[] = ['.openapi-generator']
 const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
-async function hasNewCommitsSinceYesterday(repoPath = 'models'): Promise<boolean> {
+async function hasNewCommits(repoPath = 'models'): Promise<boolean> {
   const date = new Date(new Date().toISOString())
   date.setUTCHours(-24, 0, 0, 0)
 
@@ -165,9 +165,7 @@ function writeStatementsToFile(statements: string[]): void {
 }
 
 async function generateModels() {
-  const hasNewCommits = await hasNewCommitsSinceYesterday()
-
-  if (hasNewCommits) {
+  if (await hasNewCommits()) {
     const githubDirectories = await fetchContentsByPath()
     const githubFilePromises = githubDirectories.map((directory) =>
       fetchContentsByPath(directory.path),
