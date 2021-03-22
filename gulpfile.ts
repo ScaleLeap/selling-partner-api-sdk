@@ -4,7 +4,7 @@ import { exec, ExecException } from 'child_process'
 import env from 'env-var'
 import fs, { promises as fsPromises } from 'fs'
 import { task } from 'gulp'
-import { camelCase, has, isEmpty, upperFirst } from 'lodash'
+import { camelCase, has, isEmpty, toNumber, upperFirst } from 'lodash'
 import path from 'path'
 import { array, Codec, GetType, nullType, oneOf, string } from 'purify-ts/Codec'
 
@@ -23,7 +23,12 @@ interface APIModel extends GithubObject {
   outputPath: string
 }
 
-const GITHUB_TOKEN = env.get('GITHUB_TOKEN').required().asString()
+const GITHUB_TOKEN: string = env.get('GITHUB_TOKEN').required().asString()
+const HOUR_FREQUENCY: number[] = env
+  .get('HOUR_FREQUENCY')
+  .default('-24, 0, 0, 0')
+  .asArray()
+  .map(toNumber)
 
 // Using authentication to increases Github API rate limit.
 const octokit = new Octokit({ auth: GITHUB_TOKEN })
@@ -35,7 +40,8 @@ const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
 async function hasNewCommits(repoPath = 'models'): Promise<boolean> {
   const date = new Date(new Date().toISOString())
-  date.setUTCHours(-24, 0, 0, 0)
+  const [hours, min, sec, ms] = HOUR_FREQUENCY
+  date.setUTCHours(hours, min, sec, ms)
 
   const { data } = await octokit.repos.listCommits({
     owner: OWNER,
