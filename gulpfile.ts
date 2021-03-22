@@ -24,7 +24,7 @@ interface APIModel extends GithubObject {
 }
 
 const GITHUB_TOKEN: string = env.get('GITHUB_TOKEN').required().asString()
-const UPDATE_FREQUENCY_HOURS: number = env.get('UPDATE_FREQUENCY_HOURS').default(0).asInt()
+const LOOKBACK_HOURS: number = env.get('LOOKBACK_HOURS').default(1).asIntPositive()
 
 // Using authentication to increases Github API rate limit.
 const octokit = new Octokit({ auth: GITHUB_TOKEN })
@@ -35,8 +35,8 @@ const REDUNDANT_DIRECTORIES: string[] = ['.openapi-generator']
 const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
 async function hasNewCommits(repoPath = 'models'): Promise<boolean> {
-  const date = new Date(new Date().toISOString())
-  date.setUTCHours(UPDATE_FREQUENCY_HOURS)
+  const date = new Date()
+  date.setHours(date.getHours() - LOOKBACK_HOURS)
 
   const { data } = await octokit.repos.listCommits({
     owner: OWNER,
