@@ -1,6 +1,8 @@
 import SwaggerParser from '@apidevtools/swagger-parser'
 import { Octokit } from '@octokit/rest'
 import { exec, ExecException } from 'child_process'
+import dotenv from 'dotenv'
+import env from 'env-var'
 import fs, { promises as fsPromises } from 'fs'
 import { task } from 'gulp'
 import { camelCase, has, isEmpty, upperFirst } from 'lodash'
@@ -22,13 +24,32 @@ interface APIModel extends GithubObject {
   outputPath: string
 }
 
+// configure dotenv and get github token
+dotenv.config()
+const GITHUB_TOKEN = env.get('GITHUB_TOKEN').required().asString()
+
 // Using authentication to increases Github API rate limit.
-const octokit = new Octokit()
+const octokit = new Octokit({ auth: GITHUB_TOKEN })
 const OWNER = 'amzn'
 const REPO = 'selling-partner-api-models'
 const REDUNDANT_FILES: string[] = ['.gitignore', '.openapi-generator-ignore', 'git_push.sh']
 const REDUNDANT_DIRECTORIES: string[] = ['.openapi-generator']
 const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
+
+async function hasNewCommitsSinceYesterday(repoPath = 'models'): Promise<boolean> {
+  const date = new Date(new Date().toISOString())
+  date.setUTCHours(-24, 0, 0, 0)
+
+  const { data } = await octokit.repos.listCommits({
+    owner: OWNER,
+    repo: REPO,
+    path: repoPath,
+    since: date.toISOString(),
+    per_page: 1,
+  })
+
+  return data.length > 0
+}
 
 async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]> {
   return octokit.repos
@@ -147,22 +168,26 @@ function writeStatementsToFile(statements: string[]): void {
 }
 
 async function generateModels() {
-  const githubDirectories = await fetchContentsByPath()
-  const githubFilePromises = githubDirectories.map((directory) =>
-    fetchContentsByPath(directory.path),
-  )
+  const hasNewCommits = await hasNewCommitsSinceYesterday()
 
-  const githubFiles = await Promise.all(githubFilePromises)
+  if (hasNewCommits) {
+    const githubDirectories = await fetchContentsByPath()
+    const githubFilePromises = githubDirectories.map((directory) =>
+      fetchContentsByPath(directory.path),
+    )
 
-  const apiModelGeneratorPromises = githubFiles
-    .flat()
-    .map(generateAPIModel)
-    .map(executeGeneratorCLI)
+    const githubFiles = await Promise.all(githubFilePromises)
 
-  const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
-  await Promise.all(apiModels.map(removeRedundantObjects))
-  const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
-  writeStatementsToFile(statements)
+    const apiModelGeneratorPromises = githubFiles
+      .flat()
+      .map(generateAPIModel)
+      .map(executeGeneratorCLI)
+
+    const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
+    await Promise.all(apiModels.map(removeRedundantObjects))
+    const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
+    writeStatementsToFile(statements)
+  }
 }
 
 task(generateModels)
