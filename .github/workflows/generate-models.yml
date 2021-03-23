@@ -2,7 +2,7 @@ name: Generate API models
 
 on:
   schedule:
-    - cron:  '* * * * *'
+    - cron:  '*/5 * * * *'
 
 jobs:
   generate:
@@ -26,6 +26,7 @@ jobs:
         run: npm run generate-models
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LOOKBACK_HOURS: 24
 
       - name: Lint
         run: npm run lint
@@ -44,7 +45,6 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
           ROLE_ARN: ${{ secrets.ROLE_ARN }}
-          LOOKBACK_HOURS: 24
 
       - name: Build
         run: npm run build
