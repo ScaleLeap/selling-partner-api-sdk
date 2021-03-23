@@ -43,6 +43,7 @@
     "ts-error": "1.0.6"
   },
   "devDependencies": {
+    "@actions/core": "1.2.6",
     "@aws-sdk/client-sts": "3.9.0",
     "@octokit/rest": "18.3.5",
     "@octokit/types": "6.12.2",

@@ -1,3 +1,4 @@
+import * as core from '@actions/core'
 import SwaggerParser from '@apidevtools/swagger-parser'
 import { Octokit } from '@octokit/rest'
 import { exec, ExecException } from 'child_process'
@@ -38,13 +39,17 @@ async function hasNewCommits(repoPath = 'models'): Promise<boolean> {
   const date = new Date()
   date.setHours(date.getHours() - LOOKBACK_HOURS)
 
+  // TODO: process paging to get all commits (optional).
   const { data } = await octokit.repos.listCommits({
     owner: OWNER,
     repo: REPO,
     path: repoPath,
     since: date.toISOString(),
-    per_page: 1,
   })
+
+  // generate and set Github pull request body.
+  const prBody = data.map((d) => `- [${d.commit.message}](${d.html_url})`).join('\n')
+  core.setOutput('pr-body', prBody)
 
   return data.length > 0
 }
