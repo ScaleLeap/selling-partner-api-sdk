@@ -25,6 +25,7 @@
     "build": "tsc --build tsconfig.build.json",
     "clean": "rimraf lib/*",
     "dev": "ts-node-dev --respawn --transpileOnly src",
+    "generate-models": "gulp --require dotenv/config generateModels",
     "lint": "eslint --ext ts,js src/ test/",
     "lint:fix": "npm run lint -- --fix",
     "semantic-release": "npx @scaleleap/semantic-release-config",
