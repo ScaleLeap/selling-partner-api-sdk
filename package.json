@@ -55,7 +55,7 @@
     "@types/lodash": "4.14.168",
     "@types/node": "13.13.45",
     "@types/swagger-parser": "7.0.1",
-    "danger": "10.6.3",
+    "danger": "10.6.4",
     "dotenv": "8.2.0",
     "env-var": "7.0.0",
     "global-agent": "2.1.12",
