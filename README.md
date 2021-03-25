@@ -46,7 +46,6 @@ import {
   SellingPartnerForbiddenError,
   SellingPartnerGenericError,
   UploadsApiClient,
-  UploadsApiModel,
  } from '@scaleleap/selling-partner-api-sdk'
 
 const contentMD5 = 'MD5'
@@ -62,7 +61,7 @@ const configuration: APIConfigurationParameters = {
 }
 
 const client = new UploadsApiClient(configuration)
-const parameters: UploadsApiModel.UploadsApiCreateUploadDestinationForResourceRequest = {
+const parameters = {
   marketplaceIds: [CA.id],
   contentMD5,
   resource,
