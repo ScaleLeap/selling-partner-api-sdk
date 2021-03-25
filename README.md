@@ -85,5 +85,3 @@ This repository uses [Conventional Commit](https://www.conventionalcommits.org/)
 ## License
 
 This project is licensed under the MIT License.
-
-## Badges
