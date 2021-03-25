@@ -3,6 +3,7 @@ import SwaggerParser from '@apidevtools/swagger-parser'
 import { Octokit } from '@octokit/rest'
 import { exec, ExecException } from 'child_process'
 import env from 'env-var'
+import log from 'fancy-log'
 import fs, { promises as fsPromises } from 'fs'
 import { task } from 'gulp'
 import { camelCase, has, isEmpty, upperFirst } from 'lodash'
@@ -36,6 +37,7 @@ const REDUNDANT_DIRECTORIES: string[] = ['.openapi-generator']
 const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
 async function hasNewCommits(repoPath = 'models'): Promise<boolean> {
+  log.info(`Starting checking API model updates`)
   const date = new Date()
   date.setHours(date.getHours() - LOOKBACK_HOURS)
 
@@ -51,21 +53,40 @@ async function hasNewCommits(repoPath = 'models'): Promise<boolean> {
   const prBody = data.map((d) => `- [${d.commit.message}](${d.html_url})`).join('\n')
   core.setOutput('pr-body', prBody)
 
-  return data.length > 0
+  const updatedAmount = data.length
+
+  log.info(
+    [
+      `Finished checking API model updates. Update: ${updatedAmount}`,
+      ...data.map((d) => `- ${d.commit.message}`),
+    ].join('\n'),
+  )
+
+  return updatedAmount > 0
 }
 
 async function fetchContentsByPath(repoPath = 'models'): Promise<GithubObject[]> {
+  log.info(`Starting fetching contents in ${repoPath} directory`)
   return octokit.repos
     .getContent({
       owner: OWNER,
       repo: REPO,
       path: repoPath,
     })
-    .then((response) =>
-      Array.isArray(response.data)
+    .then((response) => {
+      const data = Array.isArray(response.data)
         ? Decoder.decode(array(GithubObject), response.data)
-        : [Decoder.decode(GithubObject, response.data)],
-    )
+        : [Decoder.decode(GithubObject, response.data)]
+
+      log.info(
+        [
+          `Finished fetching contents in ${repoPath} directory:`,
+          ...data.map((object) => `- ${object.name}`),
+        ].join('\n'),
+      )
+
+      return data
+    })
 }
 
 function generateAPIModel(model: GithubObject): APIModel {
@@ -82,11 +103,15 @@ function generateAPIModel(model: GithubObject): APIModel {
 }
 
 async function executeGeneratorCLI(model: APIModel): Promise<APIModel> {
+  log.info(`Starting generating ${model.modelName}`)
+
   return new Promise((resolve, reject) => {
     exec(model.command, (error: ExecException | null) => {
       if (error) {
+        log.error(error)
         reject(error)
       } else {
+        log.info(`Finished generating ${model.modelName}`)
         resolve(model)
       }
     })
@@ -101,6 +126,7 @@ async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
    *- .openapi-generator-ignore
    *- git_push.sh
    */
+  log.info(`Starting cleaning up ${model.modelName}`)
 
   await Promise.all([
     ...REDUNDANT_FILES.map((object) => fsPromises.unlink(`${model.outputPath}/${object}`)),
@@ -109,6 +135,7 @@ async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
     ),
   ])
 
+  log.info(`Finished cleaning up ${model.modelName}`)
   return model
 }
 
@@ -167,7 +194,10 @@ async function generateExportStatement(model: APIModel): Promise<string> {
 }
 
 function writeStatementsToFile(statements: string[]): void {
-  return fs.writeFileSync('src/api-models/index.ts', statements.join('\n'))
+  const filePath = 'src/api-models/index.ts'
+  log.info(`Starting writing statements into ${filePath}`)
+  fs.writeFileSync(filePath, statements.join('\n'))
+  log.info(`Finish writing statements into ${filePath}`)
 }
 
 async function generateModels() {
