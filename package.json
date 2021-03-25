@@ -45,7 +45,7 @@
   "devDependencies": {
     "@actions/core": "1.2.6",
     "@aws-sdk/client-sts": "3.9.0",
-    "@octokit/rest": "18.3.5",
+    "@octokit/rest": "18.4.0",
     "@octokit/types": "6.12.2",
     "@openapitools/openapi-generator-cli": "2.2.3",
     "@scaleleap/amazon-marketplaces": "10.3.0",
