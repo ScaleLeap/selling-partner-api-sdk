@@ -7,6 +7,12 @@
     "email": "roman@scaleleap.com",
     "url": "https://www.scaleleap.com/"
   },
+  "contributors": [
+    {
+      "name": "Toan Nguyen",
+      "url": "https://github.com/nguyentoanit"
+    }
+  ],
   "homepage": "https://github.com/ScaleLeap/selling-partner-api-sdk",
   "repository": {
     "type": "git",
