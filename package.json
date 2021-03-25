@@ -1,6 +1,6 @@
 {
   "name": "@scaleleap/selling-partner-api-sdk",
-  "description": "TypeScript Project Template",
+  "description": "📦 A fully typed TypeScript and Node.js SDK library for Amazon Selling Partner API",
   "license": "MIT",
   "author": {
     "name": "Roman Filippov",
@@ -78,7 +78,13 @@
     "typescript": "4.2.3"
   },
   "keywords": [
-    "template",
+    "amazon mws",
+    "amazon selling partner",
+    "amazon sp api",
+    "nodejs",
+    "selling partner api",
+    "selling partner api",
+    "sp-api",
     "typescript"
   ],
   "publishConfig": {
