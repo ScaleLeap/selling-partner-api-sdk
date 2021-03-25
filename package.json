@@ -9,6 +9,11 @@
   },
   "contributors": [
     {
+      "name": "Roman Filippov",
+      "email": "roman@scaleleap.com",
+      "url": "https://www.scaleleap.com/"
+    },
+    {
       "name": "Toan Nguyen",
       "url": "https://github.com/nguyentoanit"
     }
@@ -82,7 +87,6 @@
     "amazon selling partner",
     "amazon sp api",
     "nodejs",
-    "selling partner api",
     "selling partner api",
     "sp-api",
     "typescript"
