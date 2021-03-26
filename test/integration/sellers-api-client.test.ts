@@ -1,4 +1,3 @@
-import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts'
 import axios from 'axios'
 
 import { AmazonSellingPartnerApiBasePath } from '../../src'
@@ -29,32 +28,13 @@ describe(`${SellersApiClient.name}`, () => {
         },
       )
 
-      const sts = new STSClient({
-        region: environment.API_REGION,
-        credentials: {
-          accessKeyId: environment.AWS_ACCESS_KEY_ID,
-          secretAccessKey: environment.AWS_SECRET_ACCESS_KEY,
-        },
-      })
-
-      const { Credentials } = await sts.send(
-        new AssumeRoleCommand({
-          RoleArn: environment.ROLE_ARN,
-          RoleSessionName: 'selling-partner-api-axios',
-        }),
-      )
-
       const client = new SellersApiClient({
         basePath: AmazonSellingPartnerApiBasePath.EU,
         accessToken: tokens.access_token,
         region: {
           awsRegion: environment.API_REGION,
         },
-        credentials: {
-          accessKeyId: Credentials?.AccessKeyId || '',
-          secretAccessKey: Credentials?.SecretAccessKey || '',
-          sessionToken: Credentials?.SessionToken || '',
-        },
+        roleArn: environment.ROLE_ARN,
         isSandbox: true,
       })
 
