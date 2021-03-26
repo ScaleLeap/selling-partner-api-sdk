@@ -13,21 +13,24 @@ interface TokenResponse {
   /* eslint-enable camelcase */
 }
 
+async function getTokens() {
+  const { data: tokens } = await axios.post<TokenResponse>('https://api.amazon.com/auth/o2/token', {
+    grant_type: 'refresh_token',
+    client_id: environment.CLIENT_ID,
+    client_secret: environment.CLIENT_SECRET,
+    refresh_token: environment.REFRESH_TOKEN,
+  })
+
+  return tokens
+}
+
 describe(`${SellersApiClient.name}`, () => {
   it(
     'should return the list of marketplaces',
     async () => {
       expect.assertions(1)
 
-      const { data: tokens } = await axios.post<TokenResponse>(
-        'https://api.amazon.com/auth/o2/token',
-        {
-          grant_type: 'refresh_token',
-          client_id: environment.CLIENT_ID,
-          client_secret: environment.CLIENT_SECRET,
-          refresh_token: environment.REFRESH_TOKEN,
-        },
-      )
+      const tokens = await getTokens()
 
       const sts = new STSClient({
         region: environment.API_REGION,
@@ -55,6 +58,30 @@ describe(`${SellersApiClient.name}`, () => {
           secretAccessKey: Credentials?.SecretAccessKey || '',
           sessionToken: Credentials?.SessionToken || '',
         },
+        isSandbox: true,
+      })
+
+      const { data: marketplaceParticipations } = await client.getMarketplaceParticipations()
+
+      expect(marketplaceParticipations.payload).toBeInstanceOf(Array)
+    },
+    30 * 1000,
+  )
+
+  it(
+    'should assume role and return the list of marketplaces',
+    async () => {
+      expect.assertions(1)
+
+      const tokens = await getTokens()
+
+      const client = new SellersApiClient({
+        basePath: AmazonSellingPartnerApiBasePath.EU,
+        accessToken: tokens.access_token,
+        region: {
+          awsRegion: environment.API_REGION,
+        },
+        roleArn: environment.ROLE_ARN,
         isSandbox: true,
       })
 
