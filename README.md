@@ -61,14 +61,13 @@ const configuration: APIConfigurationParameters = {
 }
 
 const client = new UploadsApiClient(configuration)
-const parameters = {
-  marketplaceIds: [CA.id],
-  contentMD5,
-  resource,
-}
 
 const response = await client
-  .createUploadDestinationForResource(parameters)
+  .createUploadDestinationForResource({
+    marketplaceIds: [CA.id],
+    contentMD5,
+    resource,
+  })
 })
 ```
 
