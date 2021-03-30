@@ -1,7 +1,6 @@
 import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts'
 import axios from 'axios'
 
-import { AmazonSellingPartnerApiBasePath } from '../../src'
 import { SellersApiClient } from '../../src/api-clients/sellers-api-client'
 import * as environment from '../environment'
 
@@ -55,7 +54,7 @@ describe(`${SellersApiClient.name}`, () => {
       )
 
       const client = new SellersApiClient({
-        basePath,
+        basePath: 'https://sellingpartnerapi-eu.amazon.com',
         accessToken: tokens.access_token,
         region: {
           awsRegion,
