@@ -20,6 +20,4 @@ export const CLIENT_SECRET = env.get('CLIENT_SECRET').required().asString()
 
 export const REFRESH_TOKEN = env.get('REFRESH_TOKEN').required().asString()
 
-export const API_REGION = env.get('API_REGION').default('us-east-1').required().asString()
-
 export const ROLE_ARN = env.get('ROLE_ARN').required().asString()
