@@ -62,7 +62,8 @@ assertMarketplaceHasSellingPartner(CA)
 
 const configuration: APIConfigurationParameters = {
   accessToken: 'Atza|...',
-  region: CA.sellingPartner.region,
+  basePath: CA.sellingPartner.region.endpoint,
+  region: CA.sellingPartner.region.awsRegion,
 }
 
 const client = new UploadsApiClient(configuration)

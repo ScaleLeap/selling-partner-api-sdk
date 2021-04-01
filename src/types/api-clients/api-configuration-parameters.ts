@@ -1,8 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 
-import { AmazonSellingPartnerApiBasePath } from './amazon-selling-partner-api-base-path'
 import { AmazonSellingPartnerAPICredentials } from './amazon-selling-partner-api-credentials'
-import { AmazonSellingPartnerApiRegion } from './amazon-selling-partner-api-region'
 
 export interface APIConfigurationParameters {
   /**
@@ -23,10 +21,10 @@ export interface APIConfigurationParameters {
   /**
    * override base path
    *
-   * @type {AmazonSellingPartnerApiBasePath}
+   * @type {string}
    * @memberof APIConfigurationParameters
    */
-  basePath?: AmazonSellingPartnerApiBasePath
+  basePath?: string
 
   /**
    * base options for axios calls
@@ -47,18 +45,10 @@ export interface APIConfigurationParameters {
   /**
    * Selling partner API region
    *
-   * @type {AmazonSellingPartnerApiRegion}
+   * @type {string}
    * @memberof APIConfigurationParameters
    */
-  region: AmazonSellingPartnerApiRegion
-
-  /**
-   * Call to sandbox API.
-   *
-   * @type {boolean}
-   * @memberof APIConfigurationParameters
-   */
-  isSandbox?: boolean
+  region?: string
 
   /**
    * ARN of the IAM Role to be assumed to get the credentials from.

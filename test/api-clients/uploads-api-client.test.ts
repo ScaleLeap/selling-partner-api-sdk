@@ -7,6 +7,8 @@ import {
   APIConfigurationParameters,
   SellingPartnerForbiddenError,
   SellingPartnerGenericError,
+  SellingPartnerMismatchRegionError,
+  SellingPartnerNotFoundRegionError,
   UploadsApiClient,
 } from '../../src'
 
@@ -22,7 +24,7 @@ describe(`${UploadsApiClient.name}`, () => {
 
     const configuration: APIConfigurationParameters = {
       accessToken: 'Atza|...',
-      region: CA.sellingPartner.region,
+      region: CA.sellingPartner.region.awsRegion,
     }
 
     const client = new UploadsApiClient(configuration)
@@ -41,5 +43,49 @@ describe(`${UploadsApiClient.name}`, () => {
     await expect(client.createUploadDestinationForResource(parameters)).rejects.toThrow(
       SellingPartnerForbiddenError,
     )
+  })
+
+  it('should throw an error if cannot extract region from base path', async () => {
+    expect.assertions(1)
+
+    const basePath = 'example.com'
+    const { CA } = amazonMarketplaces
+
+    const client = new Promise(() => {
+      assertMarketplaceHasSellingPartner(CA)
+
+      const configuration: APIConfigurationParameters = {
+        accessToken: 'Atza|...',
+        basePath,
+      }
+      return new UploadsApiClient(configuration)
+    })
+
+    await client.catch((error: SellingPartnerNotFoundRegionError) => {
+      expect(error.basePath).toStrictEqual(basePath)
+    })
+  })
+
+  it('should throw an error if mismatch between region in default base path and region parameter', async () => {
+    expect.assertions(2)
+
+    const region = 'us'
+    const { CA } = amazonMarketplaces
+
+    const client = new Promise(() => {
+      assertMarketplaceHasSellingPartner(CA)
+
+      const configuration: APIConfigurationParameters = {
+        accessToken: 'Atza|...',
+        region,
+      }
+
+      return new UploadsApiClient(configuration)
+    })
+
+    await client.catch((error: SellingPartnerMismatchRegionError) => {
+      expect(error.defaultRegion).toStrictEqual('us-east-1')
+      expect(error.region).toStrictEqual(region)
+    })
   })
 })
