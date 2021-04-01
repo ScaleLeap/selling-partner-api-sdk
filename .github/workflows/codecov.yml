@@ -20,8 +20,6 @@ jobs:
       - name: Test integration
         run: npm run test:integration -- --coverage
         env:
-          API_URL: https://sellingpartnerapi-eu.amazon.com
-          API_REGION: eu-west-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
