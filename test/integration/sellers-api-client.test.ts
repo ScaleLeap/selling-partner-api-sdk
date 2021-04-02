@@ -1,7 +1,6 @@
 import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts'
 import axios from 'axios'
 
-import { AmazonSellingPartnerApiBasePath } from '../../src'
 import { SellersApiClient } from '../../src/api-clients/sellers-api-client'
 import * as environment from '../environment'
 
@@ -13,10 +12,8 @@ interface TokenResponse {
   /* eslint-enable camelcase */
 }
 
-const regions: [string, AmazonSellingPartnerApiBasePath][] = [
-  ['eu-west-1', AmazonSellingPartnerApiBasePath.EU],
-  // ['us-east-1', AmazonSellingPartnerApiBasePath.NA],
-  // ['us-west-2', AmazonSellingPartnerApiBasePath.FE],
+const regions: [string, string][] = [
+  ['eu-west-1', 'https://sandbox.sellingpartnerapi-eu.amazon.com'],
 ]
 
 async function getTokens() {
@@ -33,14 +30,14 @@ async function getTokens() {
 jest.setTimeout(2 * 60 * 100)
 
 describe(`${SellersApiClient.name}`, () => {
-  describe.each(regions)('for region %s', (awsRegion, basePath) => {
+  describe.each(regions)('for region %s', (region, basePath) => {
     it('should return the list of marketplaces', async () => {
       expect.assertions(1)
 
       const tokens = await getTokens()
 
       const sts = new STSClient({
-        region: awsRegion,
+        region,
         credentials: {
           accessKeyId: environment.AWS_ACCESS_KEY_ID,
           secretAccessKey: environment.AWS_SECRET_ACCESS_KEY,
@@ -56,10 +53,8 @@ describe(`${SellersApiClient.name}`, () => {
 
       const client = new SellersApiClient({
         basePath,
+        region,
         accessToken: tokens.access_token,
-        region: {
-          awsRegion,
-        },
         credentials: {
           accessKeyId: Credentials?.AccessKeyId || '',
           secretAccessKey: Credentials?.SecretAccessKey || '',
@@ -78,11 +73,25 @@ describe(`${SellersApiClient.name}`, () => {
       const tokens = await getTokens()
 
       const client = new SellersApiClient({
-        basePath: AmazonSellingPartnerApiBasePath.EU,
+        basePath,
+        region,
         accessToken: tokens.access_token,
-        region: {
-          awsRegion,
-        },
+        roleArn: environment.ROLE_ARN,
+      })
+
+      const { data: marketplaceParticipations } = await client.getMarketplaceParticipations()
+
+      expect(marketplaceParticipations.payload).toBeInstanceOf(Array)
+    })
+
+    it('should assume role and return the list of marketplaces using region from base path', async () => {
+      expect.assertions(1)
+
+      const tokens = await getTokens()
+
+      const client = new SellersApiClient({
+        basePath,
+        accessToken: tokens.access_token,
         roleArn: environment.ROLE_ARN,
       })
 
