@@ -32,7 +32,12 @@ const LOOKBACK_HOURS: number = env.get('LOOKBACK_HOURS').default(1).asIntPositiv
 const octokit = new Octokit({ auth: GITHUB_TOKEN })
 const OWNER = 'amzn'
 const REPO = 'selling-partner-api-models'
-const REDUNDANT_FILES: string[] = ['.gitignore', '.openapi-generator-ignore', 'git_push.sh']
+const REDUNDANT_FILES: string[] = [
+  '.gitignore',
+  '.npmignore',
+  '.openapi-generator-ignore',
+  'git_push.sh',
+]
 const REDUNDANT_DIRECTORIES: string[] = ['.openapi-generator']
 const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
