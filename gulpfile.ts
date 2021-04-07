@@ -204,15 +204,14 @@ async function generateModels() {
   if (await hasNewCommits()) {
     const githubDirectories = await fetchContentsByPath()
     const githubFilePromises = githubDirectories.map((directory) =>
-      fetchContentsByPath(directory.path),
+      fetchContentsByPath(directory.path)
+        // Only keep latest version
+        .then((files) => files[files.length - 1]),
     )
 
     const githubFiles = await Promise.all(githubFilePromises)
 
-    const apiModelGeneratorPromises = githubFiles
-      .flat()
-      .map(generateAPIModel)
-      .map(executeGeneratorCLI)
+    const apiModelGeneratorPromises = githubFiles.map(generateAPIModel).map(executeGeneratorCLI)
 
     const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
     await Promise.all(apiModels.map(removeRedundantObjects))
