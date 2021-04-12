@@ -6,6 +6,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/scaleleap/selling-partner-api-sdk)](https://codecov.io/gh/ScaleLeap/selling-partner-api-sdk)
 [![Snyk](https://img.shields.io/snyk/vulnerabilities/github/scaleleap/selling-partner-api-sdk)](https://snyk.io/test/github/scaleleap/selling-partner-api-sdk)
 [![Semantic Release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FScaleLeap%2Fselling-partner-api-sdk.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FScaleLeap%2Fselling-partner-api-sdk?ref=badge_shield)
 
 - ✨ GitHub: [https://github.com/ScaleLeap/selling-partner-api-sdk](https://github.com/ScaleLeap/selling-partner-api-sdk)
 - 📦 NPM: [https://npm.im/@scaleleap/selling-partner-api-sdk](https://npm.im/@scaleleap/selling-partner-api-sdk)
@@ -89,3 +90,6 @@ This repository uses [Conventional Commit](https://www.conventionalcommits.org/)
 ## License
 
 This project is licensed under the MIT License.
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FScaleLeap%2Fselling-partner-api-sdk.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FScaleLeap%2Fselling-partner-api-sdk?ref=badge_large)
