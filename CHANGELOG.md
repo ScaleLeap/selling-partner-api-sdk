@@ -3,6 +3,19 @@
           All notable changes to this project will be documented in this file.
           See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v1.0.0...v2.0.0) (2021-04-19)
+
+
+### Features
+
+* update api models ([ad5fc5c](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/ad5fc5c8c025c173c65f2c77378019c62c88785b))
+
+
+### BREAKING CHANGES
+
+* * re-generate api models
+* add token api client
+
 # 1.0.0 (2021-03-25)
 
 
