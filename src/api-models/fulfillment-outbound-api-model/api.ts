@@ -96,13 +96,13 @@ export interface Address {
      * @type {string}
      * @memberof Address
      */
-    districtOrCounty: string;
+    districtOrCounty?: string;
     /**
      * The state or region where the person, business or institution is located.
      * @type {string}
      * @memberof Address
      */
-    stateOrRegion?: string;
+    stateOrRegion: string;
     /**
      * The postal code of the address.
      * @type {string}

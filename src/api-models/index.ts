@@ -68,27 +68,17 @@ export {
   AuthorizationCode as AuthorizationApiModelAuthorizationCode,
 } from './authorization-api-model'
 export {
-  ListCatalogItemsResponse as CatalogItemsApiModelListCatalogItemsResponse,
-  ListMatchingItemsResponse as CatalogItemsApiModelListMatchingItemsResponse,
-  GetCatalogItemResponse as CatalogItemsApiModelGetCatalogItemResponse,
   Item as CatalogItemsApiModelItem,
-  IdentifierType as CatalogItemsApiModelIdentifierType,
-  ASINIdentifier as CatalogItemsApiModelASINIdentifier,
-  SellerSKUIdentifier as CatalogItemsApiModelSellerSKUIdentifier,
-  AttributeSetListType as CatalogItemsApiModelAttributeSetListType,
-  DecimalWithUnits as CatalogItemsApiModelDecimalWithUnits,
-  CreatorType as CatalogItemsApiModelCreatorType,
-  DimensionType as CatalogItemsApiModelDimensionType,
-  LanguageType as CatalogItemsApiModelLanguageType,
-  Image as CatalogItemsApiModelImage,
-  Price as CatalogItemsApiModelPrice,
-  RelationshipType as CatalogItemsApiModelRelationshipType,
-  SalesRankType as CatalogItemsApiModelSalesRankType,
-  OfferListingCountType as CatalogItemsApiModelOfferListingCountType,
-  QualifiersType as CatalogItemsApiModelQualifiersType,
-  ShippingTimeType as CatalogItemsApiModelShippingTimeType,
-  ListCatalogCategoriesResponse as CatalogItemsApiModelListCatalogCategoriesResponse,
-  Categories as CatalogItemsApiModelCategories,
+  ItemIdentifiersByMarketplace as CatalogItemsApiModelItemIdentifiersByMarketplace,
+  ItemIdentifier as CatalogItemsApiModelItemIdentifier,
+  ItemImagesByMarketplace as CatalogItemsApiModelItemImagesByMarketplace,
+  ItemImage as CatalogItemsApiModelItemImage,
+  ItemProductTypeByMarketplace as CatalogItemsApiModelItemProductTypeByMarketplace,
+  ItemSalesRanksByMarketplace as CatalogItemsApiModelItemSalesRanksByMarketplace,
+  ItemSalesRank as CatalogItemsApiModelItemSalesRank,
+  ItemSummaryByMarketplace as CatalogItemsApiModelItemSummaryByMarketplace,
+  ItemVariationsByMarketplace as CatalogItemsApiModelItemVariationsByMarketplace,
+  ItemVendorDetailsByMarketplace as CatalogItemsApiModelItemVendorDetailsByMarketplace,
 } from './catalog-items-api-model'
 export {
   GetItemEligibilityPreviewResponse as FbaInboundEligibilityApiModelGetItemEligibilityPreviewResponse,
@@ -119,19 +109,13 @@ export {
   MoneyType as FbaSmallAndLightApiModelMoneyType,
 } from './fba-small-and-light-api-model'
 export {
-  CancelFeedResponse as FeedsApiModelCancelFeedResponse,
-  CreateFeedResult as FeedsApiModelCreateFeedResult,
+  CreateFeedResponse as FeedsApiModelCreateFeedResponse,
   Feed as FeedsApiModelFeed,
   GetFeedsResponse as FeedsApiModelGetFeedsResponse,
-  GetFeedResponse as FeedsApiModelGetFeedResponse,
-  FeedDocumentEncryptionDetails as FeedsApiModelFeedDocumentEncryptionDetails,
   FeedDocument as FeedsApiModelFeedDocument,
-  GetFeedDocumentResponse as FeedsApiModelGetFeedDocumentResponse,
-  CreateFeedResponse as FeedsApiModelCreateFeedResponse,
   CreateFeedSpecification as FeedsApiModelCreateFeedSpecification,
   CreateFeedDocumentSpecification as FeedsApiModelCreateFeedDocumentSpecification,
   CreateFeedDocumentResponse as FeedsApiModelCreateFeedDocumentResponse,
-  CreateFeedDocumentResult as FeedsApiModelCreateFeedDocumentResult,
 } from './feeds-api-model'
 export {
   AdjustmentEvent as FinancesApiModelAdjustmentEvent,
@@ -504,23 +488,15 @@ export {
   ShipsFromType as ProductPricingApiModelShipsFromType,
 } from './product-pricing-api-model'
 export {
-  ReportDocumentEncryptionDetails as ReportsApiModelReportDocumentEncryptionDetails,
   Report as ReportsApiModelReport,
   CreateReportScheduleSpecification as ReportsApiModelCreateReportScheduleSpecification,
   CreateReportSpecification as ReportsApiModelCreateReportSpecification,
   ReportSchedule as ReportsApiModelReportSchedule,
-  CreateReportResult as ReportsApiModelCreateReportResult,
-  GetReportsResponse as ReportsApiModelGetReportsResponse,
+  ReportScheduleList as ReportsApiModelReportScheduleList,
   CreateReportResponse as ReportsApiModelCreateReportResponse,
-  CancelReportResponse as ReportsApiModelCancelReportResponse,
-  CancelReportScheduleResponse as ReportsApiModelCancelReportScheduleResponse,
-  GetReportResponse as ReportsApiModelGetReportResponse,
-  GetReportSchedulesResponse as ReportsApiModelGetReportSchedulesResponse,
-  GetReportScheduleResponse as ReportsApiModelGetReportScheduleResponse,
-  CreateReportScheduleResult as ReportsApiModelCreateReportScheduleResult,
+  GetReportsResponse as ReportsApiModelGetReportsResponse,
   CreateReportScheduleResponse as ReportsApiModelCreateReportScheduleResponse,
   ReportDocument as ReportsApiModelReportDocument,
-  GetReportDocumentResponse as ReportsApiModelGetReportDocumentResponse,
 } from './reports-api-model'
 export {
   GetOrderMetricsResponse as SalesApiModelGetOrderMetricsResponse,
@@ -611,6 +587,11 @@ export {
   GetSchemaResponse as SolicitationsApiModelGetSchemaResponse,
   CreateProductReviewAndSellerFeedbackSolicitationResponse as SolicitationsApiModelCreateProductReviewAndSellerFeedbackSolicitationResponse,
 } from './solicitations-api-model'
+export {
+  CreateRestrictedDataTokenRequest as TokensApiModelCreateRestrictedDataTokenRequest,
+  RestrictedResource as TokensApiModelRestrictedResource,
+  CreateRestrictedDataTokenResponse as TokensApiModelCreateRestrictedDataTokenResponse,
+} from './tokens-api-model'
 export {
   CreateUploadDestinationResponse as UploadsApiModelCreateUploadDestinationResponse,
   UploadDestination as UploadsApiModelUploadDestination,
