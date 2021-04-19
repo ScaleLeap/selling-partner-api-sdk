@@ -534,7 +534,7 @@ export interface Order {
      * @type {Address}
      * @memberof Order
      */
-    AssignedShipFromLocationAddress?: Address;
+    DefaultShipFromLocationAddress?: Address;
     /**
      * 
      * @type {FulfillmentInstruction}
