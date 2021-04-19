@@ -95,7 +95,7 @@ export interface AsinMetadata {
      * @type {Array<AsinBadge>}
      * @memberof AsinMetadata
      */
-    badgeSet?: Array<AsinBadge>;
+    badgeSet?: Array<(AsinBadge | 'BRAND_NOT_ELIGIBLE' | 'CATALOG_NOT_FOUND' | 'CONTENT_NOT_PUBLISHED' | 'CONTENT_PUBLISHED')>;
     /**
      * The Amazon Standard Identification Number (ASIN).
      * @type {string}
@@ -161,7 +161,7 @@ export interface ContentDocument {
      * @type {ContentType}
      * @memberof ContentDocument
      */
-    contentType: ContentType;
+    contentType: ContentType | 'EBC' | 'EMC';
     /**
      * The A+ Content document subtype. This represents a special-purpose type of an A+ Content document. Not every A+ Content document type will have a subtype, and subtypes may change at any time.
      * @type {string}
@@ -204,13 +204,13 @@ export interface ContentMetadata {
      * @type {ContentStatus}
      * @memberof ContentMetadata
      */
-    status: ContentStatus;
+    status: ContentStatus | 'APPROVED' | 'DRAFT' | 'REJECTED' | 'SUBMITTED';
     /**
      * The set of content badges.
      * @type {Array<ContentBadge>}
      * @memberof ContentMetadata
      */
-    badgeSet: Array<ContentBadge>;
+    badgeSet: Array<(ContentBadge | 'BULK' | 'GENERATED' | 'LAUNCHPAD' | 'PREMIUM' | 'STANDARD')>;
     /**
      * The approximate age of the A+ Content document and metadata.
      * @type {string}
@@ -248,7 +248,7 @@ export interface ContentModule {
      * @type {ContentModuleType}
      * @memberof ContentModule
      */
-    contentModuleType: ContentModuleType;
+    contentModuleType: ContentModuleType | 'STANDARD_COMPANY_LOGO' | 'STANDARD_COMPARISON_TABLE' | 'STANDARD_FOUR_IMAGE_TEXT' | 'STANDARD_FOUR_IMAGE_TEXT_QUADRANT' | 'STANDARD_HEADER_IMAGE_TEXT' | 'STANDARD_IMAGE_SIDEBAR' | 'STANDARD_IMAGE_TEXT_OVERLAY' | 'STANDARD_MULTIPLE_IMAGE_TEXT' | 'STANDARD_PRODUCT_DESCRIPTION' | 'STANDARD_SINGLE_IMAGE_HIGHLIGHTS' | 'STANDARD_SINGLE_IMAGE_SPECS_DETAIL' | 'STANDARD_SINGLE_SIDE_IMAGE' | 'STANDARD_TECH_SPECS' | 'STANDARD_TEXT' | 'STANDARD_THREE_IMAGE_TEXT';
     /**
      * 
      * @type {StandardCompanyLogoModule}
@@ -421,7 +421,7 @@ export interface Decorator {
      * @type {DecoratorType}
      * @memberof Decorator
      */
-    type?: DecoratorType;
+    type?: DecoratorType | 'LIST_ITEM' | 'LIST_ORDERED' | 'LIST_UNORDERED' | 'STYLE_BOLD' | 'STYLE_ITALIC' | 'STYLE_LINEBREAK' | 'STYLE_PARAGRAPH' | 'STYLE_UNDERLINE';
     /**
      * The starting character of this decorator within the content string. Use zero for the first character.
      * @type {number}
@@ -853,7 +853,7 @@ export interface PublishRecord {
      * @type {ContentType}
      * @memberof PublishRecord
      */
-    contentType: ContentType;
+    contentType: ContentType | 'EBC' | 'EMC';
     /**
      * The A+ Content document subtype. This represents a special-purpose type of an A+ Content document. Not every A+ Content document type will have a subtype, and subtypes may change at any time.
      * @type {string}
@@ -1241,7 +1241,7 @@ export interface StandardImageTextOverlayModule {
      * @type {ColorType}
      * @memberof StandardImageTextOverlayModule
      */
-    overlayColorType: ColorType;
+    overlayColorType: ColorType | 'DARK' | 'LIGHT';
     /**
      * 
      * @type {StandardImageTextBlock}
@@ -1384,7 +1384,7 @@ export interface StandardSingleSideImageModule {
      * @type {PositionType}
      * @memberof StandardSingleSideImageModule
      */
-    imagePositionType: PositionType;
+    imagePositionType: PositionType | 'LEFT' | 'RIGHT';
     /**
      * 
      * @type {StandardImageTextBlock}

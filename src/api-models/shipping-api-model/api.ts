@@ -44,7 +44,7 @@ export interface AcceptedRate {
      * @type {ServiceType}
      * @memberof AcceptedRate
      */
-    serviceType?: ServiceType;
+    serviceType?: ServiceType | 'Amazon Shipping Ground' | 'Amazon Shipping Standard' | 'Amazon Shipping Premium';
     /**
      * 
      * @type {ShippingPromiseSet}
@@ -162,7 +162,7 @@ export interface Container {
      * @type {string}
      * @memberof Container
      */
-    containerType?: ContainerContainerTypeEnum;
+    containerType?: ContainerContainerTypeEnum | 'PACKAGE';
     /**
      * An identifier for the container. This must be unique within all the containers in the same shipment.
      * @type {string}
@@ -370,7 +370,7 @@ export interface Dimensions {
      * @type {string}
      * @memberof Dimensions
      */
-    unit: DimensionsUnitEnum;
+    unit: DimensionsUnitEnum | 'IN' | 'CM';
 }
 
 /**
@@ -449,7 +449,7 @@ export interface GetRatesRequest {
      * @type {Array<ServiceType>}
      * @memberof GetRatesRequest
      */
-    serviceTypes: Array<ServiceType>;
+    serviceTypes: Array<(ServiceType | 'Amazon Shipping Ground' | 'Amazon Shipping Standard' | 'Amazon Shipping Premium')>;
     /**
      * The start date and time. This defaults to the current date and time.
      * @type {string}
@@ -588,13 +588,13 @@ export interface LabelSpecification {
      * @type {string}
      * @memberof LabelSpecification
      */
-    labelFormat: LabelSpecificationLabelFormatEnum;
+    labelFormat: LabelSpecificationLabelFormatEnum | 'PNG';
     /**
      * The label stock size specification in length and height. Enum of 4x6 only for now.
      * @type {string}
      * @memberof LabelSpecification
      */
-    labelStockSize: LabelSpecificationLabelStockSizeEnum;
+    labelStockSize: LabelSpecificationLabelStockSizeEnum | '4x6';
 }
 
 /**
@@ -785,7 +785,7 @@ export interface PurchaseShipmentRequest {
      * @type {ServiceType}
      * @memberof PurchaseShipmentRequest
      */
-    serviceType: ServiceType;
+    serviceType: ServiceType | 'Amazon Shipping Ground' | 'Amazon Shipping Standard' | 'Amazon Shipping Premium';
     /**
      * A list of container.
      * @type {Array<Container>}
@@ -878,7 +878,7 @@ export interface Rate {
      * @type {ServiceType}
      * @memberof Rate
      */
-    serviceType?: ServiceType;
+    serviceType?: ServiceType | 'Amazon Shipping Ground' | 'Amazon Shipping Standard' | 'Amazon Shipping Premium';
     /**
      * 
      * @type {ShippingPromiseSet}
@@ -960,7 +960,7 @@ export interface ServiceRate {
      * @type {ServiceType}
      * @memberof ServiceRate
      */
-    serviceType: ServiceType;
+    serviceType: ServiceType | 'Amazon Shipping Ground' | 'Amazon Shipping Standard' | 'Amazon Shipping Premium';
     /**
      * 
      * @type {ShippingPromiseSet}
@@ -1121,7 +1121,7 @@ export interface Weight {
      * @type {string}
      * @memberof Weight
      */
-    unit: WeightUnitEnum;
+    unit: WeightUnitEnum | 'g' | 'kg' | 'oz' | 'lb';
     /**
      * The measurement value.
      * @type {number}

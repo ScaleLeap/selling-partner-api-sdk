@@ -124,7 +124,7 @@ export interface Appointment {
      * @type {string}
      * @memberof Appointment
      */
-    appointmentStatus?: AppointmentAppointmentStatusEnum;
+    appointmentStatus?: AppointmentAppointmentStatusEnum | 'ACTIVE' | 'CANCELLED' | 'COMPLETED';
     /**
      * 
      * @type {AppointmentTime}
@@ -234,7 +234,7 @@ export interface AssociatedItem {
      * @type {string}
      * @memberof AssociatedItem
      */
-    itemStatus?: AssociatedItemItemStatusEnum;
+    itemStatus?: AssociatedItemItemStatusEnum | 'ACTIVE' | 'CANCELLED' | 'SHIPPED' | 'DELIVERED';
     /**
      * The brand name of the item.
      * @type {string}
@@ -453,7 +453,7 @@ export interface ModelError {
      * @type {string}
      * @memberof ModelError
      */
-    errorLevel?: ModelErrorErrorLevelEnum;
+    errorLevel?: ModelErrorErrorLevelEnum | 'ERROR' | 'WARNING';
 }
 
 /**
@@ -500,7 +500,7 @@ export interface Poa {
      * @type {string}
      * @memberof Poa
      */
-    poaType?: PoaPoaTypeEnum;
+    poaType?: PoaPoaTypeEnum | 'NO_SIGNATURE_DUMMY_POS' | 'CUSTOMER_SIGNATURE' | 'DUMMY_RECEIPT' | 'POA_RECEIPT';
 }
 
 /**
@@ -600,7 +600,7 @@ export interface ServiceJob {
      * @type {string}
      * @memberof ServiceJob
      */
-    serviceJobStatus?: ServiceJobServiceJobStatusEnum;
+    serviceJobStatus?: ServiceJobServiceJobStatusEnum | 'NOT_SERVICED' | 'CANCELLED' | 'COMPLETED' | 'PENDING_SCHEDULE' | 'NOT_FULFILLABLE' | 'HOLD' | 'PAYMENT_DECLINED';
     /**
      * 
      * @type {ScopeOfWork}
@@ -701,7 +701,7 @@ export interface ServiceLocation {
      * @type {string}
      * @memberof ServiceLocation
      */
-    serviceLocationType?: ServiceLocationServiceLocationTypeEnum;
+    serviceLocationType?: ServiceLocationServiceLocationTypeEnum | 'IN_HOME' | 'IN_STORE' | 'ONLINE';
     /**
      * 
      * @type {Address}

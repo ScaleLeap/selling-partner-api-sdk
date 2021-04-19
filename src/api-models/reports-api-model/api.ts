@@ -140,7 +140,7 @@ export interface CreateReportScheduleSpecification {
      * @type {string}
      * @memberof CreateReportScheduleSpecification
      */
-    period: CreateReportScheduleSpecificationPeriodEnum;
+    period: CreateReportScheduleSpecificationPeriodEnum | 'PT5M' | 'PT15M' | 'PT30M' | 'PT1H' | 'PT2H' | 'PT4H' | 'PT8H' | 'PT12H' | 'P1D' | 'P2D' | 'P3D' | 'PT84H' | 'P7D' | 'P14D' | 'P15D' | 'P18D' | 'P30D' | 'P1M';
     /**
      * The date and time when the schedule will create its next report, in ISO 8601 date time format.
      * @type {string}
@@ -390,7 +390,7 @@ export interface Report {
      * @type {string}
      * @memberof Report
      */
-    processingStatus: ReportProcessingStatusEnum;
+    processingStatus: ReportProcessingStatusEnum | 'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE';
     /**
      * The date and time when the report processing started, in ISO 8601 date time format.
      * @type {string}
@@ -452,7 +452,7 @@ export interface ReportDocument {
      * @type {string}
      * @memberof ReportDocument
      */
-    compressionAlgorithm?: ReportDocumentCompressionAlgorithmEnum;
+    compressionAlgorithm?: ReportDocumentCompressionAlgorithmEnum | 'GZIP';
 }
 
 /**
@@ -474,7 +474,7 @@ export interface ReportDocumentEncryptionDetails {
      * @type {string}
      * @memberof ReportDocumentEncryptionDetails
      */
-    standard: ReportDocumentEncryptionDetailsStandardEnum;
+    standard: ReportDocumentEncryptionDetailsStandardEnum | 'AES';
     /**
      * The vector to decrypt the document contents using Cipher Block Chaining (CBC).
      * @type {string}

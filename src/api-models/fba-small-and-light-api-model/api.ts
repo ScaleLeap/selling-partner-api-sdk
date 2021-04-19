@@ -45,7 +45,7 @@ export interface FeeLineItem {
      * @type {string}
      * @memberof FeeLineItem
      */
-    feeType: FeeLineItemFeeTypeEnum;
+    feeType: FeeLineItemFeeTypeEnum | 'FBAWeightBasedFee' | 'FBAPerOrderFulfillmentFee' | 'FBAPerUnitFulfillmentFee' | 'Commission';
     /**
      * 
      * @type {MoneyType}
@@ -188,7 +188,7 @@ export interface SmallAndLightEligibility {
      * @type {SmallAndLightEligibilityStatus}
      * @memberof SmallAndLightEligibility
      */
-    status: SmallAndLightEligibilityStatus;
+    status: SmallAndLightEligibilityStatus | 'ELIGIBLE' | 'NOT_ELIGIBLE';
 }
 /**
  * The Small and Light eligibility status of the item.
@@ -223,7 +223,7 @@ export interface SmallAndLightEnrollment {
      * @type {SmallAndLightEnrollmentStatus}
      * @memberof SmallAndLightEnrollment
      */
-    status: SmallAndLightEnrollmentStatus;
+    status: SmallAndLightEnrollmentStatus | 'ENROLLED' | 'NOT_ENROLLED';
 }
 /**
  * The Small and Light enrollment status of the item.

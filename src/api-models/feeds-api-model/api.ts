@@ -189,7 +189,7 @@ export interface Feed {
      * @type {string}
      * @memberof Feed
      */
-    processingStatus: FeedProcessingStatusEnum;
+    processingStatus: FeedProcessingStatusEnum | 'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE';
     /**
      * The date and time when feed processing started, in ISO 8601 date time format.
      * @type {string}
@@ -251,7 +251,7 @@ export interface FeedDocument {
      * @type {string}
      * @memberof FeedDocument
      */
-    compressionAlgorithm?: FeedDocumentCompressionAlgorithmEnum;
+    compressionAlgorithm?: FeedDocumentCompressionAlgorithmEnum | 'GZIP';
 }
 
 /**
@@ -273,7 +273,7 @@ export interface FeedDocumentEncryptionDetails {
      * @type {string}
      * @memberof FeedDocumentEncryptionDetails
      */
-    standard: FeedDocumentEncryptionDetailsStandardEnum;
+    standard: FeedDocumentEncryptionDetailsStandardEnum | 'AES';
     /**
      * The vector to encrypt or decrypt the document contents using Cipher Block Chaining (CBC).
      * @type {string}

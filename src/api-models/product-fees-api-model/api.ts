@@ -173,7 +173,7 @@ export interface FeesEstimateIdentifier {
      * @type {OptionalFulfillmentProgram}
      * @memberof FeesEstimateIdentifier
      */
-    OptionalFulfillmentProgram?: OptionalFulfillmentProgram;
+    OptionalFulfillmentProgram?: OptionalFulfillmentProgram | 'FBA_CORE' | 'FBA_SNL' | 'FBA_EFN';
 }
 /**
  * 
@@ -210,7 +210,7 @@ export interface FeesEstimateRequest {
      * @type {OptionalFulfillmentProgram}
      * @memberof FeesEstimateRequest
      */
-    OptionalFulfillmentProgram?: OptionalFulfillmentProgram;
+    OptionalFulfillmentProgram?: OptionalFulfillmentProgram | 'FBA_CORE' | 'FBA_SNL' | 'FBA_EFN';
 }
 /**
  * An item identifier and the estimated fees for the item.

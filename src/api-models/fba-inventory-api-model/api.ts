@@ -76,7 +76,7 @@ export interface Granularity {
      * @type {string}
      * @memberof Granularity
      */
-    granularityType?: GranularityGranularityTypeEnum;
+    granularityType?: GranularityGranularityTypeEnum | 'Marketplace';
     /**
      * The granularity ID for the specified granularity type. When granularityType is Marketplace, specify the marketplaceId.
      * @type {string}
@@ -265,7 +265,7 @@ export interface ResearchingQuantityEntry {
      * @type {string}
      * @memberof ResearchingQuantityEntry
      */
-    name: ResearchingQuantityEntryNameEnum;
+    name: ResearchingQuantityEntryNameEnum | 'researchingQuantityInShortTerm' | 'researchingQuantityInMidTerm' | 'researchingQuantityInLongTerm';
     /**
      * The number of units.
      * @type {number}

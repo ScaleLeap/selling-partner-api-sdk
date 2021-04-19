@@ -38,13 +38,13 @@ export interface ASINInboundGuidance {
      * @type {InboundGuidance}
      * @memberof ASINInboundGuidance
      */
-    InboundGuidance: InboundGuidance;
+    InboundGuidance: InboundGuidance | 'InboundNotRecommended' | 'InboundOK';
     /**
      * A list of inbound guidance reason information.
      * @type {Array<GuidanceReason>}
      * @memberof ASINInboundGuidance
      */
-    GuidanceReasonList?: Array<GuidanceReason>;
+    GuidanceReasonList?: Array<(GuidanceReason | 'SlowMovingASIN' | 'NoApplicableGuidance')>;
 }
 /**
  * Item preparation instructions to help with item sourcing decisions.
@@ -63,19 +63,19 @@ export interface ASINPrepInstructions {
      * @type {BarcodeInstruction}
      * @memberof ASINPrepInstructions
      */
-    BarcodeInstruction?: BarcodeInstruction;
+    BarcodeInstruction?: BarcodeInstruction | 'RequiresFNSKULabel' | 'CanUseOriginalBarcode' | 'MustProvideSellerSKU';
     /**
      * 
      * @type {PrepGuidance}
      * @memberof ASINPrepInstructions
      */
-    PrepGuidance?: PrepGuidance;
+    PrepGuidance?: PrepGuidance | 'ConsultHelpDocuments' | 'NoAdditionalPrepRequired' | 'SeePrepInstructionsList';
     /**
      * A list of preparation instructions to help with item sourcing decisions.
      * @type {Array<PrepInstruction>}
      * @memberof ASINPrepInstructions
      */
-    PrepInstructionList?: Array<PrepInstruction>;
+    PrepInstructionList?: Array<(PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment')>;
 }
 /**
  * 
@@ -143,7 +143,7 @@ export interface AmazonPrepFeesDetails {
      * @type {PrepInstruction}
      * @memberof AmazonPrepFeesDetails
      */
-    PrepInstruction?: PrepInstruction;
+    PrepInstruction?: PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment';
     /**
      * 
      * @type {Amount}
@@ -162,7 +162,7 @@ export interface Amount {
      * @type {CurrencyCode}
      * @memberof Amount
      */
-    CurrencyCode: CurrencyCode;
+    CurrencyCode: CurrencyCode | 'USD' | 'GBP';
     /**
      * 
      * @type {number}
@@ -375,7 +375,7 @@ export interface CreateInboundShipmentPlanRequest {
      * @type {LabelPrepPreference}
      * @memberof CreateInboundShipmentPlanRequest
      */
-    LabelPrepPreference: LabelPrepPreference;
+    LabelPrepPreference: LabelPrepPreference | 'SELLER_LABEL' | 'AMAZON_LABEL_ONLY' | 'AMAZON_LABEL_PREFERRED';
     /**
      * The two-character country code for the country where the inbound shipment is to be sent.  Note: Not required. Specifying both ShipToCountryCode and ShipToCountrySubdivisionCode returns an error.   Values:   ShipToCountryCode values for North America:  * CA – Canada  * MX - Mexico  * US - United States  ShipToCountryCode values for MCI sellers in Europe:  * DE – Germany  * ES – Spain  * FR – France  * GB – United Kingdom  * IT – Italy  Default: The country code for the seller\'s home marketplace.
      * @type {string}
@@ -466,7 +466,7 @@ export interface Dimensions {
      * @type {UnitOfMeasurement}
      * @memberof Dimensions
      */
-    Unit: UnitOfMeasurement;
+    Unit: UnitOfMeasurement | 'inches' | 'centimeters';
 }
 /**
  * The reason that the ASIN is invalid.
@@ -848,19 +848,19 @@ export interface InboundShipmentHeader {
      * @type {ShipmentStatus}
      * @memberof InboundShipmentHeader
      */
-    ShipmentStatus: ShipmentStatus;
+    ShipmentStatus: ShipmentStatus | 'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN';
     /**
      * 
      * @type {LabelPrepPreference}
      * @memberof InboundShipmentHeader
      */
-    LabelPrepPreference: LabelPrepPreference;
+    LabelPrepPreference: LabelPrepPreference | 'SELLER_LABEL' | 'AMAZON_LABEL_ONLY' | 'AMAZON_LABEL_PREFERRED';
     /**
      * 
      * @type {IntendedBoxContentsSource}
      * @memberof InboundShipmentHeader
      */
-    IntendedBoxContentsSource?: IntendedBoxContentsSource;
+    IntendedBoxContentsSource?: IntendedBoxContentsSource | 'NONE' | 'FEED' | '2D_BARCODE';
 }
 /**
  * Information about the seller\'s inbound shipments. Returned by the listInboundShipments operation.
@@ -897,13 +897,13 @@ export interface InboundShipmentInfo {
      * @type {ShipmentStatus}
      * @memberof InboundShipmentInfo
      */
-    ShipmentStatus?: ShipmentStatus;
+    ShipmentStatus?: ShipmentStatus | 'WORKING' | 'SHIPPED' | 'RECEIVING' | 'CANCELLED' | 'DELETED' | 'CLOSED' | 'ERROR' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN';
     /**
      * 
      * @type {LabelPrepType}
      * @memberof InboundShipmentInfo
      */
-    LabelPrepType?: LabelPrepType;
+    LabelPrepType?: LabelPrepType | 'NO_LABEL' | 'SELLER_LABEL' | 'AMAZON_LABEL';
     /**
      * Indicates whether or not an inbound shipment contains case-packed boxes. When AreCasesRequired = true for an inbound shipment, all items in the inbound shipment must be case packed.
      * @type {boolean}
@@ -921,7 +921,7 @@ export interface InboundShipmentInfo {
      * @type {BoxContentsSource}
      * @memberof InboundShipmentInfo
      */
-    BoxContentsSource?: BoxContentsSource;
+    BoxContentsSource?: BoxContentsSource | 'NONE' | 'FEED' | '2D_BARCODE' | 'INTERACTIVE';
     /**
      * 
      * @type {BoxContentsFeeDetails}
@@ -1013,7 +1013,7 @@ export interface InboundShipmentPlan {
      * @type {LabelPrepType}
      * @memberof InboundShipmentPlan
      */
-    LabelPrepType: LabelPrepType;
+    LabelPrepType: LabelPrepType | 'NO_LABEL' | 'SELLER_LABEL' | 'AMAZON_LABEL';
     /**
      * A list of inbound shipment plan item information.
      * @type {Array<InboundShipmentPlanItem>}
@@ -1081,7 +1081,7 @@ export interface InboundShipmentPlanRequestItem {
      * @type {Condition}
      * @memberof InboundShipmentPlanRequestItem
      */
-    Condition: Condition;
+    Condition: Condition | 'NewItem' | 'NewWithWarranty' | 'NewOEM' | 'NewOpenBox' | 'UsedLikeNew' | 'UsedVeryGood' | 'UsedGood' | 'UsedAcceptable' | 'UsedPoor' | 'UsedRefurbished' | 'CollectibleLikeNew' | 'CollectibleVeryGood' | 'CollectibleGood' | 'CollectibleAcceptable' | 'CollectiblePoor' | 'RefurbishedWithWarranty' | 'Refurbished' | 'Club';
     /**
      * The item quantity.
      * @type {number}
@@ -1186,7 +1186,7 @@ export interface InvalidASIN {
      * @type {ErrorReason}
      * @memberof InvalidASIN
      */
-    ErrorReason?: ErrorReason;
+    ErrorReason?: ErrorReason | 'DoesNotExist' | 'InvalidASIN';
 }
 /**
  * 
@@ -1205,7 +1205,7 @@ export interface InvalidSKU {
      * @type {ErrorReason}
      * @memberof InvalidSKU
      */
-    ErrorReason?: ErrorReason;
+    ErrorReason?: ErrorReason | 'DoesNotExist' | 'InvalidASIN';
 }
 /**
  * 
@@ -1373,7 +1373,7 @@ export interface NonPartneredSmallParcelPackageOutput {
      * @type {PackageStatus}
      * @memberof NonPartneredSmallParcelPackageOutput
      */
-    PackageStatus: PackageStatus;
+    PackageStatus: PackageStatus | 'SHIPPED' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN' | 'RECEIVING' | 'CLOSED' | 'DELETED';
 }
 /**
  * The shipment status of the package.
@@ -1463,7 +1463,7 @@ export interface PartneredLtlDataInput {
      * @type {SellerFreightClass}
      * @memberof PartneredLtlDataInput
      */
-    SellerFreightClass?: SellerFreightClass;
+    SellerFreightClass?: SellerFreightClass | '50' | '55' | '60' | '65' | '70' | '77.5' | '85' | '92.5' | '100' | '110' | '125' | '150' | '175' | '200' | '250' | '300' | '400' | '500';
     /**
      * 
      * @type {string}
@@ -1512,7 +1512,7 @@ export interface PartneredLtlDataOutput {
      * @type {SellerFreightClass}
      * @memberof PartneredLtlDataOutput
      */
-    SellerFreightClass?: SellerFreightClass;
+    SellerFreightClass?: SellerFreightClass | '50' | '55' | '60' | '65' | '70' | '77.5' | '85' | '92.5' | '100' | '110' | '125' | '150' | '175' | '200' | '250' | '300' | '400' | '500';
     /**
      * 
      * @type {string}
@@ -1560,7 +1560,7 @@ export interface PartneredLtlDataOutput {
      * @type {SellerFreightClass}
      * @memberof PartneredLtlDataOutput
      */
-    PreviewFreightClass: SellerFreightClass;
+    PreviewFreightClass: SellerFreightClass | '50' | '55' | '60' | '65' | '70' | '77.5' | '85' | '92.5' | '100' | '110' | '125' | '150' | '175' | '200' | '250' | '300' | '400' | '500';
     /**
      * A unique identifier created by Amazon that identifies this Amazon-partnered, Less Than Truckload/Full Truckload (LTL/FTL) shipment.
      * @type {string}
@@ -1678,7 +1678,7 @@ export interface PartneredSmallParcelPackageOutput {
      * @type {PackageStatus}
      * @memberof PartneredSmallParcelPackageOutput
      */
-    PackageStatus: PackageStatus;
+    PackageStatus: PackageStatus | 'SHIPPED' | 'IN_TRANSIT' | 'DELIVERED' | 'CHECKED_IN' | 'RECEIVING' | 'CLOSED' | 'DELETED';
 }
 /**
  * Preparation instructions and who is responsible for the preparation.
@@ -1691,13 +1691,13 @@ export interface PrepDetails {
      * @type {PrepInstruction}
      * @memberof PrepDetails
      */
-    PrepInstruction: PrepInstruction;
+    PrepInstruction: PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment';
     /**
      * 
      * @type {PrepOwner}
      * @memberof PrepDetails
      */
-    PrepOwner: PrepOwner;
+    PrepOwner: PrepOwner | 'AMAZON' | 'SELLER';
 }
 /**
  * Item preparation instructions.
@@ -1751,7 +1751,7 @@ export interface PutTransportDetailsRequest {
      * @type {ShipmentType}
      * @memberof PutTransportDetailsRequest
      */
-    ShipmentType: ShipmentType;
+    ShipmentType: ShipmentType | 'SP' | 'LTL';
     /**
      * 
      * @type {TransportDetailInput}
@@ -1801,13 +1801,13 @@ export interface SKUInboundGuidance {
      * @type {InboundGuidance}
      * @memberof SKUInboundGuidance
      */
-    InboundGuidance: InboundGuidance;
+    InboundGuidance: InboundGuidance | 'InboundNotRecommended' | 'InboundOK';
     /**
      * A list of inbound guidance reason information.
      * @type {Array<GuidanceReason>}
      * @memberof SKUInboundGuidance
      */
-    GuidanceReasonList?: Array<GuidanceReason>;
+    GuidanceReasonList?: Array<(GuidanceReason | 'SlowMovingASIN' | 'NoApplicableGuidance')>;
 }
 /**
  * Labeling requirements and item preparation instructions to help you prepare items for shipment to Amazon\'s fulfillment network.
@@ -1832,19 +1832,19 @@ export interface SKUPrepInstructions {
      * @type {BarcodeInstruction}
      * @memberof SKUPrepInstructions
      */
-    BarcodeInstruction?: BarcodeInstruction;
+    BarcodeInstruction?: BarcodeInstruction | 'RequiresFNSKULabel' | 'CanUseOriginalBarcode' | 'MustProvideSellerSKU';
     /**
      * 
      * @type {PrepGuidance}
      * @memberof SKUPrepInstructions
      */
-    PrepGuidance?: PrepGuidance;
+    PrepGuidance?: PrepGuidance | 'ConsultHelpDocuments' | 'NoAdditionalPrepRequired' | 'SeePrepInstructionsList';
     /**
      * A list of preparation instructions to help with item sourcing decisions.
      * @type {Array<PrepInstruction>}
      * @memberof SKUPrepInstructions
      */
-    PrepInstructionList?: Array<PrepInstruction>;
+    PrepInstructionList?: Array<(PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment')>;
     /**
      * A list of preparation instructions and fees for Amazon to prep goods for shipment.
      * @type {Array<AmazonPrepFeesDetails>}
@@ -2022,7 +2022,7 @@ export interface TransportHeader {
      * @type {ShipmentType}
      * @memberof TransportHeader
      */
-    ShipmentType: ShipmentType;
+    ShipmentType: ShipmentType | 'SP' | 'LTL';
 }
 /**
  * The workflow status for a shipment with an Amazon-partnered carrier.
@@ -2035,7 +2035,7 @@ export interface TransportResult {
      * @type {TransportStatus}
      * @memberof TransportResult
      */
-    TransportStatus: TransportStatus;
+    TransportStatus: TransportStatus | 'WORKING' | 'ESTIMATING' | 'ESTIMATED' | 'ERROR_ON_ESTIMATING' | 'CONFIRMING' | 'CONFIRMED' | 'ERROR_ON_CONFIRMING' | 'VOIDING' | 'VOIDED' | 'ERROR_IN_VOIDING' | 'ERROR';
     /**
      * An error code that identifies the type of error that occured.
      * @type {string}
@@ -2124,7 +2124,7 @@ export interface Weight {
      * @type {UnitOfWeight}
      * @memberof Weight
      */
-    Unit: UnitOfWeight;
+    Unit: UnitOfWeight | 'pounds' | 'kilograms';
 }
 
 /**

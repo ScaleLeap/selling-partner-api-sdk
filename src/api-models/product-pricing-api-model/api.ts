@@ -181,7 +181,7 @@ export interface DetailedShippingTimeType {
      * @type {string}
      * @memberof DetailedShippingTimeType
      */
-    availabilityType?: DetailedShippingTimeTypeAvailabilityTypeEnum;
+    availabilityType?: DetailedShippingTimeTypeAvailabilityTypeEnum | 'NOW' | 'FUTURE_WITHOUT_DATE' | 'FUTURE_WITH_DATE';
 }
 
 /**
@@ -252,7 +252,7 @@ export interface GetOffersResult {
      * @type {ConditionType}
      * @memberof GetOffersResult
      */
-    ItemCondition: ConditionType;
+    ItemCondition: ConditionType | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
     /**
      * The status of the operation.
      * @type {string}
@@ -345,7 +345,7 @@ export interface ItemIdentifier {
      * @type {ConditionType}
      * @memberof ItemIdentifier
      */
-    ItemCondition: ConditionType;
+    ItemCondition: ConditionType | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
 }
 /**
  * 
@@ -451,7 +451,7 @@ export interface OfferCountType {
      * @type {FulfillmentChannelType}
      * @memberof OfferCountType
      */
-    fulfillmentChannel?: FulfillmentChannelType;
+    fulfillmentChannel?: FulfillmentChannelType | 'Amazon' | 'Merchant';
     /**
      * The number of offers in a fulfillment channel that meet a specific condition.
      * @type {number}

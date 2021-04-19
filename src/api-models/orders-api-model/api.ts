@@ -104,7 +104,7 @@ export interface Address {
      * @type {string}
      * @memberof Address
      */
-    AddressType?: AddressAddressTypeEnum;
+    AddressType?: AddressAddressTypeEnum | 'Residential' | 'Commercial';
 }
 
 /**
@@ -360,13 +360,13 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    OrderStatus: OrderOrderStatusEnum;
+    OrderStatus: OrderOrderStatusEnum | 'Pending' | 'Unshipped' | 'PartiallyShipped' | 'Shipped' | 'Canceled' | 'Unfulfillable' | 'InvoiceUnconfirmed' | 'PendingAvailability';
     /**
      * Whether the order was fulfilled by Amazon (AFN) or by the seller (MFN).
      * @type {string}
      * @memberof Order
      */
-    FulfillmentChannel?: OrderFulfillmentChannelEnum;
+    FulfillmentChannel?: OrderFulfillmentChannelEnum | 'MFN' | 'AFN';
     /**
      * The sales channel of the first item in the order.
      * @type {string}
@@ -414,7 +414,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    PaymentMethod?: OrderPaymentMethodEnum;
+    PaymentMethod?: OrderPaymentMethodEnum | 'COD' | 'CVS' | 'Other';
     /**
      * A list of payment method detail items.
      * @type {Array<string>}
@@ -450,7 +450,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    OrderType?: OrderOrderTypeEnum;
+    OrderType?: OrderOrderTypeEnum | 'StandardOrder' | 'LongLeadTimeOrder' | 'Preorder' | 'BackOrder' | 'SourcingOnDemandOrder';
     /**
      * The start of the time period within which you have committed to ship the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.  Note: EarliestShipDate might not be returned for orders placed before February 1, 2013.
      * @type {string}
@@ -839,7 +839,7 @@ export interface OrderItem {
      * @type {string}
      * @memberof OrderItem
      */
-    DeemedResellerCategory?: OrderItemDeemedResellerCategoryEnum;
+    DeemedResellerCategory?: OrderItemDeemedResellerCategoryEnum | 'IOSS' | 'UOSS';
 }
 
 /**
@@ -1056,13 +1056,13 @@ export interface TaxCollection {
      * @type {string}
      * @memberof TaxCollection
      */
-    Model?: TaxCollectionModelEnum;
+    Model?: TaxCollectionModelEnum | 'MarketplaceFacilitator';
     /**
      * The party responsible for withholding the taxes and remitting them to the taxing authority.
      * @type {string}
      * @memberof TaxCollection
      */
-    ResponsibleParty?: TaxCollectionResponsiblePartyEnum;
+    ResponsibleParty?: TaxCollectionResponsiblePartyEnum | 'Amazon Services, Inc.';
 }
 
 /**
