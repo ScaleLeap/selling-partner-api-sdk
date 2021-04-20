@@ -1,6 +1,8 @@
 import log from 'fancy-log'
 import { EnumMember, Project, SourceFile, ts, TypeElementTypes } from 'ts-morph'
 
+import { API_MODEL_FILE_NAME, TS_CONFIG_FILE_PATH } from './constants'
+
 function getEnumValues(enumMembers: EnumMember[]): (string | number | undefined)[] {
   return enumMembers
     .map((member) => member.getValue())
@@ -67,10 +69,10 @@ function processArrayNodes(sourceFile: SourceFile, nodes: TypeElementTypes[]): v
 
 export function mapEnums2UnionType(): Promise<void>[] {
   const project = new Project({
-    tsConfigFilePath: 'tsconfig.build.json',
+    tsConfigFilePath: TS_CONFIG_FILE_PATH,
   })
 
-  return project.getSourceFiles('src/api-models/**/api.ts').map((sourceFile) => {
+  return project.getSourceFiles(`src/api-models/**/${API_MODEL_FILE_NAME}`).map((sourceFile) => {
     const filePath = `${sourceFile.getDirectory().getBaseName()}/${sourceFile.getBaseName()}`
     log.info(`Starting mapping ${filePath}`)
 

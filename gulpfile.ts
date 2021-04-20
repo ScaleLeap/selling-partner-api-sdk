@@ -1,12 +1,13 @@
 import { task } from 'gulp'
 
+import { generateAPIClients } from './utils/generator/api-client-generator'
 import {
   executeGeneratorCLI,
   generateAPIModel,
   generateExportStatement,
   removeRedundantObjects,
   writeStatementsToFile,
-} from './utils/generator/api-models-generator'
+} from './utils/generator/api-model-generator'
 import { mapEnums2UnionType } from './utils/generator/enum-mapping'
 import { APIModel, fetchContentsByPath, hasNewCommits } from './utils/github/github-api'
 
@@ -28,6 +29,7 @@ async function generateModels() {
     const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
     writeStatementsToFile(statements)
     await Promise.all(mapEnums2UnionType())
+    generateAPIClients(apiModels)
   }
 }
 
