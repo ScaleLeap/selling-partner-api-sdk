@@ -12,7 +12,7 @@ on:
 
 jobs:
   test:
-    name: Test ${{ matrix.node }} and ${{ matrix.os }}
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
 
     runs-on: ${{ matrix.os }}
 
@@ -49,7 +49,7 @@ jobs:
 
   ## runs integration tests separately on just one type of OS, to avoid getting throttled by the API
   integration_tests:
-    name: Integration Tests
+    name: Integration
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
