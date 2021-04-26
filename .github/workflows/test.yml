@@ -44,6 +44,20 @@ jobs:
       - name: Test
         run: npm t
 
+      - name: Build
+        run: npm run build
+
+  ## runs integration tests separately on just one type of OS, to avoid getting throttled by the API
+  integration_tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install
+        uses: bahmutov/npm-install@v1
+
       - name: Test integration
         run: npm run test:integration
         env:
@@ -53,6 +67,3 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
           ROLE_ARN: ${{ secrets.ROLE_ARN }}
-
-      - name: Build
-        run: npm run build
