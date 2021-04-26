@@ -16,8 +16,13 @@ async function generateModels() {
     const githubDirectories = await fetchContentsByPath()
     const githubFilePromises = githubDirectories.map((directory) =>
       fetchContentsByPath(directory.path)
-        // Only keep latest version
-        .then((files) => files[files.length - 1]),
+        /**
+         * API model directory contains both preview and stable version.
+         * Therefore, keep only available API version.
+         *
+         * Docs: https://github.com/amzn/selling-partner-api-docs/issues/646#issuecomment-825232385
+         */
+        .then((files) => files[0]),
     )
 
     const githubFiles = await Promise.all(githubFilePromises)
