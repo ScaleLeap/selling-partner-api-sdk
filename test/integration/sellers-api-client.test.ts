@@ -89,9 +89,7 @@ describe(`${SellersApiClient.name}`, () => {
         reportTypes: ['GET_MERCHANT_LISTINGS_ALL_DATA'],
       })
 
-      // TODO: replace with the commented out one when #75 is merged
-      expect(reports).toBeDefined()
-      // expect(reports).toBeInstanceOf(Array)
+      expect(reports.payload).toBeInstanceOf(Array)
     })
   })
 })
