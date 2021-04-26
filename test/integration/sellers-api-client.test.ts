@@ -93,34 +93,5 @@ describe(`${SellersApiClient.name}`, () => {
       expect(reports).toBeDefined()
       // expect(reports).toBeInstanceOf(Array)
     })
-
-    it('should assume role and return the list of marketplaces', async () => {
-      expect.assertions(1)
-
-      const client = new SellersApiClient({
-        basePath,
-        region,
-        accessToken: tokens.access_token,
-        roleArn: environment.ROLE_ARN,
-      })
-
-      const { data: marketplaceParticipations } = await client.getMarketplaceParticipations()
-
-      expect(marketplaceParticipations.payload).toBeInstanceOf(Array)
-    })
-
-    it('should assume role and return the list of marketplaces using region from base path', async () => {
-      expect.assertions(1)
-
-      const client = new SellersApiClient({
-        basePath,
-        accessToken: tokens.access_token,
-        roleArn: environment.ROLE_ARN,
-      })
-
-      const { data: marketplaceParticipations } = await client.getMarketplaceParticipations()
-
-      expect(marketplaceParticipations.payload).toBeInstanceOf(Array)
-    })
   })
 })
