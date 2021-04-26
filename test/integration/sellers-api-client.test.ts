@@ -1,6 +1,7 @@
 import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts'
 import axios from 'axios'
 
+import { APIConfigurationParameters, ReportsApiClient } from '../../src'
 import { SellersApiClient } from '../../src/api-clients/sellers-api-client'
 import * as environment from '../environment'
 
@@ -13,7 +14,9 @@ interface TokenResponse {
 }
 
 const regions: [string, string][] = [
-  ['eu-west-1', 'https://sandbox.sellingpartnerapi-eu.amazon.com'],
+  ['us-east-1', 'https://sellingpartnerapi-na.amazon.com'],
+  // ['eu-west-1', 'https://sandbox.sellingpartnerapi-eu.amazon.com'],
+  // ['us-west-2', ''],
 ]
 
 async function getTokens() {
@@ -31,11 +34,15 @@ jest.setTimeout(2 * 60 * 100)
 
 describe(`${SellersApiClient.name}`, () => {
   describe.each(regions)('for region %s', (region, basePath) => {
-    it('should return the list of marketplaces', async () => {
-      expect.assertions(1)
+    let tokens: TokenResponse
+    let apiConfigurationParameters: APIConfigurationParameters
 
-      const tokens = await getTokens()
+    beforeAll(async () => {
+      tokens = await getTokens()
+    })
 
+    // eslint-disable-next-line jest/no-duplicate-hooks
+    beforeAll(async () => {
       const sts = new STSClient({
         region,
         credentials: {
@@ -51,7 +58,7 @@ describe(`${SellersApiClient.name}`, () => {
         }),
       )
 
-      const client = new SellersApiClient({
+      apiConfigurationParameters = {
         basePath,
         region,
         accessToken: tokens.access_token,
@@ -60,17 +67,35 @@ describe(`${SellersApiClient.name}`, () => {
           secretAccessKey: Credentials?.SecretAccessKey || '',
           sessionToken: Credentials?.SessionToken || '',
         },
-      })
+      }
+    })
+
+    it('should return the list of marketplaces', async () => {
+      expect.assertions(1)
+
+      const client = new SellersApiClient(apiConfigurationParameters)
 
       const { data: marketplaceParticipations } = await client.getMarketplaceParticipations()
 
       expect(marketplaceParticipations.payload).toBeInstanceOf(Array)
     })
 
-    it('should assume role and return the list of marketplaces', async () => {
+    it('should return an array of reports', async () => {
       expect.assertions(1)
 
-      const tokens = await getTokens()
+      const client = new ReportsApiClient(apiConfigurationParameters)
+
+      const { data: reports } = await client.getReports({
+        reportTypes: ['GET_MERCHANT_LISTINGS_ALL_DATA'],
+      })
+
+      // TODO: replace with the commented out one when #75 is merged
+      expect(reports).toBeDefined()
+      // expect(reports).toBeInstanceOf(Array)
+    })
+
+    it('should assume role and return the list of marketplaces', async () => {
+      expect.assertions(1)
 
       const client = new SellersApiClient({
         basePath,
@@ -86,8 +111,6 @@ describe(`${SellersApiClient.name}`, () => {
 
     it('should assume role and return the list of marketplaces using region from base path', async () => {
       expect.assertions(1)
-
-      const tokens = await getTokens()
 
       const client = new SellersApiClient({
         basePath,
