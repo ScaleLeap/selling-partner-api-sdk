@@ -3,7 +3,6 @@ import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-// TODO: remove V0 in client name when generate automatically
 export class OrdersApiClient extends OrdersV0Api {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
