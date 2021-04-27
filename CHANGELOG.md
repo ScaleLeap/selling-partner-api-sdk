@@ -3,6 +3,23 @@
           All notable changes to this project will be documented in this file.
           See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v2.0.0...v3.0.0) (2021-04-27)
+
+
+### Code Refactoring
+
+* re-generate api client name using model directory name to prevent duplication ([05e5502](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/05e550208303760d7d7d167ee64e008919dce16a)), closes [#79](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/79)
+
+
+### Reverts
+
+* stable api versions ([461ec43](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/461ec43fa4442be2aee0018c8575ac7eb2d29315))
+
+
+### BREAKING CHANGES
+
+*
+
 # [2.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v1.0.0...v2.0.0) (2021-04-19)
 
 
