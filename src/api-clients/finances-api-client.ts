@@ -1,9 +1,9 @@
-import { CatalogApi, Configuration } from '../api-models/catalog-items-api-model'
+import { Configuration, DefaultApi } from '../api-models/finances-api-model'
 import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class CatalogApiClient extends CatalogApi {
+export class FinancesApiClient extends DefaultApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 

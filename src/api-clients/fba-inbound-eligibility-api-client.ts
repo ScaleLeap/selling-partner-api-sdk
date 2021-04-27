@@ -1,10 +1,9 @@
-import { Configuration, FbaOutboundApi } from '../api-models/fulfillment-outbound-api-model'
+import { Configuration, FbaInboundApi } from '../api-models/fba-inbound-eligibility-api-model'
 import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-// TODO: duplicated API model with fba outbound
-export class FulfillmentFbaOutboundApiClient extends FbaOutboundApi {
+export class FbaInboundEligibilityApiClient extends FbaInboundApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 

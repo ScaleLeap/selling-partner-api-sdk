@@ -1,9 +1,9 @@
-import { Configuration, SmallAndLightApi } from '../api-models/fba-small-and-light-api-model'
+import { Configuration, FbaOutboundApi } from '../api-models/fulfillment-outbound-api-model'
 import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class SmallAndLightApiClient extends SmallAndLightApi {
+export class FulfillmentOutboundApiClient extends FbaOutboundApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 
