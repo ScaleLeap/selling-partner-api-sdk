@@ -4,7 +4,7 @@ import { Project } from 'ts-morph'
 
 import { APIModel } from '../github/github-api'
 import { apiClientTemplate } from './api-client-template'
-import { API_MODEL_FILE_NAME, TS_CONFIG_FILE_PATH } from './constants'
+import { API_MODEL_FILE_NAME, TS_CONFIG_FILE_PATH, TS_LIB_FOLDER_PATH } from './constants'
 
 const generateAPIClientFileName = (apiModel: APIModel): string =>
   apiModel.modelName.replace('model', 'client')
@@ -60,6 +60,7 @@ export function generateAPIClients(apiModels: APIModel[]): void {
   const compileAPIClient = template(apiClientTemplate)
   const project = new Project({
     tsConfigFilePath: TS_CONFIG_FILE_PATH,
+    libFolderPath: TS_LIB_FOLDER_PATH,
   })
   for (const apiModel of apiModels) {
     const apiClientFileName = generateAPIClientFileName(apiModel)
