@@ -1,19 +1,20 @@
 import SwaggerParser from '@apidevtools/swagger-parser'
 import { exec, ExecException } from 'child_process'
 import log from 'fancy-log'
-import fs, { promises as fsPromises } from 'fs'
 import { camelCase, has, isEmpty, upperFirst } from 'lodash'
 import path from 'path'
 
 import { APIModel, GithubObject } from '../github/github-api'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const fs = require('fs')
 
-const REDUNDANT_FILES: string[] = [
+const REDUNDANTS: string[] = [
   '.gitignore',
   '.npmignore',
   '.openapi-generator-ignore',
   'git_push.sh',
+  '.openapi-generator',
 ]
-const REDUNDANT_DIRECTORIES: string[] = ['.openapi-generator']
 const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
 export function generateAPIModel(model: GithubObject): APIModel {
@@ -55,12 +56,13 @@ export async function removeRedundantObjects(model: APIModel): Promise<APIModel>
    */
   log.info(`Starting cleaning up ${model.modelName}`)
 
-  await Promise.all([
-    ...REDUNDANT_FILES.map((object) => fsPromises.unlink(`${model.outputPath}/${object}`)),
-    ...REDUNDANT_DIRECTORIES.map((object) =>
-      fsPromises.rmdir(`${model.outputPath}/${object}`, { recursive: true }),
-    ),
-  ])
+  for (const object of REDUNDANTS) {
+    fs.rmSync(`${model.outputPath}/${object}`, {
+      maxRetries: 3,
+      force: true,
+      recursive: true,
+    })
+  }
 
   log.info(`Finished cleaning up ${model.modelName}`)
   return model
