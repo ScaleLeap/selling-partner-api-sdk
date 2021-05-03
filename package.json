@@ -60,7 +60,7 @@
     "@octokit/types": "6.14.2",
     "@openapitools/openapi-generator-cli": "2.2.6",
     "@scaleleap/amazon-marketplaces": "11.0.1",
-    "@scaleleap/utils": "1.9.21",
+    "@scaleleap/utils": "1.9.27",
     "@types/fancy-log": "1.3.1",
     "@types/gulp": "4.0.8",
     "@types/jest": "26.0.23",
