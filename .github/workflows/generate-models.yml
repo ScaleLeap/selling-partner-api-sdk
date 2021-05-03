@@ -37,7 +37,7 @@ jobs:
           # The schedule event can be delayed during periods of high loads.
           # Therefore, we need to buffer around 2 hours.
           # Docs: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
-          LOOKBACK_HOURS: 26
+          LOOKBACK_HOURS: 126
 
       - name: Lint
         run: npm run lint:fix
