@@ -9,7 +9,7 @@ import {
   writeStatementsToFile,
 } from './utils/generator/api-model-generator'
 import { mapEnums2UnionType } from './utils/generator/enum-mapping'
-import { APIModel, fetchContentsByPath, hasNewCommits } from './utils/github/github-api'
+import { fetchContentsByPath, hasNewCommits } from './utils/github/github-api'
 
 async function generateModels() {
   if (await hasNewCommits()) {
@@ -27,9 +27,17 @@ async function generateModels() {
 
     const githubFiles = await Promise.all(githubFilePromises)
 
-    const apiModelGeneratorPromises = githubFiles.map(generateAPIModel).map(executeGeneratorCLI)
+    const apiModels = githubFiles.map(generateAPIModel)
 
-    const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
+    for (const model of apiModels) {
+      /**
+       * TODO: Change to asynchronization.
+       * Asynchronization might occur race condition?
+       * Ref: https://github.com/ScaleLeap/selling-partner-api-sdk/pull/90#issuecomment-831170391
+       */
+      // eslint-disable-next-line no-await-in-loop
+      await executeGeneratorCLI(model)
+    }
     await Promise.all(apiModels.map(removeRedundantObjects))
     const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
     writeStatementsToFile(statements)
