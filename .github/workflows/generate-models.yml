@@ -4,6 +4,11 @@ on:
   schedule:
     - cron:  '0 1 * * *'
   workflow_dispatch:
+    inputs:
+      lookbackHours:
+        description: Lookback Hours
+        required: true
+        default: "26"
 
 jobs:
   generate:
@@ -37,7 +42,7 @@ jobs:
           # The schedule event can be delayed during periods of high loads.
           # Therefore, we need to buffer around 2 hours.
           # Docs: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
-          LOOKBACK_HOURS: 26
+          LOOKBACK_HOURS: ${{ github.event.inputs.lookbackHours }}
 
       - name: Lint
         run: npm run lint:fix
