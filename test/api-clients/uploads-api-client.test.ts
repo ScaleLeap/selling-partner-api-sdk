@@ -6,9 +6,6 @@ import {
 import {
   APIConfigurationParameters,
   SellingPartnerForbiddenError,
-  SellingPartnerGenericError,
-  SellingPartnerMismatchRegionError,
-  SellingPartnerNotFoundRegionError,
   UploadsApiClient,
 } from '../../src'
 
@@ -34,15 +31,12 @@ describe(`${UploadsApiClient.name}`, () => {
       resource,
     }
 
-    await client
-      .createUploadDestinationForResource(parameters)
-      .catch((error: SellingPartnerGenericError) => {
-        expect(error.requestId).toBeDefined()
-      })
-
     await expect(client.createUploadDestinationForResource(parameters)).rejects.toThrow(
       SellingPartnerForbiddenError,
     )
+    await expect(client.createUploadDestinationForResource(parameters)).rejects.toMatchObject({
+      requestId: expect.stringMatching(/\S+/),
+    })
   })
 
   it('should throw an error if cannot extract region from base path', async () => {
@@ -61,9 +55,7 @@ describe(`${UploadsApiClient.name}`, () => {
       return new UploadsApiClient(configuration)
     })
 
-    await client.catch((error: SellingPartnerNotFoundRegionError) => {
-      expect(error.basePath).toStrictEqual(basePath)
-    })
+    await expect(client).rejects.toHaveProperty('basePath', basePath)
   })
 
   it('should throw an error if mismatch between region in default base path and region parameter', async () => {
@@ -83,9 +75,7 @@ describe(`${UploadsApiClient.name}`, () => {
       return new UploadsApiClient(configuration)
     })
 
-    await client.catch((error: SellingPartnerMismatchRegionError) => {
-      expect(error.defaultRegion).toStrictEqual('us-east-1')
-      expect(error.region).toStrictEqual(region)
-    })
+    await expect(client).rejects.toHaveProperty('defaultRegion', 'us-east-1')
+    await expect(client).rejects.toHaveProperty('region', region)
   })
 })
