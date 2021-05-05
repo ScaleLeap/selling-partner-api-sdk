@@ -54,7 +54,8 @@ const client = new SellersApiClient({
 const marketplaceParticipations = await client.getMarketplaceParticipations()
 ```
 
-See the full list of exported classes and types: [`src/index.ts`](src/index.ts).
+See the full list of exported classes and types:
+[`src/api-models/index.ts`](src/api-models/index.ts).
 
 See [@scaleleap/amazon-marketplaces](https://github.com/ScaleLeap/amazon-marketplaces)
 docs for a database of constants about Amazon Marketplaces.
