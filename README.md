@@ -10,7 +10,7 @@
 
 ---
 
-- A fully typed TypeScript and Node.js SDK library for Amazon Selling Partner API
+- A fully typed TypeScript and Node.js SDK package for Amazon Selling Partner API
 - Uses models from [API model's repo](https://github.com/amzn/selling-partner-api-models) to generate classes automatically
 - Picks up changes and releases daily when/if models have drifted
 - Based on Axios and uses [aws4-axios](https://github.com/jamesmbourne/aws4-axios) interceptor to automatically sign the requests
