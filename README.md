@@ -14,7 +14,7 @@
 - Uses models from [API model's repo](https://github.com/amzn/selling-partner-api-models) to generate classes automatically
 - Picks up changes and releases daily when/if models have drifted
 - Based on Axios and uses [aws4-axios](https://github.com/jamesmbourne/aws4-axios) interceptor to automatically sign the requests
-- Can also optionally assume roles via STS, and refresh STS credentials on schedule
+- Can optionally assume roles via STS, and refresh STS credentials on schedule
 
 ## Download & Installation
 
@@ -39,41 +39,27 @@ A few things to get started:
 The general format applies to any Selling Partner API request:
 
 ```ts
-import {
-  amazonMarketplaces,
-  assertMarketplaceHasSellingPartner,
-} from '@scaleleap/amazon-marketplaces'
+import { SellersApiClient } from '@scaleleap/selling-partner-api-sdk'
 
-import {
-  APIConfigurationParameters,
-  SellingPartnerForbiddenError,
-  SellingPartnerGenericError,
-  UploadsApiClient,
- } from '@scaleleap/selling-partner-api-sdk'
-
-const contentMD5 = 'MD5'
-const resource = 'resource'
-
-// We could use @scaleleap/amazon-marketplaces package to get aws region and marketplace id
-const { CA } = amazonMarketplaces
-assertMarketplaceHasSellingPartner(CA)
-
-const configuration: APIConfigurationParameters = {
+const client = new SellersApiClient({
   accessToken: 'Atza|...',
-  basePath: CA.sellingPartner.region.endpoint,
-  region: CA.sellingPartner.region.awsRegion,
-}
 
-const client = new UploadsApiClient(configuration)
+  // Or use `amazonMarketplaces.CA.sellingPartner.region.endpoint`
+  // from `@scaleleap/amazon-marketplaces` package
+  basePath: 'https://sellingpartnerapi-na.amazon.com',
 
-const response = await client
-  .createUploadDestinationForResource({
-    marketplaceIds: [CA.id],
-    contentMD5,
-    resource,
-  })
+  // Or use `amazonMarketplaces.CA.sellingPartner.region.awsRegion`
+  // from `@scaleleap/amazon-marketplaces` package
+  region: 'us-east-1',
 })
+
+const marketplaceParticipations = await client.getMarketplaceParticipations()
 ```
+
+See the full list of exported classes and types: [`src/index.ts`](src/index.ts).
+
+See [@scaleleap/amazon-marketplaces](https://github.com/ScaleLeap/amazon-marketplaces)
+docs for a database of constants about Amazon Marketplaces.
 
 ## Contributing
 
