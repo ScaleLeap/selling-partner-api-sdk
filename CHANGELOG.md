@@ -3,6 +3,13 @@
           All notable changes to this project will be documented in this file.
           See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.0.0...v3.1.0) (2021-05-05)
+
+
+### Features
+
+* adds vendor models ([57ef4a6](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/57ef4a67e6606ede4ec9cd44d619a4022efaa422))
+
 # [3.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v2.0.0...v3.0.0) (2021-04-27)
 
 
