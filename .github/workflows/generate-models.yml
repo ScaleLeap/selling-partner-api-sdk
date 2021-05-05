@@ -9,7 +9,8 @@ on:
         description: Lookback Hours
         required: true
         default: "26"
-
+env:
+  DEFAULT_LOOKBACK_HOURS: 26
 jobs:
   generate:
     name: Generate
@@ -42,7 +43,7 @@ jobs:
           # The schedule event can be delayed during periods of high loads.
           # Therefore, we need to buffer around 2 hours.
           # Docs: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
-          LOOKBACK_HOURS: ${{ github.event.inputs.lookbackHours }}
+          LOOKBACK_HOURS: ${{ github.event.inputs.lookbackHours || env.DEFAULT_LOOKBACK_HOURS }}
 
       - name: Lint
         run: npm run lint:fix
