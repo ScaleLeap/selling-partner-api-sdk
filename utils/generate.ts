@@ -13,6 +13,7 @@ import { mapEnums2UnionType } from './generator/enum-mapping'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
 
+// TODO: Figure out a solution to show commits history in PR description
 async function generateModels(rootPaths: string[]) {
   for (const rootPath of rootPaths) {
     const models: APIModel[] = fs.readdirSync(rootPath).map((dirname) => {
@@ -33,6 +34,7 @@ async function generateModels(rootPaths: string[]) {
       }
 
       log.info(`Starting generating ${dirname}`)
+      // TODO: throw an error when command occurs error
       execSync(command)
       log.info(`Finished generating ${dirname}`)
 
