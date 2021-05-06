@@ -1,5 +1,4 @@
 import { execSync } from 'child_process'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import log from 'fancy-log'
 import path from 'path'
 
