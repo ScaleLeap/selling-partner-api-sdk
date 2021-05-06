@@ -1,5 +1,6 @@
 import { execSync } from 'child_process'
 import log from 'fancy-log'
+import fs from 'fs'
 import path from 'path'
 
 import { generateAPIClients } from './generator/api-client-generator'
@@ -10,8 +11,6 @@ import {
   writeStatementsToFile,
 } from './generator/api-model-generator'
 import { mapEnums2UnionType } from './generator/enum-mapping'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const fs = require('fs')
 
 // TODO: Figure out a solution to show commits history in PR description
 async function generateModels(rootPaths: string[]) {

@@ -18,8 +18,8 @@ jobs:
       - name: Checkout model repository
         uses: actions/checkout@v2
         with:
-          repository: 'amzn/selling-partner-api-models'
-          path: 'tmp/selling-partner-api-models'
+          repository: amzn/selling-partner-api-models
+          path: tmp/selling-partner-api-models
 
       - name: Setup Node
         uses: actions/setup-node@v2
