@@ -2,12 +2,12 @@ import log from 'fancy-log'
 import { camelCase, template, TemplateExecutor, upperFirst } from 'lodash'
 import { Project } from 'ts-morph'
 
-import { APIModel } from '../github/github-api'
 import { apiClientTemplate } from './api-client-template'
+import { APIModel } from './api-model'
 import { API_MODEL_FILE_NAME, TS_CONFIG_FILE_PATH, TS_LIB_FOLDER_PATH } from './constants'
 
 const generateAPIClientFileName = (apiModel: APIModel): string =>
-  apiModel.modelName.replace('model', 'client')
+  apiModel.dirname.replace('model', 'client')
 const generateAPIClientClassname = (apiClientFileName: string): string =>
   upperFirst(camelCase(apiClientFileName))
 
@@ -25,7 +25,7 @@ function generateAPIClient(
   const apiClass = sourceFile.getClassOrThrow((c) => c.getNameOrThrow().includes('Api'))
 
   const compiledFile = executor({
-    modelName: apiModel.modelName,
+    dirname: apiModel.dirname,
     apiModelClassName: apiClass.getNameOrThrow(),
     apiClientClassName,
   })
@@ -37,7 +37,7 @@ function generateAPIClient(
   log.info(`Finished generating ${apiClientClassName} client:
     - File name: ${apiClientFileName}.ts
     - Class name: ${apiClientClassName}
-    - Model: ${apiModel.modelName}
+    - Model: ${apiModel.dirname}
   `)
 }
 

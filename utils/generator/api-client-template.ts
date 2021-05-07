@@ -1,4 +1,4 @@
-export const apiClientTemplate = `import { <%= apiModelClassName %>, Configuration } from '../api-models/<%= modelName %>'
+export const apiClientTemplate = `import { <%= apiModelClassName %>, Configuration } from '../api-models/<%= dirname %>'
 import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'

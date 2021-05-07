@@ -1,10 +1,8 @@
 import SwaggerParser from '@apidevtools/swagger-parser'
-import { exec, ExecException } from 'child_process'
 import log from 'fancy-log'
 import { camelCase, has, isEmpty, upperFirst } from 'lodash'
-import path from 'path'
 
-import { APIModel, GithubObject } from '../github/github-api'
+import { APIModel } from './api-model'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
 
@@ -17,35 +15,6 @@ const REDUNDANTS: string[] = [
 ]
 const EXCLUDE_EXPORTED_OBJECTS = new Set(['ErrorList', 'Error'])
 
-export function generateAPIModel(model: GithubObject): APIModel {
-  const modelName = path.basename(path.dirname(model.path))
-  const outputPath = `src/api-models/${modelName}`
-  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${outputPath} -i ${model.download_url}`
-
-  return {
-    ...model,
-    command,
-    outputPath,
-    modelName,
-  }
-}
-
-export async function executeGeneratorCLI(model: APIModel): Promise<APIModel> {
-  log.info(`Starting generating ${model.modelName}`)
-
-  return new Promise((resolve, reject) => {
-    exec(model.command, (error: ExecException | null) => {
-      if (error) {
-        log.error(error)
-        reject(error)
-      } else {
-        log.info(`Finished generating ${model.modelName}`)
-        resolve(model)
-      }
-    })
-  })
-}
-
 export async function removeRedundantObjects(model: APIModel): Promise<APIModel> {
   /**
    * Clean up:
@@ -54,7 +23,7 @@ export async function removeRedundantObjects(model: APIModel): Promise<APIModel>
    *- .openapi-generator-ignore
    *- git_push.sh
    */
-  log.info(`Starting cleaning up ${model.modelName}`)
+  log.info(`Starting cleaning up ${model.dirname}`)
 
   for (const object of REDUNDANTS) {
     fs.rmSync(`${model.outputPath}/${object}`, {
@@ -64,7 +33,7 @@ export async function removeRedundantObjects(model: APIModel): Promise<APIModel>
     })
   }
 
-  log.info(`Finished cleaning up ${model.modelName}`)
+  log.info(`Finished cleaning up ${model.dirname}`)
   return model
 }
 
@@ -109,16 +78,16 @@ function verifyObjectDefinition(definitions: Record<string, any>, key: string): 
 }
 
 export async function generateExportStatement(model: APIModel): Promise<string> {
-  return SwaggerParser.parse(model.download_url).then(({ definitions }) => {
+  return SwaggerParser.parse(model.modelPath).then(({ definitions }) => {
     const exportings: string[] = []
 
     for (const key in definitions) {
       if (has(definitions, key) && verifyObjectDefinition(definitions, key)) {
-        exportings.push(`${key} as ${upperFirst(camelCase(model.modelName))}${key}`)
+        exportings.push(`${key} as ${upperFirst(camelCase(model.dirname))}${key}`)
       }
     }
 
-    return `export { ${exportings.join(', ')} } from './${model.modelName}'`
+    return `export { ${exportings.join(', ')} } from './${model.dirname}'`
   })
 }
 
