@@ -3,6 +3,13 @@
           All notable changes to this project will be documented in this file.
           See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.1.0...v3.2.0) (2021-05-13)
+
+
+### Features
+
+* feat: update usage plan rates and rate tables in orders, product fees, product pricing ([1f9d563](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/1f9d5638837a73e3cdc1c705a5add2ea9c1ea49c))
+
 # [3.1.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.0.0...v3.1.0) (2021-05-05)
 
 
