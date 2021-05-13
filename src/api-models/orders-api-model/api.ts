@@ -541,6 +541,12 @@ export interface Order {
      * @memberof Order
      */
     FulfillmentInstruction?: FulfillmentInstruction;
+    /**
+     * When true, this order is marked to be picked up from a store rather than delivered.
+     * @type {boolean}
+     * @memberof Order
+     */
+    IsISPU?: boolean;
 }
 
 /**
@@ -835,6 +841,12 @@ export interface OrderItem {
      */
     IossNumber?: string;
     /**
+     * The store chain store identifier. Linked to a specific store in a store chain.
+     * @type {string}
+     * @memberof OrderItem
+     */
+    StoreChainStoreId?: string;
+    /**
      * The category of deemed reseller. This applies to selling partners that are not based in the EU and is used to help them meet the VAT Deemed Reseller tax laws in the EU and UK.
      * @type {string}
      * @memberof OrderItem
@@ -1088,7 +1100,7 @@ export enum TaxCollectionResponsiblePartyEnum {
 export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1121,7 +1133,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1154,7 +1166,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns buyer information for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns buyer information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1187,7 +1199,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -1225,7 +1237,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -1263,7 +1275,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
          * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
@@ -1278,10 +1290,13 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
+         * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
+         * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceIds' is not null or undefined
             assertParamExists('getOrders', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/orders/v0/orders`;
@@ -1352,6 +1367,18 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['AmazonOrderIds'] = amazonOrderIds.join(COLLECTION_FORMATS.csv);
             }
 
+            if (actualFulfillmentSupplySourceId !== undefined) {
+                localVarQueryParameter['ActualFulfillmentSupplySourceId'] = actualFulfillmentSupplySourceId;
+            }
+
+            if (isISPU !== undefined) {
+                localVarQueryParameter['IsISPU'] = isISPU;
+            }
+
+            if (storeChainStoreId !== undefined) {
+                localVarQueryParameter['StoreChainStoreId'] = storeChainStoreId;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -1374,7 +1401,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = OrdersV0ApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1384,7 +1411,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1394,7 +1421,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns buyer information for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns buyer information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1404,7 +1431,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -1415,7 +1442,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -1426,7 +1453,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
          * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
@@ -1441,11 +1468,14 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
+         * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
+         * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, options);
+        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1459,7 +1489,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = OrdersV0ApiFp(configuration)
     return {
         /**
-         * Returns the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1468,7 +1498,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrder(orderId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1477,7 +1507,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderAddress(orderId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns buyer information for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns buyer information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1486,7 +1516,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderBuyerInfo(orderId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -1496,7 +1526,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderItems(orderId, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -1506,7 +1536,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderItemsBuyerInfo(orderId, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
          * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
@@ -1521,11 +1551,14 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
+         * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
+         * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, options?: any): AxiosPromise<GetOrdersResponse> {
-            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, options).then((request) => request(axios, basePath));
+        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): AxiosPromise<GetOrdersResponse> {
+            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1717,6 +1750,27 @@ export interface OrdersV0ApiGetOrdersRequest {
      * @memberof OrdersV0ApiGetOrders
      */
     readonly amazonOrderIds?: Array<string>
+
+    /**
+     * Denotes the recommended sourceId where the order should be fulfilled from.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly actualFulfillmentSupplySourceId?: string
+
+    /**
+     * When true, this order is marked to be picked up from a store rather than delivered.
+     * @type {boolean}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly isISPU?: boolean
+
+    /**
+     * The store chain store identifier. Linked to a specific store in a store chain.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly storeChainStoreId?: string
 }
 
 /**
@@ -1727,7 +1781,7 @@ export interface OrdersV0ApiGetOrdersRequest {
  */
 export class OrdersV0Api extends BaseAPI {
     /**
-     * Returns the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {OrdersV0ApiGetOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1738,7 +1792,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns the shipping address for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {OrdersV0ApiGetOrderAddressRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1749,7 +1803,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns buyer information for the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns buyer information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {OrdersV0ApiGetOrderBuyerInfoRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1760,7 +1814,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it\'s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {OrdersV0ApiGetOrderItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1771,7 +1825,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {OrdersV0ApiGetOrderItemsBuyerInfoRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1782,14 +1836,14 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {OrdersV0ApiGetOrdersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrdersV0Api
      */
     public getOrders(requestParameters: OrdersV0ApiGetOrdersRequest, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, options).then((request) => request(this.axios, this.basePath));
+        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, requestParameters.actualFulfillmentSupplySourceId, requestParameters.isISPU, requestParameters.storeChainStoreId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -2806,7 +2806,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Adds, updates, or removes items from the inbound shipment identified by the specified shipment identifier.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
          * @param {InboundShipmentRequest} body 
          * @param {*} [options] Override http request option.
@@ -3065,7 +3065,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Adds, updates, or removes items from the inbound shipment identified by the specified shipment identifier.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
          * @param {InboundShipmentRequest} body 
          * @param {*} [options] Override http request option.
@@ -3258,7 +3258,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.putTransportDetails(shipmentId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Adds, updates, or removes items from the inbound shipment identified by the specified shipment identifier.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
          * @param {InboundShipmentRequest} body 
          * @param {*} [options] Override http request option.
@@ -3886,7 +3886,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Adds, updates, or removes items from the inbound shipment identified by the specified shipment identifier.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {FbaInboundApiUpdateInboundShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
