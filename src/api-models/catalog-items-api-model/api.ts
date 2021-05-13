@@ -987,7 +987,7 @@ export interface QualifiersType {
      */
     ShippingTime: ShippingTimeType;
     /**
-     * (98-100%, 95-97%, 90-94%, 80-89%, 70-79%, Less than 70%, or Just launched ) � Indicates the percentage of feedback ratings that were positive over the past 12 months.
+     * (98-100%, 95-97%, 90-94%, 80-89%, 70-79%, Less than 70%, or Just launched ) – Indicates the percentage of feedback ratings that were positive over the past 12 months.
      * @type {string}
      * @memberof QualifiersType
      */
@@ -1189,7 +1189,7 @@ export interface SellerSKUIdentifier {
  */
 export interface ShippingTimeType {
     /**
-     * (0-2 days, 3-7 days, 8-13 days, or 14 or more days) � Indicates the maximum time within which the item will likely be shipped once an order has been placed.
+     * (0-2 days, 3-7 days, 8-13 days, or 14 or more days) – Indicates the maximum time within which the item will likely be shipped once an order has been placed.
      * @type {string}
      * @memberof ShippingTimeType
      */
