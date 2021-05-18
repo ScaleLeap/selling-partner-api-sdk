@@ -46,7 +46,14 @@ export class SellingPartnerForbiddenError extends SellingPartnerGenericError {}
 export class SellingPartnerNotFoundError extends SellingPartnerGenericError {}
 export class SellingPartnerRequestTooLongError extends SellingPartnerGenericError {}
 export class SellingPartnerUnsupportedMediaTypeError extends SellingPartnerGenericError {}
-export class SellingPartnerTooManyRequestsError extends SellingPartnerGenericError {}
+export class SellingPartnerTooManyRequestsError extends SellingPartnerGenericError {
+  public rateLimit?: string
+
+  public constructor(error: ModelError, headers: Headers) {
+    super(error, headers)
+    this.rateLimit = headers['x-amzn-RateLimit-Limit'] || headers['x-amzn-ratelimit-limit']
+  }
+}
 export class SellingPartnerInternalServerError extends SellingPartnerGenericError {}
 export class SellingPartnerServiceUnavailableError extends SellingPartnerGenericError {}
 
