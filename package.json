@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-sts": "3.16.0",
-    "@openapitools/openapi-generator-cli": "2.2.6",
+    "@openapitools/openapi-generator-cli": "2.2.8",
     "@scaleleap/amazon-marketplaces": "11.0.1",
     "@scaleleap/jest-polly": "1.5.30",
     "@scaleleap/utils": "1.9.27",
