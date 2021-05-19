@@ -3,6 +3,13 @@
           All notable changes to this project will be documented in this file.
           See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.3.0...v3.4.0) (2021-05-19)
+
+
+### Features
+
+* attempt to get rate limit value ([234d12c](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/234d12cc1c5959e1ead6603eeabe722ff4016882))
+
 # [3.3.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.2.0...v3.3.0) (2021-05-19)
 
 
