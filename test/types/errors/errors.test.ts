@@ -4,6 +4,7 @@ import {
 } from '@scaleleap/amazon-marketplaces'
 import { jestPollyContext } from '@scaleleap/jest-polly'
 import { StatusCodes } from 'http-status-codes'
+import { toNumber } from 'lodash'
 
 import {
   APIConfigurationParameters,
@@ -112,7 +113,7 @@ describe(`client`, () => {
     )
     await expect(client.getMarketplaceParticipations()).rejects.toHaveProperty(
       'rateLimit',
-      defaultRateLimit,
+      toNumber(defaultRateLimit),
     )
   })
 })
