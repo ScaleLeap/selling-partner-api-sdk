@@ -131,6 +131,12 @@ export interface GetOrderResponse {
      * @memberof GetOrderResponse
      */
     payload?: Order;
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof GetOrderResponse
+     */
+    errors?: Array<Error>;
 }
 /**
  * The response schema for the getOrders operation.
