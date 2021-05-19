@@ -3,6 +3,13 @@
           All notable changes to this project will be documented in this file.
           See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.2.0...v3.3.0) (2021-05-19)
+
+
+### Features
+
+* return a list of error responses in vendor direct fulfillment orders api ([493598b](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/493598bb23e7bc0ca1605cb3737b336dd52097a0))
+
 # [3.2.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.1.0...v3.2.0) (2021-05-13)
 
 
