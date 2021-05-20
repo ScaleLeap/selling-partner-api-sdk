@@ -44,7 +44,7 @@ export async function generateExportStatement(model: APIModel): Promise<string> 
     libFolderPath: TS_LIB_FOLDER_PATH,
   }).getSourceFileOrThrow(`${model.outputPath}/${API_MODEL_FILE_NAME}`)
 
-  const exportings = [...sourceFile.getEnums(), ...sourceFile.getInterfaces()]
+  const exports = [...sourceFile.getEnums(), ...sourceFile.getInterfaces()]
     .map(
       (declaration) =>
         `${declaration.getName()} as ${upperFirst(
@@ -53,7 +53,7 @@ export async function generateExportStatement(model: APIModel): Promise<string> 
     )
     .join(', ')
 
-  return `export { ${exportings} } from './${model.dirname}'`
+  return `export { ${exports} } from './${model.dirname}'`
 }
 
 export function writeStatementsToFile(statements: string[]): void {
