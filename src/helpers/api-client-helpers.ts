@@ -34,9 +34,8 @@ export class ApiClientHelpers {
     if (axios) {
       axiosInstance = axios
     } else {
-      const { accessToken, credentials, region, roleArn } = ApiClientHelpers.validateRegion(
-        parameters,
-      )
+      const { accessToken, credentials, region, roleArn } =
+        ApiClientHelpers.validateRegion(parameters)
 
       axiosInstance = globalAxios.create({
         headers: {
