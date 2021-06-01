@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 import { ExtendableError } from 'ts-error'
 
 import {
-  ModelError,
+  ModelErrorContainer,
   SellingPartnerBadRequestError,
   SellingPartnerForbiddenError,
   SellingPartnerGenericError,
@@ -15,29 +15,36 @@ import {
   SellingPartnerUnsupportedMediaTypeError,
 } from '../types'
 
-export function apiErrorFactory<T extends ModelError>(error: AxiosError<T>): ExtendableError {
+export function apiErrorFactory<T extends ModelErrorContainer>(
+  error: AxiosError<T>,
+): ExtendableError {
   const { response } = error
   if (response) {
     const { headers, data } = response
+    const modelError = data.errors[0] || {
+      code: 'Unknown',
+      message: '',
+    }
+
     switch (response.status) {
       case StatusCodes.BAD_REQUEST:
-        return new SellingPartnerBadRequestError(data, headers)
+        return new SellingPartnerBadRequestError(modelError, headers)
       case StatusCodes.FORBIDDEN:
-        return new SellingPartnerForbiddenError(data, headers)
+        return new SellingPartnerForbiddenError(modelError, headers)
       case StatusCodes.NOT_FOUND:
-        return new SellingPartnerNotFoundError(data, headers)
+        return new SellingPartnerNotFoundError(modelError, headers)
       case StatusCodes.REQUEST_TOO_LONG:
-        return new SellingPartnerRequestTooLongError(data, headers)
+        return new SellingPartnerRequestTooLongError(modelError, headers)
       case StatusCodes.UNSUPPORTED_MEDIA_TYPE:
-        return new SellingPartnerUnsupportedMediaTypeError(data, headers)
+        return new SellingPartnerUnsupportedMediaTypeError(modelError, headers)
       case StatusCodes.TOO_MANY_REQUESTS:
-        return new SellingPartnerTooManyRequestsError(data, headers)
+        return new SellingPartnerTooManyRequestsError(modelError, headers)
       case StatusCodes.INTERNAL_SERVER_ERROR:
-        return new SellingPartnerInternalServerError(data, headers)
+        return new SellingPartnerInternalServerError(modelError, headers)
       case StatusCodes.SERVICE_UNAVAILABLE:
-        return new SellingPartnerServiceUnavailableError(data, headers)
+        return new SellingPartnerServiceUnavailableError(modelError, headers)
       default:
-        return new SellingPartnerGenericError(data, headers)
+        return new SellingPartnerGenericError(modelError, headers)
     }
   } else {
     return error
