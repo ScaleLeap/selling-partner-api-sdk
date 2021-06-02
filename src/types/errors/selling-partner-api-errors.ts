@@ -63,5 +63,6 @@ export class SellingPartnerTooManyRequestsError extends SellingPartnerGenericErr
 }
 export class SellingPartnerInternalServerError extends SellingPartnerGenericError {}
 export class SellingPartnerServiceUnavailableError extends SellingPartnerGenericError {}
+export class SellingPartnerUnknownError extends SellingPartnerGenericError {}
 
 /* eslint-enable max-classes-per-file */

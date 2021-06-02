@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 import { ExtendableError } from 'ts-error'
 
 import {
+  ModelError,
   ModelErrorContainer,
   SellingPartnerBadRequestError,
   SellingPartnerForbiddenError,
@@ -12,6 +13,7 @@ import {
   SellingPartnerRequestTooLongError,
   SellingPartnerServiceUnavailableError,
   SellingPartnerTooManyRequestsError,
+  SellingPartnerUnknownError,
   SellingPartnerUnsupportedMediaTypeError,
 } from '../types'
 
@@ -21,9 +23,15 @@ export function apiErrorFactory<T extends ModelErrorContainer>(
   const { response } = error
   if (response) {
     const { headers, data } = response
-    const modelError = data.errors[0] || {
-      code: 'Unknown',
-      message: '',
+    const modelError: ModelError | undefined = data.errors[0]
+    if (modelError === undefined) {
+      return new SellingPartnerUnknownError(
+        {
+          code: 'UnknownError',
+          message: 'Selling Partner API unknown error',
+        },
+        headers,
+      )
     }
 
     switch (response.status) {
