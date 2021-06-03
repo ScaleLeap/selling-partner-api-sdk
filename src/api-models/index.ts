@@ -424,6 +424,22 @@ export {
   FbaOutboundApiUpdateFulfillmentOrderRequest as FulfillmentOutboundApiModelFbaOutboundApiUpdateFulfillmentOrderRequest,
 } from './fulfillment-outbound-api-model'
 export {
+  IssueSeverityEnum as ListingsItemsApiModelIssueSeverityEnum,
+  ListingsItemPutRequestRequirementsEnum as ListingsItemsApiModelListingsItemPutRequestRequirementsEnum,
+  ListingsItemSubmissionResponseStatusEnum as ListingsItemsApiModelListingsItemSubmissionResponseStatusEnum,
+  PatchOperationOpEnum as ListingsItemsApiModelPatchOperationOpEnum,
+  ErrorList as ListingsItemsApiModelErrorList,
+  Issue as ListingsItemsApiModelIssue,
+  ListingsItemPatchRequest as ListingsItemsApiModelListingsItemPatchRequest,
+  ListingsItemPutRequest as ListingsItemsApiModelListingsItemPutRequest,
+  ListingsItemSubmissionResponse as ListingsItemsApiModelListingsItemSubmissionResponse,
+  ModelError as ListingsItemsApiModelModelError,
+  PatchOperation as ListingsItemsApiModelPatchOperation,
+  ListingsApiDeleteListingsItemRequest as ListingsItemsApiModelListingsApiDeleteListingsItemRequest,
+  ListingsApiPatchListingsItemRequest as ListingsItemsApiModelListingsApiPatchListingsItemRequest,
+  ListingsApiPutListingsItemRequest as ListingsItemsApiModelListingsApiPutListingsItemRequest,
+} from './listings-items-api-model'
+export {
   CarrierWillPickUpOption as MerchantFulfillmentApiModelCarrierWillPickUpOption,
   DeliveryExperienceOption as MerchantFulfillmentApiModelDeliveryExperienceOption,
   DeliveryExperienceType as MerchantFulfillmentApiModelDeliveryExperienceType,
@@ -658,6 +674,22 @@ export {
   ProductPricingApiGetPricingRequest as ProductPricingApiModelProductPricingApiGetPricingRequest,
 } from './product-pricing-api-model'
 export {
+  ProductTypeDefinitionRequirementsEnum as ProductTypeDefinitionsApiModelProductTypeDefinitionRequirementsEnum,
+  ProductTypeDefinitionRequirementsEnforcedEnum as ProductTypeDefinitionsApiModelProductTypeDefinitionRequirementsEnforcedEnum,
+  SchemaLinkLinkVerbEnum as ProductTypeDefinitionsApiModelSchemaLinkLinkVerbEnum,
+  ErrorList as ProductTypeDefinitionsApiModelErrorList,
+  ModelError as ProductTypeDefinitionsApiModelModelError,
+  ProductType as ProductTypeDefinitionsApiModelProductType,
+  ProductTypeDefinition as ProductTypeDefinitionsApiModelProductTypeDefinition,
+  ProductTypeList as ProductTypeDefinitionsApiModelProductTypeList,
+  ProductTypeVersion as ProductTypeDefinitionsApiModelProductTypeVersion,
+  PropertyGroup as ProductTypeDefinitionsApiModelPropertyGroup,
+  SchemaLink as ProductTypeDefinitionsApiModelSchemaLink,
+  SchemaLinkLink as ProductTypeDefinitionsApiModelSchemaLinkLink,
+  DefinitionsApiGetDefinitionsProductTypeRequest as ProductTypeDefinitionsApiModelDefinitionsApiGetDefinitionsProductTypeRequest,
+  DefinitionsApiSearchDefinitionsProductTypesRequest as ProductTypeDefinitionsApiModelDefinitionsApiSearchDefinitionsProductTypesRequest,
+} from './product-type-definitions-api-model'
+export {
   CreateReportScheduleSpecificationPeriodEnum as ReportsApiModelCreateReportScheduleSpecificationPeriodEnum,
   ReportProcessingStatusEnum as ReportsApiModelReportProcessingStatusEnum,
   ReportDocumentCompressionAlgorithmEnum as ReportsApiModelReportDocumentCompressionAlgorithmEnum,
@@ -743,6 +775,26 @@ export {
   ServiceApiGetServiceJobsRequest as ServicesApiModelServiceApiGetServiceJobsRequest,
   ServiceApiRescheduleAppointmentForServiceJobByServiceJobIdRequest as ServicesApiModelServiceApiRescheduleAppointmentForServiceJobByServiceJobIdRequest,
 } from './services-api-model'
+export {
+  AddressTypeEnum as ShipmentInvoicingApiModelAddressTypeEnum,
+  ShipmentInvoiceStatus as ShipmentInvoicingApiModelShipmentInvoiceStatus,
+  Address as ShipmentInvoicingApiModelAddress,
+  BuyerTaxInfo as ShipmentInvoicingApiModelBuyerTaxInfo,
+  GetInvoiceStatusResponse as ShipmentInvoicingApiModelGetInvoiceStatusResponse,
+  GetShipmentDetailsResponse as ShipmentInvoicingApiModelGetShipmentDetailsResponse,
+  ModelError as ShipmentInvoicingApiModelModelError,
+  Money as ShipmentInvoicingApiModelMoney,
+  ShipmentDetail as ShipmentInvoicingApiModelShipmentDetail,
+  ShipmentInvoiceStatusInfo as ShipmentInvoicingApiModelShipmentInvoiceStatusInfo,
+  ShipmentInvoiceStatusResponse as ShipmentInvoicingApiModelShipmentInvoiceStatusResponse,
+  ShipmentItem as ShipmentInvoicingApiModelShipmentItem,
+  SubmitInvoiceRequest as ShipmentInvoicingApiModelSubmitInvoiceRequest,
+  SubmitInvoiceResponse as ShipmentInvoicingApiModelSubmitInvoiceResponse,
+  TaxClassification as ShipmentInvoicingApiModelTaxClassification,
+  ShipmentInvoiceApiGetInvoiceStatusRequest as ShipmentInvoicingApiModelShipmentInvoiceApiGetInvoiceStatusRequest,
+  ShipmentInvoiceApiGetShipmentDetailsRequest as ShipmentInvoicingApiModelShipmentInvoiceApiGetShipmentDetailsRequest,
+  ShipmentInvoiceApiSubmitInvoiceRequest as ShipmentInvoicingApiModelShipmentInvoiceApiSubmitInvoiceRequest,
+} from './shipment-invoicing-api-model'
 export {
   ContainerContainerTypeEnum as ShippingApiModelContainerContainerTypeEnum,
   DimensionsUnitEnum as ShippingApiModelDimensionsUnitEnum,
