@@ -1,6 +1,10 @@
 /* eslint-disable max-classes-per-file */
 import { ExtendableError } from 'ts-error'
 
+export interface ModelErrorContainer {
+  errors: ModelError[]
+}
+
 export interface ModelError {
   /**
    * An error code that identifies the type of error that occurred.
@@ -59,5 +63,6 @@ export class SellingPartnerTooManyRequestsError extends SellingPartnerGenericErr
 }
 export class SellingPartnerInternalServerError extends SellingPartnerGenericError {}
 export class SellingPartnerServiceUnavailableError extends SellingPartnerGenericError {}
+export class SellingPartnerUnknownError extends SellingPartnerGenericError {}
 
 /* eslint-enable max-classes-per-file */

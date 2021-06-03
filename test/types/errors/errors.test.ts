@@ -32,6 +32,14 @@ describe(`client`, () => {
       .any(`${CA.sellingPartner.region.endpoint}/sellers/v1/marketplaceParticipations`)
       .intercept((request, response) => {
         response.setHeader('x-amzn-requestid', requestId).sendStatus(StatusCodes.FORBIDDEN)
+        response.send({
+          errors: [
+            {
+              code: 'Forbidden',
+              message: 'Forbidden',
+            },
+          ],
+        })
       })
 
     const client = new SellersApiClient(configuration)
@@ -100,6 +108,14 @@ describe(`client`, () => {
         response
           .setHeader('x-amzn-RateLimit-Limit', defaultRateLimit)
           .sendStatus(StatusCodes.TOO_MANY_REQUESTS)
+        response.send({
+          errors: [
+            {
+              code: 'TooManyRequests',
+              message: 'Too many requests',
+            },
+          ],
+        })
       })
 
     const configuration: APIConfigurationParameters = {
