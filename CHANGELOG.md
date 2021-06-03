@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.5.0...v3.5.1) (2021-06-03)
+
+
+### Bug Fixes
+
+* error code and message are no longer undefined ([#134](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/134)) ([55b64b5](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/55b64b53711eaf6f77bfac2da7479d157f32eb02))
+
 # [3.5.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.4.3...v3.5.0) (2021-06-03)
 
 
