@@ -1,5 +1,17 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [3.5.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.4.3...v3.5.0) (2021-06-03)
+
+
+### Features
+
+* add shipment invoicing, product type definitions and listings items api model ([623872e](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/623872e97186f6b0e1ba7f17b9b079b3377f5cb4))
+
+# Changelog
+
           All notable changes to this project will be documented in this file.
           See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
