@@ -21,9 +21,12 @@ export function apiErrorFactory<T extends ModelErrorContainer>(
   error: AxiosError<T>,
 ): ExtendableError {
   const { response } = error
+
   if (response) {
     const { headers, data } = response
-    const modelError: ModelError | undefined = data.errors[0]
+
+    const modelError: ModelError | undefined = data?.errors?.shift()
+
     if (modelError === undefined) {
       return new SellingPartnerUnknownError(
         {
