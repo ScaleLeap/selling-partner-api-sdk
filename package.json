@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/ScaleLeap/selling-partner-api-sdk/issues"
   },
-  "version": "3.5.1",
+  "version": "3.5.2",
   "main": "lib/index.js",
   "files": [
     "/lib"
