@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes'
 import { ExtendableError } from 'ts-error'
 
 import {
-  ModelError,
   ModelErrorContainer,
   SellingPartnerBadRequestError,
   SellingPartnerForbiddenError,
@@ -25,7 +24,7 @@ export function apiErrorFactory<T extends ModelErrorContainer>(
   if (response) {
     const { headers, data } = response
 
-    const modelError: ModelError | undefined = data?.errors?.shift()
+    const modelError = data?.errors?.shift()
 
     if (modelError === undefined) {
       return new SellingPartnerUnknownError(
