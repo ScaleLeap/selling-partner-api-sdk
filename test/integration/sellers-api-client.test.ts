@@ -30,7 +30,7 @@ async function getTokens() {
   return tokens
 }
 
-jest.setTimeout(2 * 60 * 100)
+jest.setTimeout(24 * 1000)
 
 describe(`${SellersApiClient.name}`, () => {
   describe.each(regions)('for region %s', (region, basePath) => {
