@@ -1,5 +1,6 @@
 import { execSync } from 'child_process'
 import log from 'fancy-log'
+import fs from 'fs'
 import { camelCase, upperFirst } from 'lodash'
 import path from 'path'
 import { Project } from 'ts-morph'
@@ -7,8 +8,6 @@ import { Project } from 'ts-morph'
 import { APIModel } from './api-model'
 import { API_MODEL_FILE_NAME, TS_CONFIG_FILE_PATH, TS_LIB_FOLDER_PATH } from './constants'
 import { Parser } from './parser'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const fs = require('fs')
 
 const REDUNDANTS: string[] = [
   '.gitignore',
