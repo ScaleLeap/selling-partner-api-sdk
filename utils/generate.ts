@@ -1,55 +1,55 @@
-import { execSync } from 'child_process'
-import log from 'fancy-log'
 import fs from 'fs'
 import path from 'path'
 
 import { generateAPIClients } from './generator/api-client-generator'
 import { APIModel } from './generator/api-model'
 import {
+  executeCommand,
   generateExportStatement,
-  removeRedundantObjects,
+  generateModelForPreviewVersions,
+  generateModelForStableVersion,
   writeStatementsToFile,
 } from './generator/api-model-generator'
 import { mapEnums2UnionType } from './generator/enum-mapping'
 
-// TODO: Figure out a solution to show commits history in PR description
-async function generateModels(rootPaths: string[]) {
-  for (const rootPath of rootPaths) {
-    const models: APIModel[] = fs.readdirSync(rootPath).map((dirname) => {
-      /**
-       * API model directory contains both preview and stable version.
-       * Therefore, keep only available API version.
-       *
-       * Docs: https://github.com/amzn/selling-partner-api-docs/issues/646#issuecomment-825232385
-       */
-      const [modelBaseName] = fs.readdirSync(path.resolve(rootPath, dirname))
-      const modelPath = path.resolve(rootPath, dirname, modelBaseName)
-      const outputPath = `src/api-models/${dirname}`
-      const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${outputPath} -i ${modelPath}`
-      const model = {
-        modelPath,
-        dirname,
-        outputPath,
-      }
+async function generateAllModelsInDirectory(
+  rootPath: string,
+  dirname: string,
+): Promise<APIModel[]> {
+  /**
+   * API model directory contains both preview and stable version.
+   *
+   * Docs: https://github.com/amzn/selling-partner-api-docs/issues/646#issuecomment-825232385
+   */
+  const [defaultVersion, ...previewVersions] = fs.readdirSync(path.resolve(rootPath, dirname))
 
-      log.info(`Starting generating ${dirname}`)
-      // TODO: throw an error when command occurs error
-      execSync(command)
-      log.info(`Finished generating ${dirname}`)
+  const previewVersionAPIModels = await generateModelForPreviewVersions(
+    rootPath,
+    dirname,
+    previewVersions,
+  )
 
-      removeRedundantObjects(model)
-
-      return model
-    })
-
-    // eslint-disable-next-line no-await-in-loop
-    const statements: string[] = await Promise.all(models.map(generateExportStatement))
-    writeStatementsToFile(statements)
-
-    // eslint-disable-next-line no-await-in-loop
-    await Promise.all(mapEnums2UnionType())
-    generateAPIClients(models)
-  }
+  return [
+    generateModelForStableVersion(rootPath, dirname, defaultVersion),
+    ...previewVersionAPIModels,
+  ]
 }
 
-generateModels(process.argv.slice(2))
+// TODO: Figure out a solution to show commits history in PR description
+async function generateModels(rootPath: string) {
+  const modelPromieses: Promise<APIModel[]>[] = fs
+    .readdirSync(rootPath)
+    .flatMap(async (dirname) => generateAllModelsInDirectory(rootPath, dirname))
+
+  const models: APIModel[] = (await Promise.all(modelPromieses)).flat()
+
+  models.map(executeCommand)
+
+  const statements: string[] = await Promise.all(models.map(generateExportStatement))
+  writeStatementsToFile(statements)
+
+  await Promise.all(mapEnums2UnionType())
+  generateAPIClients(models)
+}
+
+generateModels(process.argv[2])
