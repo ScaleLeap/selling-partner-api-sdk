@@ -101,9 +101,9 @@ export async function generateModelForPreviewVersions(
 export function generateModelForStableVersion(
   rootPath: string,
   dirname: string,
-  defaultVersion: string,
+  baseName: string,
 ): APIModel {
-  const modelPath = path.resolve(rootPath, dirname, defaultVersion)
+  const modelPath = path.resolve(rootPath, dirname, baseName)
   const outputPath = `src/api-models/${dirname}`
 
   return {

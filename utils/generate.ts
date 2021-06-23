@@ -12,41 +12,44 @@ import {
 } from './generator/api-model-generator'
 import { mapEnums2UnionType } from './generator/enum-mapping'
 
-// TODO: Figure out a solution to show commits history in PR description
-async function generateModels(rootPaths: string[]) {
-  for (const rootPath of rootPaths) {
-    const models: APIModel[] = []
-    const dirnames = fs.readdirSync(rootPath)
+async function generateAllModelsInDirectory(
+  rootPath: string,
+  dirname: string,
+): Promise<APIModel[]> {
+  /**
+   * API model directory contains both preview and stable version.
+   *
+   * Docs: https://github.com/amzn/selling-partner-api-docs/issues/646#issuecomment-825232385
+   */
+  const [defaultVersion, ...previewVersions] = fs.readdirSync(path.resolve(rootPath, dirname))
 
-    for (const dirname of dirnames) {
-      /**
-       * API model directory contains both preview and stable version.
-       *
-       * Docs: https://github.com/amzn/selling-partner-api-docs/issues/646#issuecomment-825232385
-       */
-      const [defaultVersion, ...previewVersions] = fs.readdirSync(path.resolve(rootPath, dirname))
+  const previewVersionAPIModels = await generateModelForPreviewVersions(
+    rootPath,
+    dirname,
+    previewVersions,
+  )
 
-      const stableVersionAPIModel = generateModelForStableVersion(rootPath, dirname, defaultVersion)
-      // eslint-disable-next-line no-await-in-loop
-      const previewVersionAPIModels = await generateModelForPreviewVersions(
-        rootPath,
-        dirname,
-        previewVersions,
-      )
-
-      models.push(stableVersionAPIModel, ...previewVersionAPIModels)
-    }
-
-    models.map(executeCommand)
-
-    // eslint-disable-next-line no-await-in-loop
-    const statements: string[] = await Promise.all(models.map(generateExportStatement))
-    writeStatementsToFile(statements)
-
-    // eslint-disable-next-line no-await-in-loop
-    await Promise.all(mapEnums2UnionType())
-    generateAPIClients(models)
-  }
+  return [
+    generateModelForStableVersion(rootPath, dirname, defaultVersion),
+    ...previewVersionAPIModels,
+  ]
 }
 
-generateModels(process.argv.slice(2))
+// TODO: Figure out a solution to show commits history in PR description
+async function generateModels(rootPath: string) {
+  const modelPromieses: Promise<APIModel[]>[] = fs
+    .readdirSync(rootPath)
+    .flatMap(async (dirname) => generateAllModelsInDirectory(rootPath, dirname))
+
+  const models: APIModel[] = (await Promise.all(modelPromieses)).flat()
+
+  models.map(executeCommand)
+
+  const statements: string[] = await Promise.all(models.map(generateExportStatement))
+  writeStatementsToFile(statements)
+
+  await Promise.all(mapEnums2UnionType())
+  generateAPIClients(models)
+}
+
+generateModels(process.argv[2])
