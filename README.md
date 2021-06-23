@@ -60,6 +60,10 @@ See the full list of exported classes and types:
 See [@scaleleap/amazon-marketplaces](https://github.com/ScaleLeap/amazon-marketplaces)
 docs for a database of constants about Amazon Marketplaces.
 
+### Documentation
+
+- [Automatically generated docs](docs/typedoc/index.html)
+
 ## Contributing
 
 This repository uses [Conventional Commit](https://www.conventionalcommits.org/) style commit messages.

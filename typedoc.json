@@ -1,0 +1,13 @@
+{
+  "entryPoints": [
+    "./src/index.ts"
+  ],
+  "exclude": [
+    "**/*.test.ts"
+  ],
+  "out": "docs/typedoc",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "theme": "default",
+  "hideGenerator": true
+}
