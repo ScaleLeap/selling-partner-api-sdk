@@ -1,0 +1,978 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>FulfillmentInboundApiClient | @scaleleap/selling-partner-api-sdk</title>
+	<meta name="description" content="Documentation for @scaleleap/selling-partner-api-sdk">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@scaleleap/selling-partner-api-sdk</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">@scaleleap/selling-partner-api-sdk</a>
+				</li>
+				<li>
+					<a href="fulfillmentinboundapiclient.html">FulfillmentInboundApiClient</a>
+				</li>
+			</ul>
+			<h1>Class FulfillmentInboundApiClient</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="tsd-signature-type">FbaInboundApi</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">FulfillmentInboundApiClient</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="fulfillmentinboundapiclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#confirmpreorder" class="tsd-kind-icon">confirm<wbr>Preorder</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#confirmtransport" class="tsd-kind-icon">confirm<wbr>Transport</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#createinboundshipment" class="tsd-kind-icon">create<wbr>Inbound<wbr>Shipment</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#createinboundshipmentplan" class="tsd-kind-icon">create<wbr>Inbound<wbr>Shipment<wbr>Plan</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#estimatetransport" class="tsd-kind-icon">estimate<wbr>Transport</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#getbilloflading" class="tsd-kind-icon">get<wbr>Bill<wbr>OfLading</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#getinboundguidance" class="tsd-kind-icon">get<wbr>Inbound<wbr>Guidance</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#getlabels" class="tsd-kind-icon">get<wbr>Labels</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#getpreorderinfo" class="tsd-kind-icon">get<wbr>Preorder<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#getprepinstructions" class="tsd-kind-icon">get<wbr>Prep<wbr>Instructions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#getshipmentitems" class="tsd-kind-icon">get<wbr>Shipment<wbr>Items</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#getshipmentitemsbyshipmentid" class="tsd-kind-icon">get<wbr>Shipment<wbr>Items<wbr>ByShipment<wbr>Id</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#getshipments" class="tsd-kind-icon">get<wbr>Shipments</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#gettransportdetails" class="tsd-kind-icon">get<wbr>Transport<wbr>Details</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#puttransportdetails" class="tsd-kind-icon">put<wbr>Transport<wbr>Details</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#updateinboundshipment" class="tsd-kind-icon">update<wbr>Inbound<wbr>Shipment</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="fulfillmentinboundapiclient.html#voidtransport" class="tsd-kind-icon">void<wbr>Transport</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Fulfillment<wbr>Inbound<wbr>Api<wbr>Client<span class="tsd-signature-symbol">(</span>parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/apiconfigurationparameters.html" class="tsd-signature-type" data-tsd-kind="Interface">APIConfigurationParameters</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="fulfillmentinboundapiclient.html" class="tsd-signature-type" data-tsd-kind="Class">FulfillmentInboundApiClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides FbaInboundApi.constructor</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-clients/fulfillment-inbound-api-client.ts#L6">src/api-clients/fulfillment-inbound-api-client.ts:6</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>parameters: <a href="../interfaces/apiconfigurationparameters.html" class="tsd-signature-type" data-tsd-kind="Interface">APIConfigurationParameters</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="fulfillmentinboundapiclient.html" class="tsd-signature-type" data-tsd-kind="Class">FulfillmentInboundApiClient</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="confirmpreorder" class="tsd-anchor"></a>
+					<h3>confirm<wbr>Preorder</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">confirm<wbr>Preorder<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapiconfirmpreorderrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiConfirmPreorderRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelconfirmpreorderresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelConfirmPreorderResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.confirmPreorder</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3730">src/api-models/fulfillment-inbound-api-model/api.ts:3730</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns information needed to confirm a shipment for pre-order. Call this operation after calling the getPreorderInfo operation to get the NeedByDate value and other pre-order information about the shipment.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapiconfirmpreorderrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiConfirmPreorderRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelconfirmpreorderresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelConfirmPreorderResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="confirmtransport" class="tsd-anchor"></a>
+					<h3>confirm<wbr>Transport</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">confirm<wbr>Transport<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapiconfirmtransportrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiConfirmTransportRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelconfirmtransportresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelConfirmTransportResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.confirmTransport</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3741">src/api-models/fulfillment-inbound-api-model/api.ts:3741</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Confirms that the seller accepts the Amazon-partnered shipping estimate, agrees to allow Amazon to charge their account for the shipping cost, and requests that the Amazon-partnered carrier ship the inbound shipment.  Prior to calling the confirmTransport operation, you should call the getTransportDetails operation to get the Amazon-partnered shipping estimate.  Important: After confirming the transportation request, if the seller decides that they do not want the Amazon-partnered carrier to ship the inbound shipment, you can call the voidTransport operation to cancel the transportation request. Note that for a Small Parcel shipment, the seller has 24 hours after confirming a transportation request to void the transportation request. For a Less Than Truckload/Full Truckload (LTL/FTL) shipment, the seller has one hour after confirming a transportation request to void it. After the grace period has expired the seller&#39;s account will be charged for the shipping cost.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapiconfirmtransportrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiConfirmTransportRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelconfirmtransportresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelConfirmTransportResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="createinboundshipment" class="tsd-anchor"></a>
+					<h3>create<wbr>Inbound<wbr>Shipment</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Inbound<wbr>Shipment<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapicreateinboundshipmentrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiCreateInboundShipmentRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelinboundshipmentresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelInboundShipmentResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.createInboundShipment</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3752">src/api-models/fulfillment-inbound-api-model/api.ts:3752</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapicreateinboundshipmentrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiCreateInboundShipmentRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelinboundshipmentresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelInboundShipmentResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="createinboundshipmentplan" class="tsd-anchor"></a>
+					<h3>create<wbr>Inbound<wbr>Shipment<wbr>Plan</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Inbound<wbr>Shipment<wbr>Plan<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapicreateinboundshipmentplanrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiCreateInboundShipmentPlanRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelcreateinboundshipmentplanresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelCreateInboundShipmentPlanResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.createInboundShipmentPlan</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3763">src/api-models/fulfillment-inbound-api-model/api.ts:3763</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon&#39;s fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapicreateinboundshipmentplanrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiCreateInboundShipmentPlanRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelcreateinboundshipmentplanresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelCreateInboundShipmentPlanResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="estimatetransport" class="tsd-anchor"></a>
+					<h3>estimate<wbr>Transport</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">estimate<wbr>Transport<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapiestimatetransportrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiEstimateTransportRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelestimatetransportresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelEstimateTransportResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.estimateTransport</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3774">src/api-models/fulfillment-inbound-api-model/api.ts:3774</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Initiates the process of estimating the shipping cost for an inbound shipment by an Amazon-partnered carrier.  Prior to calling the estimateTransport operation, you must call the putTransportDetails operation to provide Amazon with the transportation information for the inbound shipment.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapiestimatetransportrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiEstimateTransportRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelestimatetransportresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelEstimateTransportResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getbilloflading" class="tsd-anchor"></a>
+					<h3>get<wbr>Bill<wbr>OfLading</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Bill<wbr>OfLading<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetbillofladingrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetBillOfLadingRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetbillofladingresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetBillOfLadingResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getBillOfLading</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3785">src/api-models/fulfillment-inbound-api-model/api.ts:3785</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a bill of lading for a Less Than Truckload/Full Truckload (LTL/FTL) shipment. The getBillOfLading operation returns PDF document data for printing a bill of lading for an Amazon-partnered Less Than Truckload/Full Truckload (LTL/FTL) inbound shipment.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetbillofladingrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetBillOfLadingRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetbillofladingresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetBillOfLadingResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getinboundguidance" class="tsd-anchor"></a>
+					<h3>get<wbr>Inbound<wbr>Guidance</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Inbound<wbr>Guidance<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetinboundguidancerequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetInboundGuidanceRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetinboundguidanceresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetInboundGuidanceResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getInboundGuidance</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3796">src/api-models/fulfillment-inbound-api-model/api.ts:3796</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon&#39;s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetinboundguidancerequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetInboundGuidanceRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetinboundguidanceresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetInboundGuidanceResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getlabels" class="tsd-anchor"></a>
+					<h3>get<wbr>Labels</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Labels<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetlabelsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetLabelsRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetlabelsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetLabelsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getLabels</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3807">src/api-models/fulfillment-inbound-api-model/api.ts:3807</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns package/pallet labels for faster and more accurate shipment processing at the Amazon fulfillment center.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetlabelsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetLabelsRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetlabelsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetLabelsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getpreorderinfo" class="tsd-anchor"></a>
+					<h3>get<wbr>Preorder<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Preorder<wbr>Info<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetpreorderinforequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetPreorderInfoRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetpreorderinforesponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetPreorderInfoResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getPreorderInfo</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3818">src/api-models/fulfillment-inbound-api-model/api.ts:3818</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns pre-order information, including dates, that a seller needs before confirming a shipment for pre-order.   <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetpreorderinforequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetPreorderInfoRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetpreorderinforesponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetPreorderInfoResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getprepinstructions" class="tsd-anchor"></a>
+					<h3>get<wbr>Prep<wbr>Instructions</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Prep<wbr>Instructions<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetprepinstructionsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetPrepInstructionsRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetprepinstructionsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetPrepInstructionsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getPrepInstructions</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3829">src/api-models/fulfillment-inbound-api-model/api.ts:3829</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns labeling requirements and item preparation instructions to help prepare items for shipment to Amazon&#39;s fulfillment network.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetprepinstructionsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetPrepInstructionsRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetprepinstructionsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetPrepInstructionsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getshipmentitems" class="tsd-anchor"></a>
+					<h3>get<wbr>Shipment<wbr>Items</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Shipment<wbr>Items<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetshipmentitemsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetShipmentItemsRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetshipmentitemsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetShipmentItemsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getShipmentItems</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3840">src/api-models/fulfillment-inbound-api-model/api.ts:3840</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a list of items in a specified inbound shipment, or a list of items that were updated within a specified time frame.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetshipmentitemsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetShipmentItemsRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetshipmentitemsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetShipmentItemsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getshipmentitemsbyshipmentid" class="tsd-anchor"></a>
+					<h3>get<wbr>Shipment<wbr>Items<wbr>ByShipment<wbr>Id</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Shipment<wbr>Items<wbr>ByShipment<wbr>Id<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetshipmentitemsbyshipmentidrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetShipmentItemsByShipmentIdRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetshipmentitemsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetShipmentItemsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getShipmentItemsByShipmentId</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3851">src/api-models/fulfillment-inbound-api-model/api.ts:3851</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a list of items in a specified inbound shipment.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetshipmentitemsbyshipmentidrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetShipmentItemsByShipmentIdRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetshipmentitemsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetShipmentItemsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getshipments" class="tsd-anchor"></a>
+					<h3>get<wbr>Shipments</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Shipments<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetshipmentsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetShipmentsRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetshipmentsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetShipmentsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getShipments</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3862">src/api-models/fulfillment-inbound-api-model/api.ts:3862</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a list of inbound shipments based on criteria that you specify.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigetshipmentsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetShipmentsRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgetshipmentsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetShipmentsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="gettransportdetails" class="tsd-anchor"></a>
+					<h3>get<wbr>Transport<wbr>Details</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Transport<wbr>Details<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapigettransportdetailsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetTransportDetailsRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgettransportdetailsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetTransportDetailsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.getTransportDetails</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3873">src/api-models/fulfillment-inbound-api-model/api.ts:3873</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns current transportation information about an inbound shipment.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapigettransportdetailsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiGetTransportDetailsRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelgettransportdetailsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelGetTransportDetailsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="puttransportdetails" class="tsd-anchor"></a>
+					<h3>put<wbr>Transport<wbr>Details</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">put<wbr>Transport<wbr>Details<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapiputtransportdetailsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiPutTransportDetailsRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelputtransportdetailsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelPutTransportDetailsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.putTransportDetails</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3884">src/api-models/fulfillment-inbound-api-model/api.ts:3884</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends transportation information to Amazon about an inbound shipment.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapiputtransportdetailsrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiPutTransportDetailsRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelputtransportdetailsresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelPutTransportDetailsResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="updateinboundshipment" class="tsd-anchor"></a>
+					<h3>update<wbr>Inbound<wbr>Shipment</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Inbound<wbr>Shipment<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapiupdateinboundshipmentrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiUpdateInboundShipmentRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelinboundshipmentresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelInboundShipmentResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.updateInboundShipment</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3895">src/api-models/fulfillment-inbound-api-model/api.ts:3895</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapiupdateinboundshipmentrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiUpdateInboundShipmentRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelinboundshipmentresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelInboundShipmentResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="voidtransport" class="tsd-anchor"></a>
+					<h3>void<wbr>Transport</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">void<wbr>Transport<span class="tsd-signature-symbol">(</span>requestParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/fulfillmentinboundapimodelfbainboundapivoidtransportrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiVoidTransportRequest</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelvoidtransportresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelVoidTransportResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from FbaInboundApi.voidTransport</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ScaleLeap/selling-partner-api-sdk/blob/dd590d5/src/api-models/fulfillment-inbound-api-model/api.ts#L3906">src/api-models/fulfillment-inbound-api-model/api.ts:3906</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Cancels a previously-confirmed request to ship an inbound shipment using an Amazon-partnered carrier.  To be successful, you must call this operation before the VoidDeadline date that is returned by the getTransportDetails operation.  Important: The VoidDeadline date is 24 hours after you confirm a Small Parcel shipment transportation request or one hour after you confirm a Less Than Truckload/Full Truckload (LTL/FTL) shipment transportation request. After the void deadline passes, your account will be charged for the shipping cost.  <strong>Usage Plan:</strong>  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see &quot;Usage Plans and Rate Limits&quot; in the Selling Partner API documentation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{RequiredError}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>FbaInboundApi</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestParameters: <a href="../interfaces/fulfillmentinboundapimodelfbainboundapivoidtransportrequest.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelFbaInboundApiVoidTransportRequest</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Request parameters.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AxiosResponse</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fulfillmentinboundapimodelvoidtransportresponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FulfillmentInboundApiModelVoidTransportResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="fulfillmentinboundapiclient.html" class="tsd-kind-icon">Fulfillment<wbr>Inbound<wbr>Api<wbr>Client</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+								<a href="fulfillmentinboundapiclient.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#confirmpreorder" class="tsd-kind-icon">confirm<wbr>Preorder</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#confirmtransport" class="tsd-kind-icon">confirm<wbr>Transport</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#createinboundshipment" class="tsd-kind-icon">create<wbr>Inbound<wbr>Shipment</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#createinboundshipmentplan" class="tsd-kind-icon">create<wbr>Inbound<wbr>Shipment<wbr>Plan</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#estimatetransport" class="tsd-kind-icon">estimate<wbr>Transport</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#getbilloflading" class="tsd-kind-icon">get<wbr>Bill<wbr>OfLading</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#getinboundguidance" class="tsd-kind-icon">get<wbr>Inbound<wbr>Guidance</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#getlabels" class="tsd-kind-icon">get<wbr>Labels</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#getpreorderinfo" class="tsd-kind-icon">get<wbr>Preorder<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#getprepinstructions" class="tsd-kind-icon">get<wbr>Prep<wbr>Instructions</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#getshipmentitems" class="tsd-kind-icon">get<wbr>Shipment<wbr>Items</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#getshipmentitemsbyshipmentid" class="tsd-kind-icon">get<wbr>Shipment<wbr>Items<wbr>ByShipment<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#getshipments" class="tsd-kind-icon">get<wbr>Shipments</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#gettransportdetails" class="tsd-kind-icon">get<wbr>Transport<wbr>Details</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#puttransportdetails" class="tsd-kind-icon">put<wbr>Transport<wbr>Details</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#updateinboundshipment" class="tsd-kind-icon">update<wbr>Inbound<wbr>Shipment</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="fulfillmentinboundapiclient.html#voidtransport" class="tsd-kind-icon">void<wbr>Transport</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
