@@ -62,7 +62,7 @@ docs for a database of constants about Amazon Marketplaces.
 
 ### Documentation
 
-- [Automatically generated docs](docs/typedoc/index.html)
+- [Automatically generated docs](https://selling-partner-api-sdk.scaleleap.org)
 
 ## Contributing
 

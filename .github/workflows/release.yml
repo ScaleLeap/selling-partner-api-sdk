@@ -46,3 +46,20 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: npm run semantic-release
+
+      - name: Docs
+        run: npm run docs
+
+      - name: Deploy docs to Netlify
+        uses: nwtgck/actions-netlify@v1.2.2
+        with:
+          publish-dir: ./docs/typedoc
+          production-branch: master
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
