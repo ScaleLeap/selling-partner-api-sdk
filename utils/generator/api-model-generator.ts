@@ -1,9 +1,12 @@
+import { execSync } from 'child_process'
 import log from 'fancy-log'
 import { camelCase, upperFirst } from 'lodash'
+import path from 'path'
 import { Project } from 'ts-morph'
 
 import { APIModel } from './api-model'
 import { API_MODEL_FILE_NAME, TS_CONFIG_FILE_PATH, TS_LIB_FOLDER_PATH } from './constants'
+import { Parser } from './parser'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
 
@@ -61,4 +64,52 @@ export function writeStatementsToFile(statements: string[]): void {
   log.info(`Starting writing statements into ${filePath}`)
   fs.writeFileSync(filePath, statements.join('\n'))
   log.info(`Finish writing statements into ${filePath}`)
+}
+
+export function executeCommand(model: APIModel): APIModel {
+  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${model.outputPath} -i ${model.modelPath}`
+  log.info(`Starting generating ${model.dirname}`)
+  // TODO: throw an error when command occurs error
+  execSync(command)
+  log.info(`Finished generating ${model.dirname}`)
+
+  removeRedundantObjects(model)
+  return model
+}
+
+export async function generateModelForPreviewVersions(
+  rootPath: string,
+  dirname: string,
+  baseNames: string[],
+): Promise<APIModel[]> {
+  return Promise.all(
+    baseNames.map(async (baseName) => {
+      const modelPath = path.resolve(rootPath, dirname, baseName)
+      const parser = new Parser(modelPath)
+      const version = await parser.version
+      const outputDirname = `${dirname}-v${version.replace(/-/g, '')}`
+      const outputPath = `src/api-models/${outputDirname}`
+
+      return {
+        modelPath,
+        dirname: outputDirname,
+        outputPath,
+      }
+    }),
+  )
+}
+
+export function generateModelForStableVersion(
+  rootPath: string,
+  dirname: string,
+  defaultVersion: string,
+): APIModel {
+  const modelPath = path.resolve(rootPath, dirname, defaultVersion)
+  const outputPath = `src/api-models/${dirname}`
+
+  return {
+    modelPath,
+    dirname,
+    outputPath,
+  }
 }
