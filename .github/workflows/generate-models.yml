@@ -67,5 +67,5 @@ jobs:
           title: 'scale-bot: Update API models'
           body: ${{steps.generate.outputs.pr-body}}
           committer: Scale Bot <scale-bot@scaleleap.com>
-          branch: 'chore/update-api-models'
+          branch: chore/update-api-models
           delete-branch: true
