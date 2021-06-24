@@ -68,8 +68,14 @@ export function writeStatementsToFile(statements: string[]): void {
 export function executeCommand(model: APIModel): APIModel {
   const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${model.outputPath} -i ${model.modelPath}`
   log.info(`Starting generating ${model.dirname}`)
-  // TODO: throw an error when command occurs error
-  execSync(command)
+  /**
+   * TODO: Investigate:
+   * openapi-generator-cli requires Java lib.
+   * Java is not installed locally. But system doesn't throw an Error.
+   */
+  execSync(command, {
+    stdio: 'inherit',
+  })
   log.info(`Finished generating ${model.dirname}`)
 
   removeRedundantObjects(model)
