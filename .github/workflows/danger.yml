@@ -21,6 +21,6 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Danger
-        uses: danger/danger-js@10.6.4
+        uses: danger/danger-js@10.6.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
