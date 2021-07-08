@@ -174,6 +174,31 @@ export interface GetShipmentDetailsResponse {
     errors?: Array<Error>;
 }
 /**
+ * Tax information about the marketplace.
+ * @export
+ * @interface MarketplaceTaxInfo
+ */
+export interface MarketplaceTaxInfo {
+    /**
+     * The legal name of the company.
+     * @type {string}
+     * @memberof MarketplaceTaxInfo
+     */
+    CompanyLegalName?: string;
+    /**
+     * The country or region imposing the tax.
+     * @type {string}
+     * @memberof MarketplaceTaxInfo
+     */
+    TaxingRegion?: string;
+    /**
+     * The list of tax classifications.
+     * @type {Array<TaxClassification>}
+     * @memberof MarketplaceTaxInfo
+     */
+    TaxClassifications?: Array<TaxClassification>;
+}
+/**
  * An error response returned when the request is unsuccessful.
  * @export
  * @interface ModelError
@@ -289,6 +314,18 @@ export interface ShipmentDetail {
      * @memberof ShipmentDetail
      */
     BuyerTaxInfo?: BuyerTaxInfo;
+    /**
+     * 
+     * @type {MarketplaceTaxInfo}
+     * @memberof ShipmentDetail
+     */
+    MarketplaceTaxInfo?: MarketplaceTaxInfo;
+    /**
+     * The seller’s friendly name registered in the marketplace.
+     * @type {string}
+     * @memberof ShipmentDetail
+     */
+    SellerDisplayName?: string;
     /**
      * A list of shipment items.
      * @type {Array<ShipmentItem>}

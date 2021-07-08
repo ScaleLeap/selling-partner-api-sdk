@@ -851,6 +851,7 @@ export {
   BuyerTaxInfo as ShipmentInvoicingApiModelBuyerTaxInfo,
   GetInvoiceStatusResponse as ShipmentInvoicingApiModelGetInvoiceStatusResponse,
   GetShipmentDetailsResponse as ShipmentInvoicingApiModelGetShipmentDetailsResponse,
+  MarketplaceTaxInfo as ShipmentInvoicingApiModelMarketplaceTaxInfo,
   ModelError as ShipmentInvoicingApiModelModelError,
   Money as ShipmentInvoicingApiModelMoney,
   ShipmentDetail as ShipmentInvoicingApiModelShipmentDetail,
