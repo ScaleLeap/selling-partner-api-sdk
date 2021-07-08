@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.7.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.6.0...v3.7.0) (2021-07-08)
+
+
+### Features
+
+* add marketplace tax info and seller display name in shipment invoice ([f4d8f13](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/f4d8f13d6a2e24271442ab24b58ee868dc53fed1))
+
 # [3.6.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.5.2...v3.6.0) (2021-06-24)
 
 
