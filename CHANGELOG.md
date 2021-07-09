@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.8.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.7.0...v3.8.0) (2021-07-09)
+
+
+### Features
+
+* return marketplace info and seller display name in order api ([48cb19b](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/48cb19b3c918e2567dfc8680bd68b565f44e3676))
+
 # [3.7.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.6.0...v3.7.0) (2021-07-08)
 
 
