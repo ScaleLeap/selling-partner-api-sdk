@@ -638,6 +638,7 @@ export {
   GetOrderItemsResponse as OrdersApiModelGetOrderItemsResponse,
   GetOrderResponse as OrdersApiModelGetOrderResponse,
   GetOrdersResponse as OrdersApiModelGetOrdersResponse,
+  MarketplaceTaxInfo as OrdersApiModelMarketplaceTaxInfo,
   ModelError as OrdersApiModelModelError,
   Money as OrdersApiModelMoney,
   Order as OrdersApiModelOrder,
