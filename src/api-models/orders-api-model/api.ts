@@ -282,6 +282,19 @@ export interface GetOrdersResponse {
     errors?: Array<Error>;
 }
 /**
+ * Tax information about the marketplace.
+ * @export
+ * @interface MarketplaceTaxInfo
+ */
+export interface MarketplaceTaxInfo {
+    /**
+     * A list of tax classifications that apply to the order.
+     * @type {Array<TaxClassification>}
+     * @memberof MarketplaceTaxInfo
+     */
+    TaxClassifications?: Array<TaxClassification>;
+}
+/**
  * Error response returned when the request is unsuccessful.
  * @export
  * @interface ModelError
@@ -547,6 +560,18 @@ export interface Order {
      * @memberof Order
      */
     IsISPU?: boolean;
+    /**
+     * 
+     * @type {MarketplaceTaxInfo}
+     * @memberof Order
+     */
+    MarketplaceTaxInfo?: MarketplaceTaxInfo;
+    /**
+     * The seller’s friendly name registered in the marketplace.
+     * @type {string}
+     * @memberof Order
+     */
+    SellerDisplayName?: string;
 }
 
 /**
@@ -835,7 +860,7 @@ export interface OrderItem {
      */
     IsTransparency?: boolean;
     /**
-     * The IOSS number of the seller. Sellers selling in the EU will be assigned a unique IOSS number that must be listed on all packages sent to the EU.
+     * The IOSS number for the marketplace. Sellers shipping to the European Union (EU) from outside of the EU must provide this IOSS number to their carrier when Amazon has collected the VAT on the sale.
      * @type {string}
      * @memberof OrderItem
      */
