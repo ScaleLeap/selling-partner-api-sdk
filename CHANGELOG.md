@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.8.0...v4.0.0) (2021-07-27)
+
+
+### Code Refactoring
+
+* update granularity type in fba inventory api model's response ([#183](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/183)) ([ecc0006](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/ecc000613a197674b8243b564ae18250d3ead8f7))
+
+
+### BREAKING CHANGES
+
+* remove `FbaInventoryApiModelGranularityGranularityTypeEnum` enum export
+
 # [3.8.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v3.7.0...v3.8.0) (2021-07-09)
 
 
