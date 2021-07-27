@@ -148,7 +148,6 @@ export {
   FbaInboundApiGetItemEligibilityPreviewRequest as FbaInboundEligibilityApiModelFbaInboundApiGetItemEligibilityPreviewRequest,
 } from './fba-inbound-eligibility-api-model'
 export {
-  GranularityGranularityTypeEnum as FbaInventoryApiModelGranularityGranularityTypeEnum,
   ResearchingQuantityEntryNameEnum as FbaInventoryApiModelResearchingQuantityEntryNameEnum,
   GetInventorySummariesResponse as FbaInventoryApiModelGetInventorySummariesResponse,
   GetInventorySummariesResult as FbaInventoryApiModelGetInventorySummariesResult,

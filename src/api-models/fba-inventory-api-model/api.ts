@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for FBA Inventory
- * The Selling Partner API for FBA Inventory lets you programmatically retrieve information about inventory in Amazon\'s fulfillment network. Today this API is available only in the North America region. In 2021 we plan to release this API in the Europe and Far East regions.
+ * The Selling Partner API for FBA Inventory lets you programmatically retrieve information about inventory in Amazon\'s fulfillment network.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -76,7 +76,7 @@ export interface Granularity {
      * @type {string}
      * @memberof Granularity
      */
-    granularityType?: GranularityGranularityTypeEnum | 'Marketplace';
+    granularityType?: string;
     /**
      * The granularity ID for the specified granularity type. When granularityType is Marketplace, specify the marketplaceId.
      * @type {string}
@@ -84,15 +84,6 @@ export interface Granularity {
      */
     granularityId?: string;
 }
-
-/**
-    * @export
-    * @enum {string}
-    */
-export enum GranularityGranularityTypeEnum {
-    Marketplace = 'Marketplace'
-}
-
 /**
  * Summarized inventory details. This object will not appear if the details parameter in the request is false.
  * @export
@@ -372,7 +363,7 @@ export interface UnfulfillableQuantity {
 export const FbaInventoryApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 90 | 150 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {'Marketplace'} granularityType The granularity type for the inventory aggregation level.
          * @param {string} granularityId The granularity ID for the inventory aggregation level.
          * @param {Array<string>} marketplaceIds The marketplace ID for the marketplace for which to return inventory summaries.
@@ -454,7 +445,7 @@ export const FbaInventoryApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FbaInventoryApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 90 | 150 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {'Marketplace'} granularityType The granularity type for the inventory aggregation level.
          * @param {string} granularityId The granularity ID for the inventory aggregation level.
          * @param {Array<string>} marketplaceIds The marketplace ID for the marketplace for which to return inventory summaries.
@@ -480,7 +471,7 @@ export const FbaInventoryApiFactory = function (configuration?: Configuration, b
     const localVarFp = FbaInventoryApiFp(configuration)
     return {
         /**
-         * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 90 | 150 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {'Marketplace'} granularityType The granularity type for the inventory aggregation level.
          * @param {string} granularityId The granularity ID for the inventory aggregation level.
          * @param {Array<string>} marketplaceIds The marketplace ID for the marketplace for which to return inventory summaries.
@@ -561,7 +552,7 @@ export interface FbaInventoryApiGetInventorySummariesRequest {
  */
 export class FbaInventoryApi extends BaseAPI {
     /**
-     * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 90 | 150 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns a list of inventory summaries. The summaries returned depend on the presence or absence of the startDateTime and sellerSkus parameters:  - All inventory summaries with available details are returned when the startDateTime and sellerSkus parameters are omitted. - When startDateTime is provided, the operation returns inventory summaries that have had changes after the date and time specified. The sellerSkus parameter is ignored. - When the sellerSkus parameter is provided, the operation returns inventory summaries for only the specified sellerSkus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {FbaInventoryApiGetInventorySummariesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
