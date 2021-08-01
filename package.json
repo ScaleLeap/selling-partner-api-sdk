@@ -59,7 +59,7 @@
     "@aws-sdk/client-sts": "3.24.0",
     "@openapitools/openapi-generator-cli": "2.3.9",
     "@scaleleap/amazon-marketplaces": "11.1.0",
-    "@scaleleap/jest-polly": "1.5.37",
+    "@scaleleap/jest-polly": "1.5.40",
     "@scaleleap/utils": "1.9.46",
     "@types/fancy-log": "1.3.1",
     "@types/jest": "26.0.23",
