@@ -22,12 +22,29 @@ function generateAPIClient(
 
   // Find main class inside api.ts file of api models
   const sourceFile = project.getSourceFileOrThrow(`${apiModel.outputPath}/${API_MODEL_FILE_NAME}`)
-  const apiClass = sourceFile.getClassOrThrow((c) => c.getNameOrThrow().includes('Api'))
+  const apiClasses = sourceFile.getClasses().filter((c) => c.getNameOrThrow().includes('Api'))
+
+  let extendable = ''
+  const helpers = ['ApiClientHelpers']
+  const extendedClassNames = apiClasses.map((c) => c.getNameOrThrow()).join(',')
+
+  // apply Mixins for api models that have multiple API classes
+  if (apiClasses.length > 1) {
+    extendable = `
+    export interface ${apiClientClassName} extends ${extendedClassNames} {}
+    applyMixins(${apiClientClassName}, [${extendedClassNames}])
+    `
+
+    helpers.push('applyMixins')
+  }
 
   const compiledFile = executor({
+    importApiModelClassName: extendedClassNames,
+    importHelpers: helpers.join(','),
     dirname: apiModel.dirname,
-    apiModelClassName: apiClass.getNameOrThrow(),
+    apiModelClassName: apiClasses[0].getNameOrThrow(),
     apiClientClassName,
+    extendable,
   })
 
   project.createSourceFile(`src/api-clients/${apiClientFileName}.ts`, compiledFile, {
@@ -62,6 +79,7 @@ export function generateAPIClients(apiModels: APIModel[]): void {
     tsConfigFilePath: TS_CONFIG_FILE_PATH,
     libFolderPath: TS_LIB_FOLDER_PATH,
   })
+
   for (const apiModel of apiModels) {
     const apiClientFileName = generateAPIClientFileName(apiModel)
     generateAPIClient(
