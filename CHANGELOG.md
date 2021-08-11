@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.2](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v4.1.1...v4.1.2) (2021-08-11)
+
+
+### Bug Fixes
+
+* update generator to add missing methods when generate api clients ([#203](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/203)) ([a20d48f](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/a20d48f05573a0eb8d89c661555e925e38d9d696))
+
 ## [4.1.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v4.1.0...v4.1.1) (2021-08-09)
 
 
