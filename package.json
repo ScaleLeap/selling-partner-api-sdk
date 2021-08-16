@@ -55,7 +55,7 @@
     "ts-error": "1.0.6"
   },
   "devDependencies": {
-    "@apidevtools/swagger-parser": "10.0.2",
+    "@apidevtools/swagger-parser": "10.0.3",
     "@aws-sdk/client-sts": "3.26.0",
     "@openapitools/openapi-generator-cli": "2.3.10",
     "@scaleleap/amazon-marketplaces": "11.1.0",
