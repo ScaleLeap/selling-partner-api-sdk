@@ -96,11 +96,11 @@ export interface FeePreview {
      */
     totalFees?: MoneyType;
     /**
-     * 
-     * @type {ErrorList}
+     * One or more unexpected errors occurred during the getSmallAndLightFeePreview operation.
+     * @type {Array<Error>}
      * @memberof FeePreview
      */
-    errors?: ErrorList;
+    errors?: Array<Error>;
 }
 /**
  * An item to be sold.

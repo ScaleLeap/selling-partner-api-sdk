@@ -471,16 +471,6 @@ export interface ErrorList {
     errors: Array<Error>;
 }
 /**
- * The type of data to include in the response, such as the contents or the metadata of the A+ Content documents.
- * @export
- * @enum {string}
- */
-export enum GetContentDocumentIncludedDataType {
-    Contents = 'CONTENTS',
-    Metadata = 'METADATA'
-}
-
-/**
  * 
  * @export
  * @interface GetContentDocumentResponse
@@ -613,15 +603,6 @@ export interface IntegerWithUnits {
      */
     units: string;
 }
-/**
- * The type of data to include in the response, such as metadata about the related ASINs.
- * @export
- * @enum {string}
- */
-export enum ListContentDocumentAsinRelationsIncludedDataType {
-    Metadata = 'METADATA'
-}
-
 /**
  * 
  * @export
