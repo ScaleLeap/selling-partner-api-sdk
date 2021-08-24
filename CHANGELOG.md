@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.3](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v4.1.2...v4.1.3) (2021-08-24)
+
+
+### Bug Fixes
+
+* remove unused objects and update error type when get small and light fee preview ([#213](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/213)) ([7a392f9](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/7a392f9ba1dd455c6c18553a9b96810840aa91c3))
+
 ## [4.1.2](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v4.1.1...v4.1.2) (2021-08-11)
 
 
