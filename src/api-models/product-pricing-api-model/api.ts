@@ -69,7 +69,7 @@ export interface BuyBoxPriceType {
      * @type {QuantityDiscountType}
      * @memberof BuyBoxPriceType
      */
-    quantityDiscountType?: QuantityDiscountType | 'QuantityDiscount';
+    quantityDiscountType?: QuantityDiscountType | 'QUANTITY_DISCOUNT';
     /**
      * 
      * @type {MoneyType}
@@ -148,7 +148,7 @@ export interface CompetitivePriceType {
      * @type {QuantityDiscountType}
      * @memberof CompetitivePriceType
      */
-    quantityDiscountType?: QuantityDiscountType | 'QuantityDiscount';
+    quantityDiscountType?: QuantityDiscountType | 'QUANTITY_DISCOUNT';
     /**
      * The seller identifier for the offer.
      * @type {string}
@@ -220,10 +220,10 @@ export interface DetailedShippingTimeType {
     maximumHours?: number;
     /**
      * The date when the item will be available for shipping. Only displayed for items that are not currently available for shipping.
-     * @type {number}
+     * @type {string}
      * @memberof DetailedShippingTimeType
      */
-    availableDate?: number;
+    availableDate?: string;
     /**
      * Indicates whether the item is available for shipping now, or on a known or an unknown date in the future. If known, the availableDate property indicates the date that the item will be available for shipping. Possible values: NOW, FUTURE_WITHOUT_DATE, FUTURE_WITH_DATE.
      * @type {string}
@@ -430,7 +430,7 @@ export interface LowestPriceType {
      * @type {QuantityDiscountType}
      * @memberof LowestPriceType
      */
-    quantityDiscountType?: QuantityDiscountType | 'QuantityDiscount';
+    quantityDiscountType?: QuantityDiscountType | 'QUANTITY_DISCOUNT';
     /**
      * 
      * @type {MoneyType}
@@ -566,6 +566,18 @@ export interface OfferDetail {
      */
     SubCondition: string;
     /**
+     * The seller identifier for the offer.
+     * @type {string}
+     * @memberof OfferDetail
+     */
+    SellerId?: string;
+    /**
+     * Information about the condition of the item.
+     * @type {string}
+     * @memberof OfferDetail
+     */
+    ConditionNotes?: string;
+    /**
      * 
      * @type {SellerFeedbackType}
      * @memberof OfferDetail
@@ -613,6 +625,12 @@ export interface OfferDetail {
      * @memberof OfferDetail
      */
     IsFulfilledByAmazon: boolean;
+    /**
+     * 
+     * @type {PrimeInformationType}
+     * @memberof OfferDetail
+     */
+    PrimeInformation?: PrimeInformationType;
     /**
      * When true, the offer is currently in the Buy Box. There can be up to two Buy Box winners at any time per ASIN, one that is eligible for Prime and one that is not eligible for Prime.
      * @type {boolean}
@@ -788,6 +806,25 @@ export interface PriceType {
     Points?: Points;
 }
 /**
+ * Amazon Prime information.
+ * @export
+ * @interface PrimeInformationType
+ */
+export interface PrimeInformationType {
+    /**
+     * Indicates whether the offer is an Amazon Prime offer.
+     * @type {boolean}
+     * @memberof PrimeInformationType
+     */
+    IsPrime: boolean;
+    /**
+     * Indicates whether the offer is an Amazon Prime offer throughout the entire marketplace where it is listed.
+     * @type {boolean}
+     * @memberof PrimeInformationType
+     */
+    IsNationalPrime: boolean;
+}
+/**
  * An item.
  * @export
  * @interface Product
@@ -847,13 +884,13 @@ export interface QuantityDiscountPriceType {
      * @type {QuantityDiscountType}
      * @memberof QuantityDiscountPriceType
      */
-    quantityDiscountType: QuantityDiscountType | 'QuantityDiscount';
+    quantityDiscountType: QuantityDiscountType | 'QUANTITY_DISCOUNT';
     /**
      * 
      * @type {MoneyType}
      * @memberof QuantityDiscountPriceType
      */
-    price: MoneyType;
+    listingPrice: MoneyType;
 }
 /**
  * 
@@ -861,7 +898,7 @@ export interface QuantityDiscountPriceType {
  * @enum {string}
  */
 export enum QuantityDiscountType {
-    QuantityDiscount = 'QuantityDiscount'
+    QuantityDiscount = 'QUANTITY_DISCOUNT'
 }
 
 /**
@@ -987,7 +1024,19 @@ export interface Summary {
      * @type {MoneyType}
      * @memberof Summary
      */
+    CompetitivePriceThreshold?: MoneyType;
+    /**
+     * 
+     * @type {MoneyType}
+     * @memberof Summary
+     */
     SuggestedLowerPricePlusShipping?: MoneyType;
+    /**
+     * A list of sales rank information for the item, by category.
+     * @type {Array<SalesRankType>}
+     * @memberof Summary
+     */
+    SalesRankings?: Array<SalesRankType>;
     /**
      * 
      * @type {Array<OfferCountType>}
