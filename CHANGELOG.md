@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v4.1.3...v5.0.0) (2021-08-25)
+
+
+### Bug Fixes
+
+* update pricing model for product pricing fields ([8f29677](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/8f29677f8a0e38756699a235c8f6f05d1131f2a0))
+
+
+### BREAKING CHANGES
+
+* - change `availableDate` type from `number` to `string`.
+- change `QuantityDiscountType` value from `QuantityDiscount` to `QUANTITY_DISCOUNT`.
+- remove `VendorDirectFulfillmentShippingApiModelPackage` export.
+- add `ProductPricingApiModelPrimeInformationType`.
+
 ## [4.1.3](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v4.1.2...v4.1.3) (2021-08-24)
 
 
