@@ -489,55 +489,6 @@ export interface ModelError {
     details?: string;
 }
 /**
- * Details of the package being shipped.
- * @export
- * @interface Package
- */
-export interface Package {
-    /**
-     * Package identifier for the package. The first package will be 001, the second 002, and so on. This number is used as a reference to refer to this package from the pallet level.
-     * @type {string}
-     * @memberof Package
-     */
-    packageIdentifier: string;
-    /**
-     * This is required to be provided for every package in the small parcel shipments.
-     * @type {string}
-     * @memberof Package
-     */
-    trackingNumber?: string;
-    /**
-     * Carrier manifest Id (Applicable for LTL shipments).
-     * @type {string}
-     * @memberof Package
-     */
-    manifestId?: string;
-    /**
-     * Carrier manifest Date (Applicable for LTL shipments).
-     * @type {string}
-     * @memberof Package
-     */
-    manifestDate?: string;
-    /**
-     * Shipment method.
-     * @type {string}
-     * @memberof Package
-     */
-    shipMethod?: string;
-    /**
-     * 
-     * @type {Weight}
-     * @memberof Package
-     */
-    weight: Weight;
-    /**
-     * 
-     * @type {Dimensions}
-     * @memberof Package
-     */
-    dimensions?: Dimensions;
-}
-/**
  * 
  * @export
  * @interface PackedItem
