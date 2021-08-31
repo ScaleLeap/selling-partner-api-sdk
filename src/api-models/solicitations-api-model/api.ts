@@ -48,10 +48,10 @@ export interface GetSchemaResponse {
     _links?: GetSchemaResponseLinks;
     /**
      * A JSON schema document describing the expected payload of the action. This object can be validated against <a href=http://json-schema.org/draft-04/schema>http://json-schema.org/draft-04/schema</a>.
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof GetSchemaResponse
      */
-    payload?: object;
+    payload?: { [key: string]: object; };
     /**
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
