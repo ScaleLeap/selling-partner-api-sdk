@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.0.0...v5.0.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v0.21.3 ([330308c](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/330308c85a734bb164c699b10ac2019975e38bc0))
+
 # [5.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v4.1.3...v5.0.0) (2021-08-25)
 
 
