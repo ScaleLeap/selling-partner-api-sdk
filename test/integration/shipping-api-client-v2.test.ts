@@ -24,28 +24,28 @@ describe(`${ShippingApiClientV2.name}`, () => {
 
       const addressOne = {
         name,
-        addressLine1: '2802 York Manor Road',
+        addressLine1: '1010 Swan Creek Dr',
         // addressLine2: '',
         // addressLine3: '',
         companyName: 'Whitebox',
         stateOrRegion: 'MD',
         city: 'Phoenix',
         countryCode: 'USA',
-        postalCode: '21131',
+        postalCode: '21226',
         email,
         phoneNumber: '4439329636',
       }
 
       const addressTwo = {
         name,
-        addressLine1: '4623 Dillon Place',
+        addressLine1: '101 Russell St',
         // addressLine2: '',
         // addressLine3: '',
         companyName: 'Whitebox',
         stateOrRegion: 'MD',
         city: 'Baltimore',
         countryCode: 'USA',
-        postalCode: '21224',
+        postalCode: '21230',
         email,
         phoneNumber: '4439329636',
       }
@@ -54,9 +54,9 @@ describe(`${ShippingApiClientV2.name}`, () => {
 
       const ratesResponse = await client.getRates({
         body: {
-          shipTo: addressOne,
-          shipFrom: addressTwo,
-          returnTo: addressTwo,
+          shipTo: addressTwo,
+          shipFrom: addressOne,
+          returnTo: addressOne,
           shipDate: '2021-09-14T12:00:00Z',
           packages: [
             {
