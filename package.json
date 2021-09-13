@@ -1,14 +1,19 @@
 {
-  "name": "@scaleleap/selling-partner-api-sdk",
-  "version": "5.0.2",
+  "name": "@whitebox-co/selling-partner-api-sdk",
+  "version": "1.0.0",
   "description": "📦 A fully typed TypeScript and Node.js SDK library for Amazon Selling Partner API",
   "license": "MIT",
   "author": {
-    "name": "Roman Filippov",
-    "email": "roman@scaleleap.com",
-    "url": "https://www.scaleleap.com/"
+    "name": "Whitebox",
+    "email": "whitebox@whitebox.com",
+    "url": "https://www.whitebox.com/"
   },
   "contributors": [
+    {
+      "name": "Josh Fisher",
+      "email": "jfisher@whitebox.com",
+      "url": "https://github.com/josh-fisher"
+    },
     {
       "name": "Roman Filippov",
       "email": "roman@scaleleap.com",
@@ -19,13 +24,13 @@
       "url": "https://github.com/nguyentoanit"
     }
   ],
-  "homepage": "https://github.com/ScaleLeap/selling-partner-api-sdk",
+  "homepage": "https://github.com/whitebox-co/selling-partner-api-sdk",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ScaleLeap/selling-partner-api-sdk.git"
+    "url": "git@github.com:whitebox-co/selling-partner-api-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/ScaleLeap/selling-partner-api-sdk/issues"
+    "url": "https://github.com/whitebox-co/selling-partner-api-sdk/issues"
   },
   "main": "lib/index.js",
   "files": [
@@ -92,6 +97,6 @@
     "typescript"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   }
 }

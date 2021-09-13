@@ -1,0 +1,3869 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Provides programmatic access to Amazon Shipping APIs.",
+    "version": "v2",
+    "title": "Amazon Shipping API Model",
+    "contact": {
+      "name": "Amazon Shipping API Support",
+      "url": "https://github.com/amzn/<ToBeCreated>-sdk/issues",
+      "email": "amazon-shipping-api@amazon.com"
+    },
+    "license": {
+      "name": "Amazon Software License",
+      "url": "https://aws.amazon.com/asl/"
+    }
+  },
+  "host": "marketplaceapi.amazonservices.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/shipping/v2/shipments/rates": {
+      "post": {
+        "tags": [
+          "shipping"
+        ],
+        "description": "Provides available shipping service offerings.",
+        "operationId": "getRates",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetRatesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "requestToken": "6DCCEDD3FF961C15FEB94F342D41C",
+                "rates": [
+                  {
+                    "rateId": "F4B68849F969E239FF9FCA9C12E35",
+                    "carrierId": "FOOSHIPGRD",
+                    "carrierName": "FOO SHIP GRD",
+                    "billedWeight": {
+                      "value": 5,
+                      "unit": "GRAMS"
+                    },
+                    "totalCharge": {
+                      "value": 7,
+                      "unit": "USD"
+                    },
+                    "serviceId": "FOORSID",
+                    "serviceName": "FOO RS ID",
+                    "promise": {
+                      "deliveryWindow": {
+                        "start": "2018-08-24T08:22:30.737Z",
+                        "end": "2018-08-24T20:22:30.737Z"
+                      },
+                      "pickupWindow": {
+                        "start": "2018-08-23T08:22:30.737Z",
+                        "end": "2018-08-23T20:22:30.737Z"
+                      }
+                    },
+                    "supportedDocumentSpecifications": [
+                      {
+                        "format": "PNG",
+                        "size": {
+                          "length": 6,
+                          "width": 4,
+                          "unit": "INCH"
+                        },
+                        "printOptions": [
+                          {
+                            "supportedDPIs": [
+                              300,
+                              203
+                            ],
+                            "supportedPageLayouts": [
+                              "LEFT",
+                              "RIGHT"
+                            ],
+                            "supportedFileJoiningOptions": [
+                              true,
+                              false
+                            ],
+                            "supportedDocumentDetails": [
+                              {
+                                "name": "LABEL",
+                                "isMandatory": true
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "availableValueAddedServiceGroups": [
+                      {
+                        "groupId": "SIG_VERIFICATION",
+                        "groupDescription": "Signature Verification",
+                        "isRequired": true,
+                        "valueAddedServices": [
+                          {
+                            "id": "CUST_SIG_VERIFICATION",
+                            "name": "Customer Signature Verification",
+                            "cost": {
+                              "unit": "USD",
+                              "value": 2
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "requiresAdditionalInputs" : false
+                  }
+                ],
+                "ineligibleRates": [
+                  {
+                    "carrierId": "FOOSTDGRD",
+                    "serviceId": "FOO8420430",
+                    "carrierName": "FOOSTDGRD",
+                    "serviceName": "FOO8420430",
+                    "ineligibilityReasons": [
+                      {
+                        "code" : "NO_COVERAGE",
+                        "message" : "Required shipping network coverage doesn't exist for the offering"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "body": {
+                      "value": {
+                        "shipTo": {
+                          "name": "Alice",
+                          "addressLine1": "444, St 20, Pete Avenue",
+                          "stateOrRegion": "Texas",
+                          "city": "North Park",
+                          "countryCode": "GB",
+                          "postalCode": "78799"
+                        },
+                        "shipFrom": {
+                          "name": "Bob",
+                          "addressLine1": "123, Block 7, Winfield Apartments",
+                          "addressLine2": "North Lamar",
+                          "stateOrRegion": "Texas",
+                          "city": "Demtin",
+                          "countryCode": "GB",
+                          "postalCode": "78732"
+                        },
+                        "shipDate": "2020-01-30T09:27:05Z",
+                        "packages": [
+                          {
+                            "dimensions": {
+                              "length": 1,
+                              "width": 2,
+                              "height": 2,
+                              "unit": "INCH"
+                            },
+                            "weight": {
+                              "unit": "GRAM",
+                              "value": 250
+                            },
+                            "insuredValue": {
+                              "value": 44,
+                              "unit": "USD"
+                            },
+                            "isHazmat": true,
+                            "packageClientReferenceId": "PPEI-4326495734098",
+                            "items": [
+                              {
+                                "itemValue": {
+                                  "value": 24,
+                                  "unit": "USD"
+                                },
+                                "description": "Description of the item1.",
+                                "itemIdentifier": "ITEM-26495734098",
+                                "quantity": 1,
+                                "weight": {
+                                  "unit": "GRAM",
+                                  "value": 150
+                                },
+                                "isHazmat": true
+                              },
+                              {
+                                "itemValue": {
+                                  "value": 20,
+                                  "unit": "USD"
+                                },
+                                "description": "Description of the item2.",
+                                "itemIdentifier": "ITEM-26495734099",
+                                "quantity": 1,
+                                "weight": {
+                                  "unit": "GRAM",
+                                  "value": 100
+                                },
+                                "isHazmat": false
+                              }
+                            ]
+                          }
+                        ],
+                        "channelDetails": {
+                          "channelType": "EXTERNAL"
+                        }
+                      }
+                    }
+                  }
+                },
+                "response": {
+                  "payload": {
+                    "requestToken": "6DCCEDD3FF961C15FEB94F342D41C",
+                    "rates": [
+                      {
+                        "rateId": "F4B68849F969E239FF9FCA9C12E35",
+                        "carrierId": "FOOSHIPGRD",
+                        "carrierName": "FOO SHIP GRD",
+                        "billedWeight": {
+                          "value": 5,
+                          "unit": "GRAM"
+                        },
+                        "totalCharge": {
+                          "value": 7,
+                          "unit": "USD"
+                        },
+                        "serviceId": "econ-uk-mfn",
+                        "serviceName": "Amazon Standard",
+                        "promise": {
+                          "deliveryWindow": {
+                            "startTime": "2018-08-24T08:22:30.737Z",
+                            "endTime": "2018-08-24T20:22:30.737Z"
+                          },
+                          "pickupWindow": {
+                            "startTime": "2018-08-23T08:22:30.737Z",
+                            "endTime": "2018-08-23T20:22:30.737Z"
+                          }
+                        },
+                        "supportedDocumentSpecifications": [
+                          {
+                            "format": "PNG",
+                            "size": {
+                              "length": 6,
+                              "width": 4,
+                              "unit": "INCH"
+                            },
+                            "printOptions": [
+                              {
+                                "supportedDPIs": [
+                                  300,
+                                  203
+                                ],
+                                "supportedPageLayouts": [
+                                  "LEFT",
+                                  "RIGHT"
+                                ],
+                                "supportedFileJoiningOptions": [
+                                  true,
+                                  false
+                                ],
+                                "supportedDocumentDetails": [
+                                  {
+                                    "name": "LABEL",
+                                    "isMandatory": true
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "availableValueAddedServiceGroups": [
+                          {
+                            "groupId": "SIG_VERIFICATION",
+                            "groupDescription": "Signature Verification",
+                            "isRequired": true,
+                            "valueAddedServices": [
+                              {
+                                "id": "CUST_SIG_VERIFICATION",
+                                "name": "Customer Signature Verification",
+                                "cost": {
+                                  "unit": "USD",
+                                  "value": 2
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "requiresAdditionalInputs" : false
+                      }
+                    ],
+                    "ineligibleRates": [
+                      {
+                        "carrierId": "FOOSTDGRD",
+                        "serviceId": "FOO8420430",
+                        "carrierName": "FOOSTDGRD",
+                        "serviceName": "FOO8420430",
+                        "ineligibilityReasons": [
+                          {
+                            "code" : "NO_COVERAGE",
+                            "message" : "Required shipping network coverage doesn't exist for the offering"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "request": {
+                  "parameters": {
+                    "body": {
+                      "value": {
+                        "shipTo": {
+                          "name": "Alice",
+                          "addressLine1": "444, St 20, Pete Avenue",
+                          "stateOrRegion": "Texas",
+                          "city": "North Park",
+                          "countryCode": "US",
+                          "postalCode": "78799"
+                        },
+                        "shipFrom": {
+                          "name": "Bob",
+                          "addressLine1": "123, Block 7, Winfield Apartments",
+                          "addressLine2": "North Lamar",
+                          "stateOrRegion": "Texas",
+                          "city": "Demtin",
+                          "countryCode": "US",
+                          "postalCode": "78732"
+                        },
+                        "shipDate": "2020-01-30T09:27:05Z",
+                        "packages": [
+                          {
+                            "dimensions": {
+                              "length": 1,
+                              "width": 2,
+                              "height": 2,
+                              "unit": "INCH"
+                            },
+                            "weight": {
+                              "unit": "GRAM",
+                              "value": 250
+                            },
+                            "insuredValue": {
+                              "value": 44,
+                              "unit": "USD"
+                            },
+                            "isHazmat": true,
+                            "packageClientReferenceId": "PPEI-4326495734098",
+                            "items": [
+                              {
+                                "itemValue": {
+                                  "value": 24,
+                                  "unit": "USD"
+                                },
+                                "description": "Description of the item1.",
+                                "itemIdentifier": "ITEM-26495734098",
+                                "quantity": 1,
+                                "weight": {
+                                  "unit": "GRAM",
+                                  "value": 150
+                                },
+                                "isHazmat": true
+                              },
+                              {
+                                "itemValue": {
+                                  "value": 20,
+                                  "unit": "USD"
+                                },
+                                "description": "Description of the item2.",
+                                "itemIdentifier": "ITEM-26495734099",
+                                "quantity": 1,
+                                "weight": {
+                                  "unit": "GRAM",
+                                  "value": 100
+                                },
+                                "isHazmat": false
+                              }
+                            ]
+                          }
+                        ],
+                        "channelDetails": {
+                          "channelType": "EXTERNAL"
+                        }
+                      }
+                    }
+                  }
+                },
+                "response": {
+                  "payload": {
+                    "requestToken": "6DCCEDD3FF961C15FEB94F342D41C",
+                    "rates": [
+                      {
+                        "rateId": "F4B68849F969E239FF9FCA9C12E35",
+                        "carrierId": "FOOSHIPGRD",
+                        "carrierName": "FOO SHIP GRD",
+                        "billedWeight": {
+                          "value": 5,
+                          "unit": "GRAM"
+                        },
+                        "totalCharge": {
+                          "value": 7,
+                          "unit": "USD"
+                        },
+                        "serviceId": "FOORSID",
+                        "serviceName": "FOO RS ID",
+                        "promise": {
+                          "deliveryWindow": {
+                            "startTime": "2018-08-24T08:22:30.737Z",
+                            "endTime": "2018-08-24T20:22:30.737Z"
+                          },
+                          "pickupWindow": {
+                            "startTime": "2018-08-23T08:22:30.737Z",
+                            "endTime": "2018-08-23T20:22:30.737Z"
+                          }
+                        },
+                        "supportedDocumentSpecifications": [
+                          {
+                            "format": "PNG",
+                            "size": {
+                              "length": 6,
+                              "width": 4,
+                              "unit": "INCH"
+                            },
+                            "printOptions": [
+                              {
+                                "supportedDPIs": [
+                                  300,
+                                  203
+                                ],
+                                "supportedPageLayouts": [
+                                  "LEFT",
+                                  "RIGHT"
+                                ],
+                                "supportedFileJoiningOptions": [
+                                  true,
+                                  false
+                                ],
+                                "supportedDocumentDetails": [
+                                  {
+                                    "name": "LABEL",
+                                    "isMandatory": true
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "availableValueAddedServiceGroups": [
+                          {
+                            "groupId": "SIG_VERIFICATION",
+                            "groupDescription": "Signature Verification",
+                            "isRequired": true,
+                            "valueAddedServices": [
+                              {
+                                "id": "CUST_SIG_VERIFICATION",
+                                "name": "Customer Signature Verification",
+                                "cost": {
+                                  "unit": "USD",
+                                  "value": 2
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "ineligibleRates": [
+                      {
+                        "carrierId": "FOOSTDGRD",
+                        "serviceId": "FOO8420430",
+                        "carrierName": "FOOSTDGRD",
+                        "serviceName": "FOO8420430",
+                        "ineligibilityReasons": [
+                          {
+                            "code" : "NO_COVERAGE",
+                            "message" : "Required shipping network coverage doesn't exist for the offering"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "400": {
+            "description": "Request is missing or has invalid parameters and cannot be parsed.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "Request is missing or has invalid parameters",
+                    "details": "ChannelDetails object cannot be null"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "body": {
+                      "value": {
+                        "shipTo": {
+                          "name": "Alice",
+                          "addressLine1": "444, St 20, Pete Avenue",
+                          "stateOrRegion": "Texas",
+                          "city": "North Park",
+                          "countryCode": "US",
+                          "postalCode": "78799"
+                        },
+                        "shipFrom": {
+                          "name": "Bob",
+                          "addressLine1": "123, Block 7, Winfield Apartments",
+                          "addressLine2": "North Lamar",
+                          "stateOrRegion": "Texas",
+                          "city": "Demtin",
+                          "countryCode": "US",
+                          "postalCode": "78732"
+                        },
+                        "shipDate": "2020-01-30T09:27:05Z",
+                        "packages": [
+                          {
+                            "dimensions": {
+                              "length": 1,
+                              "width": 2,
+                              "height": 2,
+                              "unit": "INCH"
+                            },
+                            "weight": {
+                              "unit": "GRAM",
+                              "value": 250
+                            },
+                            "insuredValue": {
+                              "value": 44,
+                              "unit": "USD"
+                            },
+                            "isHazmat": true,
+                            "packageClientReferenceId": "PPEI-4326495734098",
+                            "items": [
+                              {
+                                "itemValue": {
+                                  "value": 24,
+                                  "unit": "USD"
+                                },
+                                "description": "Description of the item1.",
+                                "itemIdentifier": "ITEM-26495734098",
+                                "quantity": 1,
+                                "isHazmat": true
+                              },
+                              {
+                                "itemValue": {
+                                  "value": 20,
+                                  "unit": "USD"
+                                },
+                                "description": "Description of the item2.",
+                                "itemIdentifier": "ITEM-26495734099",
+                                "quantity": 1,
+                                "isHazmat": false
+                              }
+                            ]
+                          }
+                        ],
+                        "channelDetails": {
+                          "channelType": "Amazon"
+                        }
+                      }
+                    }
+                  }
+                },
+                "response": {
+                  "errors": [
+                    {
+                      "code": "InvalidRequest",
+                      "message": "Request is missing or has invalid parameters",
+                      "details": "AmazonOrder field has to be populated if ChannelType is Amazon"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "401": {
+            "description": "The request's Authorization header is not formatted correctly or does not contain a valid token.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "403": {
+            "description": "403 can be caused for reasons like Access Denied, Unauthorized, Expired Token, Invalid Signature or Resource Not Found.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "NotFound",
+                    "message": "The requested resource is invalid or doesn't exist"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload size is greater than maximum accepted size."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "415": {
+            "description": "The payload of the request is in a format not supported by the requested resource.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload format is not supported."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "TooManyRequests",
+                    "message": "The total number of requests exceeded your allowed limit."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "500": {
+            "description": "Encountered an unexpected condition which prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InternalError",
+                    "message": "Something went wrong while processing the request."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/GetRatesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "ServiceUnavailable",
+                    "message": "Service temporarily unavailable or down for maintenance. Please try again after sometime."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shipping/v2/shipments/directPurchase": {
+      "post": {
+        "tags": [
+          "shipping"
+        ],
+        "description": "Purchases the shipping service for a shipment from the best fit service offering. Returns purchase related details and documents.",
+        "operationId": "directPurchaseShipment",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseRequest"
+            }
+          },
+          {
+            "name": "x-amzn-IdempotencyKey",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "locale",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "shipmentId": "445454-3232-3232",
+                "packageDocumentDetailList": [{
+                  "packageClientReferenceId": "ASUSDI-45343854",
+                  "trackingId": "T1234567",
+                  "packageDocuments": [
+                    {
+                      "type": "LABEL",
+                      "format": "PNG",
+                      "contents": "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"
+                    }
+                  ]
+                }]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              },
+              "x-amzn-IdempotencyKey": {
+                "type": "string",
+                "description": "idempotency Key."
+              }
+            }
+          },
+          "400": {
+            "description": "Request is missing or has invalid parameters and cannot be parsed.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "Request is missing or has invalid parameters",
+                    "details": "ChannelDetails object cannot be null"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "401": {
+            "description": "The request's Authorization header is not formatted correctly or does not contain a valid token.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "403": {
+            "description": "403 can be caused for reasons like Access Denied, Unauthorized, Expired Token, Invalid Signature or Resource Not Found.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "NotFound",
+                    "message": "The requested resource is invalid or doesn't exist"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload size is greater than maximum accepted size."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "415": {
+            "description": "The payload of the request is in a format not supported by the requested resource.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload format is not supported."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "TooManyRequests",
+                    "message": "The total number of requests exceeded your allowed limit."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "500": {
+            "description": "Encountered an unexpected condition which prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InternalError",
+                    "message": "Something went wrong while processing the request."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/DirectPurchaseResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "ServiceUnavailable",
+                    "message": "Service temporarily unavailable or down for maintenance. Please try again after sometime."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shipping/v2/shipments": {
+      "post": {
+        "tags": [
+          "shipping"
+        ],
+        "description": "Purchases the shipping service for a shipment from the provided service offerings. Returns purchase related details and documents.",
+        "operationId": "purchaseShipment",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "shipmentId": "87852211788104",
+                "packageDocumentDetails": [
+                  {
+                    "packageClientReferenceId": "abcd",
+                    "packageDocuments": [
+                      {
+                        "type": "LABEL",
+                        "format": "PNG",
+                        "contents": "sdioadaiosfhdodsaiufhouafhoudfhdouahfac=="
+                      }
+                    ],
+                    "trackingId": 1578648261977
+                  }
+                ],
+                "promise": {
+                  "pickupWindow": {
+                    "startTime": "2019-12-11T07:09:05.513Z",
+                    "endTime": "2019-12-11T09:09:05.513Z"
+                  },
+                  "deliveryWindow": {
+                    "startTime": "2019-12-13T07:09:05.513Z",
+                    "endTime": "2019-12-13T09:09:05.513Z"
+                  }
+                }
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "body": {
+                      "value": {
+                        "requestToken": "6DCCEDD3FF961C15FEB94F342D41C",
+                        "rateId": "F4B68849F969E239FF9FCA9C12E35",
+                        "requestedDocumentSpecification": {
+                          "format": "PDF",
+                          "size": {
+                            "width": 4,
+                            "length": 6,
+                            "unit": "INCH"
+                          },
+                          "dpi": 203,
+                          "pageLayout": "LEFT",
+                          "needFileJoining": false,
+                          "requestedDocumentTypes": [
+                            "LABEL"
+                          ]
+                        },
+                        "requestedValueAddedServices": [
+                          {
+                            "id": "CUST_SIG"
+                          }
+                        ],
+                        "additionalInputs": {
+                          "harmonizedSystemCode": "HS1234534",
+                          "packageClientReferenceId": "PAC1234"
+                        }
+                      }
+                    }
+                  }
+                },
+                "response": {
+                  "payload": {
+                    "shipmentId": "'878522117881'",
+                    "packageDocumentDetails": [
+                      {
+                        "packageClientReferenceId": "abcd",
+                        "packageDocuments": [
+                          {
+                            "type": "LABEL",
+                            "format": "PNG",
+                            "contents": "sdioadaiosfhdodsaiufhouafhoudfhdouahfac=="
+                          }
+                        ],
+                        "trackingId": "'157864826197'"
+                      }
+                    ],
+                    "promise": {
+                      "pickupWindow": {
+                        "startTime": "2019-12-11T07:09:05.513Z",
+                        "endTime": "2019-12-11T09:09:05.513Z"
+                      },
+                      "deliveryWindow": {
+                        "startTime": "2019-12-13T07:09:05.513Z",
+                        "endTime": "2019-12-13T09:09:05.513Z"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "400": {
+            "description": "Request is missing or has invalid parameters and cannot be parsed.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "Request is missing or has invalid parameters",
+                    "details": "RateId cannot be null"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "body": {
+                      "value": {
+                        "requestToken": "6DCCEDD3FF961C15FEB94F342D41C",
+                        "requestedDocumentSpecification": {
+                          "format": "PDF",
+                          "size": {
+                            "width": 4,
+                            "length": 6,
+                            "unit": "INCH"
+                          },
+                          "dpi": 203,
+                          "pageLayout": "LEFT",
+                          "needFileJoining": false,
+                          "requestedDocumentTypes": [
+                            "LABEL"
+                          ]
+                        },
+                        "requestedValueAddedServices": [
+                          {
+                            "id": "string"
+                          }
+                        ],
+                        "additionalInputs": {
+                          "harmonizedSystemCode": "HS1234534",
+                          "packageClientReferenceId": "PAC1234"
+                        }
+                      }
+                    }
+                  }
+                },
+                "response": {
+                  "errors": [
+                    {
+                      "code": "InvalidRequest",
+                      "message": "Request is missing or has invalid parameters",
+                      "details": "RateId cannot be null"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "401": {
+            "description": "The request's Authorization header is not formatted correctly or does not contain a valid token.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "403": {
+            "description": "403 can be caused for reasons like Access Denied, Unauthorized, Expired Token, Invalid Signature or Resource Not Found.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "NotFound",
+                    "message": "The requested resource is invalid or doesn't exist"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload size is greater than maximum accepted size."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "415": {
+            "description": "The payload of the request is in a format not supported by the requested resource.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload format is not supported."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "TooManyRequests",
+                    "message": "The total number of requests exceeded your allowed limit."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "500": {
+            "description": "Encountered an unexpected condition which prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InternalError",
+                    "message": "Something went wrong while processing the request."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/PurchaseShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "ServiceUnavailable",
+                    "message": "Service temporarily unavailable or down for maintenance. Please try again after sometime."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shipping/v2/tracking": {
+      "get": {
+        "tags": [
+          "shipping"
+        ],
+        "description": "Fetches the tracking information for a purchased shipment.",
+        "operationId": "getTracking",
+        "parameters": [
+          {
+            "name": "trackingId",
+            "in": "query",
+            "required": true,
+            "description": "Carrier generated tracking identifier provided in the PurchaseShipment response.",
+            "type": "string"
+          },
+          {
+            "name": "carrierId",
+            "in": "query",
+            "required": true,
+            "description": "Carrier identifier for the offering provided in the PurchaseShipment response.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "trackingId": "23AA47DE2B3B6",
+                "eventHistory": [
+                  {
+                    "eventCode": "READY_FOR_RECEIVE",
+                    "location": {
+                      "postalCode": "4883493",
+                      "countryCode": "CC"
+                    },
+                    "eventTime": "2019-12-11T07:09:05.513Z"
+                  }
+                ],
+                "promisedDeliveryDate": "2019-12-12T13:09:05.513Z",
+                "summary": {
+                  "status": "PRE_TRANSIT"
+                }
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "carrierId": {
+                      "value": "3DD4C4386D3C2"
+                    },
+                    "trackingId": {
+                      "value": "23AA47DE2B3B6"
+                    }
+                  }
+                },
+                "response": {
+                  "payload": {
+                    "trackingId": "23AA47DE2B3B6",
+                    "eventHistory": [
+                      {
+                        "eventCode": "READY_FOR_RECEIVE",
+                        "location": {
+                          "postalCode": "456690",
+                          "city": "Foo City",
+                          "stateOrRegion": "Bar State",
+                          "countryCode": "CC"
+                        },
+                        "eventTime": "2019-12-11T07:09:05.513Z"
+                      }
+                    ],
+                    "promisedDeliveryDate": "2019-12-12T13:09:05.513Z",
+                    "summary": {
+                      "status": "PRE_TRANSIT"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "400": {
+            "description": "Request is missing or has invalid parameters and cannot be parsed.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "Request is missing or has invalid parameters",
+                    "details": "CarrierId is missing in the request"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "trackingId": {
+                      "value": "23AA47DE2B3B6"
+                    },
+                    "carrierId": {
+                      "value": "null"
+                    }
+                  }
+                },
+                "response": {
+                  "errors": [
+                    {
+                      "code": "InvalidRequest",
+                      "message": "Request is missing or has invalid parameters",
+                      "details": "CarrierId cannot be null"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "401": {
+            "description": "The request's Authorization header is not formatted correctly or does not contain a valid token.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "403": {
+            "description": "403 can be caused for reasons like Access Denied, Unauthorized, Expired Token, Invalid Signature or Resource Not Found.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "NotFound",
+                    "message": "The requested resource is invalid or doesn't exist"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload size is greater than maximum accepted size."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "415": {
+            "description": "The payload of the request is in a format not supported by the requested resource.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload format is not supported."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "TooManyRequests",
+                    "message": "The total number of requests exceeded your allowed limit."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "500": {
+            "description": "Encountered an unexpected condition which prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InternalError",
+                    "message": "Something went wrong while processing the request."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/GetTrackingResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "ServiceUnavailable",
+                    "message": "Service temporarily unavailable or down for maintenance. Please try again after sometime."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shipping/v2/shipments/{shipmentId}/documents": {
+      "get": {
+        "tags": [
+          "shipping"
+        ],
+        "description": "Gets shipping documents associated with the package of a purchased shipment.",
+        "operationId": "getShipmentDocuments",
+        "parameters": [
+          {
+            "name": "shipmentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "packageClientReferenceId",
+            "in": "query",
+            "required": true,
+            "description": "Package client reference identifier provided in the GetRates request.",
+            "type": "string"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "description": "File Format of the document (Eg: PDF, PNG, ZPL). Should be one of the supported formats returned in GetRates response.",
+            "type": "string"
+          },
+          {
+            "name": "dpi",
+            "in": "query",
+            "required": false,
+            "description": "Resolution of the document (Eg: 203, 300). Should be one of the supported resolutions returned in GetRates response.",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "shipmentId": "445454-3232-3232",
+                "packageDocumentDetail": {
+                  "packageClientReferenceId": "ASUSDI-45343854",
+                  "trackingId": "T1234567",
+                  "packageDocuments": [
+                    {
+                      "type": "LABEL",
+                      "format": "PNG",
+                      "contents": "sdioadaiosfhdodsaiufhouafhoudfhdouahfac=="
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "shipmentId": {
+                      "value": "1242345535"
+                    },
+                    "packageClientReferenceId": {
+                      "value": "124234234553534324"
+                    },
+                    "format": {
+                      "value": "PNG"
+                    }
+                  }
+                },
+                "response": {
+                  "payload": {
+                    "shipmentId": "445454-3232-3232",
+                    "packageDocumentDetail": {
+                      "packageClientReferenceId": "ASUSDI-45343854",
+                      "trackingId": "T1234567",
+                      "packageDocuments": [
+                        {
+                          "type": "LABEL",
+                          "format": "PNG",
+                          "contents": "sdioadaiosfhdodsaiufhouafhoudfhdouahfac=="
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "400": {
+            "description": "Request is missing or has invalid parameters and cannot be parsed.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "Request is missing or has invalid parameters",
+                    "details": "CarrierId is missing in the request"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "shipmentId": {
+                      "value": "1242345535"
+                    },
+                    "packageClientReferenceId": {
+                      "value": "\"null\""
+                    },
+                    "format": {
+                      "value": "PDF"
+                    }
+                  }
+                },
+                "response": {
+                  "errors": [
+                    {
+                      "code": "InvalidRequest",
+                      "message": "Request is missing or has invalid parameters",
+                      "details": "PackageClientReferenceId cannot be null"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "401": {
+            "description": "The request's Authorization header is not formatted correctly or does not contain a valid token.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "403": {
+            "description": "403 can be caused for reasons like Access Denied, Unauthorized, Expired Token, Invalid Signature or Resource Not Found.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "NotFound",
+                    "message": "The requested resource is invalid or doesn't exist"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload size is greater than maximum accepted size."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "415": {
+            "description": "The payload of the request is in a format not supported by the requested resource.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload format is not supported."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "TooManyRequests",
+                    "message": "The total number of requests exceeded your allowed limit."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "500": {
+            "description": "Encountered an unexpected condition which prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InternalError",
+                    "message": "Something went wrong while processing the request."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/GetShipmentDocumentsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "ServiceUnavailable",
+                    "message": "Service temporarily unavailable or down for maintenance. Please try again after sometime."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shipping/v2/shipments/{shipmentId}/cancel": {
+      "put": {
+        "tags": [
+          "shipping"
+        ],
+        "description": "Cancels a purchased shipment. Returns an empty object if the shipment is cancelled. Else throws Error.",
+        "operationId": "cancelShipment",
+        "parameters": [
+          {
+            "name": "shipmentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {}
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "shipmentId": {
+                      "value": "12232-4234-543535"
+                    }
+                  }
+                },
+                "response": {
+                  "payload": {}
+                }
+              }
+            ]
+          },
+          "400": {
+            "description": "Request is missing or has invalid parameters and cannot be parsed.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "Request is missing or has invalid parameters",
+                    "details": "ShipmentId cannot be null"
+                  }
+                ]
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "shipmentId": {
+                      "value": "null"
+                    }
+                  }
+                },
+                "response": {
+                  "errors": [
+                    {
+                      "code": "InvalidRequest",
+                      "message": "Request is missing or has invalid parameters",
+                      "details": "ShipmentId cannot be null"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "401": {
+            "description": "The request's Authorization header is not formatted correctly or does not contain a valid token.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "403": {
+            "description": "403 can be caused for reasons like Access Denied, Unauthorized, Expired Token, Invalid Signature or Resource Not Found.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "NotFound",
+                    "message": "The requested resource is invalid or doesn't exist"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload size is greater than maximum accepted size."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "415": {
+            "description": "The payload of the request is in a format not supported by the requested resource.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload format is not supported."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "TooManyRequests",
+                    "message": "The total number of requests exceeded your allowed limit."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "500": {
+            "description": "Encountered an unexpected condition which prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InternalError",
+                    "message": "Something went wrong while processing the request."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/CancelShipmentResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "ServiceUnavailable",
+                    "message": "Service temporarily unavailable or down for maintenance. Please try again after sometime."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shipping/v2/shipments/additionalInputs/schema": {
+      "get": {
+        "tags": [
+          "shipping"
+        ],
+        "description": "Fetches the JSON schema for additional inputs required for purchasing a shipping offering.  Should be invoked if 'requiresAdditionalInput' value of GetRates response is true.",
+        "operationId": "getAdditionalInputs",
+        "parameters": [
+          {
+            "name": "requestToken",
+            "in": "query",
+            "required": true,
+            "description" : "RequestToken returned as part of GetRates response.",
+            "type": "string"
+          },
+          {
+            "name": "rateId",
+            "in": "query",
+            "required": true,
+            "description" : "RateId for the shipping offering, returned in GetRates response.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "payload": {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "title": "Additional inputs for Shipping Offering",
+                  "type": "object",
+                  "properties": {
+                    "harmonizedSystemCode": {
+                      "type": "string",
+                      "description": "Harmonized System's commodity code for an item."
+                    },
+                    "packageClientReferenceId": {
+                      "type": "string",
+                      "description": "Unqiue identifier for the item."
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "requestToken": {
+                      "value": "amzn1.rq.123456789.101"
+                    },
+                    "rateId": {
+                      "value": "122324234543535321345436534321423423523452345"
+                    }
+                  }
+                },
+                "response": {
+                  "payload": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "title": "Additional inputs for Shipping Offering",
+                    "type": "object",
+                    "properties": {
+                      "harmonizedSystemCode": {
+                        "type": "string",
+                        "description": "Harmonized System's commodity code for an item."
+                      },
+                      "packageClientReferenceId": {
+                        "type": "string",
+                        "description": "Unqiue identifier for the item."
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "400": {
+            "description": "Request is missing or has invalid parameters and cannot be parsed.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "Request is missing or has invalid parameters",
+                    "details": "RequestToken cannot be null"
+                  }
+                ]
+              }
+            },
+            "x-amazon-spds-sandbox-behaviors": [
+              {
+                "request": {
+                  "parameters": {
+                    "requestToken": {
+                      "value": "null"
+                    },
+                    "rateId": {
+                      "value": "2314346237423894905834905890346890789075"
+                    }
+                  }
+                },
+                "response": {
+                  "errors": [
+                    {
+                      "code": "InvalidRequest",
+                      "message": "Request is missing or has invalid parameters",
+                      "details": "RequestToken cannot be null"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "401": {
+            "description": "The request's Authorization header is not formatted correctly or does not contain a valid token.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "403": {
+            "description": "403 can be caused for reasons like Access Denied, Unauthorized, Expired Token, Invalid Signature or Resource Not Found.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "Unauthorized",
+                    "message": "You don't have access to the requested response or the credentials are invalid."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "NotFound",
+                    "message": "The requested resource is invalid or doesn't exist"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload size is greater than maximum accepted size."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "415": {
+            "description": "The payload of the request is in a format not supported by the requested resource.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InvalidRequest",
+                    "message": "The request payload format is not supported."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "TooManyRequests",
+                    "message": "The total number of requests exceeded your allowed limit."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "500": {
+            "description": "Encountered an unexpected condition which prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "InternalError",
+                    "message": "Something went wrong while processing the request."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/GetAdditionalInputsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "code": "ServiceUnavailable",
+                    "message": "Service temporarily unavailable or down for maintenance. Please try again after sometime."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference id."
+              }
+            }
+          }
+        }
+      },
+      "parameters": []
+    }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "An error code that identifies the type of error that occurred."
+        },
+        "message": {
+          "type": "string",
+          "description": "A message that describes the error condition in a human-readable form."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details that can help the caller understand or fix the issue."
+        }
+      },
+      "description": "Error response returned when the request is unsuccessful."
+    },
+    "ErrorList": {
+      "type": "array",
+      "description": "A list of error responses returned when a request is unsuccessful.",
+      "items": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "Weight": {
+      "type": "object",
+      "required": [
+        "unit",
+        "value"
+      ],
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "The unit of measurement.",
+          "enum": [
+            "GRAM",
+            "KILOGRAM",
+            "OUNCE",
+            "POUND"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "description": "The measurement value."
+        }
+      },
+      "description": "The weight."
+    },
+    "Currency": {
+      "type": "object",
+      "required": [
+        "unit",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "description": "Currency amount value."
+        },
+        "unit": {
+          "type": "string",
+          "description": "ISO 4217 format 3-character currency code.",
+          "minLength": 3,
+          "maxLength": 3
+        }
+      },
+      "description": "Amount and currency defined in the ISO 4217 standard format."
+    },
+    "Length": {
+      "type": "object",
+      "required": [
+        "unit",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "description": "Value.",
+          "minimum": 1
+        },
+        "unit": {
+          "type": "string",
+          "description": "The unit of measurement.",
+          "enum": [
+            "INCH",
+            "CENTIMETER"
+          ]
+        }
+      },
+      "description": "Linear measurement value."
+    },
+    "Dimensions": {
+      "type": "object",
+      "required": [
+        "height",
+        "length",
+        "unit",
+        "width"
+      ],
+      "properties": {
+        "length": {
+          "type": "number",
+          "description": "The length of the package."
+        },
+        "width": {
+          "type": "number",
+          "description": "The width of the package."
+        },
+        "height": {
+          "type": "number",
+          "description": "The height of the package."
+        },
+        "unit": {
+          "type": "string",
+          "description": "The unit of measurement.",
+          "enum": [
+            "INCH",
+            "CENTIMETER"
+          ]
+        }
+      },
+      "description": "A set of measurements for a three-dimensional object."
+    },
+    "RequestToken": {
+      "type": "string",
+      "description": "Unique token generated for a GetRates request."
+    },
+    "RateId": {
+      "type": "string",
+      "description": "An identifier for the rating/offering provided by service."
+    },
+    "CarrierId": {
+      "type": "string",
+      "description": "Carrier identifier for the offering, provided by Carrier."
+    },
+    "CarrierName": {
+      "type": "string",
+      "description": "Carrier name for the offering."
+    },
+    "PackageClientReferenceId": {
+      "type": "string",
+      "description": "Client provided unique identifier for a package being shipped. Should be preserved by client as this is used as a parameter in GetShipmentDocuments call.",
+      "maxLength": 40
+    },
+    "ShipmentId": {
+      "type": "string",
+      "description": "The unique shipment identifier provided by service."
+    },
+    "TrackingId": {
+      "type": "string",
+      "description": "Carrier generated identifier for a package in a purchased shipment."
+    },
+    "ServiceId": {
+      "type": "string",
+      "description": "An identifier for the shipping service provided by service."
+    },
+    "ServiceName": {
+      "type": "string",
+      "description": "Name of the shipping service provided by service."
+    },
+    "Address": {
+      "type": "object",
+      "required": [
+        "addressLine1",
+        "city",
+        "countryCode",
+        "name",
+        "postalCode",
+        "stateOrRegion"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the person, business or institution at that address.",
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "addressLine1": {
+          "type": "string",
+          "description": "First line of that address.",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "addressLine2": {
+          "type": "string",
+          "description": "Additional address information, if required.",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "addressLine3": {
+          "type": "string",
+          "description": "Additional address information, if required.",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "companyName": {
+          "type": "string",
+          "description": "Name of the business or institution associated with address."
+        },
+        "stateOrRegion": {
+          "$ref": "#/definitions/StateOrRegion"
+        },
+        "city": {
+          "$ref": "#/definitions/City"
+        },
+        "countryCode": {
+          "$ref": "#/definitions/CountryCode"
+        },
+        "postalCode": {
+          "$ref": "#/definitions/PostalCode"
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the contact associated with the address.",
+          "maxLength": 64
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the person, business or institution located at that address and should be included with country Extensions Code.",
+          "minLength": 1,
+          "maxLength": 20
+        }
+      },
+      "description": "The address."
+    },
+    "StateOrRegion": {
+      "type": "string",
+      "description": "The state, county or region where the person, business or institution is located."
+    },
+    "City": {
+      "type": "string",
+      "description": "The city or town where the person, business or institution is located."
+    },
+    "CountryCode": {
+      "type": "string",
+      "description": "The two digit country code. Follows ISO 3166-1 alpha-2 format."
+    },
+    "PostalCode": {
+      "type": "string",
+      "description": "The postal code of that address. It contains a series of letters or digits or both, sometimes including spaces or punctuation."
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "stateOrRegion": {
+          "$ref": "#/definitions/StateOrRegion"
+        },
+        "city": {
+          "$ref": "#/definitions/City"
+        },
+        "countryCode": {
+          "$ref": "#/definitions/CountryCode"
+        },
+        "postalCode": {
+          "$ref": "#/definitions/PostalCode"
+        }
+      },
+      "description": "The location where the person, business or institution is located."
+    },
+    "DocumentFormat": {
+      "type": "string",
+      "description": "File Format of the document.",
+      "enum": [
+        "PDF",
+        "PNG",
+        "ZPL"
+      ]
+    },
+    "DocumentType": {
+      "type": "string",
+      "description": "Type of shipping document.",
+      "enum": [
+        "PACKSLIP",
+        "LABEL",
+        "RECEIPT",
+        "CUSTOM_FORM"
+      ]
+    },
+    "Dpi": {
+      "type": "integer",
+      "description": "Dpi (Dots per Inch) value used in printing."
+    },
+    "PageLayout": {
+      "type": "string",
+      "description": "Indicator for position of label on the paper. Should be the same value as returned in GetRates response."
+    },
+    "NeedFileJoining": {
+      "type": "boolean",
+      "description": "Indicator whether files should be stitched together or returned separately. Defaults to false."
+    },
+    "Contents": {
+      "type": "string",
+      "description": "Base 64 encoded file contents."
+    },
+    "PackageDocumentList": {
+      "type": "array",
+      "description": "List of documents related to a package.",
+      "items": {
+        "$ref": "#/definitions/PackageDocument"
+      }
+    },
+    "PackageDocument": {
+      "type": "object",
+      "required": [
+        "type",
+        "format",
+        "contents"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/DocumentType"
+        },
+        "format": {
+          "$ref": "#/definitions/DocumentFormat"
+        },
+        "contents": {
+          "$ref": "#/definitions/Contents"
+        }
+      },
+      "description": "Document related to a package."
+    },
+    "PrintOptionList": {
+      "type": "array",
+      "description": "List of Format Options for a label.",
+      "items": {
+        "$ref": "#/definitions/PrintOption"
+      }
+    },
+    "PrintOption": {
+      "type": "object",
+      "required": [
+        "supportedFileJoiningOptions",
+        "supportedPageLayouts",
+        "supportedDocumentDetails"
+      ],
+      "properties": {
+        "supportedDPIs": {
+          "type": "array",
+          "description": "List of supported DPI options for a document.",
+          "items": {
+            "$ref": "#/definitions/Dpi"
+          }
+        },
+        "supportedPageLayouts": {
+          "type": "array",
+          "description": "List of supported page layout options for a document.",
+          "items": {
+            "$ref": "#/definitions/PageLayout"
+          }
+        },
+        "supportedFileJoiningOptions": {
+          "type": "array",
+          "description": "List of supported needFileJoining boolean values for a document.",
+          "items": {
+            "$ref": "#/definitions/NeedFileJoining"
+          }
+        },
+        "supportedDocumentDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SupportedDocumentDetail"
+          }
+        }
+      },
+      "description": "Format options available for a label."
+    },
+    "DocumentSize": {
+      "type": "object",
+      "required": [
+        "length",
+        "unit",
+        "width"
+      ],
+      "properties": {
+        "width": {
+          "type": "number"
+        },
+        "length": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "description": "The unit of measurement.",
+          "enum": [
+            "INCH",
+            "CENTIMETER"
+          ]
+        }
+      },
+      "description": "Size dimensions of the label."
+    },
+    "SupportedDocumentDetail": {
+      "type": "object",
+      "required": [
+        "name",
+        "isMandatory"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/DocumentType"
+        },
+        "isMandatory": {
+          "type": "boolean",
+          "description": "Indicates whether Supported Document Type is mandatory or not."
+        }
+      },
+      "description": "Document types that are supported for a service offering."
+    },
+    "RequestedDocumentSpecification": {
+      "type": "object",
+      "required": [
+        "format",
+        "needFileJoining",
+        "requestedDocumentTypes",
+        "size"
+      ],
+      "properties": {
+        "format": {
+          "$ref": "#/definitions/DocumentFormat"
+        },
+        "size": {
+          "$ref": "#/definitions/DocumentSize"
+        },
+        "dpi": {
+          "$ref": "#/definitions/Dpi"
+        },
+        "pageLayout": {
+          "$ref": "#/definitions/PageLayout"
+        },
+        "needFileJoining": {
+          "$ref": "#/definitions/NeedFileJoining"
+        },
+        "requestedDocumentTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DocumentType"
+          }
+        }
+      },
+      "description": "Document's specifications requested in purchase. Should be inline with Supported Specifications provided in getRates response, else purchase fails."
+    },
+    "SupportedDocumentSpecificationList": {
+      "type": "array",
+      "description": "Document Specifications that are supported for a service offering.",
+      "items": {
+        "$ref": "#/definitions/SupportedDocumentSpecification"
+      }
+    },
+    "SupportedDocumentSpecification": {
+      "type": "object",
+      "required": [
+        "format",
+        "printOptions",
+        "size"
+      ],
+      "properties": {
+        "format": {
+          "$ref": "#/definitions/DocumentFormat"
+        },
+        "size": {
+          "$ref": "#/definitions/DocumentSize"
+        },
+        "printOptions": {
+          "$ref": "#/definitions/PrintOptionList"
+        }
+      },
+      "description": "Document specification that is supported for a service offering."
+    },
+    "Item": {
+      "type": "object",
+      "required": [
+        "quantity"
+      ],
+      "properties": {
+        "itemValue": {
+          "$ref": "#/definitions/Currency"
+        },
+        "description": {
+          "type": "string",
+          "description": "Product description of the item."
+        },
+        "itemIdentifier": {
+          "type": "string",
+          "description": "Unique identifier for an Item provided by the client."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Number of units. Item quantity is required."
+        },
+        "weight" : {
+          "$ref": "#/definitions/Weight"
+        },
+        "isHazmat": {
+          "type": "boolean",
+          "description": "Boolean indicator whether an item is Hazmat or not. Defaults to false."
+        },
+        "serialNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of unique serial numbers to match against an Amazon package to guarantee non-fraudulent items. The number of serial numbers in the list must be less than or equal to the quantity of items being shipped in the request. Only applicable when channel source is Amazon."
+        },
+        "directFulfillmentItemIdentifiers": {
+          "$ref": "#/definitions/DirectFulfillmentItemIdentifiers"
+        }
+      },
+      "description": "Item in the package."
+    },
+    "ItemList": {
+      "type": "array",
+      "description": "List of items.",
+      "items": {
+        "$ref": "#/definitions/Item"
+      }
+    },
+    "Package": {
+      "type": "object",
+      "required": [
+        "dimensions",
+        "items",
+        "packageClientReferenceId",
+        "insuredValue",
+        "weight"
+      ],
+      "properties": {
+        "dimensions": {
+          "$ref": "#/definitions/Dimensions"
+        },
+        "weight": {
+          "$ref": "#/definitions/Weight"
+        },
+        "insuredValue": {
+          "$ref": "#/definitions/Currency"
+        },
+        "isHazmat": {
+          "type": "boolean",
+          "description": "Indicator whether the package is Hazmat or not. Defaults to false."
+        },
+        "packageClientReferenceId": {
+          "$ref": "#/definitions/PackageClientReferenceId"
+        },
+        "items": {
+          "$ref": "#/definitions/ItemList"
+        }
+      },
+      "description": "Package that is to be shipped through a shipping service offering."
+    },
+    "PackageList": {
+      "type": "array",
+      "description": "List of packages that are to be shipped through a shipping service offering.",
+      "items": {
+        "$ref": "#/definitions/Package"
+      }
+    },
+    "DirectFulfillmentItemIdentifiers": {
+      "type": "object",
+      "required": [
+        "lineItemID"
+      ],
+      "properties": {
+        "lineItemID": {
+          "type": "string",
+          "description": "Unique identifier for an Item provided by the client for DF shipments. This is only populated for DF multi piece shipments and mandatory if vendor wants to change the configuration of packages in which the purchase order is shipped."
+        },
+        "pieceNumber": {
+          "type": "string",
+          "description": "Unique identifier for an Item provided by the client for DF shipments. This is only populated for DF shipments if single line item has multiple pieces and will be defaulted to 1 if not provided."
+        }
+      },
+      "description": "Item details specific for DF shipments."
+    },
+    "PackageDocumentDetail": {
+      "type": "object",
+      "required": [
+        "packageClientReferenceId",
+        "packageDocuments"
+      ],
+      "properties": {
+        "packageClientReferenceId": {
+          "$ref": "#/definitions/PackageClientReferenceId"
+        },
+        "packageDocuments": {
+          "$ref": "#/definitions/PackageDocumentList"
+        },
+        "trackingId": {
+          "$ref": "#/definitions/TrackingId"
+        }
+      },
+      "description": "Post purchase detail of the package that will be shipped through a shipping service."
+    },
+    "PackageDocumentDetailList": {
+      "type": "array",
+      "description": "Post purchase details of the package that will be shipped through a shipping service.",
+      "items": {
+        "$ref": "#/definitions/PackageDocumentDetail"
+      }
+    },
+    "TimeWindow": {
+      "type": "object",
+      "properties": {
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of the window."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time of the window."
+        }
+      },
+      "description": "Time duration used to specify the interval of an event. Eg: PickUp, Delivery."
+    },
+    "Promise": {
+      "type": "object",
+      "properties": {
+        "deliveryWindow": {
+          "$ref": "#/definitions/TimeWindow"
+        },
+        "pickupWindow": {
+          "$ref": "#/definitions/TimeWindow"
+        }
+      },
+      "description": "Time windows promised for pickup and delivery events."
+    },
+    "RequestedValueAddedServiceList": {
+      "type": "array",
+      "description": "Value Added Services that are to be applied for a shipping service purchase.",
+      "items": {
+        "$ref": "#/definitions/RequestedValueAddedService"
+      }
+    },
+    "RequestedValueAddedService": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier of the selected value added service. The ID should be among the list of IDs returned in GetRates call, else purchase will fail."
+        }
+      },
+      "description": "Value Added Services that is to be applied for a shipping service purchase."
+    },
+    "AvailableValueAddedServiceGroupList": {
+      "type": "array",
+      "description": "Value Added Services that are available for a shipping service offering.",
+      "items": {
+        "$ref": "#/definitions/AvailableValueAddedServiceGroup"
+      }
+    },
+    "AvailableValueAddedServiceGroup": {
+      "type": "object",
+      "required": [
+        "groupId",
+        "groupDescription",
+        "isRequired"
+      ],
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "description": "Type of the Value Added Service group."
+        },
+        "groupDescription": {
+          "type": "string",
+          "description": "Name of the Value Added Service group."
+        },
+        "isRequired": {
+          "type": "boolean",
+          "description": "Indicates that the value added service group requires one of the option to be specified. If the group is not required then a specific VAS does not need to be selected; otherwise, one must be supplied."
+        },
+        "valueAddedServices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ValueAddedService"
+          }
+        }
+      },
+      "description": "Value Added Services that is available for a shipping service offering."
+    },
+    "ValueAddedService": {
+      "type": "object",
+      "required": [
+        "cost",
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier for the value added service."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human understandable name for the value added service."
+        },
+        "cost": {
+          "$ref": "#/definitions/Currency"
+        }
+      },
+      "description": "Details of a Value Added Service."
+    },
+    "EventCode": {
+      "type": "string",
+      "description": "Code for an event that indicates the Event Type.",
+      "enum": [
+        "READY_FOR_RECEIVE",
+        "PICKUP_DONE",
+        "DELIVERED",
+        "DEPARTED",
+        "DELIVERY_ATTEMPTED",
+        "LOST",
+        "OUT_FOR_DELIVERY",
+        "ARRIVED_AT_CARRIER_FACILITY",
+        "REJECTED",
+        "UNDELIVERABLE",
+        "PICKUP_CANCELLED"
+      ]
+    },
+    "Event": {
+      "type": "object",
+      "required": [
+        "eventCode",
+        "eventTime"
+      ],
+      "properties": {
+        "eventCode": {
+          "$ref": "#/definitions/EventCode"
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "eventTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 formatted timestamp of an event."
+        }
+      },
+      "description": "A Tracking Event."
+    },
+    "TrackingSummary": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/Status"
+        }
+      },
+      "description": "Summary of the tracking."
+    },
+    "Status": {
+      "type": "string",
+      "description": "Status of the package being shipped.",
+      "enum": [
+        "PRE_TRANSIT",
+        "IN_TRANSIT",
+        "DELIVERED",
+        "LOST",
+        "OUT_FOR_DELIVERY",
+        "REJECTED",
+        "UNDELIVERABLE",
+        "DELIVERY_ATTEMPTED",
+        "PICKUP_CANCELLED"
+      ]
+    },
+    "AmazonOrderDetails": {
+      "type": "object",
+      "required": [
+        "orderId"
+      ],
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "description": "Unique identifier for an Amazon Order, provided by Amazon. Purchase orderId should be populated in case of DF shipments."
+        }
+      },
+      "description": "Amazon Order information, populating this field is compulsory if shipment source channel is Amazon."
+    },
+    "AmazonShipmentDetails": {
+      "type": "object",
+      "required": [
+        "shipmentId"
+      ],
+      "properties": {
+        "shipmentId": {
+          "type": "string",
+          "description": "Unique identifier for an Amazon Shipment. Purchase orderId should be populated in case of DF shipments"
+        }
+      },
+      "description": "Amazon shipment information, populating this field is compulsory for shipment"
+    },
+    "ChannelDetails": {
+      "type": "object",
+      "required": [
+        "channelType"
+      ],
+      "properties": {
+        "channelType": {
+          "type": "string",
+          "description": "Type of shipment source Channels. AMAZON has to be selected if shipment source is Amazon, else select EXTERNAL.",
+          "enum": [
+            "AMAZON",
+            "EXTERNAL"
+          ]
+        },
+        "amazonOrderDetails": {
+          "$ref": "#/definitions/AmazonOrderDetails"
+        },
+        "amazonShipmentDetails": {
+          "$ref": "#/definitions/AmazonShipmentDetails"
+        }
+      },
+      "description": "Shipment source channel related information."
+    },
+    "RateList": {
+      "type": "array",
+      "description": "List of eligible shipping service offerings.",
+      "items": {
+        "$ref": "#/definitions/Rate"
+      }
+    },
+    "Rate": {
+      "type": "object",
+      "required": [
+        "carrierId",
+        "carrierName",
+        "promise",
+        "rateId",
+        "serviceId",
+        "serviceName",
+        "supportedDocumentSpecifications",
+        "totalCharge",
+        "requiresAdditionalInputs"
+      ],
+      "properties": {
+        "rateId": {
+          "$ref": "#/definitions/RateId"
+        },
+        "carrierId": {
+          "$ref": "#/definitions/CarrierId"
+        },
+        "carrierName": {
+          "$ref": "#/definitions/CarrierName"
+        },
+        "serviceId": {
+          "$ref": "#/definitions/ServiceId"
+        },
+        "serviceName": {
+          "$ref": "#/definitions/ServiceName"
+        },
+        "billedWeight": {
+          "$ref": "#/definitions/Weight"
+        },
+        "totalCharge": {
+          "$ref": "#/definitions/Currency"
+        },
+        "promise": {
+          "$ref": "#/definitions/Promise"
+        },
+        "supportedDocumentSpecifications": {
+          "$ref": "#/definitions/SupportedDocumentSpecificationList"
+        },
+        "availableValueAddedServiceGroups": {
+          "$ref": "#/definitions/AvailableValueAddedServiceGroupList"
+        },
+        "requiresAdditionalInputs": {
+          "type": "boolean",
+          "description" : "This boolean flag indicates if the shipping offering requires additional inputs to be passed for purchase. GetAdditionalInputs API should be invoked if this value is true."
+        }
+      },
+      "description": "Details of a shipping service offering."
+    },
+    "IneligibilityReasonCode": {
+      "type": "string",
+      "description": "Code for the ineligibility reason.",
+      "enum": [
+        "NO_COVERAGE",
+        "PICKUP_SLOT_RESTRICTION",
+        "UNSUPPORTED_VAS",
+        "VAS_COMBINATION_RESTRICTION",
+        "SIZE_RESTRICTIONS",
+        "WEIGHT_RESTRICTIONS",
+        "LATE_DELIVERY",
+        "PROGRAM_CONSTRAINTS",
+        "TERMS_AND_CONDITIONS_NOT_ACCEPTED",
+        "UNKNOWN"
+      ]
+    },
+    "IneligibilityReason" : {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "#/definitions/IneligibilityReasonCode"
+        },
+        "message": {
+          "type": "string",
+          "description": "Descriptive message for the ineligibility reason."
+        }
+      },
+      "description": "Reason that makes a shipping service offering ineligible."
+    },
+    "IneligibleRate": {
+      "type": "object",
+      "required": [
+        "carrierId",
+        "carrierName",
+        "ineligibilityReasons",
+        "serviceId",
+        "serviceName"
+      ],
+      "properties": {
+        "serviceId": {
+          "$ref": "#/definitions/ServiceId"
+        },
+        "serviceName": {
+          "$ref": "#/definitions/ServiceName"
+        },
+        "carrierName": {
+          "$ref": "#/definitions/CarrierName"
+        },
+        "carrierId": {
+          "$ref": "#/definitions/CarrierId"
+        },
+        "ineligibilityReasons": {
+          "type": "array",
+          "description": "List of reasons that makes a service offering ineligible.",
+          "items": {
+            "$ref": "#/definitions/IneligibilityReason"
+          }
+        }
+      },
+      "description": "List of ineligible shipping service offerings."
+    },
+    "IneligibleRateList": {
+      "type": "array",
+      "description": "Details of an ineligible shipping service offering.",
+      "items": {
+        "$ref": "#/definitions/IneligibleRate"
+      }
+    },
+    "CancelShipmentResponse": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "object",
+          "description": "The payload for getRates operation.",
+          "properties": {}
+        },
+        "errors": {
+          "description": "Encountered errors for the operation.",
+          "$ref": "#/definitions/ErrorList"
+        }
+      },
+      "description": "Response schema for CancelShipment operation."
+    },
+    "GetRatesRequest": {
+      "type": "object",
+      "required": [
+        "packages",
+        "shipFrom",
+        "channelDetails"
+      ],
+      "properties": {
+        "shipTo": {
+          "$ref": "#/definitions/Address"
+        },
+        "shipFrom": {
+          "$ref": "#/definitions/Address"
+        },
+        "returnTo": {
+          "$ref": "#/definitions/Address"
+        },
+        "shipDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start date and time. This defaults to the current date and time."
+        },
+        "packages": {
+          "$ref": "#/definitions/PackageList"
+        },
+        "channelDetails": {
+          "$ref": "#/definitions/ChannelDetails"
+        }
+      },
+      "description": "The payload schema for the getRates operation. ShipTo address is not needed if channelType is Amazon."
+    },
+    "GetRatesResponse": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "object",
+          "description": "The payload for getRates operation.",
+          "properties": {
+            "requestToken": {
+              "$ref": "#/definitions/RequestToken"
+            },
+            "rates": {
+              "$ref": "#/definitions/RateList"
+            },
+            "ineligibleRates": {
+              "$ref": "#/definitions/IneligibleRateList"
+            }
+          },
+          "required": [
+            "rates",
+            "requestToken"
+          ]
+        },
+        "errors": {
+          "description": "Encountered errors for the operation.",
+          "$ref": "#/definitions/ErrorList"
+        }
+      },
+      "description": "The response schema for the getRates operation."
+    },
+    "DirectPurchaseRequest": {
+      "type": "object",
+      "required": [
+        "channelDetails"
+      ],
+      "properties": {
+        "shipTo": {
+          "$ref": "#/definitions/Address"
+        },
+        "shipFrom": {
+          "$ref": "#/definitions/Address"
+        },
+        "returnTo": {
+          "$ref": "#/definitions/Address"
+        },
+        "packages": {
+          "$ref": "#/definitions/PackageList"
+        },
+        "channelDetails": {
+          "$ref": "#/definitions/ChannelDetails"
+        },
+        "labelSpecifications": {
+          "$ref": "#/definitions/RequestedDocumentSpecification"
+        }
+      },
+      "description": "The payload schema for the direct purchase operation. ShipTo address is not needed if channelType is Amazon."
+    },
+    "DirectPurchaseResponse": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "object",
+          "description": "The payload for DirectPurchase operation.",
+          "properties": {
+            "shipmentId": {
+              "$ref": "#/definitions/ShipmentId"
+            },
+            "packageDocumentDetailList": {
+              "$ref": "#/definitions/PackageDocumentDetailList"
+            }
+          },
+          "required": [
+            "packageDocumentDetail",
+            "shipmentId"
+          ]
+        },
+        "errors": {
+          "description": "Encountered errors for the operation.",
+          "$ref": "#/definitions/ErrorList"
+        }
+      },
+      "description": "The response schema for the DirectPurchase operation."
+    },
+    "GetShipmentDocumentsResponse": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "object",
+          "description": "The payload for GetShipmentDocuments operation.",
+          "properties": {
+            "shipmentId": {
+              "$ref": "#/definitions/ShipmentId"
+            },
+            "packageDocumentDetail": {
+              "$ref": "#/definitions/PackageDocumentDetail"
+            }
+          },
+          "required": [
+            "packageDocumentDetail",
+            "shipmentId"
+          ]
+        },
+        "errors": {
+          "description": "Encountered errors for the operation.",
+          "$ref": "#/definitions/ErrorList"
+        }
+      },
+      "description": "The response schema for the GetShipmentDocuments operation."
+    },
+    "GetTrackingResponse": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "object",
+          "description": "The payload for GetTracking operation.",
+          "properties": {
+            "trackingId": {
+              "$ref": "#/definitions/TrackingId"
+            },
+            "eventHistory": {
+              "type": "array",
+              "description": "List of tracking events.",
+              "items": {
+                "$ref": "#/definitions/Event"
+              }
+            },
+            "promisedDeliveryDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 standard date-time by when the shipment is promised to be delivered."
+            },
+            "summary": {
+              "$ref": "#/definitions/TrackingSummary"
+            }
+          },
+          "required": [
+            "eventHistory",
+            "promisedDeliveryDate",
+            "summary",
+            "trackingId"
+          ]
+        },
+        "errors": {
+          "description": "Encountered errors for the operation.",
+          "$ref": "#/definitions/ErrorList"
+        }
+      },
+      "description": "The response schema for the GetTracking operation."
+    },
+    "PurchaseShipmentRequest": {
+      "type": "object",
+      "required": [
+        "rateId",
+        "requestToken",
+        "requestedDocumentSpecification"
+      ],
+      "properties": {
+        "requestToken": {
+          "$ref": "#/definitions/RequestToken"
+        },
+        "rateId": {
+          "$ref": "#/definitions/RateId"
+        },
+        "requestedDocumentSpecification": {
+          "$ref": "#/definitions/RequestedDocumentSpecification"
+        },
+        "requestedValueAddedServices": {
+          "$ref": "#/definitions/RequestedValueAddedServiceList"
+        },
+        "additionalInputs": {
+          "type": "object",
+          "additionalProperties" : true,
+          "description": "Additional inputs required to purchase an offering. JSON should adhere to the json schema returned in GetAdditionalInputsResponse. Applicable only if 'requiresAdditionalInputs' field of GetRates response is true."
+        }
+      },
+      "description": "The payload schema for the PurchaseShipment operation."
+    },
+    "PurchaseShipmentResponse": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "object",
+          "description": "The payload for PurchaseShipment operation.",
+          "properties": {
+            "shipmentId": {
+              "$ref": "#/definitions/ShipmentId"
+            },
+            "packageDocumentDetails": {
+              "$ref": "#/definitions/PackageDocumentDetailList"
+            },
+            "promise": {
+              "$ref": "#/definitions/Promise"
+            }
+          },
+          "required": [
+            "packageDocumentDetails",
+            "promise",
+            "shipmentId"
+          ]
+        },
+        "errors": {
+          "description": "Encountered errors for the operation.",
+          "$ref": "#/definitions/ErrorList"
+        }
+      },
+      "description": "The response schema for the PurchaseShipment operation."
+    },
+    "GetAdditionalInputsResponse": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "object",
+          "description": "JSON Schema for additional inputs required to purchase a shipping offering.",
+          "additionalProperties": true
+        },
+        "errors": {
+          "description": "Encountered errors for the operation.",
+          "$ref": "#/definitions/ErrorList"
+        }
+      },
+      "description": "The response schema for the GetAdditionalInputs operation."
+    }
+  }
+}
