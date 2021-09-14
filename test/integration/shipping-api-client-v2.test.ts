@@ -17,7 +17,7 @@ describe(`${ShippingApiClientV2.name}`, () => {
     })
 
     it('should return the list of marketplaces', async () => {
-      expect.assertions(1)
+      expect.assertions(2)
 
       const name = 'Josh Fisher'
       const email = 'jfisher@whitebox.com'
@@ -29,8 +29,8 @@ describe(`${ShippingApiClientV2.name}`, () => {
         // addressLine3: '',
         companyName: 'Whitebox',
         stateOrRegion: 'MD',
-        city: 'Phoenix',
-        countryCode: 'USA',
+        city: 'Baltimore',
+        countryCode: 'US',
         postalCode: '21226',
         email,
         phoneNumber: '4439329636',
@@ -44,7 +44,7 @@ describe(`${ShippingApiClientV2.name}`, () => {
         companyName: 'Whitebox',
         stateOrRegion: 'MD',
         city: 'Baltimore',
-        countryCode: 'USA',
+        countryCode: 'US',
         postalCode: '21230',
         email,
         phoneNumber: '4439329636',
@@ -57,7 +57,7 @@ describe(`${ShippingApiClientV2.name}`, () => {
           shipTo: addressTwo,
           shipFrom: addressOne,
           returnTo: addressOne,
-          shipDate: '2021-09-14T12:00:00Z',
+          shipDate: '2021-09-15T12:00:00Z',
           packages: [
             {
               dimensions: {
@@ -113,7 +113,8 @@ describe(`${ShippingApiClientV2.name}`, () => {
         },
       })
 
-      expect(ratesResponse.data.payload).toBeInstanceOf(Array)
+      expect(ratesResponse.data.payload).toBeDefined()
+      expect(ratesResponse.data.payload.rates).toBeInstanceOf(Array)
     })
   })
 })
