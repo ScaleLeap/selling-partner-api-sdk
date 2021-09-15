@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Tokens 
- * The Selling Partner API for Tokens provides a secure way to access a customer\'s PII (Personally Identifiable Information). You can call the Tokens API to get a Restricted Data Token (RDT) for one or more restricted resources that you specify. The RDT authorizes you to make subsequent calls to restricted operations that correspond to the restricted resources that you specified.  For more information, see the [Tokens API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/references/tokens-api/tokens_2021-03-01.md).
+ * The Selling Partner API for Tokens provides a secure way to access a customer\'s PII (Personally Identifiable Information). You can call the Tokens API to get a Restricted Data Token (RDT) for one or more restricted resources that you specify. The RDT authorizes subsequent calls to restricted operations that correspond to the restricted resources that you specified.  For more information, see the [Tokens API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/references/tokens-api/tokens_2021-03-01.md).
  *
  * The version of the OpenAPI document: 2021-03-01
  * 
@@ -47,7 +47,7 @@ export interface CreateRestrictedDataTokenRequest {
  */
 export interface CreateRestrictedDataTokenResponse {
     /**
-     * A Restricted Data Token (RDT). This is a short-lived access token that authorizes you to access the restricted resources that you specified. Pass this value with the x-amz-access-token header when making subsequent calls to these restricted resources.
+     * A Restricted Data Token (RDT). This is a short-lived access token that authorizes calls to restricted operations. Pass this value with the x-amz-access-token header when making subsequent calls to these restricted resources.
      * @type {string}
      * @memberof CreateRestrictedDataTokenResponse
      */
