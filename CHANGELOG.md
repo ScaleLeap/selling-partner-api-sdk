@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.0.2...v5.1.0) (2021-09-17)
+
+
+### Features
+
+* update for tds reimbursement ([#244](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/244)) ([95d3928](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/95d392896fd159d27092e0c34891980de3564e18))
+
 ## [5.0.2](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.0.1...v5.0.2) (2021-09-06)
 
 
