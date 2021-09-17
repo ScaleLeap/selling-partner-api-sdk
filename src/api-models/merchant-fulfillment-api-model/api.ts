@@ -460,7 +460,7 @@ export interface GetAdditionalSellerInputsRequest {
      */
     ShipFromAddress: Address;
     /**
-     * An Amazon-defined order identifier, in 3-7-7 format. <br>**Pattern** : `[0-9A-Z]{3}-[0-9]{7}-[0-9]{7}`.
+     * An Amazon-defined order identifier, in 3-7-7 format.
      * @type {string}
      * @memberof GetAdditionalSellerInputsRequest
      */
@@ -1038,7 +1038,7 @@ export interface Shipment {
      */
     ShipmentId: string;
     /**
-     * An Amazon-defined order identifier, in 3-7-7 format. <br>**Pattern** : `[0-9A-Z]{3}-[0-9]{7}-[0-9]{7}`.
+     * An Amazon-defined order identifier, in 3-7-7 format.
      * @type {string}
      * @memberof Shipment
      */
@@ -1129,7 +1129,7 @@ export interface Shipment {
  */
 export interface ShipmentRequestDetails {
     /**
-     * An Amazon-defined order identifier, in 3-7-7 format. <br>**Pattern** : `[0-9A-Z]{3}-[0-9]{7}-[0-9]{7}`.
+     * An Amazon-defined order identifier, in 3-7-7 format.
      * @type {string}
      * @memberof ShipmentRequestDetails
      */
