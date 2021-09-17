@@ -628,6 +628,36 @@ export interface FinancialEvents {
      * @memberof FinancialEvents
      */
     AffordabilityExpenseReversalEventList?: Array<AffordabilityExpenseEvent>;
+    /**
+     * A list of information about trial shipment financial events.
+     * @type {Array<TrialShipmentEvent>}
+     * @memberof FinancialEvents
+     */
+    TrialShipmentEventList?: Array<TrialShipmentEvent>;
+    /**
+     * A list of information about shipment settle financial events.
+     * @type {Array<ShipmentEvent>}
+     * @memberof FinancialEvents
+     */
+    ShipmentSettleEventList?: Array<ShipmentEvent>;
+    /**
+     * List of TaxWithholding events.
+     * @type {Array<TaxWithholdingEvent>}
+     * @memberof FinancialEvents
+     */
+    TaxWithholdingEventList?: Array<TaxWithholdingEvent>;
+    /**
+     * A list of removal shipment event information.
+     * @type {Array<RemovalShipmentEvent>}
+     * @memberof FinancialEvents
+     */
+    RemovalShipmentEventList?: Array<RemovalShipmentEvent>;
+    /**
+     * A comma-delimited list of Removal shipmentAdjustment details for FBA inventory.
+     * @type {Array<RemovalShipmentAdjustmentEvent>}
+     * @memberof FinancialEvents
+     */
+    RemovalShipmentAdjustmentEventList?: Array<RemovalShipmentAdjustmentEvent>;
 }
 /**
  * A fee event related to Amazon Imaging services.
@@ -971,6 +1001,49 @@ export interface Promotion {
     PromotionAmount?: Currency;
 }
 /**
+ * A financial adjustment event for FBA liquidated inventory.  Possible adjustment:  * Positive values - Buyer needs to pay more amount to Amazon. E.g. charge was wrongly calculated 0$ instead of 100$ due to system error.   * Negative Values - Buyer get refund. E.g. Buyer receives less items or damaged items and as part of their adjustment buyer gets refund.
+ * @export
+ * @interface RemovalShipmentAdjustmentEvent
+ */
+export interface RemovalShipmentAdjustmentEvent {
+    /**
+     * 
+     * @type {string}
+     * @memberof RemovalShipmentAdjustmentEvent
+     */
+    PostedDate?: string;
+    /**
+     * The unique identifier for the adjustment event.
+     * @type {string}
+     * @memberof RemovalShipmentAdjustmentEvent
+     */
+    AdjustmentEventId?: string;
+    /**
+     * The merchant removal orderId.
+     * @type {string}
+     * @memberof RemovalShipmentAdjustmentEvent
+     */
+    MerchantOrderId?: string;
+    /**
+     * The orderId for shipping inventory.
+     * @type {string}
+     * @memberof RemovalShipmentAdjustmentEvent
+     */
+    OrderId?: string;
+    /**
+     * The type of removal order.  Possible values:  * WHOLESALE_LIQUIDATION.
+     * @type {string}
+     * @memberof RemovalShipmentAdjustmentEvent
+     */
+    TransactionType?: string;
+    /**
+     * A comma-delimited list of Removal shipmentItemAdjustment details for FBA inventory.
+     * @type {Array<RemovalShipmentItemAdjustment>}
+     * @memberof RemovalShipmentAdjustmentEvent
+     */
+    RemovalShipmentItemAdjustmentList?: Array<RemovalShipmentItemAdjustment>;
+}
+/**
  * A removal shipment event for a removal order.
  * @export
  * @interface RemovalShipmentEvent
@@ -982,6 +1055,12 @@ export interface RemovalShipmentEvent {
      * @memberof RemovalShipmentEvent
      */
     PostedDate?: string;
+    /**
+     * The merchant removal orderId.
+     * @type {string}
+     * @memberof RemovalShipmentEvent
+     */
+    MerchantOrderId?: string;
     /**
      * The identifier for the removal shipment order.
      * @type {string}
@@ -1055,6 +1134,55 @@ export interface RemovalShipmentItem {
      * @memberof RemovalShipmentItem
      */
     TaxWithheld?: Currency;
+}
+/**
+ * Item-level information for a removal shipment item adjustment.
+ * @export
+ * @interface RemovalShipmentItemAdjustment
+ */
+export interface RemovalShipmentItemAdjustment {
+    /**
+     * An identifier for an item in a removal shipment.
+     * @type {string}
+     * @memberof RemovalShipmentItemAdjustment
+     */
+    RemovalShipmentItemId?: string;
+    /**
+     * The tax collection model applied to the item.  Possible values:  * MarketplaceFacilitator - Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller.  * Standard - Tax is paid to the seller and not remitted to the taxing authority by Amazon.
+     * @type {string}
+     * @memberof RemovalShipmentItemAdjustment
+     */
+    TaxCollectionModel?: string;
+    /**
+     * The Amazon fulfillment network SKU for the item.
+     * @type {string}
+     * @memberof RemovalShipmentItemAdjustment
+     */
+    FulfillmentNetworkSKU?: string;
+    /**
+     * Adjusted quantity of removal shipmentItemAdjustment items.
+     * @type {number}
+     * @memberof RemovalShipmentItemAdjustment
+     */
+    AdjustedQuantity?: number;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof RemovalShipmentItemAdjustment
+     */
+    RevenueAdjustment?: Currency;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof RemovalShipmentItemAdjustment
+     */
+    TaxAmountAdjustment?: Currency;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof RemovalShipmentItemAdjustment
+     */
+    TaxWithheldAdjustment?: Currency;
 }
 /**
  * An event related to a rental transaction.
@@ -1619,31 +1747,6 @@ export interface SolutionProviderCreditEvent {
     TransactionCreationDate?: string;
 }
 /**
- * A tax deduction at source (TDS) claim reimbursement event on the seller\'s account.
- * @export
- * @interface TDSReimbursementEvent
- */
-export interface TDSReimbursementEvent {
-    /**
-     * 
-     * @type {string}
-     * @memberof TDSReimbursementEvent
-     */
-    PostedDate?: string;
-    /**
-     * A tax deduction at source (TDS) claim identifier.
-     * @type {string}
-     * @memberof TDSReimbursementEvent
-     */
-    TdsOrderId?: string;
-    /**
-     * 
-     * @type {Currency}
-     * @memberof TDSReimbursementEvent
-     */
-    ReimbursedAmount?: Currency;
-}
-/**
  * Information about the taxes withheld.
  * @export
  * @interface TaxWithheldComponent
@@ -1661,6 +1764,56 @@ export interface TaxWithheldComponent {
      * @memberof TaxWithheldComponent
      */
     TaxesWithheld?: Array<ChargeComponent>;
+}
+/**
+ * A TaxWithholding event on seller\'s account.
+ * @export
+ * @interface TaxWithholdingEvent
+ */
+export interface TaxWithholdingEvent {
+    /**
+     * 
+     * @type {string}
+     * @memberof TaxWithholdingEvent
+     */
+    PostedDate?: string;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof TaxWithholdingEvent
+     */
+    BaseAmount?: Currency;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof TaxWithholdingEvent
+     */
+    WithheldAmount?: Currency;
+    /**
+     * 
+     * @type {TaxWithholdingPeriod}
+     * @memberof TaxWithholdingEvent
+     */
+    TaxWithholdingPeriod?: TaxWithholdingPeriod;
+}
+/**
+ * Period which taxwithholding on seller\'s account is calculated.
+ * @export
+ * @interface TaxWithholdingPeriod
+ */
+export interface TaxWithholdingPeriod {
+    /**
+     * 
+     * @type {string}
+     * @memberof TaxWithholdingPeriod
+     */
+    StartDate?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaxWithholdingPeriod
+     */
+    EndDate?: string;
 }
 /**
  * An event related to a trial shipment.
