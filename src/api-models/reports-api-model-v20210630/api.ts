@@ -22,7 +22,7 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
- * 
+ * Response schema.
  * @export
  * @interface CreateReportResponse
  */
@@ -35,7 +35,7 @@ export interface CreateReportResponse {
     reportId: string;
 }
 /**
- * 
+ * Response schema.
  * @export
  * @interface CreateReportScheduleResponse
  */
@@ -111,7 +111,7 @@ export enum CreateReportScheduleSpecificationPeriodEnum {
 }
 
 /**
- * 
+ * Information required to create the report.
  * @export
  * @interface CreateReportSpecification
  */
@@ -167,7 +167,7 @@ export interface ErrorList {
  */
 export interface GetReportsResponse {
     /**
-     * 
+     * A list of reports.
      * @type {Array<Report>}
      * @memberof GetReportsResponse
      */
@@ -205,7 +205,7 @@ export interface ModelError {
     details?: string;
 }
 /**
- * 
+ * Detailed information about the report.
  * @export
  * @interface Report
  */
@@ -291,7 +291,7 @@ export enum ReportProcessingStatusEnum {
 }
 
 /**
- * 
+ * Information required for the report document.
  * @export
  * @interface ReportDocument
  */
@@ -368,7 +368,7 @@ export interface ReportSchedule {
     nextReportCreationTime?: string;
 }
 /**
- * 
+ * A list of report schedules.
  * @export
  * @interface ReportScheduleList
  */
