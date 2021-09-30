@@ -41,7 +41,7 @@ export interface CreateFeedDocumentResponse {
     url: string;
 }
 /**
- * 
+ * Specifies the content type for the createFeedDocument operation.
  * @export
  * @interface CreateFeedDocumentSpecification
  */
@@ -54,7 +54,7 @@ export interface CreateFeedDocumentSpecification {
     contentType: string;
 }
 /**
- * 
+ * Response schema.
  * @export
  * @interface CreateFeedResponse
  */
@@ -67,7 +67,7 @@ export interface CreateFeedResponse {
     feedId: string;
 }
 /**
- * 
+ * Information required to create the feed.
  * @export
  * @interface CreateFeedSpecification
  */
@@ -111,7 +111,7 @@ export interface ErrorList {
     errors: Array<Error>;
 }
 /**
- * 
+ * Detailed information about the feed.
  * @export
  * @interface Feed
  */
@@ -179,7 +179,7 @@ export enum FeedProcessingStatusEnum {
 }
 
 /**
- * 
+ * Information required for the feed document.
  * @export
  * @interface FeedDocument
  */
@@ -219,7 +219,7 @@ export enum FeedDocumentCompressionAlgorithmEnum {
  */
 export interface GetFeedsResponse {
     /**
-     * 
+     * A list of feeds.
      * @type {Array<Feed>}
      * @memberof GetFeedsResponse
      */
