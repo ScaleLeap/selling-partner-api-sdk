@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.1.0...v5.1.1) (2021-10-27)
+
+
+### Bug Fixes
+
+* **deps:** update node.js to v16 ([#286](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/286)) ([3827f14](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/3827f140860645e1ebaf79032520bce33529edbb))
+
 # [5.1.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.0.2...v5.1.0) (2021-09-17)
 
 
