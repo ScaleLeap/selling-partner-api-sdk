@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+import { AxiosResponseHeaders } from 'axios'
 import { ExtendableError } from 'ts-error'
 
 export interface ModelErrorContainer {
@@ -35,7 +36,7 @@ export class SellingPartnerGenericError extends ExtendableError {
 
   public requestId: string
 
-  public constructor(error: ModelError, headers: Headers) {
+  public constructor(error: ModelError, headers: AxiosResponseHeaders) {
     super(error.details)
 
     this.code = error.code
@@ -53,7 +54,7 @@ export class SellingPartnerUnsupportedMediaTypeError extends SellingPartnerGener
 export class SellingPartnerTooManyRequestsError extends SellingPartnerGenericError {
   public rateLimit?: number
 
-  public constructor(error: ModelError, headers: Headers) {
+  public constructor(error: ModelError, headers: AxiosResponseHeaders) {
     super(error, headers)
     this.rateLimit =
       Number(headers['x-amzn-RateLimit-Limit']) ||
