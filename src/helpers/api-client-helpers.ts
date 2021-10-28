@@ -40,7 +40,7 @@ export class ApiClientHelpers {
       axiosInstance = globalAxios.create({
         headers: {
           'user-agent': USER_AGENT,
-          'x-amz-access-token': accessToken!,
+          'x-amz-access-token': accessToken ?? '',
         },
       })
 
