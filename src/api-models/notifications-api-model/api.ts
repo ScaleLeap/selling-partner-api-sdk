@@ -413,7 +413,7 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * Creates a subscription for the specified notification type to be delivered to the specified destination. Before you can subscribe, you must first create the destination by calling the createDestination operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {CreateSubscriptionRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -486,7 +486,7 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * Deletes the subscription indicated by the subscription identifier and notification type that you specify. The subscription identifier can be for any subscription associated with your application. After you successfully call this operation, notifications will stop being sent for the associated subscription. The deleteSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} subscriptionId The identifier for the subscription that you want to delete.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -584,7 +584,7 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * Returns information about subscriptions of the specified notification type. You can use this API to get subscription information when you do not have a subscription identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -618,7 +618,7 @@ export const NotificationsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * Returns information about a subscription for the specified notification type. The getSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} subscriptionId The identifier for the subscription that you want to get.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -674,7 +674,7 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * Creates a subscription for the specified notification type to be delivered to the specified destination. Before you can subscribe, you must first create the destination by calling the createDestination operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {CreateSubscriptionRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -696,7 +696,7 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
         /**
          * Deletes the subscription indicated by the subscription identifier and notification type that you specify. The subscription identifier can be for any subscription associated with your application. After you successfully call this operation, notifications will stop being sent for the associated subscription. The deleteSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} subscriptionId The identifier for the subscription that you want to delete.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -725,7 +725,7 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * Returns information about subscriptions of the specified notification type. You can use this API to get subscription information when you do not have a subscription identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -736,7 +736,7 @@ export const NotificationsApiFp = function(configuration?: Configuration) {
         /**
          * Returns information about a subscription for the specified notification type. The getSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} subscriptionId The identifier for the subscription that you want to get.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -765,7 +765,7 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
         },
         /**
          * Creates a subscription for the specified notification type to be delivered to the specified destination. Before you can subscribe, you must first create the destination by calling the createDestination operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {CreateSubscriptionRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -785,7 +785,7 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
         /**
          * Deletes the subscription indicated by the subscription identifier and notification type that you specify. The subscription identifier can be for any subscription associated with your application. After you successfully call this operation, notifications will stop being sent for the associated subscription. The deleteSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} subscriptionId The identifier for the subscription that you want to delete.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -811,7 +811,7 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
         },
         /**
          * Returns information about subscriptions of the specified notification type. You can use this API to get subscription information when you do not have a subscription identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -821,7 +821,7 @@ export const NotificationsApiFactory = function (configuration?: Configuration, 
         /**
          * Returns information about a subscription for the specified notification type. The getSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} subscriptionId The identifier for the subscription that you want to get.
-         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+         * @param {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'} notificationType The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -852,7 +852,7 @@ export interface NotificationsApiCreateDestinationRequest {
  */
 export interface NotificationsApiCreateSubscriptionRequest {
     /**
-     * The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+     * The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
      * @type {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'}
      * @memberof NotificationsApiCreateSubscription
      */
@@ -894,7 +894,7 @@ export interface NotificationsApiDeleteSubscriptionByIdRequest {
     readonly subscriptionId: string
 
     /**
-     * The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+     * The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
      * @type {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'}
      * @memberof NotificationsApiDeleteSubscriptionById
      */
@@ -922,7 +922,7 @@ export interface NotificationsApiGetDestinationRequest {
  */
 export interface NotificationsApiGetSubscriptionRequest {
     /**
-     * The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+     * The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
      * @type {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'}
      * @memberof NotificationsApiGetSubscription
      */
@@ -943,7 +943,7 @@ export interface NotificationsApiGetSubscriptionByIdRequest {
     readonly subscriptionId: string
 
     /**
-     * The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
+     * The type of notification.   For more information about notification types, see [the Notifications API Use Case Guide](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/notifications-api-use-case-guide/notifications-use-case-guide-v1.md).
      * @type {'ANY_OFFER_CHANGED' | 'FEED_PROCESSING_FINISHED' | 'FBA_OUTBOUND_SHIPMENT_STATUS' | 'FEE_PROMOTION' | 'FULFILLMENT_ORDER_STATUS' | 'REPORT_PROCESSING_FINISHED' | 'BRANDED_ITEM_CONTENT_CHANGE' | 'ITEM_PRODUCT_TYPE_CHANGE' | 'LISTINGS_ITEM_STATUS_CHANGE' | 'LISTINGS_ITEM_ISSUES_CHANGE' | 'MFN_ORDER_STATUS_CHANGE' | 'B2B_ANY_OFFER_CHANGED' | 'ACCOUNT_STATUS_CHANGED'}
      * @memberof NotificationsApiGetSubscriptionById
      */
