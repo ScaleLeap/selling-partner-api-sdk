@@ -2197,7 +2197,7 @@ export interface Weight {
      * @type {string}
      * @memberof Weight
      */
-    unit: WeightUnitEnum | 'KG' | 'LB';
+    unit: WeightUnitEnum | 'KG' | 'KILOGRAMS' | 'LB' | 'POUNDS';
     /**
      * The weight value.
      * @type {string}
@@ -2212,7 +2212,9 @@ export interface Weight {
     */
 export enum WeightUnitEnum {
     Kg = 'KG',
-    Lb = 'LB'
+    Kilograms = 'KILOGRAMS',
+    Lb = 'LB',
+    Pounds = 'POUNDS'
 }
 
 
