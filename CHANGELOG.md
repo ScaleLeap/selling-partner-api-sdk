@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.1.2...v5.2.0) (2021-11-08)
+
+
+### Features
+
+* add Kilograms and Pounds to weight unit ([#299](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/299)) ([7bad0cf](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/7bad0cfa52545e6a65d7dca8327fbfe9c3f35109))
+
 ## [5.1.2](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.1.1...v5.1.2) (2021-10-28)
 
 
