@@ -169,7 +169,7 @@ export interface Address {
      */
     City: string;
     /**
-     * The state or province code.
+     * The state or province code. **Note.** Required in the Canada, US, and UK marketplaces. Also required for shipments originating from China.
      * @type {string}
      * @memberof Address
      */
