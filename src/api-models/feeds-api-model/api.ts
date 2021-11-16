@@ -148,7 +148,7 @@ export interface CreateFeedSpecification {
      */
     inputFeedDocumentId: string;
     /**
-     * Additional options to control the feed. These vary by feed type.
+     * Additional options to control the feed. For feeds that use the feedOptions parameter, you can find the parameter values in the feed description in [feedType values](https://github.com/amzn/selling-partner-api-docs/blob/main/references/feeds-api/feedtype-values.md).
      * @type {{ [key: string]: string; }}
      * @memberof CreateFeedSpecification
      */
