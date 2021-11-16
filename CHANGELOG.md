@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.2.0...v5.3.0) (2021-11-16)
+
+
+### Features
+
+* add the PRODUCT_TYPE_DEFINITION_CHANGE notification type ([#309](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/309)) ([2aa8d43](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/2aa8d4366b535947d7128a05af182e0f992575a7))
+
 # [5.2.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.1.2...v5.2.0) (2021-11-08)
 
 
