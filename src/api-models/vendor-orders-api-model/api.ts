@@ -425,7 +425,7 @@ export interface OrderAcknowledgementItem {
      * @type {Money}
      * @memberof OrderAcknowledgementItem
      */
-    netCost: Money;
+    netCost?: Money;
     /**
      * 
      * @type {Money}
@@ -712,6 +712,12 @@ export interface OrderItemStatus {
      * @memberof OrderItemStatus
      */
     acknowledgementStatus?: OrderItemStatusAcknowledgementStatus;
+    /**
+     * 
+     * @type {OrderItemStatusReceivingStatus}
+     * @memberof OrderItemStatus
+     */
+    receivingStatus?: OrderItemStatusReceivingStatus;
 }
 /**
  * Acknowledgement status information.
@@ -775,6 +781,42 @@ export interface OrderItemStatusOrderedQuantity {
      */
     orderedQuantityDetails?: Array<OrderedQuantityDetails>;
 }
+/**
+ * Item receive status at the buyer\'s warehouse.
+ * @export
+ * @interface OrderItemStatusReceivingStatus
+ */
+export interface OrderItemStatusReceivingStatus {
+    /**
+     * Receive status of the line item.
+     * @type {string}
+     * @memberof OrderItemStatusReceivingStatus
+     */
+    receiveStatus?: OrderItemStatusReceivingStatusReceiveStatusEnum | 'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED';
+    /**
+     * 
+     * @type {ItemQuantity}
+     * @memberof OrderItemStatusReceivingStatus
+     */
+    receivedQuantity?: ItemQuantity;
+    /**
+     * The date when the most recent item was received at the buyer\'s warehouse. Must be in ISO-8601 date/time format.
+     * @type {string}
+     * @memberof OrderItemStatusReceivingStatus
+     */
+    lastReceiveDate?: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum OrderItemStatusReceivingStatusReceiveStatusEnum {
+    NotReceived = 'NOT_RECEIVED',
+    PartiallyReceived = 'PARTIALLY_RECEIVED',
+    Received = 'RECEIVED'
+}
+
 /**
  * 
  * @export
@@ -1157,13 +1199,14 @@ export const VendorOrdersApiAxiosParamCreator = function (configuration?: Config
          * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
          * @param {string} [purchaseOrderNumber] Provides purchase order status for the specified purchase order number.
          * @param {'OPEN' | 'CLOSED'} [purchaseOrderStatus] Filters purchase orders based on the specified purchase order status. If not included in filter, this will return purchase orders for all statuses.
-         * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on the specified purchase order item status. If not included in filter, purchase orders for all statuses are included.
+         * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on their item confirmation status. If the item confirmation status is not included in the filter, purchase orders for all confirmation statuses are included.
+         * @param {'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED'} [itemReceiveStatus] Filters purchase orders based on the purchase order\&#39;s item receive status. If the item receive status is not included in the filter, purchase orders for all receive statuses are included.
          * @param {string} [orderingVendorCode] Filters purchase orders based on the specified ordering vendor code. This value should be same as \&#39;sellingParty.partyId\&#39; in the purchase order. If not included in filter, all purchase orders for all the vendor codes that exist in the vendor group used to authorize API client application are returned.
          * @param {string} [shipToPartyId] Filters purchase orders for a specific buyer\&#39;s Fulfillment Center/warehouse by providing ship to location id here. This value should be same as \&#39;shipToParty.partyId\&#39; in the purchase order. If not included in filter, this will return purchase orders for all the buyer\&#39;s warehouses used for vendor group purchase orders.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPurchaseOrdersStatus: async (limit?: number, sortOrder?: 'ASC' | 'DESC', nextToken?: string, createdAfter?: string, createdBefore?: string, updatedAfter?: string, updatedBefore?: string, purchaseOrderNumber?: string, purchaseOrderStatus?: 'OPEN' | 'CLOSED', itemConfirmationStatus?: 'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED', orderingVendorCode?: string, shipToPartyId?: string, options: any = {}): Promise<RequestArgs> => {
+        getPurchaseOrdersStatus: async (limit?: number, sortOrder?: 'ASC' | 'DESC', nextToken?: string, createdAfter?: string, createdBefore?: string, updatedAfter?: string, updatedBefore?: string, purchaseOrderNumber?: string, purchaseOrderStatus?: 'OPEN' | 'CLOSED', itemConfirmationStatus?: 'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED', itemReceiveStatus?: 'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED', orderingVendorCode?: string, shipToPartyId?: string, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/vendor/orders/v1/purchaseOrdersStatus`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1222,6 +1265,10 @@ export const VendorOrdersApiAxiosParamCreator = function (configuration?: Config
 
             if (itemConfirmationStatus !== undefined) {
                 localVarQueryParameter['itemConfirmationStatus'] = itemConfirmationStatus;
+            }
+
+            if (itemReceiveStatus !== undefined) {
+                localVarQueryParameter['itemReceiveStatus'] = itemReceiveStatus;
             }
 
             if (orderingVendorCode !== undefined) {
@@ -1330,14 +1377,15 @@ export const VendorOrdersApiFp = function(configuration?: Configuration) {
          * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
          * @param {string} [purchaseOrderNumber] Provides purchase order status for the specified purchase order number.
          * @param {'OPEN' | 'CLOSED'} [purchaseOrderStatus] Filters purchase orders based on the specified purchase order status. If not included in filter, this will return purchase orders for all statuses.
-         * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on the specified purchase order item status. If not included in filter, purchase orders for all statuses are included.
+         * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on their item confirmation status. If the item confirmation status is not included in the filter, purchase orders for all confirmation statuses are included.
+         * @param {'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED'} [itemReceiveStatus] Filters purchase orders based on the purchase order\&#39;s item receive status. If the item receive status is not included in the filter, purchase orders for all receive statuses are included.
          * @param {string} [orderingVendorCode] Filters purchase orders based on the specified ordering vendor code. This value should be same as \&#39;sellingParty.partyId\&#39; in the purchase order. If not included in filter, all purchase orders for all the vendor codes that exist in the vendor group used to authorize API client application are returned.
          * @param {string} [shipToPartyId] Filters purchase orders for a specific buyer\&#39;s Fulfillment Center/warehouse by providing ship to location id here. This value should be same as \&#39;shipToParty.partyId\&#39; in the purchase order. If not included in filter, this will return purchase orders for all the buyer\&#39;s warehouses used for vendor group purchase orders.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPurchaseOrdersStatus(limit?: number, sortOrder?: 'ASC' | 'DESC', nextToken?: string, createdAfter?: string, createdBefore?: string, updatedAfter?: string, updatedBefore?: string, purchaseOrderNumber?: string, purchaseOrderStatus?: 'OPEN' | 'CLOSED', itemConfirmationStatus?: 'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED', orderingVendorCode?: string, shipToPartyId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPurchaseOrdersStatusResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPurchaseOrdersStatus(limit, sortOrder, nextToken, createdAfter, createdBefore, updatedAfter, updatedBefore, purchaseOrderNumber, purchaseOrderStatus, itemConfirmationStatus, orderingVendorCode, shipToPartyId, options);
+        async getPurchaseOrdersStatus(limit?: number, sortOrder?: 'ASC' | 'DESC', nextToken?: string, createdAfter?: string, createdBefore?: string, updatedAfter?: string, updatedBefore?: string, purchaseOrderNumber?: string, purchaseOrderStatus?: 'OPEN' | 'CLOSED', itemConfirmationStatus?: 'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED', itemReceiveStatus?: 'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED', orderingVendorCode?: string, shipToPartyId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPurchaseOrdersStatusResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPurchaseOrdersStatus(limit, sortOrder, nextToken, createdAfter, createdBefore, updatedAfter, updatedBefore, purchaseOrderNumber, purchaseOrderStatus, itemConfirmationStatus, itemReceiveStatus, orderingVendorCode, shipToPartyId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1400,14 +1448,15 @@ export const VendorOrdersApiFactory = function (configuration?: Configuration, b
          * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
          * @param {string} [purchaseOrderNumber] Provides purchase order status for the specified purchase order number.
          * @param {'OPEN' | 'CLOSED'} [purchaseOrderStatus] Filters purchase orders based on the specified purchase order status. If not included in filter, this will return purchase orders for all statuses.
-         * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on the specified purchase order item status. If not included in filter, purchase orders for all statuses are included.
+         * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on their item confirmation status. If the item confirmation status is not included in the filter, purchase orders for all confirmation statuses are included.
+         * @param {'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED'} [itemReceiveStatus] Filters purchase orders based on the purchase order\&#39;s item receive status. If the item receive status is not included in the filter, purchase orders for all receive statuses are included.
          * @param {string} [orderingVendorCode] Filters purchase orders based on the specified ordering vendor code. This value should be same as \&#39;sellingParty.partyId\&#39; in the purchase order. If not included in filter, all purchase orders for all the vendor codes that exist in the vendor group used to authorize API client application are returned.
          * @param {string} [shipToPartyId] Filters purchase orders for a specific buyer\&#39;s Fulfillment Center/warehouse by providing ship to location id here. This value should be same as \&#39;shipToParty.partyId\&#39; in the purchase order. If not included in filter, this will return purchase orders for all the buyer\&#39;s warehouses used for vendor group purchase orders.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPurchaseOrdersStatus(limit?: number, sortOrder?: 'ASC' | 'DESC', nextToken?: string, createdAfter?: string, createdBefore?: string, updatedAfter?: string, updatedBefore?: string, purchaseOrderNumber?: string, purchaseOrderStatus?: 'OPEN' | 'CLOSED', itemConfirmationStatus?: 'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED', orderingVendorCode?: string, shipToPartyId?: string, options?: any): AxiosPromise<GetPurchaseOrdersStatusResponse> {
-            return localVarFp.getPurchaseOrdersStatus(limit, sortOrder, nextToken, createdAfter, createdBefore, updatedAfter, updatedBefore, purchaseOrderNumber, purchaseOrderStatus, itemConfirmationStatus, orderingVendorCode, shipToPartyId, options).then((request) => request(axios, basePath));
+        getPurchaseOrdersStatus(limit?: number, sortOrder?: 'ASC' | 'DESC', nextToken?: string, createdAfter?: string, createdBefore?: string, updatedAfter?: string, updatedBefore?: string, purchaseOrderNumber?: string, purchaseOrderStatus?: 'OPEN' | 'CLOSED', itemConfirmationStatus?: 'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED', itemReceiveStatus?: 'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED', orderingVendorCode?: string, shipToPartyId?: string, options?: any): AxiosPromise<GetPurchaseOrdersStatusResponse> {
+            return localVarFp.getPurchaseOrdersStatus(limit, sortOrder, nextToken, createdAfter, createdBefore, updatedAfter, updatedBefore, purchaseOrderNumber, purchaseOrderStatus, itemConfirmationStatus, itemReceiveStatus, orderingVendorCode, shipToPartyId, options).then((request) => request(axios, basePath));
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
@@ -1596,11 +1645,18 @@ export interface VendorOrdersApiGetPurchaseOrdersStatusRequest {
     readonly purchaseOrderStatus?: 'OPEN' | 'CLOSED'
 
     /**
-     * Filters purchase orders based on the specified purchase order item status. If not included in filter, purchase orders for all statuses are included.
+     * Filters purchase orders based on their item confirmation status. If the item confirmation status is not included in the filter, purchase orders for all confirmation statuses are included.
      * @type {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'}
      * @memberof VendorOrdersApiGetPurchaseOrdersStatus
      */
     readonly itemConfirmationStatus?: 'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'
+
+    /**
+     * Filters purchase orders based on the purchase order\&#39;s item receive status. If the item receive status is not included in the filter, purchase orders for all receive statuses are included.
+     * @type {'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED'}
+     * @memberof VendorOrdersApiGetPurchaseOrdersStatus
+     */
+    readonly itemReceiveStatus?: 'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED'
 
     /**
      * Filters purchase orders based on the specified ordering vendor code. This value should be same as \&#39;sellingParty.partyId\&#39; in the purchase order. If not included in filter, all purchase orders for all the vendor codes that exist in the vendor group used to authorize API client application are returned.
@@ -1668,7 +1724,7 @@ export class VendorOrdersApi extends BaseAPI {
      * @memberof VendorOrdersApi
      */
     public getPurchaseOrdersStatus(requestParameters: VendorOrdersApiGetPurchaseOrdersStatusRequest = {}, options?: any) {
-        return VendorOrdersApiFp(this.configuration).getPurchaseOrdersStatus(requestParameters.limit, requestParameters.sortOrder, requestParameters.nextToken, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.updatedAfter, requestParameters.updatedBefore, requestParameters.purchaseOrderNumber, requestParameters.purchaseOrderStatus, requestParameters.itemConfirmationStatus, requestParameters.orderingVendorCode, requestParameters.shipToPartyId, options).then((request) => request(this.axios, this.basePath));
+        return VendorOrdersApiFp(this.configuration).getPurchaseOrdersStatus(requestParameters.limit, requestParameters.sortOrder, requestParameters.nextToken, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.updatedAfter, requestParameters.updatedBefore, requestParameters.purchaseOrderNumber, requestParameters.purchaseOrderStatus, requestParameters.itemConfirmationStatus, requestParameters.itemReceiveStatus, requestParameters.orderingVendorCode, requestParameters.shipToPartyId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
