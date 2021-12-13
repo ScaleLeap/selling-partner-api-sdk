@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.4.0...v5.5.0) (2021-12-13)
+
+
+### Features
+
+* update Order v0 API ([#331](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/331)) ([f817194](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/f8171949ab9067478ff82baf17a84817ade13693))
+
 # [5.4.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.3.1...v5.4.0) (2021-11-23)
 
 
