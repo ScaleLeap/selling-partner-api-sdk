@@ -1001,7 +1001,7 @@ export interface Promotion {
     PromotionAmount?: Currency;
 }
 /**
- * A financial adjustment event for FBA liquidated inventory.  Possible adjustment:  * Positive values - Buyer needs to pay more amount to Amazon. E.g. charge was wrongly calculated 0$ instead of 100$ due to system error.   * Negative Values - Buyer get refund. E.g. Buyer receives less items or damaged items and as part of their adjustment buyer gets refund.
+ * A financial adjustment event for FBA liquidated inventory. A positive value indicates money owed to Amazon by the buyer (for example, when the charge was incorrectly calculated as less than it should be). A negative value indicates a full or partial refund owed to the buyer (for example, when the buyer receives damaged items or fewer items than ordered).
  * @export
  * @interface RemovalShipmentAdjustmentEvent
  */
