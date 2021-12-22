@@ -32,9 +32,66 @@ A few things to get started:
 - [Registering your Hybrid Selling Partner API applications](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#hybrid-selling-partner-api-applications)
 - [Authorizing Selling Partner API applications](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#authorizing-selling-partner-api-applications)
 
+### Authorizing Selling Partner API
+
+Note that it is outside the responsibility of this package to handle the authorization process.
+
+This package assumes you have already acquired the access and refresh tokens either by going through
+the OAuth flow or by using a self-authorized set of credentials.
+
 ### Basic Usage
 
-The general format applies to any Selling Partner API request:
+#### Using Existing AWS Credentials
+
+This method is applicable if you want to assume the
+[Selling Partner API role](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#step-4-create-an-iam-role)
+yourself, or you are using a static set of user credentials (not recommended).
+
+```ts
+import { SellersApiClient } from '@scaleleap/selling-partner-api-sdk'
+
+const stsClient = new STSClient({
+  // Static set of credentials that have the permission to assume the role above
+  credentials: {
+    accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+    secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYzEXAMPLEKEY',
+  },
+})
+
+const { Credentials } = await stsClient.send(
+  new AssumeRoleCommand({
+    // This is the role you have set in your Selling Partner API application
+    RoleArn: 'arn:aws:iam::123456789012:role/your-SP-API-role-name',
+    RoleSessionName: 'selling-partner-api-axios',
+  }),
+)
+
+const client = new SellersApiClient({
+  accessToken: 'Atza|...',
+
+  // Or use `amazonMarketplaces.CA.sellingPartner.region.endpoint`
+  // from `@scaleleap/amazon-marketplaces` package
+  basePath: 'https://sellingpartnerapi-na.amazon.com',
+
+  // Or use `amazonMarketplaces.CA.sellingPartner.region.awsRegion`
+  // from `@scaleleap/amazon-marketplaces` package
+  region: 'us-east-1',
+
+  credentials: {
+    accessKeyId: Credentials?.AccessKeyId || '',
+    secretAccessKey: Credentials?.SecretAccessKey || '',
+    sessionToken: Credentials?.SessionToken || '',
+  }
+})
+
+const marketplaceParticipations = await client.getMarketplaceParticipations()
+```
+
+#### Letting `@scaleleap/selling-partner-api-sdk` to Assume the Role
+
+This package uses [aws4-axios](https://github.com/jamesmbourne/aws4-axios) under the hood, which
+has the capability to make the STS call and get the credentials for you, and refresh the
+temporary AWS credentials session.
 
 ```ts
 import { SellersApiClient } from '@scaleleap/selling-partner-api-sdk'
@@ -49,10 +106,21 @@ const client = new SellersApiClient({
   // Or use `amazonMarketplaces.CA.sellingPartner.region.awsRegion`
   // from `@scaleleap/amazon-marketplaces` package
   region: 'us-east-1',
+
+  // This is the role you have set in your Selling Partner API application
+  roleArn: 'arn:aws:iam::123456789012:role/your-SP-API-role-name',
+
+  // Static set of credentials that have the permission to assume the role above
+  credentials: {
+    accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+    secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYzEXAMPLEKEY',
+  },
 })
 
 const marketplaceParticipations = await client.getMarketplaceParticipations()
 ```
+
+---
 
 See the full list of exported classes and types:
 [`src/api-models/index.ts`](src/api-models/index.ts).
