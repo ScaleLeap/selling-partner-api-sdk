@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.5.0...v5.5.1) (2021-12-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency http-status-codes to v2.2.0 ([be66cbd](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/be66cbd6400cf6a4d209e61dc496a6665d527439))
+
 # [5.5.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v5.4.0...v5.5.0) (2021-12-13)
 
 
