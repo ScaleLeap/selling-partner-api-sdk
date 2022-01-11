@@ -58,7 +58,7 @@
     "@apidevtools/swagger-parser": "10.0.3",
     "@aws-sdk/client-sts": "3.46.0",
     "@openapitools/openapi-generator-cli": "2.4.23",
-    "@scaleleap/amazon-marketplaces": "13.0.0",
+    "@scaleleap/amazon-marketplaces": "14.0.0",
     "@scaleleap/jest-polly": "1.5.61",
     "@scaleleap/utils": "1.9.58",
     "@types/fancy-log": "1.3.1",
