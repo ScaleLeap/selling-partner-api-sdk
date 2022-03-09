@@ -1,27 +1,21 @@
 {
   "name": "@whitebox-co/selling-partner-api-sdk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "📦 A fully typed TypeScript and Node.js SDK library for Amazon Selling Partner API",
   "license": "MIT",
   "author": {
     "name": "Whitebox",
-    "email": "whitebox@whitebox.com",
-    "url": "https://www.whitebox.com/"
+    "email": "support@whitebox.com",
+    "url": "https://whitebox.com"
   },
   "contributors": [
     {
       "name": "Josh Fisher",
-      "email": "jfisher@whitebox.com",
       "url": "https://github.com/josh-fisher"
     },
     {
-      "name": "Roman Filippov",
-      "email": "roman@scaleleap.com",
-      "url": "https://www.scaleleap.com/"
-    },
-    {
-      "name": "Toan Nguyen",
-      "url": "https://github.com/nguyentoanit"
+      "name": "Sean Clark",
+      "url": "https://github.com/optikalefx"
     }
   ],
   "homepage": "https://github.com/whitebox-co/selling-partner-api-sdk",
@@ -42,10 +36,6 @@
     "clean": "rimraf lib/*",
     "dev": "ts-node-dev --respawn --transpileOnly src",
     "docs": "typedoc",
-    "generate-models": "ts-node utils/generate",
-    "lint": "eslint --ext ts,js src/ test/",
-    "lint:fix": "npm run lint -- --fix",
-    "semantic-release": "npx @scaleleap/semantic-release-config",
     "start": "ts-node --transpile-only --pretty src",
     "test": "jest --testPathIgnorePatterns test/integration/ ",
     "test:integration": "POLLY_MODE=passthrough jest test/integration/ --setupFiles dotenv/config",
@@ -97,6 +87,6 @@
     "typescript"
   ],
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   }
 }
