@@ -5,23 +5,17 @@
 	"license": "MIT",
 	"author": {
 		"name": "Whitebox",
-		"email": "whitebox@whitebox.com",
-		"url": "https://www.whitebox.com/"
+		"email": "support@whitebox.com",
+		"url": "https://whitebox.com"
 	},
 	"contributors": [
 		{
+			"name": "Sean Clark",
+			"url": "https://github.com/optikalefx"
+		},
+		{
 			"name": "Josh Fisher",
-			"email": "jfisher@whitebox.com",
 			"url": "https://github.com/josh-fisher"
-		},
-		{
-			"name": "Roman Filippov",
-			"email": "roman@scaleleap.com",
-			"url": "https://www.scaleleap.com/"
-		},
-		{
-			"name": "Toan Nguyen",
-			"url": "https://github.com/nguyentoanit"
 		}
 	],
 	"homepage": "https://github.com/whitebox-co/selling-partner-api-sdk",

@@ -2,28 +2,15 @@ import axios from 'axios'
 
 // eslint-disable-next-line import/no-cycle
 import { FeedsApiClientV20210630 } from '../api-clients/feeds-api-client-v20210630'
+import { sleep } from './utils'
 
-/**
- * Sleep helper
- * @param secs
- * @returns
- */
-function sleep(secs: number) {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, secs * 1000)
-  })
+interface GetFeedHelperResult {
+  hasErrors: boolean
+  xmlResponse: string
 }
 
 /**
  * Submit a feed to Amazon Selling Partner
- * @param feedsApiClient
- * @param feedType
- * @param content
- * @param amazonMarketplaceId: 'ATVPDKIKX0DER' (US)
- * @param contentType: 'application/xml
- * @returns
  */
 export async function submitFeedHelper(
   feedsApiClient: FeedsApiClientV20210630,
@@ -64,20 +51,19 @@ export async function submitFeedHelper(
 /**
  * Given a feedClient and feedId, will loop 15 times x4 seconds delay to fetch the feed results
  * We will parse the XML only to look for errors, which should help the user decide if they need to parse further
- * @param feedsApiClient
- * @param feedId
- * @returns { hasErrors: boolean, xmlResponse: string }
  */
 export async function getFeedResult(
   feedsApiClient: FeedsApiClientV20210630,
   feedId: string,
-): Promise<{ hasErrors: boolean; xmlResponse: string }> {
+  sleepTime = 4,
+  maxAttempts = 15,
+): Promise<GetFeedHelperResult> {
   let resultFeedDocumentId = ''
   let feedStatus = ''
   let attempts = 0
   while (feedStatus !== 'DONE') {
     // eslint-disable-next-line no-await-in-loop
-    await sleep(4)
+    await sleep(sleepTime)
     // eslint-disable-next-line no-await-in-loop
     const feedResult = await feedsApiClient.getFeed({
       feedId,
@@ -89,7 +75,7 @@ export async function getFeedResult(
 
     // prevent infinte while loop
     attempts += 1
-    if (attempts > 15) {
+    if (attempts > maxAttempts) {
       throw new Error(`Too many attempts to fetch a DONE response for feed ${feedId}`)
     }
   }
