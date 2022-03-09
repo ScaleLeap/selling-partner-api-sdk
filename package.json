@@ -50,7 +50,7 @@
   "types": "lib/index.d.ts",
   "dependencies": {
     "aws4-axios": "2.4.9",
-    "axios": "0.26.0",
+    "axios": "0.26.1",
     "http-status-codes": "2.2.0",
     "ts-error": "1.0.6"
   },
