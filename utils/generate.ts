@@ -16,12 +16,15 @@ async function generateAllModelsInDirectory(
   rootPath: string,
   dirname: string,
 ): Promise<APIModel[]> {
+  const MODEL_FILE_EXTENSIONS = new Set(['.json', '.yml', '.yaml'])
   /**
    * API model directory contains both preview and stable version.
    *
    * Docs: https://github.com/amzn/selling-partner-api-docs/issues/646#issuecomment-825232385
    */
-  const [defaultVersion, ...previewVersions] = fs.readdirSync(path.resolve(rootPath, dirname))
+  const [defaultVersion, ...previewVersions] = fs
+    .readdirSync(path.resolve(rootPath, dirname))
+    .filter((model) => MODEL_FILE_EXTENSIONS.has(path.extname(model).toLowerCase()))
 
   const previewVersionAPIModels = await generateModelForPreviewVersions(
     rootPath,
