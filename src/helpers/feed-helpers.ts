@@ -52,7 +52,7 @@ export async function submitFeedHelper(
  * Given a feedClient and feedId, will loop 15 times x4 seconds delay to fetch the feed results
  * We will parse the XML only to look for errors, which should help the user decide if they need to parse further
  */
-export async function getFeedResult(
+export async function getFeedResultHelper(
   feedsApiClient: FeedsApiClientV20210630,
   feedId: string,
   sleepTime = 4,
