@@ -1,6 +1,6 @@
 {
 	"name": "@whitebox-co/selling-partner-api-sdk",
-	"version": "5.0.2",
+	"version": "1.0.0",
 	"description": "📦 A fully typed TypeScript and Node.js SDK library for Amazon Selling Partner API",
 	"license": "MIT",
 	"author": {
