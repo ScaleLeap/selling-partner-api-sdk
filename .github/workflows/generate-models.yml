@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout model repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: amzn/selling-partner-api-models
           path: tmp/selling-partner-api-models
