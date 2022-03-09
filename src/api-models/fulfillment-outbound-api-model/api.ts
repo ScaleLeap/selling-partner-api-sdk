@@ -450,7 +450,17 @@ export enum CurrentStatus {
     Undeliverable = 'UNDELIVERABLE',
     Delayed = 'DELAYED',
     AvailableForPickup = 'AVAILABLE_FOR_PICKUP',
-    CustomerAction = 'CUSTOMER_ACTION'
+    CustomerAction = 'CUSTOMER_ACTION',
+    Unknown = 'UNKNOWN',
+    OutForDelivery = 'OUT_FOR_DELIVERY',
+    DeliveryAttempted = 'DELIVERY_ATTEMPTED',
+    PickupSuccessful = 'PICKUP_SUCCESSFUL',
+    PickupCancelled = 'PICKUP_CANCELLED',
+    PickupAttempted = 'PICKUP_ATTEMPTED',
+    PickupScheduled = 'PICKUP_SCHEDULED',
+    ReturnRequestAccepted = 'RETURN_REQUEST_ACCEPTED',
+    RefundIssued = 'REFUND_ISSUED',
+    ReturnReceivedInFc = 'RETURN_RECEIVED_IN_FC'
 }
 
 /**
@@ -1735,7 +1745,7 @@ export interface PackageTrackingDetails {
      * @type {CurrentStatus}
      * @memberof PackageTrackingDetails
      */
-    currentStatus?: CurrentStatus | 'IN_TRANSIT' | 'DELIVERED' | 'RETURNING' | 'RETURNED' | 'UNDELIVERABLE' | 'DELAYED' | 'AVAILABLE_FOR_PICKUP' | 'CUSTOMER_ACTION';
+    currentStatus?: CurrentStatus | 'IN_TRANSIT' | 'DELIVERED' | 'RETURNING' | 'RETURNED' | 'UNDELIVERABLE' | 'DELAYED' | 'AVAILABLE_FOR_PICKUP' | 'CUSTOMER_ACTION' | 'UNKNOWN' | 'OUT_FOR_DELIVERY' | 'DELIVERY_ATTEMPTED' | 'PICKUP_SUCCESSFUL' | 'PICKUP_CANCELLED' | 'PICKUP_ATTEMPTED' | 'PICKUP_SCHEDULED' | 'RETURN_REQUEST_ACCEPTED' | 'REFUND_ISSUED' | 'RETURN_RECEIVED_IN_FC';
     /**
      * Description corresponding to the CurrentStatus value.
      * @type {string}
