@@ -2,6 +2,7 @@ import axios from 'axios'
 
 // eslint-disable-next-line import/no-cycle
 import { FeedsApiClientV20210630 } from '../api-clients/feeds-api-client-v20210630'
+import { AMAZON_US_MARKETPLACE_ID } from './constants'
 import { sleep } from './utils'
 
 interface GetFeedHelperResult {
@@ -16,7 +17,7 @@ export async function submitFeedHelper(
   feedsApiClient: FeedsApiClientV20210630,
   feedType: string,
   content: string,
-  amazonMarketplaceId = 'ATVPDKIKX0DER',
+  amazonMarketplaceId = AMAZON_US_MARKETPLACE_ID,
   contentType = 'application/xml',
 ): Promise<string> {
   // create the feed document
