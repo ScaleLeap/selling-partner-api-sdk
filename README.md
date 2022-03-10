@@ -66,14 +66,14 @@ Using the Amazon Reports and Amazon Feeds sections of the API can be a bit tedio
 
 submitFeedHelper will submit an XML feed and wait for the results. It will lightly parse the XML to let you know if there are errors or not. This way you can know whether you have to parse the XML or not.
 ```js
-const { hasErrors, xmlResponse} = await submitFeedHelper(feedsClient, 'SELLING_PARTNER_REPORT_TYPE', xmlString);
+const { hasErrors, xmlResponse} = await FeedHelpers.submitFeed(feedsClient, 'SELLING_PARTNER_REPORT_TYPE', xmlString);
 ```
 
 #### Report Helpers
 
 getReportHelper will request a new report, wait on an interval until the report is finished, and then parse the tsv results into JSON. Parsing is optional. [See Amazon's ReportType Values](https://developer-docs.amazon.com/sp-api/docs/report-type-values)
 ```js
-await getReportHelper(reportsClient, 'SELLING_PARTNER_REPORT_TYPE', {
+await ReportHelpers.getReport(reportsClient, 'SELLING_PARTNER_REPORT_TYPE', {
 	startDate: '2022-03-07',
 	endDate: '2022-03-08',
 });
@@ -81,7 +81,7 @@ await getReportHelper(reportsClient, 'SELLING_PARTNER_REPORT_TYPE', {
 
 getLatestReportHelper will fetch the latest DONE version of a report and parse the tsv results into JSON. Parsing is optional.
 ```js
-await getLatestReportHelper(reportsClient, 'SELLING_PARTNER_REPORT_TYPE');
+await ReportHelpers.getLatestReport(reportsClient, 'SELLING_PARTNER_REPORT_TYPE');
 ```
 
 You can use the tsv to json parser alone if you'd like to

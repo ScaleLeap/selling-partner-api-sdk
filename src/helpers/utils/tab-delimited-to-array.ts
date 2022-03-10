@@ -1,14 +1,6 @@
 import { camelCase } from 'lodash'
 
-export function sleep(secs: number) {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, secs * 1000)
-  })
-}
-
-export function tabDelimitedToArray(text) {
+export function tabDelimitedToArray(text: string): Record<string, unknown>[] {
   // Parse the tab-delimited response to an array of values
   const lines = text.split('\n')
   const headers = lines[0].split('\t').map((c) => camelCase(c))
