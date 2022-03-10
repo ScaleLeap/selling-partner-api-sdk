@@ -60,6 +60,35 @@ See the full list of exported classes and types:
 See [@scaleleap/amazon-marketplaces](https://github.com/ScaleLeap/amazon-marketplaces)
 docs for a database of constants about Amazon Marketplaces.
 
+### Helpers
+Using the Amazon Reports and Amazon Feeds sections of the API can be a bit tedious. This library adds some useful helpers for feeds and reports.
+#### Feed Helpers
+
+submitFeedHelper will submit an XML feed and wait for the results. It will lightly parse the XML to let you know if there are errors or not. This way you can know whether you have to parse the XML or not.
+```js
+const { hasErrors, xmlResponse} = await FeedHelpers.SubmitFeed(feedsClient, 'SELLING_PARTNER_REPORT_TYPE', xmlString);
+```
+
+#### Report Helpers
+
+getReportHelper will request a new report, wait on an interval until the report is finished, and then parse the tsv results into JSON. Parsing is optional. [See Amazon's ReportType Values](https://developer-docs.amazon.com/sp-api/docs/report-type-values)
+```js
+await ReportHelpers.GetReport(reportsClient, 'SELLING_PARTNER_REPORT_TYPE', {
+	startDate: '2022-03-07',
+	endDate: '2022-03-08',
+});
+```
+
+getLatestReportHelper will fetch the latest DONE version of a report and parse the tsv results into JSON. Parsing is optional.
+```js
+await ReportHelpers.GetLatestReport(reportsClient, 'SELLING_PARTNER_REPORT_TYPE');
+```
+
+You can use the tsv to json parser alone if you'd like to
+```js
+import parseAmazonReport from '@whitebox-co/selling-partner-api-sdk/lib/helpers';
+```
+
 ### Documentation
 
 - [Automatically generated docs](https://selling-partner-api-sdk.scaleleap.org)
