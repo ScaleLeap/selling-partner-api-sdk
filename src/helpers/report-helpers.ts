@@ -5,24 +5,24 @@ import { ReportsApiClientV20210630 } from '../api-clients/reports-api-client-v20
 import { AMAZON_US_MARKETPLACE_ID } from './constants'
 import { sleep, tabDelimitedToArray } from './utils'
 
-interface ReportParameters {
+export interface ReportParameters {
   startDate: string
   endDate: string
   marketplaceIds?: string[]
 }
 
-interface LatestReportOptions {
+export interface LatestReportOptions {
   parse: boolean
 }
 
-interface GetReportOptions {
+export interface GetReportOptions {
   sleepTime: number
   maxAttempts: number
   parse: boolean
 }
 
 export class ReportHelpers {
-  public static async getLatestReport(
+  public static async GetLatestReport(
     reportsClient: ReportsApiClientV20210630,
     reportType: string,
     latestReportOptions: LatestReportOptions,
@@ -58,7 +58,7 @@ export class ReportHelpers {
     return rawData
   }
 
-  public static async getReport(
+  public static async GetReport(
     reportsClient: ReportsApiClientV20210630,
     reportParameters: ReportParameters,
     reportType: string,

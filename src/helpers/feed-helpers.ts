@@ -5,17 +5,17 @@ import { FeedsApiClientV20210630 } from '../api-clients/feeds-api-client-v202106
 import { AMAZON_US_MARKETPLACE_ID } from './constants'
 import { sleep } from './utils'
 
-interface GetFeedHelperResult {
+export interface GetFeedHelperResult {
   hasErrors: boolean
   xmlResponse: string
 }
 
-interface SubmitFeedOptions {
+export interface SubmitFeedOptions {
   amazonMarketplaceId: string
   contentType: string
 }
 
-interface FeedResultOptions {
+export interface FeedResultOptions {
   sleepTime: number
   maxAttempts: number
 }
@@ -24,7 +24,7 @@ export class FeedHelpers {
   /**
    * Submit a feed to Amazon Selling Partner
    */
-  public static async submitFeed(
+  public static async SubmitFeed(
     feedsApiClient: FeedsApiClientV20210630,
     feedType: string,
     content: string,
@@ -66,7 +66,7 @@ export class FeedHelpers {
    * Given a feedClient and feedId, will loop 15 times x4 seconds delay to fetch the feed results
    * We will parse the XML only to look for errors, which should help the user decide if they need to parse further
    */
-  public static async getFeedResult(
+  public static async GetFeedResult(
     feedsApiClient: FeedsApiClientV20210630,
     feedId: string,
     feedResultOptions: FeedResultOptions,
