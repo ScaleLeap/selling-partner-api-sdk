@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.1.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.0.1...v6.1.0) (2022-03-24)
+
+
+### Features
+
+* Add buyerRequestedCancel parameter to Orders API ([#411](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/411)) ([6174ad6](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/6174ad6ae03fc385fc04bfa08d6d5aabe68abb1d))
+
 ## [6.0.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.0.0...v6.0.1) (2022-03-10)
 
 
