@@ -192,6 +192,25 @@ export interface BuyerInfo {
     PurchaseOrderNumber?: string;
 }
 /**
+ * Information about whether or not a buyer requested cancellation.
+ * @export
+ * @interface BuyerRequestedCancel
+ */
+export interface BuyerRequestedCancel {
+    /**
+     * When true, the buyer has requested cancellation.
+     * @type {boolean}
+     * @memberof BuyerRequestedCancel
+     */
+    IsBuyerRequestedCancel?: boolean;
+    /**
+     * Reason for buyer requesting cancel
+     * @type {string}
+     * @memberof BuyerRequestedCancel
+     */
+    BuyerCancelReason?: string;
+}
+/**
  * Tax information about the buyer.
  * @export
  * @interface BuyerTaxInfo
@@ -333,6 +352,25 @@ export interface GetOrderItemsResponse {
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
      * @memberof GetOrderItemsResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * The response schema for the getOrderRegulatedInfo operation.
+ * @export
+ * @interface GetOrderRegulatedInfoResponse
+ */
+export interface GetOrderRegulatedInfoResponse {
+    /**
+     * 
+     * @type {OrderRegulatedInfo}
+     * @memberof GetOrderRegulatedInfoResponse
+     */
+    payload?: OrderRegulatedInfo;
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof GetOrderRegulatedInfoResponse
      */
     errors?: Array<Error>;
 }
@@ -738,6 +776,12 @@ export interface Order {
      * @memberof Order
      */
     AutomatedShippingSettings?: AutomatedShippingSettings;
+    /**
+     * Whether the order contains regulated items which may require additional approval steps before being fulfilled.
+     * @type {boolean}
+     * @memberof Order
+     */
+    HasRegulatedItems?: boolean;
 }
 
 /**
@@ -1057,6 +1101,12 @@ export interface OrderItem {
      * @memberof OrderItem
      */
     BuyerInfo?: ItemBuyerInfo;
+    /**
+     * 
+     * @type {BuyerRequestedCancel}
+     * @memberof OrderItem
+     */
+    BuyerRequestedCancel?: BuyerRequestedCancel;
 }
 
 /**
@@ -1162,6 +1212,37 @@ export interface OrderItemsList {
     AmazonOrderId: string;
 }
 /**
+ * The order\'s regulated information along with its verification status.
+ * @export
+ * @interface OrderRegulatedInfo
+ */
+export interface OrderRegulatedInfo {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrderRegulatedInfo
+     */
+    AmazonOrderId: string;
+    /**
+     * 
+     * @type {RegulatedInformation}
+     * @memberof OrderRegulatedInfo
+     */
+    RegulatedInformation: RegulatedInformation;
+    /**
+     * Whether the order requires attaching a dosage information label when shipped.
+     * @type {boolean}
+     * @memberof OrderRegulatedInfo
+     */
+    RequiresDosageLabel: boolean;
+    /**
+     * 
+     * @type {RegulatedOrderVerificationStatus}
+     * @memberof OrderRegulatedInfo
+     */
+    RegulatedOrderVerificationStatus: RegulatedOrderVerificationStatus;
+}
+/**
  * A list of orders along with additional information to make subsequent API calls.
  * @export
  * @interface OrdersList
@@ -1242,6 +1323,135 @@ export interface ProductInfoDetail {
      * @memberof ProductInfoDetail
      */
     NumberOfItems?: number;
+}
+/**
+ * The regulated information collected during purchase and used to verify the order.
+ * @export
+ * @interface RegulatedInformation
+ */
+export interface RegulatedInformation {
+    /**
+     * A list of regulated information fields as collected from the regulatory form.
+     * @type {Array<RegulatedInformationField>}
+     * @memberof RegulatedInformation
+     */
+    Fields: Array<RegulatedInformationField>;
+}
+/**
+ * A field collected from the regulatory form.
+ * @export
+ * @interface RegulatedInformationField
+ */
+export interface RegulatedInformationField {
+    /**
+     * The unique identifier for the field.
+     * @type {string}
+     * @memberof RegulatedInformationField
+     */
+    FieldId: string;
+    /**
+     * The human-readable name for the field.
+     * @type {string}
+     * @memberof RegulatedInformationField
+     */
+    FieldLabel: string;
+    /**
+     * The type of field the field.
+     * @type {string}
+     * @memberof RegulatedInformationField
+     */
+    FieldType: RegulatedInformationFieldFieldTypeEnum | 'Text' | 'FileAttachment';
+    /**
+     * The content of the field as collected in regulatory form. Note that FileAttachment type fields will contain an URL to download the attachment here.
+     * @type {string}
+     * @memberof RegulatedInformationField
+     */
+    FieldValue: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum RegulatedInformationFieldFieldTypeEnum {
+    Text = 'Text',
+    FileAttachment = 'FileAttachment'
+}
+
+/**
+ * The verification status of the order along with associated approval or rejection metadata.
+ * @export
+ * @interface RegulatedOrderVerificationStatus
+ */
+export interface RegulatedOrderVerificationStatus {
+    /**
+     * The verification status of the order.
+     * @type {string}
+     * @memberof RegulatedOrderVerificationStatus
+     */
+    Status: RegulatedOrderVerificationStatusStatusEnum | 'Pending' | 'Approved' | 'Rejected' | 'Expired' | 'Cancelled';
+    /**
+     * Whether the regulated information provided in the order requires a review by the merchant.
+     * @type {boolean}
+     * @memberof RegulatedOrderVerificationStatus
+     */
+    RequiresMerchantAction: boolean;
+    /**
+     * A list of valid rejection reasons that may be used to reject the order\'s regulated information.
+     * @type {Array<RejectionReason>}
+     * @memberof RegulatedOrderVerificationStatus
+     */
+    ValidRejectionReasons: Array<RejectionReason>;
+    /**
+     * 
+     * @type {RejectionReason}
+     * @memberof RegulatedOrderVerificationStatus
+     */
+    RejectionReason?: RejectionReason;
+    /**
+     * The date the order was reviewed. In ISO 8601 date time format.
+     * @type {string}
+     * @memberof RegulatedOrderVerificationStatus
+     */
+    ReviewDate?: string;
+    /**
+     * The identifier for the order\'s regulated information reviewer.
+     * @type {string}
+     * @memberof RegulatedOrderVerificationStatus
+     */
+    ExternalReviewerId?: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum RegulatedOrderVerificationStatusStatusEnum {
+    Pending = 'Pending',
+    Approved = 'Approved',
+    Rejected = 'Rejected',
+    Expired = 'Expired',
+    Cancelled = 'Cancelled'
+}
+
+/**
+ * The reason for rejecting the order\'s regulated information. Not present if the order isn\'t rejected.
+ * @export
+ * @interface RejectionReason
+ */
+export interface RejectionReason {
+    /**
+     * The unique identifier for the rejection reason.
+     * @type {string}
+     * @memberof RejectionReason
+     */
+    RejectionReasonId: string;
+    /**
+     * The human-readable description of this rejection reason.
+     * @type {string}
+     * @memberof RejectionReason
+     */
+    RejectionReasonDescription: string;
 }
 /**
  * the status of the shipment of the order to be updated
@@ -1346,6 +1556,67 @@ export interface UpdateShipmentStatusRequest {
      */
     orderItems?: Array<object>;
 }
+/**
+ * The error response schema for the UpdateVerificationStatus operation.
+ * @export
+ * @interface UpdateVerificationStatusErrorResponse
+ */
+export interface UpdateVerificationStatusErrorResponse {
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof UpdateVerificationStatusErrorResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * Request to update the verification status of an order containing regulated products.
+ * @export
+ * @interface UpdateVerificationStatusRequest
+ */
+export interface UpdateVerificationStatusRequest {
+    /**
+     * 
+     * @type {UpdateVerificationStatusRequestBody}
+     * @memberof UpdateVerificationStatusRequest
+     */
+    regulatedOrderVerificationStatus: UpdateVerificationStatusRequestBody;
+}
+/**
+ * The updated values of the VerificationStatus field.
+ * @export
+ * @interface UpdateVerificationStatusRequestBody
+ */
+export interface UpdateVerificationStatusRequestBody {
+    /**
+     * The new verification status of the order.
+     * @type {string}
+     * @memberof UpdateVerificationStatusRequestBody
+     */
+    status: UpdateVerificationStatusRequestBodyStatusEnum | 'Approved' | 'Rejected';
+    /**
+     * The identifier for the order\'s regulated information reviewer.
+     * @type {string}
+     * @memberof UpdateVerificationStatusRequestBody
+     */
+    externalReviewerId: string;
+    /**
+     * The unique identifier for the rejection reason used for rejecting the order\'s regulated information. Only required if the new status is rejected.
+     * @type {string}
+     * @memberof UpdateVerificationStatusRequestBody
+     */
+    rejectionReasonId?: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum UpdateVerificationStatusRequestBodyStatusEnum {
+    Approved = 'Approved',
+    Rejected = 'Rejected'
+}
+
 
 /**
  * OrdersV0Api - axios parameter creator
@@ -1529,6 +1800,39 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Returns regulated information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderRegulatedInfo: async (orderId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orderId' is not null or undefined
+            assertParamExists('getOrderRegulatedInfo', 'orderId', orderId)
+            const localVarPath = `/orders/v0/orders/{orderId}/regulatedInfo`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  See the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
@@ -1536,7 +1840,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
          * @param {string} [lastUpdatedBefore] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
          * @param {Array<string>} [orderStatuses] A list of OrderStatus values used to filter the results. Possible values: PendingAvailability (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.); Pending (The order has been placed but payment has not been authorized); Unshipped (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped); PartiallyShipped (One or more, but not all, items in the order have been shipped); Shipped (All items in the order have been shipped); InvoiceUnconfirmed (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.); Canceled (The order has been canceled); and Unfulfillable (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.).
-         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: FBA (Fulfillment by Amazon); SellerFulfilled (Fulfilled by the seller).
+         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: AFN (Fulfillment by Amazon); MFN (Fulfilled by the seller).
          * @param {Array<string>} [paymentMethods] A list of payment method values. Used to select orders paid using the specified payment methods. Possible values: COD (Cash on delivery); CVS (Convenience store payment); Other (Any payment method other than COD or CVS).
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
          * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
@@ -1644,6 +1948,45 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {UpdateVerificationStatusRequest} payload Request to update the verification status of an order containing regulated products.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateVerificationStatus: async (orderId: string, payload: UpdateVerificationStatusRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orderId' is not null or undefined
+            assertParamExists('updateVerificationStatus', 'orderId', orderId)
+            // verify required parameter 'payload' is not null or undefined
+            assertParamExists('updateVerificationStatus', 'payload', payload)
+            const localVarPath = `/orders/v0/orders/{orderId}/regulatedInfo`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(payload, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1707,6 +2050,16 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Returns regulated information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getOrderRegulatedInfo(orderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderRegulatedInfoResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderRegulatedInfo(orderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  See the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
@@ -1714,7 +2067,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
          * @param {string} [lastUpdatedBefore] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
          * @param {Array<string>} [orderStatuses] A list of OrderStatus values used to filter the results. Possible values: PendingAvailability (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.); Pending (The order has been placed but payment has not been authorized); Unshipped (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped); PartiallyShipped (One or more, but not all, items in the order have been shipped); Shipped (All items in the order have been shipped); InvoiceUnconfirmed (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.); Canceled (The order has been canceled); and Unfulfillable (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.).
-         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: FBA (Fulfillment by Amazon); SellerFulfilled (Fulfilled by the seller).
+         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: AFN (Fulfillment by Amazon); MFN (Fulfilled by the seller).
          * @param {Array<string>} [paymentMethods] A list of payment method values. Used to select orders paid using the specified payment methods. Possible values: COD (Cash on delivery); CVS (Convenience store payment); Other (Any payment method other than COD or CVS).
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
          * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
@@ -1730,6 +2083,17 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          */
         async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {UpdateVerificationStatusRequest} payload Request to update the verification status of an order containing regulated products.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateVerificationStatus(orderId: string, payload: UpdateVerificationStatusRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateVerificationStatus(orderId, payload, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1790,6 +2154,15 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderItemsBuyerInfo(orderId, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
+         * Returns regulated information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderRegulatedInfo(orderId: string, options?: any): AxiosPromise<GetOrderRegulatedInfoResponse> {
+            return localVarFp.getOrderRegulatedInfo(orderId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  See the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
@@ -1797,7 +2170,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
          * @param {string} [lastUpdatedBefore] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
          * @param {Array<string>} [orderStatuses] A list of OrderStatus values used to filter the results. Possible values: PendingAvailability (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.); Pending (The order has been placed but payment has not been authorized); Unshipped (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped); PartiallyShipped (One or more, but not all, items in the order have been shipped); Shipped (All items in the order have been shipped); InvoiceUnconfirmed (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.); Canceled (The order has been canceled); and Unfulfillable (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.).
-         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: FBA (Fulfillment by Amazon); SellerFulfilled (Fulfilled by the seller).
+         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: AFN (Fulfillment by Amazon); MFN (Fulfilled by the seller).
          * @param {Array<string>} [paymentMethods] A list of payment method values. Used to select orders paid using the specified payment methods. Possible values: COD (Cash on delivery); CVS (Convenience store payment); Other (Any payment method other than COD or CVS).
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
          * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
@@ -1813,6 +2186,16 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          */
         getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): AxiosPromise<GetOrdersResponse> {
             return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {UpdateVerificationStatusRequest} payload Request to update the verification status of an order containing regulated products.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateVerificationStatus(orderId: string, payload: UpdateVerificationStatusRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.updateVerificationStatus(orderId, payload, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1902,6 +2285,20 @@ export interface OrdersV0ApiGetOrderItemsBuyerInfoRequest {
 }
 
 /**
+ * Request parameters for getOrderRegulatedInfo operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiGetOrderRegulatedInfoRequest
+ */
+export interface OrdersV0ApiGetOrderRegulatedInfoRequest {
+    /**
+     * An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrderRegulatedInfo
+     */
+    readonly orderId: string
+}
+
+/**
  * Request parameters for getOrders operation in OrdersV0Api.
  * @export
  * @interface OrdersV0ApiGetOrdersRequest
@@ -1950,7 +2347,7 @@ export interface OrdersV0ApiGetOrdersRequest {
     readonly orderStatuses?: Array<string>
 
     /**
-     * A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: FBA (Fulfillment by Amazon); SellerFulfilled (Fulfilled by the seller).
+     * A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: AFN (Fulfillment by Amazon); MFN (Fulfilled by the seller).
      * @type {Array<string>}
      * @memberof OrdersV0ApiGetOrders
      */
@@ -2028,6 +2425,27 @@ export interface OrdersV0ApiGetOrdersRequest {
 }
 
 /**
+ * Request parameters for updateVerificationStatus operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiUpdateVerificationStatusRequest
+ */
+export interface OrdersV0ApiUpdateVerificationStatusRequest {
+    /**
+     * An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiUpdateVerificationStatus
+     */
+    readonly orderId: string
+
+    /**
+     * Request to update the verification status of an order containing regulated products.
+     * @type {UpdateVerificationStatusRequest}
+     * @memberof OrdersV0ApiUpdateVerificationStatus
+     */
+    readonly payload: UpdateVerificationStatusRequest
+}
+
+/**
  * OrdersV0Api - object-oriented interface
  * @export
  * @class OrdersV0Api
@@ -2090,6 +2508,17 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
+     * Returns regulated information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * @param {OrdersV0ApiGetOrderRegulatedInfoRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrdersV0Api
+     */
+    public getOrderRegulatedInfo(requestParameters: OrdersV0ApiGetOrderRegulatedInfoRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).getOrderRegulatedInfo(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
      * @param {OrdersV0ApiGetOrdersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -2098,6 +2527,17 @@ export class OrdersV0Api extends BaseAPI {
      */
     public getOrders(requestParameters: OrdersV0ApiGetOrdersRequest, options?: any) {
         return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, requestParameters.actualFulfillmentSupplySourceId, requestParameters.isISPU, requestParameters.storeChainStoreId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * @param {OrdersV0ApiUpdateVerificationStatusRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrdersV0Api
+     */
+    public updateVerificationStatus(requestParameters: OrdersV0ApiUpdateVerificationStatusRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).updateVerificationStatus(requestParameters.orderId, requestParameters.payload, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
