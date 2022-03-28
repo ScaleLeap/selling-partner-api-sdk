@@ -69,7 +69,7 @@ export class FeedHelpers {
   public static async GetFeedResult(
     feedsApiClient: FeedsApiClientV20210630,
     feedId: string,
-    feedResultOptions: FeedResultOptions,
+    feedResultOptions?: FeedResultOptions,
   ): Promise<GetFeedHelperResult> {
     const { sleepTime = 4, maxAttempts = 15 } = feedResultOptions || {}
 

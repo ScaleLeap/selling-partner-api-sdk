@@ -25,7 +25,7 @@ export class ReportHelpers {
   public static async GetLatestReport(
     reportsClient: ReportsApiClientV20210630,
     reportType: string,
-    latestReportOptions: LatestReportOptions,
+    latestReportOptions?: LatestReportOptions,
   ): Promise<string | Record<string, unknown>[]> {
     const { parse = true } = latestReportOptions || {}
 
@@ -62,7 +62,7 @@ export class ReportHelpers {
     reportsClient: ReportsApiClientV20210630,
     reportParameters: ReportParameters,
     reportType: string,
-    getReportOptions: GetReportOptions,
+    getReportOptions?: GetReportOptions,
   ): Promise<string | Record<string, unknown>[]> {
     const { sleepTime = 10, maxAttempts = 15, parse = true } = getReportOptions || {}
 
