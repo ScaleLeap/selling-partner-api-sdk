@@ -22,6 +22,40 @@ export interface GetReportOptions {
 }
 
 export class ReportHelpers {
+  public static async DownloadReport(
+    reportsClient: ReportsApiClientV20210630,
+    reportId: string,
+    reportOptions?: LatestReportOptions,
+  ): Promise<string | Record<string, unknown>[]> {
+    const { parse = true } = reportOptions || {}
+
+    // Get a list of the latest report
+    const getReportResponse = await reportsClient.getReport({
+      reportId,
+    })
+
+    // ensure we have a document ID
+    const reportDocumentId = getReportResponse.data?.reportDocumentId || ''
+    if (!reportDocumentId) {
+      throw new Error(`No report for ${reportId}`)
+    }
+
+    // fetch the report document
+    const documentResponse = await reportsClient.getReportDocument({
+      reportDocumentId,
+    })
+
+    // fetch the raw content
+    const contentResponse = await axios.get(documentResponse.data.url)
+    const rawData = contentResponse.data
+
+    // optionally parse the results
+    if (parse) {
+      return tabDelimitedToArray(rawData)
+    }
+    return rawData
+  }
+
   public static async GetLatestReport(
     reportsClient: ReportsApiClientV20210630,
     reportType: string,
