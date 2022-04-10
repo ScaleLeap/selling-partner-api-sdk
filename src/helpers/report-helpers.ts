@@ -22,6 +22,9 @@ export interface GetReportOptions {
 }
 
 export class ReportHelpers {
+  /**
+   * Given a reportId will download the report, handle gzip, optionally parse tsv to json
+   */
   public static async DownloadReport(
     reportsClient: ReportsApiClientV20210630,
     reportId: string,
@@ -70,26 +73,8 @@ export class ReportHelpers {
       pageSize: 1,
     })
 
-    // ensure we have a document ID
-    const reportDocumentId = getReportResponse.data.reports?.[0]?.reportDocumentId || ''
-    if (!reportDocumentId) {
-      throw new Error(`No report for ${reportType}`)
-    }
-
-    // fetch the report document
-    const documentResponse = await reportsClient.getReportDocument({
-      reportDocumentId,
-    })
-
-    // fetch the raw content
-    const contentResponse = await axios.get(documentResponse.data.url)
-    const rawData = contentResponse.data
-
-    // optionally parse the results
-    if (parse) {
-      return tabDelimitedToArray(rawData)
-    }
-    return rawData
+    const reportId = getReportResponse.data.reports?.[0]?.reportId
+    return ReportHelpers.DownloadReport(reportsClient, reportId, { parse })
   }
 
   public static async GetReport(
@@ -114,7 +99,6 @@ export class ReportHelpers {
     const { reportId } = createReportResponse.data
     let reportStatus
     let attempts = 0
-    let reportDocumentId
     while (!['DONE', 'CANCELLED'].includes(reportStatus)) {
       // eslint-disable-next-line no-await-in-loop
       await sleep(sleepTime)
@@ -126,7 +110,6 @@ export class ReportHelpers {
       reportStatus = getReportResponse.data.processingStatus
       // eslint-disable-next-line no-console
       console.debug(`Report status for reportId ${reportId}: ${reportStatus}`)
-      reportDocumentId = getReportResponse.data?.reportDocumentId || ''
 
       // prevent infinite while loop
       attempts += 1
@@ -139,19 +122,6 @@ export class ReportHelpers {
     if (reportStatus === 'CANCELLED') {
       throw new Error(`Report ${reportId} is Cancelled`)
     }
-
-    // fetch the report document
-    const documentResponse = await reportsClient.getReportDocument({
-      reportDocumentId,
-    })
-    // fetch the actual content
-    const contentResponse = await axios.get(documentResponse.data.url)
-    const rawData = contentResponse.data
-
-    // optionally parse the results
-    if (parse) {
-      return tabDelimitedToArray(rawData)
-    }
-    return rawData
+    return ReportHelpers.DownloadReport(reportsClient, reportId, { parse })
   }
 }
