@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.2.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.1.0...v6.2.0) (2022-04-14)
+
+
+### Features
+
+* add vendor direct fulfillment and easy ship model ([#424](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/424)) ([0069b77](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/0069b77df6f7b4fd2bddc6c34be62f52cd2ba747))
+
 # [6.1.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.0.1...v6.1.0) (2022-03-24)
 
 
