@@ -5,6 +5,7 @@ import { USER_AGENT } from '../constants'
 import {
   APIConfigurationParameters,
   DEFAULT_API_BASE_PATH,
+  ModelErrorContainer,
   SellingPartnerMismatchRegionError,
   SellingPartnerNotFoundRegionError,
 } from '../types'
@@ -27,6 +28,16 @@ const regions = new Map<string, string[]>(
   }),
 )
 export class ApiClientHelpers {
+  static isAPIModelError(
+    axiosError: AxiosError<unknown | ModelErrorContainer>,
+  ): axiosError is AxiosError<ModelErrorContainer> {
+    const isError = (axiosError as AxiosError<ModelErrorContainer>).response?.data.errors.every(
+      (element) => 'code' in element && 'message' in element,
+    )
+
+    return !!isError
+  }
+
   static getAxiosInstance(parameters: APIConfigurationParameters): AxiosInstance {
     let axiosInstance: AxiosInstance
     const { axios } = parameters
@@ -59,7 +70,11 @@ export class ApiClientHelpers {
     axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error: AxiosError) => {
-        throw apiErrorFactory(error)
+        if (ApiClientHelpers.isAPIModelError(error)) {
+          throw apiErrorFactory(error)
+        }
+
+        throw error
       },
     )
 
