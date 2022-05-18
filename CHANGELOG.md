@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.2.4](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.2.3...v6.2.4) (2022-05-18)
+
+
+### Bug Fixes
+
+* handle all unknown errors ([#454](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/454)) ([c9e1298](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/c9e12988b1603fbc697d372c121f4d0a7927cf88))
+
 ## [6.2.3](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.2.2...v6.2.3) (2022-04-27)
 
 
