@@ -1,6 +1,6 @@
 {
   "name": "@scaleleap/selling-partner-api-sdk",
-  "version": "6.2.4",
+  "version": "6.3.0",
   "description": "📦 A fully typed TypeScript and Node.js SDK library for Amazon Selling Partner API",
   "license": "MIT",
   "author": {
