@@ -43,6 +43,81 @@ export interface ASINIdentifier {
 /**
  * 
  * @export
+ * @interface BatchOffersRequestParams
+ */
+export interface BatchOffersRequestParams {
+    /**
+     * A marketplace identifier. Specifies the marketplace for which prices are returned.
+     * @type {string}
+     * @memberof BatchOffersRequestParams
+     */
+    MarketplaceId: string;
+    /**
+     * 
+     * @type {ItemCondition}
+     * @memberof BatchOffersRequestParams
+     */
+    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    /**
+     * 
+     * @type {CustomerType}
+     * @memberof BatchOffersRequestParams
+     */
+    CustomerType?: CustomerType | 'Consumer' | 'Business';
+}
+/**
+ * 
+ * @export
+ * @interface BatchOffersResponse
+ */
+export interface BatchOffersResponse {
+    /**
+     * 
+     * @type {HttpResponseHeaders}
+     * @memberof BatchOffersResponse
+     */
+    headers?: HttpResponseHeaders;
+    /**
+     * 
+     * @type {GetOffersHttpStatusLine}
+     * @memberof BatchOffersResponse
+     */
+    status?: GetOffersHttpStatusLine;
+    /**
+     * 
+     * @type {GetOffersResponse}
+     * @memberof BatchOffersResponse
+     */
+    body: GetOffersResponse;
+}
+/**
+ * Common properties of batch requests against individual APIs.
+ * @export
+ * @interface BatchRequest
+ */
+export interface BatchRequest {
+    /**
+     * The full URI corresponding to the API intended for request, including path parameter substitutions.
+     * @type {string}
+     * @memberof BatchRequest
+     */
+    uri: string;
+    /**
+     * 
+     * @type {HttpMethod}
+     * @memberof BatchRequest
+     */
+    method: HttpMethod | 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST';
+    /**
+     * A mapping of additional HTTP headers to send/receive for the individual batch request.
+     * @type {{ [key: string]: string; }}
+     * @memberof BatchRequest
+     */
+    headers?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
  * @interface BuyBoxPriceType
  */
 export interface BuyBoxPriceType {
@@ -201,6 +276,16 @@ export enum ConditionType {
 }
 
 /**
+ * Indicates whether to request Consumer or Business offers. Default is Consumer.
+ * @export
+ * @enum {string}
+ */
+export enum CustomerType {
+    Consumer = 'Consumer',
+    Business = 'Business'
+}
+
+/**
  * The time range in which an item will likely be shipped once an order has been placed.
  * @export
  * @interface DetailedShippingTimeType
@@ -243,6 +328,19 @@ export enum DetailedShippingTimeTypeAvailabilityTypeEnum {
 }
 
 /**
+ * A list of error responses returned when a request is unsuccessful.
+ * @export
+ * @interface Errors
+ */
+export interface Errors {
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof Errors
+     */
+    errors: Array<Error>;
+}
+/**
  * Indicates whether the item is fulfilled by Amazon or by the seller (merchant).
  * @export
  * @enum {string}
@@ -252,6 +350,77 @@ export enum FulfillmentChannelType {
     Merchant = 'Merchant'
 }
 
+/**
+ * The request associated with the getItemOffersBatch API call.
+ * @export
+ * @interface GetItemOffersBatchRequest
+ */
+export interface GetItemOffersBatchRequest {
+    /**
+     * A list of getItemOffers batched requests to run.
+     * @type {Array<ItemOffersRequest>}
+     * @memberof GetItemOffersBatchRequest
+     */
+    requests?: Array<ItemOffersRequest>;
+}
+/**
+ * The response associated with the getItemOffersBatch API call.
+ * @export
+ * @interface GetItemOffersBatchResponse
+ */
+export interface GetItemOffersBatchResponse {
+    /**
+     * A list of getItemOffers batched responses.
+     * @type {Array<ItemOffersResponse>}
+     * @memberof GetItemOffersBatchResponse
+     */
+    responses?: Array<ItemOffersResponse>;
+}
+/**
+ * The request associated with the getListingOffersBatch API call.
+ * @export
+ * @interface GetListingOffersBatchRequest
+ */
+export interface GetListingOffersBatchRequest {
+    /**
+     * A list of getItemOffers batched requests to run.
+     * @type {Array<ListingOffersRequest>}
+     * @memberof GetListingOffersBatchRequest
+     */
+    requests?: Array<ListingOffersRequest>;
+}
+/**
+ * The response associated with the getListingOffersBatch API call.
+ * @export
+ * @interface GetListingOffersBatchResponse
+ */
+export interface GetListingOffersBatchResponse {
+    /**
+     * A list of getListingOffers batched responses.
+     * @type {Array<ListingOffersResponse>}
+     * @memberof GetListingOffersBatchResponse
+     */
+    responses?: Array<ListingOffersResponse>;
+}
+/**
+ * The HTTP status line associated with the response.  For more information, consult [RFC 2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html).
+ * @export
+ * @interface GetOffersHttpStatusLine
+ */
+export interface GetOffersHttpStatusLine {
+    /**
+     * The HTTP response Status Code.
+     * @type {number}
+     * @memberof GetOffersHttpStatusLine
+     */
+    statusCode?: number;
+    /**
+     * The HTTP response Reason-Phase.
+     * @type {string}
+     * @memberof GetOffersHttpStatusLine
+     */
+    reasonPhrase?: string;
+}
 /**
  * The response schema for the getListingOffers and getItemOffers operations.
  * @export
@@ -346,6 +515,40 @@ export interface GetPricingResponse {
     errors?: Array<Error>;
 }
 /**
+ * The HTTP method associated with the individual APIs being called as part of the batch request.
+ * @export
+ * @enum {string}
+ */
+export enum HttpMethod {
+    Get = 'GET',
+    Put = 'PUT',
+    Patch = 'PATCH',
+    Delete = 'DELETE',
+    Post = 'POST'
+}
+
+/**
+ * A mapping of additional HTTP headers to send/receive for the individual batch request.
+ * @export
+ * @interface HttpResponseHeaders
+ */
+export interface HttpResponseHeaders {
+    [key: string]: string | any;
+
+    /**
+     * The timestamp that the API request was received.  For more information, consult [RFC 2616 Section 14](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).
+     * @type {string}
+     * @memberof HttpResponseHeaders
+     */
+    Date?: string;
+    /**
+     * Unique request reference ID.
+     * @type {string}
+     * @memberof HttpResponseHeaders
+     */
+    x_amzn_RequestId?: string;
+}
+/**
  * Specifies the identifiers used to uniquely identify an item.
  * @export
  * @interface IdentifierType
@@ -364,6 +567,19 @@ export interface IdentifierType {
      */
     SKUIdentifier?: SellerSKUIdentifier;
 }
+/**
+ * Filters the offer listings to be considered based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
+ * @export
+ * @enum {string}
+ */
+export enum ItemCondition {
+    New = 'New',
+    Used = 'Used',
+    Collectible = 'Collectible',
+    Refurbished = 'Refurbished',
+    Club = 'Club'
+}
+
 /**
  * Information that identifies an item.
  * @export
@@ -394,6 +610,268 @@ export interface ItemIdentifier {
      * @memberof ItemIdentifier
      */
     ItemCondition: ConditionType | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+}
+/**
+ * 
+ * @export
+ * @interface ItemOffersRequest
+ */
+export interface ItemOffersRequest {
+    /**
+     * The full URI corresponding to the API intended for request, including path parameter substitutions.
+     * @type {string}
+     * @memberof ItemOffersRequest
+     */
+    uri: string;
+    /**
+     * 
+     * @type {HttpMethod}
+     * @memberof ItemOffersRequest
+     */
+    method: HttpMethod | 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST';
+    /**
+     * A mapping of additional HTTP headers to send/receive for the individual batch request.
+     * @type {{ [key: string]: string; }}
+     * @memberof ItemOffersRequest
+     */
+    headers?: { [key: string]: string; };
+    /**
+     * A marketplace identifier. Specifies the marketplace for which prices are returned.
+     * @type {string}
+     * @memberof ItemOffersRequest
+     */
+    MarketplaceId: string;
+    /**
+     * 
+     * @type {ItemCondition}
+     * @memberof ItemOffersRequest
+     */
+    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    /**
+     * 
+     * @type {CustomerType}
+     * @memberof ItemOffersRequest
+     */
+    CustomerType?: CustomerType | 'Consumer' | 'Business';
+}
+/**
+ * 
+ * @export
+ * @interface ItemOffersRequestParams
+ */
+export interface ItemOffersRequestParams {
+    /**
+     * A marketplace identifier. Specifies the marketplace for which prices are returned.
+     * @type {string}
+     * @memberof ItemOffersRequestParams
+     */
+    MarketplaceId: string;
+    /**
+     * 
+     * @type {ItemCondition}
+     * @memberof ItemOffersRequestParams
+     */
+    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    /**
+     * 
+     * @type {CustomerType}
+     * @memberof ItemOffersRequestParams
+     */
+    CustomerType?: CustomerType | 'Consumer' | 'Business';
+    /**
+     * The Amazon Standard Identification Number (ASIN) of the item. This is the same Asin passed as a request parameter.
+     * @type {string}
+     * @memberof ItemOffersRequestParams
+     */
+    Asin?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ItemOffersRequestParamsAllOf
+ */
+export interface ItemOffersRequestParamsAllOf {
+    /**
+     * The Amazon Standard Identification Number (ASIN) of the item. This is the same Asin passed as a request parameter.
+     * @type {string}
+     * @memberof ItemOffersRequestParamsAllOf
+     */
+    Asin?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ItemOffersResponse
+ */
+export interface ItemOffersResponse {
+    /**
+     * 
+     * @type {HttpResponseHeaders}
+     * @memberof ItemOffersResponse
+     */
+    headers?: HttpResponseHeaders;
+    /**
+     * 
+     * @type {GetOffersHttpStatusLine}
+     * @memberof ItemOffersResponse
+     */
+    status?: GetOffersHttpStatusLine;
+    /**
+     * 
+     * @type {GetOffersResponse}
+     * @memberof ItemOffersResponse
+     */
+    body: GetOffersResponse;
+    /**
+     * 
+     * @type {ItemOffersRequestParams}
+     * @memberof ItemOffersResponse
+     */
+    request: ItemOffersRequestParams;
+}
+/**
+ * 
+ * @export
+ * @interface ItemOffersResponseAllOf
+ */
+export interface ItemOffersResponseAllOf {
+    /**
+     * 
+     * @type {ItemOffersRequestParams}
+     * @memberof ItemOffersResponseAllOf
+     */
+    request: ItemOffersRequestParams;
+}
+/**
+ * 
+ * @export
+ * @interface ListingOffersRequest
+ */
+export interface ListingOffersRequest {
+    /**
+     * The full URI corresponding to the API intended for request, including path parameter substitutions.
+     * @type {string}
+     * @memberof ListingOffersRequest
+     */
+    uri: string;
+    /**
+     * 
+     * @type {HttpMethod}
+     * @memberof ListingOffersRequest
+     */
+    method: HttpMethod | 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST';
+    /**
+     * A mapping of additional HTTP headers to send/receive for the individual batch request.
+     * @type {{ [key: string]: string; }}
+     * @memberof ListingOffersRequest
+     */
+    headers?: { [key: string]: string; };
+    /**
+     * A marketplace identifier. Specifies the marketplace for which prices are returned.
+     * @type {string}
+     * @memberof ListingOffersRequest
+     */
+    MarketplaceId: string;
+    /**
+     * 
+     * @type {ItemCondition}
+     * @memberof ListingOffersRequest
+     */
+    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    /**
+     * 
+     * @type {CustomerType}
+     * @memberof ListingOffersRequest
+     */
+    CustomerType?: CustomerType | 'Consumer' | 'Business';
+}
+/**
+ * 
+ * @export
+ * @interface ListingOffersRequestParams
+ */
+export interface ListingOffersRequestParams {
+    /**
+     * A marketplace identifier. Specifies the marketplace for which prices are returned.
+     * @type {string}
+     * @memberof ListingOffersRequestParams
+     */
+    MarketplaceId: string;
+    /**
+     * 
+     * @type {ItemCondition}
+     * @memberof ListingOffersRequestParams
+     */
+    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    /**
+     * 
+     * @type {CustomerType}
+     * @memberof ListingOffersRequestParams
+     */
+    CustomerType?: CustomerType | 'Consumer' | 'Business';
+    /**
+     * The seller stock keeping unit (SKU) of the item. This is the same SKU passed as a path parameter.
+     * @type {string}
+     * @memberof ListingOffersRequestParams
+     */
+    SellerSKU: string;
+}
+/**
+ * 
+ * @export
+ * @interface ListingOffersRequestParamsAllOf
+ */
+export interface ListingOffersRequestParamsAllOf {
+    /**
+     * The seller stock keeping unit (SKU) of the item. This is the same SKU passed as a path parameter.
+     * @type {string}
+     * @memberof ListingOffersRequestParamsAllOf
+     */
+    SellerSKU: string;
+}
+/**
+ * 
+ * @export
+ * @interface ListingOffersResponse
+ */
+export interface ListingOffersResponse {
+    /**
+     * 
+     * @type {HttpResponseHeaders}
+     * @memberof ListingOffersResponse
+     */
+    headers?: HttpResponseHeaders;
+    /**
+     * 
+     * @type {GetOffersHttpStatusLine}
+     * @memberof ListingOffersResponse
+     */
+    status?: GetOffersHttpStatusLine;
+    /**
+     * 
+     * @type {GetOffersResponse}
+     * @memberof ListingOffersResponse
+     */
+    body: GetOffersResponse;
+    /**
+     * 
+     * @type {ListingOffersRequestParams}
+     * @memberof ListingOffersResponse
+     */
+    request?: ListingOffersRequestParams;
+}
+/**
+ * 
+ * @export
+ * @interface ListingOffersResponseAllOf
+ */
+export interface ListingOffersResponseAllOf {
+    /**
+     * 
+     * @type {ListingOffersRequestParams}
+     * @memberof ListingOffersResponseAllOf
+     */
+    request?: ListingOffersRequestParams;
 }
 /**
  * 
@@ -1052,7 +1530,7 @@ export interface Summary {
 export const ProductPricingApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'Asin' | 'Sku'} itemType Indicates whether ASIN values or seller SKU values are used to identify items. If you specify Asin, the information in the response will be dependent on the list of Asins you provide in the Asins parameter. If you specify Sku, the information in the response will be dependent on the list of Skus you provide in the Skus parameter. Possible values: Asin, Sku.
          * @param {Array<string>} [asins] A list of up to twenty Amazon Standard Identification Number (ASIN) values used to identify items in the given marketplace.
@@ -1110,7 +1588,7 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club'} itemCondition Filters the offer listings to be considered based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
          * @param {string} asin The Amazon Standard Identification Number (ASIN) of the item.
@@ -1162,7 +1640,42 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * Returns the lowest priced offers for a single SKU listing.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a batch of items based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetItemOffersBatchRequest} getItemOffersBatchRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItemOffersBatch: async (getItemOffersBatchRequestBody: GetItemOffersBatchRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'getItemOffersBatchRequestBody' is not null or undefined
+            assertParamExists('getItemOffersBatch', 'getItemOffersBatchRequestBody', getItemOffersBatchRequestBody)
+            const localVarPath = `/batches/products/pricing/v0/itemOffers`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(getItemOffersBatchRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns the lowest priced offers for a single SKU listing.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club'} itemCondition Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
          * @param {string} sellerSKU Identifies an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
@@ -1214,7 +1727,42 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a batch of listings by SKU.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetListingOffersBatchRequest} getListingOffersBatchRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getListingOffersBatch: async (getListingOffersBatchRequestBody: GetListingOffersBatchRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'getListingOffersBatchRequestBody' is not null or undefined
+            assertParamExists('getListingOffersBatch', 'getListingOffersBatchRequestBody', getListingOffersBatchRequestBody)
+            const localVarPath = `/batches/products/pricing/v0/listingOffers`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(getListingOffersBatchRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'Asin' | 'Sku'} itemType Indicates whether ASIN values or seller SKU values are used to identify items. If you specify Asin, the information in the response will be dependent on the list of Asins you provide in the Asins parameter. If you specify Sku, the information in the response will be dependent on the list of Skus you provide in the Skus parameter.
          * @param {Array<string>} [asins] A list of up to twenty Amazon Standard Identification Number (ASIN) values used to identify items in the given marketplace.
@@ -1287,7 +1835,7 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ProductPricingApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'Asin' | 'Sku'} itemType Indicates whether ASIN values or seller SKU values are used to identify items. If you specify Asin, the information in the response will be dependent on the list of Asins you provide in the Asins parameter. If you specify Sku, the information in the response will be dependent on the list of Skus you provide in the Skus parameter. Possible values: Asin, Sku.
          * @param {Array<string>} [asins] A list of up to twenty Amazon Standard Identification Number (ASIN) values used to identify items in the given marketplace.
@@ -1301,7 +1849,7 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club'} itemCondition Filters the offer listings to be considered based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
          * @param {string} asin The Amazon Standard Identification Number (ASIN) of the item.
@@ -1314,7 +1862,17 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the lowest priced offers for a single SKU listing.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a batch of items based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetItemOffersBatchRequest} getItemOffersBatchRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getItemOffersBatch(getItemOffersBatchRequestBody: GetItemOffersBatchRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetItemOffersBatchResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemOffersBatch(getItemOffersBatchRequestBody, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Returns the lowest priced offers for a single SKU listing.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club'} itemCondition Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
          * @param {string} sellerSKU Identifies an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
@@ -1327,7 +1885,17 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a batch of listings by SKU.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetListingOffersBatchRequest} getListingOffersBatchRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getListingOffersBatch(getListingOffersBatchRequestBody: GetListingOffersBatchRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetListingOffersBatchResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getListingOffersBatch(getListingOffersBatchRequestBody, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'Asin' | 'Sku'} itemType Indicates whether ASIN values or seller SKU values are used to identify items. If you specify Asin, the information in the response will be dependent on the list of Asins you provide in the Asins parameter. If you specify Sku, the information in the response will be dependent on the list of Skus you provide in the Skus parameter.
          * @param {Array<string>} [asins] A list of up to twenty Amazon Standard Identification Number (ASIN) values used to identify items in the given marketplace.
@@ -1352,7 +1920,7 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
     const localVarFp = ProductPricingApiFp(configuration)
     return {
         /**
-         * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'Asin' | 'Sku'} itemType Indicates whether ASIN values or seller SKU values are used to identify items. If you specify Asin, the information in the response will be dependent on the list of Asins you provide in the Asins parameter. If you specify Sku, the information in the response will be dependent on the list of Skus you provide in the Skus parameter. Possible values: Asin, Sku.
          * @param {Array<string>} [asins] A list of up to twenty Amazon Standard Identification Number (ASIN) values used to identify items in the given marketplace.
@@ -1365,7 +1933,7 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
             return localVarFp.getCompetitivePricing(marketplaceId, itemType, asins, skus, customerType, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club'} itemCondition Filters the offer listings to be considered based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
          * @param {string} asin The Amazon Standard Identification Number (ASIN) of the item.
@@ -1377,7 +1945,16 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
             return localVarFp.getItemOffers(marketplaceId, itemCondition, asin, customerType, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the lowest priced offers for a single SKU listing.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a batch of items based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetItemOffersBatchRequest} getItemOffersBatchRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItemOffersBatch(getItemOffersBatchRequestBody: GetItemOffersBatchRequest, options?: any): AxiosPromise<GetItemOffersBatchResponse> {
+            return localVarFp.getItemOffersBatch(getItemOffersBatchRequestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns the lowest priced offers for a single SKU listing.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club'} itemCondition Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
          * @param {string} sellerSKU Identifies an item in the given marketplace. SellerSKU is qualified by the seller\&#39;s SellerId, which is included with every operation that you submit.
@@ -1389,7 +1966,16 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
             return localVarFp.getListingOffers(marketplaceId, itemCondition, sellerSKU, customerType, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Returns the lowest priced offers for a batch of listings by SKU.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetListingOffersBatchRequest} getListingOffersBatchRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getListingOffersBatch(getListingOffersBatchRequestBody: GetListingOffersBatchRequest, options?: any): AxiosPromise<GetListingOffersBatchResponse> {
+            return localVarFp.getListingOffersBatch(getListingOffersBatchRequestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace for which prices are returned.
          * @param {'Asin' | 'Sku'} itemType Indicates whether ASIN values or seller SKU values are used to identify items. If you specify Asin, the information in the response will be dependent on the list of Asins you provide in the Asins parameter. If you specify Sku, the information in the response will be dependent on the list of Skus you provide in the Skus parameter.
          * @param {Array<string>} [asins] A list of up to twenty Amazon Standard Identification Number (ASIN) values used to identify items in the given marketplace.
@@ -1483,6 +2069,20 @@ export interface ProductPricingApiGetItemOffersRequest {
 }
 
 /**
+ * Request parameters for getItemOffersBatch operation in ProductPricingApi.
+ * @export
+ * @interface ProductPricingApiGetItemOffersBatchRequest
+ */
+export interface ProductPricingApiGetItemOffersBatchRequest {
+    /**
+     * 
+     * @type {GetItemOffersBatchRequest}
+     * @memberof ProductPricingApiGetItemOffersBatch
+     */
+    readonly getItemOffersBatchRequestBody: GetItemOffersBatchRequest
+}
+
+/**
  * Request parameters for getListingOffers operation in ProductPricingApi.
  * @export
  * @interface ProductPricingApiGetListingOffersRequest
@@ -1515,6 +2115,20 @@ export interface ProductPricingApiGetListingOffersRequest {
      * @memberof ProductPricingApiGetListingOffers
      */
     readonly customerType?: 'Consumer' | 'Business'
+}
+
+/**
+ * Request parameters for getListingOffersBatch operation in ProductPricingApi.
+ * @export
+ * @interface ProductPricingApiGetListingOffersBatchRequest
+ */
+export interface ProductPricingApiGetListingOffersBatchRequest {
+    /**
+     * 
+     * @type {GetListingOffersBatchRequest}
+     * @memberof ProductPricingApiGetListingOffersBatch
+     */
+    readonly getListingOffersBatchRequestBody: GetListingOffersBatchRequest
 }
 
 /**
@@ -1574,7 +2188,7 @@ export interface ProductPricingApiGetPricingRequest {
  */
 export class ProductPricingApi extends BaseAPI {
     /**
-     * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns competitive pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ProductPricingApiGetCompetitivePricingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1585,7 +2199,7 @@ export class ProductPricingApi extends BaseAPI {
     }
 
     /**
-     * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns the lowest priced offers for a single item based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ProductPricingApiGetItemOffersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1596,7 +2210,18 @@ export class ProductPricingApi extends BaseAPI {
     }
 
     /**
-     * Returns the lowest priced offers for a single SKU listing.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns the lowest priced offers for a batch of items based on ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {ProductPricingApiGetItemOffersBatchRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProductPricingApi
+     */
+    public getItemOffersBatch(requestParameters: ProductPricingApiGetItemOffersBatchRequest, options?: any) {
+        return ProductPricingApiFp(this.configuration).getItemOffersBatch(requestParameters.getItemOffersBatchRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns the lowest priced offers for a single SKU listing.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ProductPricingApiGetListingOffersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1607,7 +2232,18 @@ export class ProductPricingApi extends BaseAPI {
     }
 
     /**
-     * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Returns the lowest priced offers for a batch of listings by SKU.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {ProductPricingApiGetListingOffersBatchRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProductPricingApi
+     */
+    public getListingOffersBatch(requestParameters: ProductPricingApiGetListingOffersBatchRequest, options?: any) {
+        return ProductPricingApiFp(this.configuration).getListingOffersBatch(requestParameters.getListingOffersBatchRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns pricing information for a seller\'s offer listings based on seller SKU or ASIN.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ProductPricingApiGetPricingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
