@@ -66,6 +66,56 @@ export interface ClassificationRefinement {
     classificationId: string;
 }
 /**
+ * Individual dimension value of an Amazon catalog item or item package.
+ * @export
+ * @interface Dimension
+ */
+export interface Dimension {
+    /**
+     * Measurement unit of the dimension value.
+     * @type {string}
+     * @memberof Dimension
+     */
+    unit?: string;
+    /**
+     * Numeric dimension value.
+     * @type {number}
+     * @memberof Dimension
+     */
+    value?: number;
+}
+/**
+ * Dimensions of an Amazon catalog item or item in its packaging.
+ * @export
+ * @interface Dimensions
+ */
+export interface Dimensions {
+    /**
+     * 
+     * @type {Dimension}
+     * @memberof Dimensions
+     */
+    height?: Dimension;
+    /**
+     * 
+     * @type {Dimension}
+     * @memberof Dimensions
+     */
+    length?: Dimension;
+    /**
+     * 
+     * @type {Dimension}
+     * @memberof Dimensions
+     */
+    weight?: Dimension;
+    /**
+     * 
+     * @type {Dimension}
+     * @memberof Dimensions
+     */
+    width?: Dimension;
+}
+/**
  * A list of error responses returned when a request is unsuccessful.
  * @export
  * @interface ErrorList
@@ -97,11 +147,11 @@ export interface Item {
      */
     attributes?: object;
     /**
-     * 
-     * @type {ItemDimensionsByMarketplace}
+     * Array of dimensions associated with the item in the Amazon catalog by Amazon marketplace.
+     * @type {Array<ItemDimensionsByMarketplace>}
      * @memberof Item
      */
-    dimensions?: ItemDimensionsByMarketplace;
+    dimensions?: Array<ItemDimensionsByMarketplace>;
     /**
      * Identifiers associated with the item in the Amazon catalog, such as UPC and EAN identifiers.
      * @type {Array<ItemIdentifiersByMarketplace>}
@@ -196,56 +246,6 @@ export interface ItemClassificationSalesRank {
     rank: number;
 }
 /**
- * Individual dimension value of an Amazon catalog item or item package.
- * @export
- * @interface ItemDimension
- */
-export interface ItemDimension {
-    /**
-     * Measurement unit of the dimension value.
-     * @type {string}
-     * @memberof ItemDimension
-     */
-    unit?: string;
-    /**
-     * Numeric dimension value.
-     * @type {number}
-     * @memberof ItemDimension
-     */
-    value?: number;
-}
-/**
- * Dimensions of an Amazon catalog item or item in its packaging.
- * @export
- * @interface ItemDimensions
- */
-export interface ItemDimensions {
-    /**
-     * 
-     * @type {ItemDimension}
-     * @memberof ItemDimensions
-     */
-    height?: ItemDimension;
-    /**
-     * 
-     * @type {ItemDimension}
-     * @memberof ItemDimensions
-     */
-    length?: ItemDimension;
-    /**
-     * 
-     * @type {ItemDimension}
-     * @memberof ItemDimensions
-     */
-    weight?: ItemDimension;
-    /**
-     * 
-     * @type {ItemDimension}
-     * @memberof ItemDimensions
-     */
-    width?: ItemDimension;
-}
-/**
  * Dimensions associated with the item in the Amazon catalog for the indicated Amazon marketplace.
  * @export
  * @interface ItemDimensionsByMarketplace
@@ -259,16 +259,16 @@ export interface ItemDimensionsByMarketplace {
     marketplaceId: string;
     /**
      * 
-     * @type {ItemDimensions}
+     * @type {Dimensions}
      * @memberof ItemDimensionsByMarketplace
      */
-    item?: ItemDimensions;
+    item?: Dimensions;
     /**
      * 
-     * @type {ItemDimensions}
+     * @type {Dimensions}
      * @memberof ItemDimensionsByMarketplace
      */
-    _package?: ItemDimensions;
+    _package?: Dimensions;
 }
 /**
  * Sales rank of an Amazon catalog item by website display group.
