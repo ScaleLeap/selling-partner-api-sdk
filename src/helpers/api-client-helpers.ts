@@ -54,14 +54,14 @@ export class ApiClientHelpers {
           credentials,
         ),
       )
-    }
 
-    axiosInstance.interceptors.response.use(
-      (response: AxiosResponse) => response,
-      (error: AxiosError) => {
-        throw apiErrorFactory(error)
-      },
-    )
+      axiosInstance.interceptors.response.use(
+        (response: AxiosResponse) => response,
+        (error: AxiosError) => {
+          throw apiErrorFactory(error)
+        },
+      )
+    }
 
     return axiosInstance
   }

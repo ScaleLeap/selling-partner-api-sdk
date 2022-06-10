@@ -3,7 +3,7 @@ import {
   assertMarketplaceHasSellingPartner,
 } from '@scaleleap/amazon-marketplaces'
 import { jestPollyContext } from '@scaleleap/jest-polly'
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import { StatusCodes } from 'http-status-codes'
 import { toNumber } from 'lodash'
 
@@ -198,5 +198,28 @@ describe(`client`, () => {
       'code',
       'ERR_BAD_RESPONSE',
     )
+  })
+
+  it('should allow to access origin error', async () => {
+    expect.assertions(1)
+
+    const { CA } = amazonMarketplaces
+    assertMarketplaceHasSellingPartner(CA)
+
+    const configuration: APIConfigurationParameters = {
+      accessToken: 'Atza|...',
+      region: CA.sellingPartner.region.awsRegion,
+      axios,
+    }
+
+    jestPollyContext.polly.server
+      .any(`${CA.sellingPartner.region.endpoint}/sellers/v1/marketplaceParticipations`)
+      .intercept((request, response) => {
+        response.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR)
+      })
+
+    const client = new SellersApiClient(configuration)
+
+    await expect(client.getMarketplaceParticipations()).rejects.toThrow(AxiosError)
   })
 })
