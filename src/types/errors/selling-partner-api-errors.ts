@@ -27,6 +27,14 @@ export interface ModelError {
   details?: string
 }
 
+export interface SellingPartnerErrorParameters {
+  modelError: ModelError
+
+  headers: AxiosResponseHeaders
+
+  cause: Error
+}
+
 export class SellingPartnerGenericError extends ExtendableError {
   public code: string
 
@@ -36,13 +44,16 @@ export class SellingPartnerGenericError extends ExtendableError {
 
   public requestId: string
 
-  public constructor(error: ModelError, headers: AxiosResponseHeaders) {
-    super(error.details)
+  public cause: Error
 
-    this.code = error.code
-    this.message = error.message
-    this.details = error.details
+  public constructor({ modelError, headers, cause }: SellingPartnerErrorParameters) {
+    super(modelError.details)
+
+    this.code = modelError.code
+    this.message = modelError.message
+    this.details = modelError.details
     this.requestId = headers['x-amzn-RequestId'] || headers['x-amzn-requestid'] || ''
+    this.cause = cause
   }
 }
 
@@ -54,11 +65,11 @@ export class SellingPartnerUnsupportedMediaTypeError extends SellingPartnerGener
 export class SellingPartnerTooManyRequestsError extends SellingPartnerGenericError {
   public rateLimit?: number
 
-  public constructor(error: ModelError, headers: AxiosResponseHeaders) {
-    super(error, headers)
+  public constructor(parameters: SellingPartnerErrorParameters) {
+    super(parameters)
     this.rateLimit =
-      Number(headers['x-amzn-RateLimit-Limit']) ||
-      Number(headers['x-amzn-ratelimit-limit']) ||
+      Number(parameters.headers['x-amzn-RateLimit-Limit']) ||
+      Number(parameters.headers['x-amzn-ratelimit-limit']) ||
       undefined
   }
 }

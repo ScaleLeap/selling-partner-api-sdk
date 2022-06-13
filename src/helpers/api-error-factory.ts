@@ -31,34 +31,37 @@ export function apiErrorFactory(error: AxiosError): ExtendableError {
     if (isAPIModelError(data)) {
       const modelError = data.errors.shift()
       if (modelError === undefined) {
-        return new SellingPartnerUnknownError(
-          {
+        return new SellingPartnerUnknownError({
+          modelError: {
             code: code || 'UnknownError',
             message,
           },
           headers,
-        )
+          cause: error,
+        })
       }
+
+      const errorParameters = { modelError, headers, cause: error }
 
       switch (status) {
         case StatusCodes.BAD_REQUEST:
-          return new SellingPartnerBadRequestError(modelError, headers)
+          return new SellingPartnerBadRequestError(errorParameters)
         case StatusCodes.FORBIDDEN:
-          return new SellingPartnerForbiddenError(modelError, headers)
+          return new SellingPartnerForbiddenError(errorParameters)
         case StatusCodes.NOT_FOUND:
-          return new SellingPartnerNotFoundError(modelError, headers)
+          return new SellingPartnerNotFoundError(errorParameters)
         case StatusCodes.REQUEST_TOO_LONG:
-          return new SellingPartnerRequestTooLongError(modelError, headers)
+          return new SellingPartnerRequestTooLongError(errorParameters)
         case StatusCodes.UNSUPPORTED_MEDIA_TYPE:
-          return new SellingPartnerUnsupportedMediaTypeError(modelError, headers)
+          return new SellingPartnerUnsupportedMediaTypeError(errorParameters)
         case StatusCodes.TOO_MANY_REQUESTS:
-          return new SellingPartnerTooManyRequestsError(modelError, headers)
+          return new SellingPartnerTooManyRequestsError(errorParameters)
         case StatusCodes.INTERNAL_SERVER_ERROR:
-          return new SellingPartnerInternalServerError(modelError, headers)
+          return new SellingPartnerInternalServerError(errorParameters)
         case StatusCodes.SERVICE_UNAVAILABLE:
-          return new SellingPartnerServiceUnavailableError(modelError, headers)
+          return new SellingPartnerServiceUnavailableError(errorParameters)
         default:
-          return new SellingPartnerGenericError(modelError, headers)
+          return new SellingPartnerGenericError(errorParameters)
       }
     }
   }
