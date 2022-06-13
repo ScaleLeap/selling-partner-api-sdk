@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.4.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.3.1...v6.4.0) (2022-06-13)
+
+
+### Features
+
+* exposes original axios error object ([#479](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/479)) ([134781c](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/134781c67410ee2c1b24646db7f4fb98fb77ad22))
+
 ## [6.3.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.3.0...v6.3.1) (2022-05-21)
 
 
