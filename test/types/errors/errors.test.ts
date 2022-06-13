@@ -3,7 +3,7 @@ import {
   assertMarketplaceHasSellingPartner,
 } from '@scaleleap/amazon-marketplaces'
 import { jestPollyContext } from '@scaleleap/jest-polly'
-import axios, { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import { StatusCodes } from 'http-status-codes'
 import { toNumber } from 'lodash'
 
@@ -18,6 +18,8 @@ import {
 } from '../../../src'
 
 describe(`client`, () => {
+  const DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE = 'Request failed with status code 500'
+
   it(`should throw ${SellingPartnerForbiddenError.name} when pass invalid token`, async () => {
     expect.assertions(2)
 
@@ -136,7 +138,7 @@ describe(`client`, () => {
   })
 
   it(`should handle unknown error`, async () => {
-    expect.assertions(3)
+    expect.assertions(4)
 
     const { CA } = amazonMarketplaces
     assertMarketplaceHasSellingPartner(CA)
@@ -161,11 +163,16 @@ describe(`client`, () => {
 
     await expect(client.getMarketplaceParticipations()).rejects.toHaveProperty(
       'message',
-      'Request failed with status code 500',
+      DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE,
     )
     await expect(client.getMarketplaceParticipations()).rejects.toHaveProperty(
       'code',
-      'ERR_BAD_RESPONSE',
+      AxiosError.ERR_BAD_RESPONSE,
+    )
+
+    await expect(client.getMarketplaceParticipations()).rejects.toHaveProperty(
+      'cause',
+      new AxiosError(DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE, AxiosError.ERR_BAD_RESPONSE),
     )
   })
 
@@ -192,34 +199,11 @@ describe(`client`, () => {
 
     await expect(client.getMarketplaceParticipations()).rejects.toHaveProperty(
       'message',
-      'Request failed with status code 500',
+      DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE,
     )
     await expect(client.getMarketplaceParticipations()).rejects.toHaveProperty(
       'code',
-      'ERR_BAD_RESPONSE',
+      AxiosError.ERR_BAD_RESPONSE,
     )
-  })
-
-  it('should allow to access origin error', async () => {
-    expect.assertions(1)
-
-    const { CA } = amazonMarketplaces
-    assertMarketplaceHasSellingPartner(CA)
-
-    const configuration: APIConfigurationParameters = {
-      accessToken: 'Atza|...',
-      region: CA.sellingPartner.region.awsRegion,
-      axios,
-    }
-
-    jestPollyContext.polly.server
-      .any(`${CA.sellingPartner.region.endpoint}/sellers/v1/marketplaceParticipations`)
-      .intercept((request, response) => {
-        response.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR)
-      })
-
-    const client = new SellersApiClient(configuration)
-
-    await expect(client.getMarketplaceParticipations()).rejects.toThrow(AxiosError)
   })
 })
