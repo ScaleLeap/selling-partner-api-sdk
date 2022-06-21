@@ -74,6 +74,12 @@ export class ReportHelpers {
     })
 
     const reportId = getReportResponse.data.reports?.[0]?.reportId
+
+    // if we failed to get any report, return empty
+    if (!reportId) {
+      return parse ? [] : ''
+    }
+
     return ReportHelpers.DownloadReport(reportsClient, reportId, { parse })
   }
 
