@@ -558,7 +558,7 @@ export const FeesApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * Returns the estimated fees for a list of products.
+         * Returns the estimated fees for a list of products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<FeesEstimateByIdRequest>} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -625,7 +625,7 @@ export const FeesApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the estimated fees for a list of products.
+         * Returns the estimated fees for a list of products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<FeesEstimateByIdRequest>} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -665,7 +665,7 @@ export const FeesApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.getMyFeesEstimateForSKU(sellerSKU, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the estimated fees for a list of products.
+         * Returns the estimated fees for a list of products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<FeesEstimateByIdRequest>} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -762,7 +762,7 @@ export class FeesApi extends BaseAPI {
     }
 
     /**
-     * Returns the estimated fees for a list of products.
+     * Returns the estimated fees for a list of products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {FeesApiGetMyFeesEstimatesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
