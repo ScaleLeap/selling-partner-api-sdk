@@ -62,7 +62,7 @@
     "@scaleleap/jest-polly": "1.5.61",
     "@scaleleap/utils": "1.9.58",
     "@types/fancy-log": "2.0.0",
-    "@types/jest": "27.5.1",
+    "@types/jest": "27.5.2",
     "@types/lodash": "4.14.182",
     "@types/node": "16.11.38",
     "danger": "11.0.7",
