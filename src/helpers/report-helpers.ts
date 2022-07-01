@@ -16,8 +16,8 @@ export interface ReportOptions {
 }
 
 export interface LatestReportOptions {
-  parse: boolean
-  scheduledOnly: boolean
+  parse?: boolean
+  scheduledOnly?: boolean
 }
 
 export interface GetReportOptions {
