@@ -11,8 +11,13 @@ export interface ReportParameters {
   marketplaceIds?: string[]
 }
 
+export interface ReportOptions {
+  parse: boolean
+}
+
 export interface LatestReportOptions {
   parse: boolean
+  scheduledOnly: boolean
 }
 
 export interface GetReportOptions {
@@ -28,7 +33,7 @@ export class ReportHelpers {
   public static async DownloadReport(
     reportsClient: ReportsApiClientV20210630,
     reportId: string,
-    reportOptions?: LatestReportOptions,
+    reportOptions?: ReportOptions,
   ): Promise<string | Record<string, unknown>[]> {
     const { parse = true } = reportOptions || {}
 
@@ -64,16 +69,25 @@ export class ReportHelpers {
     reportType: string,
     latestReportOptions?: LatestReportOptions,
   ): Promise<string | Record<string, unknown>[]> {
-    const { parse = true } = latestReportOptions || {}
+    const { parse = true, scheduledOnly = false } = latestReportOptions || {}
 
-    // Get a list of the latest report
+    // Get a list of the latest 10 reports
     const getReportResponse = await reportsClient.getReports({
       reportTypes: [reportType],
       processingStatuses: ['DONE'],
-      pageSize: 1,
+      pageSize: 10,
     })
 
-    const reportId = getReportResponse.data.reports?.[0]?.reportId
+    // if we only want scheduled, find the latest scheduled one
+    const latestReport = scheduledOnly
+      ? getReportResponse.data?.reports?.find((report) => report.reportScheduleId)
+      : getReportResponse.data?.reports?.[0]
+
+    if (!latestReport) {
+      return parse ? [] : ''
+    }
+
+    const { reportId } = latestReport
 
     // if we failed to get any report, return empty
     if (!reportId) {
