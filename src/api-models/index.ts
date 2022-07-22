@@ -674,6 +674,8 @@ export {
   GetMessagingActionsForOrderResponseLinks as MessagingApiModelGetMessagingActionsForOrderResponseLinks,
   GetSchemaResponse as MessagingApiModelGetSchemaResponse,
   GetSchemaResponseLinks as MessagingApiModelGetSchemaResponseLinks,
+  InvoiceRequest as MessagingApiModelInvoiceRequest,
+  InvoiceResponse as MessagingApiModelInvoiceResponse,
   LinkObject as MessagingApiModelLinkObject,
   MessagingAction as MessagingApiModelMessagingAction,
   ModelError as MessagingApiModelModelError,
@@ -689,6 +691,7 @@ export {
   MessagingApiCreateWarrantyRequest as MessagingApiModelMessagingApiCreateWarrantyRequest,
   MessagingApiGetAttributesRequest as MessagingApiModelMessagingApiGetAttributesRequest,
   MessagingApiGetMessagingActionsForOrderRequest as MessagingApiModelMessagingApiGetMessagingActionsForOrderRequest,
+  MessagingApiSendInvoiceRequest as MessagingApiModelMessagingApiSendInvoiceRequest,
 } from './messaging-api-model'
 export {
   AggregationTimePeriod as NotificationsApiModelAggregationTimePeriod,

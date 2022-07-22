@@ -22,13 +22,13 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
- * Represents a file uploaded to a destination that was created by the createUploadDestination operation of the Uploads API.
+ * Represents a file uploaded to a destination that was created by the [createUploadDestinationForResource](doc:uploads-api-reference#post-uploads2020-11-01uploaddestinationsresource) operation of the Selling Partner API for Uploads.
  * @export
  * @interface Attachment
  */
 export interface Attachment {
     /**
-     * The identifier of the upload destination. Get this value by calling the createUploadDestination operation of the Uploads API.
+     * The identifier of the upload destination. Get this value by calling the [createUploadDestinationForResource](doc:uploads-api-reference#post-uploads2020-11-01uploaddestinationsresource) operation of the Uploads API.
      * @type {string}
      * @memberof Attachment
      */
@@ -477,10 +477,10 @@ export interface GetSchemaResponse {
     _links?: GetSchemaResponseLinks;
     /**
      * A JSON schema document describing the expected payload of the action. This object can be validated against <a href=http://json-schema.org/draft-04/schema>http://json-schema.org/draft-04/schema</a>.
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof GetSchemaResponse
      */
-    payload?: object;
+    payload?: { [key: string]: object; };
     /**
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
@@ -500,6 +500,32 @@ export interface GetSchemaResponseLinks {
      * @memberof GetSchemaResponseLinks
      */
     self: LinkObject;
+}
+/**
+ * The request schema for the sendInvoice operation.
+ * @export
+ * @interface InvoiceRequest
+ */
+export interface InvoiceRequest {
+    /**
+     * Attachments to include in the message to the buyer.
+     * @type {Array<Attachment>}
+     * @memberof InvoiceRequest
+     */
+    attachments?: Array<Attachment>;
+}
+/**
+ * The response schema for the sendInvoice operation.
+ * @export
+ * @interface InvoiceResponse
+ */
+export interface InvoiceResponse {
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof InvoiceResponse
+     */
+    errors?: Array<Error>;
 }
 /**
  * A Link object.
@@ -1099,6 +1125,52 @@ export const MessagingApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Sends a message providing the buyer an invoice
+         * @param {string} amazonOrderId An Amazon order identifier. This specifies the order for which a message is sent.
+         * @param {Array<string>} marketplaceIds A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+         * @param {InvoiceRequest} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendInvoice: async (amazonOrderId: string, marketplaceIds: Array<string>, body: InvoiceRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'amazonOrderId' is not null or undefined
+            assertParamExists('sendInvoice', 'amazonOrderId', amazonOrderId)
+            // verify required parameter 'marketplaceIds' is not null or undefined
+            assertParamExists('sendInvoice', 'marketplaceIds', marketplaceIds)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('sendInvoice', 'body', body)
+            const localVarPath = `/messaging/v1/orders/{amazonOrderId}/messages/invoice`
+                .replace(`{${"amazonOrderId"}}`, encodeURIComponent(String(amazonOrderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (marketplaceIds) {
+                localVarQueryParameter['marketplaceIds'] = marketplaceIds.join(COLLECTION_FORMATS.csv);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1250,6 +1322,18 @@ export const MessagingApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getMessagingActionsForOrder(amazonOrderId, marketplaceIds, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * Sends a message providing the buyer an invoice
+         * @param {string} amazonOrderId An Amazon order identifier. This specifies the order for which a message is sent.
+         * @param {Array<string>} marketplaceIds A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+         * @param {InvoiceRequest} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sendInvoice(amazonOrderId: string, marketplaceIds: Array<string>, body: InvoiceRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvoiceResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.sendInvoice(amazonOrderId, marketplaceIds, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -1388,6 +1472,17 @@ export const MessagingApiFactory = function (configuration?: Configuration, base
          */
         getMessagingActionsForOrder(amazonOrderId: string, marketplaceIds: Array<string>, options?: any): AxiosPromise<GetMessagingActionsForOrderResponse> {
             return localVarFp.getMessagingActionsForOrder(amazonOrderId, marketplaceIds, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Sends a message providing the buyer an invoice
+         * @param {string} amazonOrderId An Amazon order identifier. This specifies the order for which a message is sent.
+         * @param {Array<string>} marketplaceIds A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+         * @param {InvoiceRequest} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendInvoice(amazonOrderId: string, marketplaceIds: Array<string>, body: InvoiceRequest, options?: any): AxiosPromise<InvoiceResponse> {
+            return localVarFp.sendInvoice(amazonOrderId, marketplaceIds, body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1708,6 +1803,34 @@ export interface MessagingApiGetMessagingActionsForOrderRequest {
 }
 
 /**
+ * Request parameters for sendInvoice operation in MessagingApi.
+ * @export
+ * @interface MessagingApiSendInvoiceRequest
+ */
+export interface MessagingApiSendInvoiceRequest {
+    /**
+     * An Amazon order identifier. This specifies the order for which a message is sent.
+     * @type {string}
+     * @memberof MessagingApiSendInvoice
+     */
+    readonly amazonOrderId: string
+
+    /**
+     * A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+     * @type {Array<string>}
+     * @memberof MessagingApiSendInvoice
+     */
+    readonly marketplaceIds: Array<string>
+
+    /**
+     * 
+     * @type {InvoiceRequest}
+     * @memberof MessagingApiSendInvoice
+     */
+    readonly body: InvoiceRequest
+}
+
+/**
  * MessagingApi - object-oriented interface
  * @export
  * @class MessagingApi
@@ -1844,6 +1967,17 @@ export class MessagingApi extends BaseAPI {
      */
     public getMessagingActionsForOrder(requestParameters: MessagingApiGetMessagingActionsForOrderRequest, options?: any) {
         return MessagingApiFp(this.configuration).getMessagingActionsForOrder(requestParameters.amazonOrderId, requestParameters.marketplaceIds, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Sends a message providing the buyer an invoice
+     * @param {MessagingApiSendInvoiceRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MessagingApi
+     */
+    public sendInvoice(requestParameters: MessagingApiSendInvoiceRequest, options?: any) {
+        return MessagingApiFp(this.configuration).sendInvoice(requestParameters.amazonOrderId, requestParameters.marketplaceIds, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
