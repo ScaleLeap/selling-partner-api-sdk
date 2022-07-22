@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.5.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.4.0...v6.5.0) (2022-07-22)
+
+
+### Features
+
+* sends a message providing the buyer an invoice ([#508](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/508)) ([51f67b6](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/51f67b6a720e262f6577261dd777af83db158978))
+
 # [6.4.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.3.1...v6.4.0) (2022-06-13)
 
 
