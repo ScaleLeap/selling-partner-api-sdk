@@ -267,6 +267,43 @@ export interface BuyerTaxInformation {
     BuyerTaxOffice?: string;
 }
 /**
+ * The status of the Amazon Easy-Ship order. This property is included only for Amazon Easy-Ship orders.
+ * @export
+ * @enum {string}
+ */
+export enum EasyShipShipmentStatus {
+    PendingSchedule = 'PendingSchedule',
+    PendingPickUp = 'PendingPickUp',
+    PendingDropOff = 'PendingDropOff',
+    LabelCanceled = 'LabelCanceled',
+    PickedUp = 'PickedUp',
+    DroppedOff = 'DroppedOff',
+    AtOriginFc = 'AtOriginFC',
+    AtDestinationFc = 'AtDestinationFC',
+    Delivered = 'Delivered',
+    RejectedByBuyer = 'RejectedByBuyer',
+    Undeliverable = 'Undeliverable',
+    ReturningToSeller = 'ReturningToSeller',
+    ReturnedToSeller = 'ReturnedToSeller',
+    Lost = 'Lost',
+    OutForDelivery = 'OutForDelivery',
+    Damaged = 'Damaged'
+}
+
+/**
+ * The status of the electronic invoice.
+ * @export
+ * @enum {string}
+ */
+export enum ElectronicInvoiceStatus {
+    NotRequired = 'NotRequired',
+    NotFound = 'NotFound',
+    Processing = 'Processing',
+    Errored = 'Errored',
+    Accepted = 'Accepted'
+}
+
+/**
  * Contains the instructions about the fulfillment like where should it be fulfilled from.
  * @export
  * @interface FulfillmentInstruction
@@ -615,11 +652,11 @@ export interface Order {
      */
     ShipmentServiceLevelCategory?: string;
     /**
-     * The status of the Amazon Easy Ship order. This property is included only for Amazon Easy Ship orders.  Possible values: PendingPickUp, LabelCanceled, PickedUp, OutForDelivery, Damaged, Delivered, RejectedByBuyer, Undeliverable, ReturnedToSeller, ReturningToSeller.
-     * @type {string}
+     * 
+     * @type {EasyShipShipmentStatus}
      * @memberof Order
      */
-    EasyShipShipmentStatus?: string;
+    EasyShipShipmentStatus?: EasyShipShipmentStatus | 'PendingSchedule' | 'PendingPickUp' | 'PendingDropOff' | 'LabelCanceled' | 'PickedUp' | 'DroppedOff' | 'AtOriginFC' | 'AtDestinationFC' | 'Delivered' | 'RejectedByBuyer' | 'Undeliverable' | 'ReturningToSeller' | 'ReturnedToSeller' | 'Lost' | 'OutForDelivery' | 'Damaged';
     /**
      * Custom ship label for Checkout by Amazon (CBA).
      * @type {string}
@@ -788,6 +825,12 @@ export interface Order {
      * @memberof Order
      */
     HasRegulatedItems?: boolean;
+    /**
+     * 
+     * @type {ElectronicInvoiceStatus}
+     * @memberof Order
+     */
+    ElectronicInvoiceStatus?: ElectronicInvoiceStatus | 'NotRequired' | 'NotFound' | 'Processing' | 'Errored' | 'Accepted';
 }
 
 /**
@@ -1563,7 +1606,7 @@ export interface UpdateVerificationStatusErrorResponse {
     errors?: Array<Error>;
 }
 /**
- * Request to update the verification status of an order containing regulated products.
+ * The request body for the updateVerificationStatus operation.
  * @export
  * @interface UpdateVerificationStatusRequest
  */
@@ -1841,7 +1884,8 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
          * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
          * @param {number} [maxResultsPerPage] A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100.
-         * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
+         * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy-Ship orders with statuses that match the specified values. If EasyShipShipmentStatus is specified, only Amazon Easy-Ship orders are returned. Possible values: PendingSchedule (The package is awaiting schedule for pick-up). PendingPickUp (Amazon has not yet picked up the package from the seller). PendingDropOff (The seller will deliver the package to the carrier). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). DroppedOff (The package is delivered to the carrier by the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). Delivered (The package has been delivered). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturningToSeller (The package was not delivered and is being returned to the seller). ReturnedToSeller (The package was not delivered and was returned to the seller). Lost (The package is lost). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier).
+         * @param {Array<string>} [electronicInvoiceStatuses] A list of ElectronicInvoiceStatus values. Used to select orders with electronic invoice statuses that match the specified  values. Possible values: NotRequired (electronic invoice submission is not required for this order), NotFound (electronic invoice was not submitted for this order), Processing (electronic invoice is being processed for this order), Errored (last submitted electronic invoice was rejected for this order), Accepted (last submitted electronic invoice was submitted and accepted)
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
@@ -1850,7 +1894,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options: any = {}): Promise<RequestArgs> => {
+        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceIds' is not null or undefined
             assertParamExists('getOrders', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/orders/v0/orders`;
@@ -1913,6 +1957,10 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['EasyShipShipmentStatuses'] = easyShipShipmentStatuses.join(COLLECTION_FORMATS.csv);
             }
 
+            if (electronicInvoiceStatuses) {
+                localVarQueryParameter['ElectronicInvoiceStatuses'] = electronicInvoiceStatuses.join(COLLECTION_FORMATS.csv);
+            }
+
             if (nextToken !== undefined) {
                 localVarQueryParameter['NextToken'] = nextToken;
             }
@@ -1947,7 +1995,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
-         * @param {UpdateVerificationStatusRequest} payload Request to update the verification status of an order containing regulated products.
+         * @param {UpdateVerificationStatusRequest} payload The request body for the updateVerificationStatus operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2068,7 +2116,8 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
          * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
          * @param {number} [maxResultsPerPage] A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100.
-         * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
+         * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy-Ship orders with statuses that match the specified values. If EasyShipShipmentStatus is specified, only Amazon Easy-Ship orders are returned. Possible values: PendingSchedule (The package is awaiting schedule for pick-up). PendingPickUp (Amazon has not yet picked up the package from the seller). PendingDropOff (The seller will deliver the package to the carrier). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). DroppedOff (The package is delivered to the carrier by the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). Delivered (The package has been delivered). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturningToSeller (The package was not delivered and is being returned to the seller). ReturnedToSeller (The package was not delivered and was returned to the seller). Lost (The package is lost). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier).
+         * @param {Array<string>} [electronicInvoiceStatuses] A list of ElectronicInvoiceStatus values. Used to select orders with electronic invoice statuses that match the specified  values. Possible values: NotRequired (electronic invoice submission is not required for this order), NotFound (electronic invoice was not submitted for this order), Processing (electronic invoice is being processed for this order), Errored (last submitted electronic invoice was rejected for this order), Accepted (last submitted electronic invoice was submitted and accepted)
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
@@ -2077,14 +2126,14 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options);
+        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
-         * @param {UpdateVerificationStatusRequest} payload Request to update the verification status of an order containing regulated products.
+         * @param {UpdateVerificationStatusRequest} payload The request body for the updateVerificationStatus operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2171,7 +2220,8 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
          * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
          * @param {number} [maxResultsPerPage] A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100.
-         * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
+         * @param {Array<string>} [easyShipShipmentStatuses] A list of EasyShipShipmentStatus values. Used to select Easy-Ship orders with statuses that match the specified values. If EasyShipShipmentStatus is specified, only Amazon Easy-Ship orders are returned. Possible values: PendingSchedule (The package is awaiting schedule for pick-up). PendingPickUp (Amazon has not yet picked up the package from the seller). PendingDropOff (The seller will deliver the package to the carrier). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). DroppedOff (The package is delivered to the carrier by the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). Delivered (The package has been delivered). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturningToSeller (The package was not delivered and is being returned to the seller). ReturnedToSeller (The package was not delivered and was returned to the seller). Lost (The package is lost). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier).
+         * @param {Array<string>} [electronicInvoiceStatuses] A list of ElectronicInvoiceStatus values. Used to select orders with electronic invoice statuses that match the specified  values. Possible values: NotRequired (electronic invoice submission is not required for this order), NotFound (electronic invoice was not submitted for this order), Processing (electronic invoice is being processed for this order), Errored (last submitted electronic invoice was rejected for this order), Accepted (last submitted electronic invoice was submitted and accepted)
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
@@ -2180,13 +2230,13 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): AxiosPromise<GetOrdersResponse> {
-            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options).then((request) => request(axios, basePath));
+        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): AxiosPromise<GetOrdersResponse> {
+            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An orderId is an Amazon-defined order identifier, in 3-7-7 format.
-         * @param {UpdateVerificationStatusRequest} payload Request to update the verification status of an order containing regulated products.
+         * @param {UpdateVerificationStatusRequest} payload The request body for the updateVerificationStatus operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2378,11 +2428,18 @@ export interface OrdersV0ApiGetOrdersRequest {
     readonly maxResultsPerPage?: number
 
     /**
-     * A list of EasyShipShipmentStatus values. Used to select Easy Ship orders with statuses that match the specified  values. If EasyShipShipmentStatus is specified, only Amazon Easy Ship orders are returned.Possible values: PendingPickUp (Amazon has not yet picked up the package from the seller). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier). Delivered (The package has been delivered to the buyer). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturnedToSeller (The package was not delivered to the buyer and was returned to the seller). ReturningToSeller (The package was not delivered to the buyer and is being returned to the seller).
+     * A list of EasyShipShipmentStatus values. Used to select Easy-Ship orders with statuses that match the specified values. If EasyShipShipmentStatus is specified, only Amazon Easy-Ship orders are returned. Possible values: PendingSchedule (The package is awaiting schedule for pick-up). PendingPickUp (Amazon has not yet picked up the package from the seller). PendingDropOff (The seller will deliver the package to the carrier). LabelCanceled (The seller canceled the pickup). PickedUp (Amazon has picked up the package from the seller). DroppedOff (The package is delivered to the carrier by the seller). AtOriginFC (The packaged is at the origin fulfillment center). AtDestinationFC (The package is at the destination fulfillment center). Delivered (The package has been delivered). RejectedByBuyer (The package has been rejected by the buyer). Undeliverable (The package cannot be delivered). ReturningToSeller (The package was not delivered and is being returned to the seller). ReturnedToSeller (The package was not delivered and was returned to the seller). Lost (The package is lost). OutForDelivery (The package is out for delivery). Damaged (The package was damaged by the carrier).
      * @type {Array<string>}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly easyShipShipmentStatuses?: Array<string>
+
+    /**
+     * A list of ElectronicInvoiceStatus values. Used to select orders with electronic invoice statuses that match the specified  values. Possible values: NotRequired (electronic invoice submission is not required for this order), NotFound (electronic invoice was not submitted for this order), Processing (electronic invoice is being processed for this order), Errored (last submitted electronic invoice was rejected for this order), Accepted (last submitted electronic invoice was submitted and accepted)
+     * @type {Array<string>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly electronicInvoiceStatuses?: Array<string>
 
     /**
      * A string token returned in the response of your previous request.
@@ -2434,7 +2491,7 @@ export interface OrdersV0ApiUpdateVerificationStatusRequest {
     readonly orderId: string
 
     /**
-     * Request to update the verification status of an order containing regulated products.
+     * The request body for the updateVerificationStatus operation.
      * @type {UpdateVerificationStatusRequest}
      * @memberof OrdersV0ApiUpdateVerificationStatus
      */
@@ -2522,7 +2579,7 @@ export class OrdersV0Api extends BaseAPI {
      * @memberof OrdersV0Api
      */
     public getOrders(requestParameters: OrdersV0ApiGetOrdersRequest, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, requestParameters.actualFulfillmentSupplySourceId, requestParameters.isISPU, requestParameters.storeChainStoreId, options).then((request) => request(this.axios, this.basePath));
+        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.electronicInvoiceStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, requestParameters.actualFulfillmentSupplySourceId, requestParameters.isISPU, requestParameters.storeChainStoreId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
