@@ -729,6 +729,8 @@ export {
 } from './notifications-api-model'
 export {
   AddressAddressTypeEnum as OrdersApiModelAddressAddressTypeEnum,
+  EasyShipShipmentStatus as OrdersApiModelEasyShipShipmentStatus,
+  ElectronicInvoiceStatus as OrdersApiModelElectronicInvoiceStatus,
   OrderOrderStatusEnum as OrdersApiModelOrderOrderStatusEnum,
   OrderFulfillmentChannelEnum as OrdersApiModelOrderFulfillmentChannelEnum,
   OrderPaymentMethodEnum as OrdersApiModelOrderPaymentMethodEnum,
