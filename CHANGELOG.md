@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.6.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.5.0...v6.6.0) (2022-08-10)
+
+
+### Features
+
+* Improvements to the Orders API in support of Easy Ship shipments ([#518](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/518)) ([0bf157c](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/0bf157c821d5b3b1778d069b2ad32a0431b43b7f))
+
 # [6.5.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.4.0...v6.5.0) (2022-07-22)
 
 
