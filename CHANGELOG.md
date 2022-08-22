@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.8.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.7.0...v6.8.0) (2022-08-22)
+
+
+### Features
+
+* add bulk scheduled packages in easy ship model ([#527](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/527)) ([0d79fd2](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/0d79fd2ed176f23e7c2d1a824c99bc2058bcb54a))
+
 # [6.7.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.6.0...v6.7.0) (2022-08-12)
 
 
