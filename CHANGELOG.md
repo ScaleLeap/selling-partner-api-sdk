@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.9.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.8.0...v6.9.0) (2022-09-07)
+
+
+### Features
+
+* update catalog item api model v20220401 ([#548](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/548)) ([2f34861](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/2f34861d24867945a776c00ec850b23ac1fc0849))
+
 # [6.8.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.7.0...v6.8.0) (2022-08-22)
 
 
