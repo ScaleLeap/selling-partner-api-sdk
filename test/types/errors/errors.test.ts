@@ -2,7 +2,6 @@ import {
   amazonMarketplaces,
   assertMarketplaceHasSellingPartner,
 } from '@scaleleap/amazon-marketplaces'
-import { jestPollyContext } from '@scaleleap/jest-polly'
 import { AxiosError } from 'axios'
 import { StatusCodes } from 'http-status-codes'
 import { toNumber } from 'lodash'
@@ -16,6 +15,7 @@ import {
   SellingPartnerTooManyRequestsError,
   SellingPartnerUnknownError,
 } from '../../../src'
+import { jestPollyContext } from '../../polly/context'
 
 describe(`client`, () => {
   const DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE = 'Request failed with status code 500'
