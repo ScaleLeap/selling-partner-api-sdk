@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.10.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.9.0...v6.10.0) (2022-09-29)
+
+
+### Features
+
+* add vendor shipping and customer invoice api ([#568](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/568)) ([bd284da](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/bd284daace7c162833d6e529fc76ab6704f20456))
+
 # [6.9.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.8.0...v6.9.0) (2022-09-07)
 
 
