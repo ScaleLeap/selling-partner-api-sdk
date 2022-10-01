@@ -64,7 +64,7 @@
     "@types/fancy-log": "2.0.0",
     "@types/jest": "27.5.2",
     "@types/lodash": "4.14.186",
-    "@types/node": "16.11.60",
+    "@types/node": "16.11.62",
     "danger": "11.1.2",
     "dotenv": "16.0.3",
     "env-var": "7.3.0",
