@@ -45,7 +45,9 @@ export class ReportHelpers {
     // ensure we have a document ID
     const reportDocumentId = getReportResponse.data?.reportDocumentId || ''
     if (!reportDocumentId) {
-      throw new Error(`No report for ${reportId}`)
+      // amazon couples the concepts "empty report" and "cancelled report"
+      // we want to default to returning an empty report
+      return []
     }
 
     // fetch the report document
