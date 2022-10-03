@@ -26,8 +26,8 @@ const regions = new Map<string, string[]>(
     ],
   }),
 )
-export class ApiClientHelpers {
-  static getAxiosInstance(parameters: APIConfigurationParameters): AxiosInstance {
+export const ApiClientHelpers = {
+  getAxiosInstance(parameters: APIConfigurationParameters): AxiosInstance {
     let axiosInstance: AxiosInstance
     const { axios } = parameters
 
@@ -64,9 +64,9 @@ export class ApiClientHelpers {
     )
 
     return axiosInstance
-  }
+  },
 
-  static extractRegion(basePath: string): string {
+  extractRegion(basePath: string): string {
     for (const [region, basePaths] of regions) {
       if (basePaths.includes(basePath)) {
         return region
@@ -74,9 +74,9 @@ export class ApiClientHelpers {
     }
 
     throw new SellingPartnerNotFoundRegionError(basePath)
-  }
+  },
 
-  static validateRegion(parameters: APIConfigurationParameters): APIConfigurationParameters {
+  validateRegion(parameters: APIConfigurationParameters): APIConfigurationParameters {
     if (parameters.basePath && !parameters.region) {
       return {
         ...parameters,
@@ -97,5 +97,5 @@ export class ApiClientHelpers {
     }
 
     return parameters
-  }
+  },
 }
