@@ -60,7 +60,7 @@
     "@openapitools/openapi-generator-cli": "2.5.2",
     "@scaleleap/amazon-marketplaces": "16.0.0",
     "@scaleleap/jest-polly": "1.5.65",
-    "@scaleleap/utils": "1.9.58",
+    "@scaleleap/utils": "1.9.98",
     "@types/fancy-log": "2.0.0",
     "@types/jest": "27.5.2",
     "@types/lodash": "4.14.186",
