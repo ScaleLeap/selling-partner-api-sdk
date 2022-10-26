@@ -97,7 +97,7 @@ export interface BatchOffersResponse {
  */
 export interface BatchRequest {
     /**
-     * The `getItemOffers` resource path without any query parameters.  **Example:** `/products/pricing/v0/items/B000P6Q7MY/offers`
+     * The resource path of the operation you are calling in batch without any query parameters.  If you are calling `getItemOffersBatch`, supply the path of `getItemOffers`.  **Example:** `/products/pricing/v0/items/B000P6Q7MY/offers`  If you are calling `getListingOffersBatch`, supply the path of `getListingOffers`.  **Example:** `/products/pricing/v0/listings/B000P6Q7MY/offers`
      * @type {string}
      * @memberof BatchRequest
      */
@@ -351,52 +351,52 @@ export enum FulfillmentChannelType {
 }
 
 /**
- * The request associated with the getItemOffersBatch API call.
+ * The request associated with the `getItemOffersBatch` API call.
  * @export
  * @interface GetItemOffersBatchRequest
  */
 export interface GetItemOffersBatchRequest {
     /**
-     * A list of getItemOffers batched requests to run.
+     * A list of `getListingOffers` batched requests to run.
      * @type {Array<ItemOffersRequest>}
      * @memberof GetItemOffersBatchRequest
      */
     requests?: Array<ItemOffersRequest>;
 }
 /**
- * The response associated with the getItemOffersBatch API call.
+ * The response associated with the `getItemOffersBatch` API call.
  * @export
  * @interface GetItemOffersBatchResponse
  */
 export interface GetItemOffersBatchResponse {
     /**
-     * A list of getItemOffers batched responses.
+     * A list of `getItemOffers` batched responses.
      * @type {Array<ItemOffersResponse>}
      * @memberof GetItemOffersBatchResponse
      */
     responses?: Array<ItemOffersResponse>;
 }
 /**
- * The request associated with the getListingOffersBatch API call.
+ * The request associated with the `getListingOffersBatch` API call.
  * @export
  * @interface GetListingOffersBatchRequest
  */
 export interface GetListingOffersBatchRequest {
     /**
-     * A list of getItemOffers batched requests to run.
+     * A list of `getListingOffers` batched requests to run.
      * @type {Array<ListingOffersRequest>}
      * @memberof GetListingOffersBatchRequest
      */
     requests?: Array<ListingOffersRequest>;
 }
 /**
- * The response associated with the getListingOffersBatch API call.
+ * The response associated with the `getListingOffersBatch` API call.
  * @export
  * @interface GetListingOffersBatchResponse
  */
 export interface GetListingOffersBatchResponse {
     /**
-     * A list of getListingOffers batched responses.
+     * A list of `getListingOffers` batched responses.
      * @type {Array<ListingOffersResponse>}
      * @memberof GetListingOffersBatchResponse
      */
@@ -422,7 +422,7 @@ export interface GetOffersHttpStatusLine {
     reasonPhrase?: string;
 }
 /**
- * The response schema for the getListingOffers and getItemOffers operations.
+ * The response schema for the `getListingOffers` and `getItemOffers` operations.
  * @export
  * @interface GetOffersResponse
  */
@@ -496,7 +496,7 @@ export interface GetOffersResult {
     Offers: Array<OfferDetail>;
 }
 /**
- * The response schema for the getPricing and getCompetitivePricing operations.
+ * The response schema for the `getPricing` and `getCompetitivePricing` operations.
  * @export
  * @interface GetPricingResponse
  */
@@ -618,7 +618,7 @@ export interface ItemIdentifier {
  */
 export interface ItemOffersRequest {
     /**
-     * The `getItemOffers` resource path without any query parameters.  **Example:** `/products/pricing/v0/items/B000P6Q7MY/offers`
+     * The resource path of the operation you are calling in batch without any query parameters.  If you are calling `getItemOffersBatch`, supply the path of `getItemOffers`.  **Example:** `/products/pricing/v0/items/B000P6Q7MY/offers`  If you are calling `getListingOffersBatch`, supply the path of `getListingOffers`.  **Example:** `/products/pricing/v0/listings/B000P6Q7MY/offers`
      * @type {string}
      * @memberof ItemOffersRequest
      */
@@ -749,7 +749,7 @@ export interface ItemOffersResponseAllOf {
  */
 export interface ListingOffersRequest {
     /**
-     * The `getItemOffers` resource path without any query parameters.  **Example:** `/products/pricing/v0/items/B000P6Q7MY/offers`
+     * The resource path of the operation you are calling in batch without any query parameters.  If you are calling `getItemOffersBatch`, supply the path of `getItemOffers`.  **Example:** `/products/pricing/v0/items/B000P6Q7MY/offers`  If you are calling `getListingOffersBatch`, supply the path of `getListingOffers`.  **Example:** `/products/pricing/v0/listings/B000P6Q7MY/offers`
      * @type {string}
      * @memberof ListingOffersRequest
      */
