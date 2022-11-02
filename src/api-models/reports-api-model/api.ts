@@ -436,7 +436,7 @@ export interface ReportDocument {
      */
     reportDocumentId: string;
     /**
-     * A presigned URL for the report document. This URL expires after 5 minutes.
+     * A presigned URL for the report document. If `compressionAlgorithm` is not returned, you can download the report directly from this URL. This URL expires after 5 minutes.
      * @type {string}
      * @memberof ReportDocument
      */
@@ -448,7 +448,7 @@ export interface ReportDocument {
      */
     encryptionDetails: ReportDocumentEncryptionDetails;
     /**
-     * If present, the report document contents have been compressed with the provided algorithm.
+     * If the report document contents have been compressed, the compression algorithm used is returned in this property and you must decompress the report when you download. Otherwise, you can download the report directly. Refer to [Step 2. Download and decrypt the report](doc:reports-api-v2020-09-04-use-case-guide#step-2-download-and-decrypt-the-report) in the use case guide, where sample code is provided.
      * @type {string}
      * @memberof ReportDocument
      */
