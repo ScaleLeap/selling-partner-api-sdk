@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.10.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.10.0...v6.10.1) (2022-11-21)
+
+
+### Reverts
+
+* Revert "chore(deps): update dependency ts-morph to v17 (#637)" (#639) ([692b81c](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/692b81ce40f12d7ed5d737a15bc9168414defe73)), closes [#637](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/637) [#639](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/639)
+
 # [6.10.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.9.0...v6.10.0) (2022-09-29)
 
 
