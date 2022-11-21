@@ -187,13 +187,13 @@ export interface ImportDetails {
      * @type {string}
      * @memberof ImportDetails
      */
-    methodOfPayment?: ImportDetailsMethodOfPaymentEnum | 'PaidByBuyer' | 'CollectOnDelivery' | 'DefinedByBuyerAndSeller' | 'FOBPortOfCall' | 'PrepaidBySeller' | 'PaidBySeller';
+    methodOfPayment?: ImportDetailsMethodOfPaymentEnum;
     /**
      * Incoterms (International Commercial Terms) are used to divide transaction costs and responsibilities between buyer and seller and reflect state-of-the-art transportation practices. This is for import purchase orders only. 
      * @type {string}
      * @memberof ImportDetails
      */
-    internationalCommercialTerms?: ImportDetailsInternationalCommercialTermsEnum | 'ExWorks' | 'FreeCarrier' | 'FreeOnBoard' | 'FreeAlongSideShip' | 'CarriagePaidTo' | 'CostAndFreight' | 'CarriageAndInsurancePaidTo' | 'CostInsuranceAndFreight' | 'DeliveredAtTerminal' | 'DeliveredAtPlace' | 'DeliverDutyPaid';
+    internationalCommercialTerms?: ImportDetailsInternationalCommercialTermsEnum;
     /**
      * The port where goods on an import purchase order must be delivered by the vendor. This should only be specified when the internationalCommercialTerms is FOB.
      * @type {string}
@@ -261,7 +261,7 @@ export interface ItemQuantity {
      * @type {string}
      * @memberof ItemQuantity
      */
-    unitOfMeasure?: ItemQuantityUnitOfMeasureEnum | 'Cases' | 'Eaches';
+    unitOfMeasure?: ItemQuantityUnitOfMeasureEnum;
     /**
      * The case size, in the event that we ordered using cases.
      * @type {number}
@@ -340,7 +340,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    purchaseOrderState: OrderPurchaseOrderStateEnum | 'New' | 'Acknowledged' | 'Closed';
+    purchaseOrderState: OrderPurchaseOrderStateEnum;
     /**
      * 
      * @type {OrderDetails}
@@ -474,7 +474,7 @@ export interface OrderDetails {
      * @type {string}
      * @memberof OrderDetails
      */
-    purchaseOrderType?: OrderDetailsPurchaseOrderTypeEnum | 'RegularOrder' | 'ConsignedOrder' | 'NewProductIntroduction' | 'RushOrder';
+    purchaseOrderType?: OrderDetailsPurchaseOrderTypeEnum;
     /**
      * 
      * @type {ImportDetails}
@@ -492,7 +492,7 @@ export interface OrderDetails {
      * @type {string}
      * @memberof OrderDetails
      */
-    paymentMethod?: OrderDetailsPaymentMethodEnum | 'Invoice' | 'Consignment' | 'CreditCard' | 'Prepaid';
+    paymentMethod?: OrderDetailsPaymentMethodEnum;
     /**
      * 
      * @type {PartyIdentification}
@@ -618,7 +618,7 @@ export interface OrderItemAcknowledgement {
      * @type {string}
      * @memberof OrderItemAcknowledgement
      */
-    acknowledgementCode: OrderItemAcknowledgementAcknowledgementCodeEnum | 'Accepted' | 'Backordered' | 'Rejected';
+    acknowledgementCode: OrderItemAcknowledgementAcknowledgementCodeEnum;
     /**
      * 
      * @type {ItemQuantity}
@@ -642,7 +642,7 @@ export interface OrderItemAcknowledgement {
      * @type {string}
      * @memberof OrderItemAcknowledgement
      */
-    rejectionReason?: OrderItemAcknowledgementRejectionReasonEnum | 'TemporarilyUnavailable' | 'InvalidProductIdentifier' | 'ObsoleteProduct';
+    rejectionReason?: OrderItemAcknowledgementRejectionReasonEnum;
 }
 
 /**
@@ -730,7 +730,7 @@ export interface OrderItemStatusAcknowledgementStatus {
      * @type {string}
      * @memberof OrderItemStatusAcknowledgementStatus
      */
-    confirmationStatus?: OrderItemStatusAcknowledgementStatusConfirmationStatusEnum | 'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED';
+    confirmationStatus?: OrderItemStatusAcknowledgementStatusConfirmationStatusEnum;
     /**
      * 
      * @type {ItemQuantity}
@@ -792,7 +792,7 @@ export interface OrderItemStatusReceivingStatus {
      * @type {string}
      * @memberof OrderItemStatusReceivingStatus
      */
-    receiveStatus?: OrderItemStatusReceivingStatusReceiveStatusEnum | 'NOT_RECEIVED' | 'PARTIALLY_RECEIVED' | 'RECEIVED';
+    receiveStatus?: OrderItemStatusReceivingStatusReceiveStatusEnum;
     /**
      * 
      * @type {ItemQuantity}
@@ -872,7 +872,7 @@ export interface OrderStatus {
      * @type {string}
      * @memberof OrderStatus
      */
-    purchaseOrderStatus: OrderStatusPurchaseOrderStatusEnum | 'OPEN' | 'CLOSED';
+    purchaseOrderStatus: OrderStatusPurchaseOrderStatusEnum;
     /**
      * The date the purchase order was placed. Must be in ISO-8601 date/time format.
      * @type {string}
@@ -1020,7 +1020,7 @@ export interface TaxRegistrationDetails {
      * @type {string}
      * @memberof TaxRegistrationDetails
      */
-    taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum | 'VAT' | 'GST';
+    taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum;
     /**
      * Tax registration number for the entity. For example, VAT ID.
      * @type {string}

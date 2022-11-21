@@ -57,7 +57,7 @@ export interface Issue {
      * @type {string}
      * @memberof Issue
      */
-    severity: IssueSeverityEnum | 'ERROR' | 'WARNING' | 'INFO';
+    severity: IssueSeverityEnum;
     /**
      * Name of the attribute associated with the issue, if applicable.
      * @type {string}
@@ -112,7 +112,7 @@ export interface ListingsItemPutRequest {
      * @type {string}
      * @memberof ListingsItemPutRequest
      */
-    requirements?: ListingsItemPutRequestRequirementsEnum | 'LISTING' | 'LISTING_PRODUCT_ONLY' | 'LISTING_OFFER_ONLY';
+    requirements?: ListingsItemPutRequestRequirementsEnum;
     /**
      * JSON object containing structured listings item attribute data keyed by attribute name.
      * @type {object}
@@ -148,7 +148,7 @@ export interface ListingsItemSubmissionResponse {
      * @type {string}
      * @memberof ListingsItemSubmissionResponse
      */
-    status: ListingsItemSubmissionResponseStatusEnum | 'ACCEPTED' | 'INVALID';
+    status: ListingsItemSubmissionResponseStatusEnum;
     /**
      * The unique identifier of the listings item submission.
      * @type {string}
@@ -208,7 +208,7 @@ export interface PatchOperation {
      * @type {string}
      * @memberof PatchOperation
      */
-    op: PatchOperationOpEnum | 'add' | 'replace' | 'delete';
+    op: PatchOperationOpEnum;
     /**
      * JSON Pointer path of the element to patch. See <https://tools.ietf.org/html/rfc6902>.
      * @type {string}

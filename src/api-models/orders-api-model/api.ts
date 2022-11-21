@@ -104,7 +104,7 @@ export interface Address {
      * @type {string}
      * @memberof Address
      */
-    AddressType?: AddressAddressTypeEnum | 'Residential' | 'Commercial';
+    AddressType?: AddressAddressTypeEnum;
 }
 
 /**
@@ -578,13 +578,13 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    OrderStatus: OrderOrderStatusEnum | 'Pending' | 'Unshipped' | 'PartiallyShipped' | 'Shipped' | 'Canceled' | 'Unfulfillable' | 'InvoiceUnconfirmed' | 'PendingAvailability';
+    OrderStatus: OrderOrderStatusEnum;
     /**
      * Whether the order was fulfilled by Amazon (AFN) or by the seller (MFN).
      * @type {string}
      * @memberof Order
      */
-    FulfillmentChannel?: OrderFulfillmentChannelEnum | 'MFN' | 'AFN';
+    FulfillmentChannel?: OrderFulfillmentChannelEnum;
     /**
      * The sales channel of the first item in the order.
      * @type {string}
@@ -632,7 +632,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    PaymentMethod?: OrderPaymentMethodEnum | 'COD' | 'CVS' | 'Other';
+    PaymentMethod?: OrderPaymentMethodEnum;
     /**
      * A list of payment method detail items.
      * @type {Array<string>}
@@ -656,7 +656,7 @@ export interface Order {
      * @type {EasyShipShipmentStatus}
      * @memberof Order
      */
-    EasyShipShipmentStatus?: EasyShipShipmentStatus | 'PendingSchedule' | 'PendingPickUp' | 'PendingDropOff' | 'LabelCanceled' | 'PickedUp' | 'DroppedOff' | 'AtOriginFC' | 'AtDestinationFC' | 'Delivered' | 'RejectedByBuyer' | 'Undeliverable' | 'ReturningToSeller' | 'ReturnedToSeller' | 'Lost' | 'OutForDelivery' | 'Damaged';
+    EasyShipShipmentStatus?: EasyShipShipmentStatus;
     /**
      * Custom ship label for Checkout by Amazon (CBA).
      * @type {string}
@@ -668,7 +668,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    OrderType?: OrderOrderTypeEnum | 'StandardOrder' | 'LongLeadTimeOrder' | 'Preorder' | 'BackOrder' | 'SourcingOnDemandOrder';
+    OrderType?: OrderOrderTypeEnum;
     /**
      * The start of the time period within which you have committed to ship the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.  __Note__: EarliestShipDate might not be returned for orders placed before February 1, 2013.
      * @type {string}
@@ -764,7 +764,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    BuyerInvoicePreference?: OrderBuyerInvoicePreferenceEnum | 'INDIVIDUAL' | 'BUSINESS';
+    BuyerInvoicePreference?: OrderBuyerInvoicePreferenceEnum;
     /**
      * 
      * @type {BuyerTaxInformation}
@@ -830,7 +830,7 @@ export interface Order {
      * @type {ElectronicInvoiceStatus}
      * @memberof Order
      */
-    ElectronicInvoiceStatus?: ElectronicInvoiceStatus | 'NotRequired' | 'NotFound' | 'Processing' | 'Errored' | 'Accepted';
+    ElectronicInvoiceStatus?: ElectronicInvoiceStatus;
 }
 
 /**
@@ -1143,7 +1143,7 @@ export interface OrderItem {
      * @type {string}
      * @memberof OrderItem
      */
-    DeemedResellerCategory?: OrderItemDeemedResellerCategoryEnum | 'IOSS' | 'UOSS';
+    DeemedResellerCategory?: OrderItemDeemedResellerCategoryEnum;
     /**
      * 
      * @type {ItemBuyerInfo}
@@ -1409,7 +1409,7 @@ export interface RegulatedInformationField {
      * @type {string}
      * @memberof RegulatedInformationField
      */
-    FieldType: RegulatedInformationFieldFieldTypeEnum | 'Text' | 'FileAttachment';
+    FieldType: RegulatedInformationFieldFieldTypeEnum;
     /**
      * The content of the field as collected in regulatory form. Note that FileAttachment type fields will contain a URL to download the attachment here.
      * @type {string}
@@ -1438,7 +1438,7 @@ export interface RegulatedOrderVerificationStatus {
      * @type {VerificationStatus}
      * @memberof RegulatedOrderVerificationStatus
      */
-    Status: VerificationStatus | 'Pending' | 'Approved' | 'Rejected' | 'Expired' | 'Cancelled';
+    Status: VerificationStatus;
     /**
      * When true, the regulated information provided in the order requires a review by the merchant.
      * @type {boolean}
@@ -1530,13 +1530,13 @@ export interface TaxCollection {
      * @type {string}
      * @memberof TaxCollection
      */
-    Model?: TaxCollectionModelEnum | 'MarketplaceFacilitator';
+    Model?: TaxCollectionModelEnum;
     /**
      * The party responsible for withholding the taxes and remitting them to the taxing authority.
      * @type {string}
      * @memberof TaxCollection
      */
-    ResponsibleParty?: TaxCollectionResponsiblePartyEnum | 'Amazon Services, Inc.';
+    ResponsibleParty?: TaxCollectionResponsiblePartyEnum;
 }
 
 /**
@@ -1584,7 +1584,7 @@ export interface UpdateShipmentStatusRequest {
      * @type {ShipmentStatus}
      * @memberof UpdateShipmentStatusRequest
      */
-    shipmentStatus: ShipmentStatus | 'ReadyForPickup' | 'PickedUp' | 'RefusedPickup';
+    shipmentStatus: ShipmentStatus;
     /**
      * For partial shipment status updates, the list of order items and quantities to be updated.
      * @type {Array<object>}
@@ -1629,7 +1629,7 @@ export interface UpdateVerificationStatusRequestBody {
      * @type {VerificationStatus}
      * @memberof UpdateVerificationStatusRequestBody
      */
-    status: VerificationStatus | 'Pending' | 'Approved' | 'Rejected' | 'Expired' | 'Cancelled';
+    status: VerificationStatus;
     /**
      * The identifier for the order\'s regulated information reviewer.
      * @type {string}

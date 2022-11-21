@@ -179,7 +179,7 @@ export interface Transaction {
      * @type {string}
      * @memberof Transaction
      */
-    status: TransactionStatusEnum | 'FAILURE' | 'PROCESSING' | 'SUCCESS';
+    status: TransactionStatusEnum;
     /**
      * 
      * @type {TestCaseData}

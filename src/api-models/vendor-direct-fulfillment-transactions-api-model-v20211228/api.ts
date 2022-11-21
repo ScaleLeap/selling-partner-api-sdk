@@ -76,7 +76,7 @@ export interface Transaction {
      * @type {string}
      * @memberof Transaction
      */
-    status: TransactionStatusEnum | 'Failure' | 'Processing' | 'Success';
+    status: TransactionStatusEnum;
     /**
      * 
      * @type {ErrorList}

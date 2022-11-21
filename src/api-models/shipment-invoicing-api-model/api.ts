@@ -98,7 +98,7 @@ export interface Address {
      * @type {AddressTypeEnum}
      * @memberof Address
      */
-    AddressType?: AddressTypeEnum | 'Residential' | 'Commercial';
+    AddressType?: AddressTypeEnum;
 }
 /**
  * The shipping address type.
@@ -362,7 +362,7 @@ export interface ShipmentInvoiceStatusInfo {
      * @type {ShipmentInvoiceStatus}
      * @memberof ShipmentInvoiceStatusInfo
      */
-    InvoiceStatus?: ShipmentInvoiceStatus | 'Processing' | 'Accepted' | 'Errored' | 'NotFound';
+    InvoiceStatus?: ShipmentInvoiceStatus;
 }
 /**
  * The shipment invoice status response.

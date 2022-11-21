@@ -38,7 +38,7 @@ export interface Link {
      * @type {string}
      * @memberof Link
      */
-    verb: LinkVerbEnum | 'GET';
+    verb: LinkVerbEnum;
     /**
      * The title of the related resource.
      * @type {string}
@@ -103,7 +103,7 @@ export interface Reason {
      * @type {string}
      * @memberof Reason
      */
-    reasonCode?: ReasonReasonCodeEnum | 'APPROVAL_REQUIRED' | 'ASIN_NOT_FOUND' | 'NOT_ELIGIBLE';
+    reasonCode?: ReasonReasonCodeEnum;
     /**
      * A list of path forward links that may allow Selling Partners to remove the restriction.
      * @type {Array<Link>}
@@ -139,7 +139,7 @@ export interface Restriction {
      * @type {string}
      * @memberof Restriction
      */
-    conditionType?: RestrictionConditionTypeEnum | 'new_new' | 'new_open_box' | 'new_oem' | 'refurbished_refurbished' | 'used_like_new' | 'used_very_good' | 'used_good' | 'used_acceptable' | 'collectible_like_new' | 'collectible_very_good' | 'collectible_good' | 'collectible_acceptable' | 'club_club';
+    conditionType?: RestrictionConditionTypeEnum;
     /**
      * A list of reasons for the restriction.
      * @type {Array<Reason>}

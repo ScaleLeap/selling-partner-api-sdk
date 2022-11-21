@@ -108,7 +108,7 @@ export interface RestrictedResource {
      * @type {string}
      * @memberof RestrictedResource
      */
-    method: RestrictedResourceMethodEnum | 'GET' | 'PUT' | 'POST' | 'DELETE';
+    method: RestrictedResourceMethodEnum;
     /**
      * The path in the restricted resource. Here are some path examples: - ```/orders/v0/orders```. For getting an RDT for the getOrders operation of the Orders API. For bulk orders. - ```/orders/v0/orders/123-1234567-1234567```. For getting an RDT for the getOrder operation of the Orders API. For a specific order. - ```/orders/v0/orders/123-1234567-1234567/orderItems```. For getting an RDT for the getOrderItems operation of the Orders API. For the order items in a specific order. - ```/mfn/v0/shipments/FBA1234ABC5D```. For getting an RDT for the getShipment operation of the Shipping API. For a specific shipment. - ```/mfn/v0/shipments/{shipmentId}```. For getting an RDT for the getShipment operation of the Shipping API. For any of a selling partner\'s shipments that you specify when you call the getShipment operation.
      * @type {string}

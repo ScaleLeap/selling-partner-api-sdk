@@ -32,7 +32,7 @@ export interface AdditionalDetails {
      * @type {string}
      * @memberof AdditionalDetails
      */
-    type: AdditionalDetailsTypeEnum | 'SUR' | 'OCR';
+    type: AdditionalDetailsTypeEnum;
     /**
      * The detail of the additional information provided by the selling party.
      * @type {string}
@@ -140,7 +140,7 @@ export interface ChargeDetails {
      * @type {string}
      * @memberof ChargeDetails
      */
-    type: ChargeDetailsTypeEnum | 'GIFTWRAP' | 'FULFILLMENT' | 'MARKETINGINSERT' | 'PACKAGING' | 'LOADING' | 'FREIGHTOUT' | 'TAX_COLLECTED_AT_SOURCE';
+    type: ChargeDetailsTypeEnum;
     /**
      * 
      * @type {Money}
@@ -452,7 +452,7 @@ export interface TaxDetail {
      * @type {string}
      * @memberof TaxDetail
      */
-    taxType: TaxDetailTaxTypeEnum | 'CGST' | 'SGST' | 'CESS' | 'UTGST' | 'IGST' | 'MwSt.' | 'PST' | 'TVA' | 'VAT' | 'GST' | 'ST' | 'Consumption' | 'MutuallyDefined' | 'DomesticVAT';
+    taxType: TaxDetailTaxTypeEnum;
     /**
      * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation. <br>**Pattern** : `^-?(0|([1-9]\\d*))(\\.\\d+)?([eE][+-]?\\d+)?$`.
      * @type {string}
@@ -505,7 +505,7 @@ export interface TaxRegistrationDetail {
      * @type {string}
      * @memberof TaxRegistrationDetail
      */
-    taxRegistrationType?: TaxRegistrationDetailTaxRegistrationTypeEnum | 'VAT' | 'GST';
+    taxRegistrationType?: TaxRegistrationDetailTaxRegistrationTypeEnum;
     /**
      * Tax registration number for the party. For example, VAT ID.
      * @type {string}

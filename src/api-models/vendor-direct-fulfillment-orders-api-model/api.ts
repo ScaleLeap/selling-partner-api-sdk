@@ -193,7 +193,7 @@ export interface ItemQuantity {
      * @type {string}
      * @memberof ItemQuantity
      */
-    unitOfMeasure?: ItemQuantityUnitOfMeasureEnum | 'Each';
+    unitOfMeasure?: ItemQuantityUnitOfMeasureEnum;
 }
 
 /**
@@ -339,7 +339,7 @@ export interface OrderDetails {
      * @type {string}
      * @memberof OrderDetails
      */
-    orderStatus?: OrderDetailsOrderStatusEnum | 'NEW' | 'SHIPPED' | 'ACCEPTED' | 'CANCELLED';
+    orderStatus?: OrderDetailsOrderStatusEnum;
     /**
      * 
      * @type {ShipmentDetails}
@@ -730,7 +730,7 @@ export interface TaxDetails {
      * @type {string}
      * @memberof TaxDetails
      */
-    type?: TaxDetailsTypeEnum | 'CONSUMPTION' | 'GST' | 'MwSt.' | 'PST' | 'TOTAL' | 'TVA' | 'VAT';
+    type?: TaxDetailsTypeEnum;
 }
 
 /**
@@ -758,7 +758,7 @@ export interface TaxRegistrationDetails {
      * @type {string}
      * @memberof TaxRegistrationDetails
      */
-    taxRegistrationType?: TaxRegistrationDetailsTaxRegistrationTypeEnum | 'VAT' | 'GST';
+    taxRegistrationType?: TaxRegistrationDetailsTaxRegistrationTypeEnum;
     /**
      * Tax registration number for the party. For example, VAT ID.
      * @type {string}

@@ -167,7 +167,7 @@ export interface ContainerIdentification {
      * @type {string}
      * @memberof ContainerIdentification
      */
-    containerIdentificationType: ContainerIdentificationContainerIdentificationTypeEnum | 'SSCC' | 'AMZNCC' | 'GTIN' | 'BPS' | 'CID';
+    containerIdentificationType: ContainerIdentificationContainerIdentificationTypeEnum;
     /**
      * Container identification number that adheres to the definition of the container identification type.
      * @type {string}
@@ -242,7 +242,7 @@ export interface Dimensions {
      * @type {string}
      * @memberof Dimensions
      */
-    unitOfMeasure: DimensionsUnitOfMeasureEnum | 'In' | 'Ft' | 'Meter' | 'Yard';
+    unitOfMeasure: DimensionsUnitOfMeasureEnum;
 }
 
 /**
@@ -267,7 +267,7 @@ export interface Duration {
      * @type {string}
      * @memberof Duration
      */
-    durationUnit: DurationDurationUnitEnum | 'Days' | 'Months';
+    durationUnit: DurationDurationUnitEnum;
     /**
      * Value for the duration in terms of the durationUnit.
      * @type {number}
@@ -321,7 +321,7 @@ export interface ImportDetails {
      * @type {string}
      * @memberof ImportDetails
      */
-    methodOfPayment?: ImportDetailsMethodOfPaymentEnum | 'PaidByBuyer' | 'CollectOnDelivery' | 'DefinedByBuyerAndSeller' | 'FOBPortOfCall' | 'PrepaidBySeller' | 'PaidBySeller';
+    methodOfPayment?: ImportDetailsMethodOfPaymentEnum;
     /**
      * The container\'s seal number.
      * @type {string}
@@ -439,7 +439,7 @@ export interface ItemDetails {
      * @type {string}
      * @memberof ItemDetails
      */
-    handlingCode?: ItemDetailsHandlingCodeEnum | 'Oversized' | 'Fragile' | 'Food' | 'HandleWithCare';
+    handlingCode?: ItemDetailsHandlingCodeEnum;
 }
 
 /**
@@ -470,7 +470,7 @@ export interface ItemQuantity {
      * @type {string}
      * @memberof ItemQuantity
      */
-    unitOfMeasure: ItemQuantityUnitOfMeasureEnum | 'Cases' | 'Eaches';
+    unitOfMeasure: ItemQuantityUnitOfMeasureEnum;
     /**
      * The case size, in the event that we ordered using cases. Otherwise, 1.
      * @type {number}
@@ -661,19 +661,19 @@ export interface ShipmentConfirmation {
      * @type {string}
      * @memberof ShipmentConfirmation
      */
-    shipmentConfirmationType: ShipmentConfirmationShipmentConfirmationTypeEnum | 'Original' | 'Replace';
+    shipmentConfirmationType: ShipmentConfirmationShipmentConfirmationTypeEnum;
     /**
      * The type of shipment.
      * @type {string}
      * @memberof ShipmentConfirmation
      */
-    shipmentType?: ShipmentConfirmationShipmentTypeEnum | 'TruckLoad' | 'LessThanTruckLoad' | 'SmallParcel';
+    shipmentType?: ShipmentConfirmationShipmentTypeEnum;
     /**
      * Shipment hierarchical structure.
      * @type {string}
      * @memberof ShipmentConfirmation
      */
-    shipmentStructure?: ShipmentConfirmationShipmentStructureEnum | 'PalletizedAssortmentCase' | 'LooseAssortmentCase' | 'PalletOfItems' | 'PalletizedStandardCase' | 'LooseStandardCase' | 'MasterPallet' | 'MasterCase';
+    shipmentStructure?: ShipmentConfirmationShipmentStructureEnum;
     /**
      * 
      * @type {TransportationDetails}
@@ -827,7 +827,7 @@ export interface Stop {
      * @type {string}
      * @memberof Stop
      */
-    functionCode: StopFunctionCodeEnum | 'PortOfDischarge' | 'FreightPayableAt' | 'PortOfLoading';
+    functionCode: StopFunctionCodeEnum;
     /**
      * 
      * @type {Location}
@@ -901,7 +901,7 @@ export interface TaxRegistrationDetails {
      * @type {string}
      * @memberof TaxRegistrationDetails
      */
-    taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum | 'VAT' | 'GST';
+    taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum;
     /**
      * Tax registration number for the entity. For example, VAT ID.
      * @type {string}
@@ -955,7 +955,7 @@ export interface TransportationDetails {
      * @type {string}
      * @memberof TransportationDetails
      */
-    transportationMode?: TransportationDetailsTransportationModeEnum | 'Road' | 'Air' | 'Ocean';
+    transportationMode?: TransportationDetailsTransportationModeEnum;
     /**
      * Bill Of Lading (BOL) number is the unique number assigned by the vendor. The BOL present in the Shipment Confirmation message ideally matches the paper BOL provided with the shipment, but that is no must. Instead of BOL, an alternative reference number (like Delivery Note Number) for the shipment can also be sent in this field.
      * @type {string}
@@ -985,7 +985,7 @@ export interface Volume {
      * @type {string}
      * @memberof Volume
      */
-    unitOfMeasure: VolumeUnitOfMeasureEnum | 'CuFt' | 'CuIn' | 'CuM' | 'CuY';
+    unitOfMeasure: VolumeUnitOfMeasureEnum;
     /**
      * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation. <br>**Pattern** : `^-?(0|([1-9]\\d*))(\\.\\d+)?([eE][+-]?\\d+)?$`.
      * @type {string}
@@ -1016,7 +1016,7 @@ export interface Weight {
      * @type {string}
      * @memberof Weight
      */
-    unitOfMeasure: WeightUnitOfMeasureEnum | 'G' | 'Kg' | 'Oz' | 'Lb';
+    unitOfMeasure: WeightUnitOfMeasureEnum;
     /**
      * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation. <br>**Pattern** : `^-?(0|([1-9]\\d*))(\\.\\d+)?([eE][+-]?\\d+)?$`.
      * @type {string}

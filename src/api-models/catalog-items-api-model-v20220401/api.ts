@@ -350,7 +350,7 @@ export interface ItemImage {
      * @type {string}
      * @memberof ItemImage
      */
-    variant: ItemImageVariantEnum | 'MAIN' | 'PT01' | 'PT02' | 'PT03' | 'PT04' | 'PT05' | 'PT06' | 'PT07' | 'PT08' | 'SWCH';
+    variant: ItemImageVariantEnum;
     /**
      * Link, or URL, for the image.
      * @type {string}
@@ -455,7 +455,7 @@ export interface ItemRelationship {
      * @type {string}
      * @memberof ItemRelationship
      */
-    type: ItemRelationshipTypeEnum | 'VARIATION' | 'PACKAGE_HIERARCHY';
+    type: ItemRelationshipTypeEnum;
 }
 
 /**
@@ -577,7 +577,7 @@ export interface ItemSummaryByMarketplace {
      * @type {string}
      * @memberof ItemSummaryByMarketplace
      */
-    itemClassification?: ItemSummaryByMarketplaceItemClassificationEnum | 'BASE_PRODUCT' | 'OTHER' | 'PRODUCT_BUNDLE' | 'VARIATION_PARENT';
+    itemClassification?: ItemSummaryByMarketplaceItemClassificationEnum;
     /**
      * Name, or title, associated with an Amazon catalog item.
      * @type {string}
@@ -717,7 +717,7 @@ export interface ItemVendorDetailsByMarketplace {
      * @type {string}
      * @memberof ItemVendorDetailsByMarketplace
      */
-    replenishmentCategory?: ItemVendorDetailsByMarketplaceReplenishmentCategoryEnum | 'ALLOCATED' | 'BASIC_REPLENISHMENT' | 'IN_SEASON' | 'LIMITED_REPLENISHMENT' | 'MANUFACTURER_OUT_OF_STOCK' | 'NEW_PRODUCT' | 'NON_REPLENISHABLE' | 'NON_STOCKUPABLE' | 'OBSOLETE' | 'PLANNED_REPLENISHMENT';
+    replenishmentCategory?: ItemVendorDetailsByMarketplaceReplenishmentCategoryEnum;
 }
 
 /**

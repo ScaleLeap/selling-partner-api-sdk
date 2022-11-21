@@ -82,7 +82,7 @@ export interface Transaction {
      * @type {string}
      * @memberof Transaction
      */
-    status: TransactionStatusEnum | 'Failure' | 'Processing' | 'Success';
+    status: TransactionStatusEnum;
     /**
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}

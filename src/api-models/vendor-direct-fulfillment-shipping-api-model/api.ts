@@ -105,7 +105,7 @@ export interface Container {
      * @type {string}
      * @memberof Container
      */
-    containerType: ContainerContainerTypeEnum | 'carton' | 'pallet';
+    containerType: ContainerContainerTypeEnum;
     /**
      * The container identifier.
      * @type {string}
@@ -250,7 +250,7 @@ export interface Dimensions {
      * @type {string}
      * @memberof Dimensions
      */
-    unitOfMeasure: DimensionsUnitOfMeasureEnum | 'IN' | 'CM';
+    unitOfMeasure: DimensionsUnitOfMeasureEnum;
 }
 
 /**
@@ -542,7 +542,7 @@ export interface PackingSlip {
      * @type {string}
      * @memberof PackingSlip
      */
-    contentType?: PackingSlipContentTypeEnum | 'application/pdf';
+    contentType?: PackingSlipContentTypeEnum;
 }
 
 /**
@@ -670,7 +670,7 @@ export interface ShipmentDetails {
      * @type {string}
      * @memberof ShipmentDetails
      */
-    shipmentStatus: ShipmentDetailsShipmentStatusEnum | 'SHIPPED' | 'FLOOR_DENIAL';
+    shipmentStatus: ShipmentDetailsShipmentStatusEnum;
     /**
      * Provide the priority of the shipment.
      * @type {boolean}
@@ -760,7 +760,7 @@ export interface ShippingLabel {
      * @type {string}
      * @memberof ShippingLabel
      */
-    labelFormat: ShippingLabelLabelFormatEnum | 'PNG' | 'ZPL';
+    labelFormat: ShippingLabelLabelFormatEnum;
     /**
      * Provides the details of the packages in this shipment.
      * @type {Array<LabelData>}
@@ -1003,7 +1003,7 @@ export interface TaxRegistrationDetails {
      * @type {string}
      * @memberof TaxRegistrationDetails
      */
-    taxRegistrationType?: TaxRegistrationDetailsTaxRegistrationTypeEnum | 'VAT' | 'GST';
+    taxRegistrationType?: TaxRegistrationDetailsTaxRegistrationTypeEnum;
     /**
      * Tax registration number for the party. For example, VAT ID.
      * @type {string}
@@ -1057,7 +1057,7 @@ export interface Weight {
      * @type {string}
      * @memberof Weight
      */
-    unitOfMeasure: WeightUnitOfMeasureEnum | 'KG' | 'LB';
+    unitOfMeasure: WeightUnitOfMeasureEnum;
     /**
      * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation.  <br>**Pattern** : `^-?(0|([1-9]\\\\d*))(\\\\.\\\\d+)?([eE][+-]?\\\\d+)?$`.
      * @type {string}

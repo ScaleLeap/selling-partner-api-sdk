@@ -106,7 +106,7 @@ export interface FeesEstimateByIdRequest {
      * @type {IdType}
      * @memberof FeesEstimateByIdRequest
      */
-    IdType: IdType | 'ASIN' | 'SellerSKU';
+    IdType: IdType;
     /**
      * The item identifier.
      * @type {string}
@@ -168,7 +168,7 @@ export interface FeesEstimateIdentifier {
      * @type {IdType}
      * @memberof FeesEstimateIdentifier
      */
-    IdType?: IdType | 'ASIN' | 'SellerSKU';
+    IdType?: IdType;
     /**
      * The item identifier.
      * @type {string}
@@ -198,7 +198,7 @@ export interface FeesEstimateIdentifier {
      * @type {OptionalFulfillmentProgram}
      * @memberof FeesEstimateIdentifier
      */
-    OptionalFulfillmentProgram?: OptionalFulfillmentProgram | 'FBA_CORE' | 'FBA_SNL' | 'FBA_EFN';
+    OptionalFulfillmentProgram?: OptionalFulfillmentProgram;
 }
 /**
  * 
@@ -235,7 +235,7 @@ export interface FeesEstimateRequest {
      * @type {OptionalFulfillmentProgram}
      * @memberof FeesEstimateRequest
      */
-    OptionalFulfillmentProgram?: OptionalFulfillmentProgram | 'FBA_CORE' | 'FBA_SNL' | 'FBA_EFN';
+    OptionalFulfillmentProgram?: OptionalFulfillmentProgram;
 }
 /**
  * An item identifier and the estimated fees for the item.

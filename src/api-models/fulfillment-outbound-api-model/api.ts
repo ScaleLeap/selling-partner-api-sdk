@@ -274,7 +274,7 @@ export interface CreateFulfillmentOrderRequest {
      * @type {ShippingSpeedCategory}
      * @memberof CreateFulfillmentOrderRequest
      */
-    shippingSpeedCategory: ShippingSpeedCategory | 'Standard' | 'Expedited' | 'Priority' | 'ScheduledDelivery';
+    shippingSpeedCategory: ShippingSpeedCategory;
     /**
      * 
      * @type {DeliveryWindow}
@@ -292,13 +292,13 @@ export interface CreateFulfillmentOrderRequest {
      * @type {FulfillmentAction}
      * @memberof CreateFulfillmentOrderRequest
      */
-    fulfillmentAction?: FulfillmentAction | 'Ship' | 'Hold';
+    fulfillmentAction?: FulfillmentAction;
     /**
      * 
      * @type {FulfillmentPolicy}
      * @memberof CreateFulfillmentOrderRequest
      */
-    fulfillmentPolicy?: FulfillmentPolicy | 'FillOrKill' | 'FillAll' | 'FillAllAvailable';
+    fulfillmentPolicy?: FulfillmentPolicy;
     /**
      * 
      * @type {CODSettings}
@@ -565,7 +565,7 @@ export interface FeatureSettings {
      * @type {string}
      * @memberof FeatureSettings
      */
-    featureFulfillmentPolicy?: FeatureSettingsFeatureFulfillmentPolicyEnum | 'Required' | 'NotRequired';
+    featureFulfillmentPolicy?: FeatureSettingsFeatureFulfillmentPolicyEnum;
 }
 
 /**
@@ -625,7 +625,7 @@ export interface Fee {
      * @type {string}
      * @memberof Fee
      */
-    name: FeeNameEnum | 'FBAPerUnitFulfillmentFee' | 'FBAPerOrderFulfillmentFee' | 'FBATransportationFee' | 'FBAFulfillmentCODFee';
+    name: FeeNameEnum;
     /**
      * 
      * @type {Money}
@@ -696,7 +696,7 @@ export interface FulfillmentOrder {
      * @type {ShippingSpeedCategory}
      * @memberof FulfillmentOrder
      */
-    shippingSpeedCategory: ShippingSpeedCategory | 'Standard' | 'Expedited' | 'Priority' | 'ScheduledDelivery';
+    shippingSpeedCategory: ShippingSpeedCategory;
     /**
      * 
      * @type {DeliveryWindow}
@@ -714,13 +714,13 @@ export interface FulfillmentOrder {
      * @type {FulfillmentAction}
      * @memberof FulfillmentOrder
      */
-    fulfillmentAction?: FulfillmentAction | 'Ship' | 'Hold';
+    fulfillmentAction?: FulfillmentAction;
     /**
      * 
      * @type {FulfillmentPolicy}
      * @memberof FulfillmentOrder
      */
-    fulfillmentPolicy?: FulfillmentPolicy | 'FillOrKill' | 'FillAll' | 'FillAllAvailable';
+    fulfillmentPolicy?: FulfillmentPolicy;
     /**
      * 
      * @type {CODSettings}
@@ -738,7 +738,7 @@ export interface FulfillmentOrder {
      * @type {FulfillmentOrderStatus}
      * @memberof FulfillmentOrder
      */
-    fulfillmentOrderStatus: FulfillmentOrderStatus | 'New' | 'Received' | 'Planning' | 'Processing' | 'Cancelled' | 'Complete' | 'CompletePartialled' | 'Unfulfillable' | 'Invalid';
+    fulfillmentOrderStatus: FulfillmentOrderStatus;
     /**
      * 
      * @type {string}
@@ -888,7 +888,7 @@ export interface FulfillmentPreview {
      * @type {ShippingSpeedCategory}
      * @memberof FulfillmentPreview
      */
-    shippingSpeedCategory: ShippingSpeedCategory | 'Standard' | 'Expedited' | 'Priority' | 'ScheduledDelivery';
+    shippingSpeedCategory: ShippingSpeedCategory;
     /**
      * 
      * @type {ScheduledDeliveryInfo}
@@ -985,7 +985,7 @@ export interface FulfillmentPreviewItem {
      * @type {string}
      * @memberof FulfillmentPreviewItem
      */
-    shippingWeightCalculationMethod?: FulfillmentPreviewItemShippingWeightCalculationMethodEnum | 'Package' | 'Dimensional';
+    shippingWeightCalculationMethod?: FulfillmentPreviewItemShippingWeightCalculationMethodEnum;
 }
 
 /**
@@ -1073,7 +1073,7 @@ export interface FulfillmentShipment {
      * @type {string}
      * @memberof FulfillmentShipment
      */
-    fulfillmentShipmentStatus: FulfillmentShipmentFulfillmentShipmentStatusEnum | 'PENDING' | 'SHIPPED' | 'CANCELLED_BY_FULFILLER' | 'CANCELLED_BY_SELLER';
+    fulfillmentShipmentStatus: FulfillmentShipmentFulfillmentShipmentStatusEnum;
     /**
      * 
      * @type {string}
@@ -1439,7 +1439,7 @@ export interface GetFulfillmentPreviewRequest {
      * @type {Array<ShippingSpeedCategory>}
      * @memberof GetFulfillmentPreviewRequest
      */
-    shippingSpeedCategories?: Array<(ShippingSpeedCategory | 'Standard' | 'Expedited' | 'Priority' | 'ScheduledDelivery')>;
+    shippingSpeedCategories?: Array<ShippingSpeedCategory>;
     /**
      * Specifies whether to return fulfillment order previews that are for COD (Cash On Delivery).  Possible values:  * true - Returns all fulfillment order previews (both for COD and not for COD). * false - Returns only fulfillment order previews that are not for COD.
      * @type {boolean}
@@ -1521,7 +1521,7 @@ export interface InvalidItemReason {
      * @type {InvalidItemReasonCode}
      * @memberof InvalidItemReason
      */
-    invalidItemReasonCode: InvalidItemReasonCode | 'InvalidValues' | 'DuplicateRequest' | 'NoCompletedShipItems' | 'NoReturnableQuantity';
+    invalidItemReasonCode: InvalidItemReasonCode;
     /**
      * A human readable description of the invalid item reason code.
      * @type {string}
@@ -1745,7 +1745,7 @@ export interface PackageTrackingDetails {
      * @type {CurrentStatus}
      * @memberof PackageTrackingDetails
      */
-    currentStatus?: CurrentStatus | 'IN_TRANSIT' | 'DELIVERED' | 'RETURNING' | 'RETURNED' | 'UNDELIVERABLE' | 'DELAYED' | 'AVAILABLE_FOR_PICKUP' | 'CUSTOMER_ACTION' | 'UNKNOWN' | 'OUT_FOR_DELIVERY' | 'DELIVERY_ATTEMPTED' | 'PICKUP_SUCCESSFUL' | 'PICKUP_CANCELLED' | 'PICKUP_ATTEMPTED' | 'PICKUP_SCHEDULED' | 'RETURN_REQUEST_ACCEPTED' | 'REFUND_ISSUED' | 'RETURN_RECEIVED_IN_FC';
+    currentStatus?: CurrentStatus;
     /**
      * Description corresponding to the CurrentStatus value.
      * @type {string}
@@ -1763,7 +1763,7 @@ export interface PackageTrackingDetails {
      * @type {AdditionalLocationInfo}
      * @memberof PackageTrackingDetails
      */
-    additionalLocationInfo?: AdditionalLocationInfo | 'AS_INSTRUCTED' | 'CARPORT' | 'CUSTOMER_PICKUP' | 'DECK' | 'DOOR_PERSON' | 'FRONT_DESK' | 'FRONT_DOOR' | 'GARAGE' | 'GUARD' | 'MAIL_ROOM' | 'MAIL_SLOT' | 'MAILBOX' | 'MC_BOY' | 'MC_GIRL' | 'MC_MAN' | 'MC_WOMAN' | 'NEIGHBOR' | 'OFFICE' | 'OUTBUILDING' | 'PATIO' | 'PORCH' | 'REAR_DOOR' | 'RECEPTIONIST' | 'RECEIVER' | 'SECURE_LOCATION' | 'SIDE_DOOR';
+    additionalLocationInfo?: AdditionalLocationInfo;
     /**
      * An array of tracking event information.
      * @type {Array<TrackingEvent>}
@@ -1880,7 +1880,7 @@ export interface ReturnItem {
      * @type {FulfillmentReturnItemStatus}
      * @memberof ReturnItem
      */
-    status: FulfillmentReturnItemStatus | 'New' | 'Processed';
+    status: FulfillmentReturnItemStatus;
     /**
      * 
      * @type {string}
@@ -1898,7 +1898,7 @@ export interface ReturnItem {
      * @type {ReturnItemDisposition}
      * @memberof ReturnItem
      */
-    returnReceivedCondition?: ReturnItemDisposition | 'Sellable' | 'Defective' | 'CustomerDamaged' | 'CarrierDamaged' | 'FulfillerDamaged';
+    returnReceivedCondition?: ReturnItemDisposition;
     /**
      * The identifier for the Amazon fulfillment center that processed the return item.
      * @type {string}
@@ -1998,7 +1998,7 @@ export interface TrackingEvent {
      * @type {EventCode}
      * @memberof TrackingEvent
      */
-    eventCode: EventCode | 'EVENT_101' | 'EVENT_102' | 'EVENT_201' | 'EVENT_202' | 'EVENT_203' | 'EVENT_204' | 'EVENT_205' | 'EVENT_206' | 'EVENT_301' | 'EVENT_302' | 'EVENT_304' | 'EVENT_306' | 'EVENT_307' | 'EVENT_308' | 'EVENT_309' | 'EVENT_401' | 'EVENT_402' | 'EVENT_403' | 'EVENT_404' | 'EVENT_405' | 'EVENT_406' | 'EVENT_407' | 'EVENT_408' | 'EVENT_409' | 'EVENT_411' | 'EVENT_412' | 'EVENT_413' | 'EVENT_414' | 'EVENT_415' | 'EVENT_416' | 'EVENT_417' | 'EVENT_418' | 'EVENT_419';
+    eventCode: EventCode;
     /**
      * A description for the corresponding event code.
      * @type {string}
@@ -2139,7 +2139,7 @@ export interface UpdateFulfillmentOrderRequest {
      * @type {ShippingSpeedCategory}
      * @memberof UpdateFulfillmentOrderRequest
      */
-    shippingSpeedCategory?: ShippingSpeedCategory | 'Standard' | 'Expedited' | 'Priority' | 'ScheduledDelivery';
+    shippingSpeedCategory?: ShippingSpeedCategory;
     /**
      * 
      * @type {Address}
@@ -2151,13 +2151,13 @@ export interface UpdateFulfillmentOrderRequest {
      * @type {FulfillmentAction}
      * @memberof UpdateFulfillmentOrderRequest
      */
-    fulfillmentAction?: FulfillmentAction | 'Ship' | 'Hold';
+    fulfillmentAction?: FulfillmentAction;
     /**
      * 
      * @type {FulfillmentPolicy}
      * @memberof UpdateFulfillmentOrderRequest
      */
-    fulfillmentPolicy?: FulfillmentPolicy | 'FillOrKill' | 'FillAll' | 'FillAllAvailable';
+    fulfillmentPolicy?: FulfillmentPolicy;
     /**
      * The two-character country code for the country from which the fulfillment order ships. Must be in ISO 3166-1 alpha-2 format.
      * @type {string}
@@ -2207,7 +2207,7 @@ export interface Weight {
      * @type {string}
      * @memberof Weight
      */
-    unit: WeightUnitEnum | 'KG' | 'KILOGRAMS' | 'LB' | 'POUNDS';
+    unit: WeightUnitEnum;
     /**
      * The weight value.
      * @type {string}

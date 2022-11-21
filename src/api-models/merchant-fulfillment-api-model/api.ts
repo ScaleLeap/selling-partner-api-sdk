@@ -204,7 +204,7 @@ export interface AvailableCarrierWillPickUpOption {
      * @type {CarrierWillPickUpOption}
      * @memberof AvailableCarrierWillPickUpOption
      */
-    CarrierWillPickUpOption: CarrierWillPickUpOption | 'CarrierWillPickUp' | 'ShipperWillDropOff' | 'NoPreference';
+    CarrierWillPickUpOption: CarrierWillPickUpOption;
     /**
      * 
      * @type {CurrencyAmount}
@@ -223,7 +223,7 @@ export interface AvailableDeliveryExperienceOption {
      * @type {DeliveryExperienceOption}
      * @memberof AvailableDeliveryExperienceOption
      */
-    DeliveryExperienceOption: DeliveryExperienceOption | 'DeliveryConfirmationWithAdultSignature' | 'DeliveryConfirmationWithSignature' | 'DeliveryConfirmationWithoutSignature' | 'NoTracking' | 'NoPreference';
+    DeliveryExperienceOption: DeliveryExperienceOption;
     /**
      * 
      * @type {CurrencyAmount}
@@ -328,7 +328,7 @@ export interface CreateShipmentRequest {
      * @type {HazmatType}
      * @memberof CreateShipmentRequest
      */
-    HazmatType?: HazmatType | 'None' | 'LQHazmat';
+    HazmatType?: HazmatType;
     /**
      * 
      * @type {LabelFormatOptionRequest}
@@ -422,7 +422,7 @@ export interface FileContents {
      * @type {FileType}
      * @memberof FileContents
      */
-    FileType: FileType | 'application/pdf' | 'application/zpl' | 'image/png';
+    FileType: FileType;
     /**
      * An MD5 hash to validate the PDF document data, in the form of a Base64-encoded string.
      * @type {string}
@@ -703,13 +703,13 @@ export interface Label {
      * @type {LabelFormat}
      * @memberof Label
      */
-    LabelFormat?: LabelFormat | 'PDF' | 'PNG' | 'ZPL203' | 'ZPL300' | 'ShippingServiceDefault';
+    LabelFormat?: LabelFormat;
     /**
      * 
      * @type {StandardIdForLabel}
      * @memberof Label
      */
-    StandardIdForLabel?: StandardIdForLabel | 'AmazonOrderId';
+    StandardIdForLabel?: StandardIdForLabel;
 }
 /**
  * Custom text for shipping labels.
@@ -728,7 +728,7 @@ export interface LabelCustomization {
      * @type {StandardIdForLabel}
      * @memberof LabelCustomization
      */
-    StandardIdForLabel?: StandardIdForLabel | 'AmazonOrderId';
+    StandardIdForLabel?: StandardIdForLabel;
 }
 /**
  * Dimensions for printing a shipping label.
@@ -753,7 +753,7 @@ export interface LabelDimensions {
      * @type {UnitOfLength}
      * @memberof LabelDimensions
      */
-    Unit: UnitOfLength | 'inches' | 'centimeters';
+    Unit: UnitOfLength;
 }
 /**
  * The label format.
@@ -785,7 +785,7 @@ export interface LabelFormatOption {
      * @type {LabelFormat}
      * @memberof LabelFormatOption
      */
-    LabelFormat?: LabelFormat | 'PDF' | 'PNG' | 'ZPL203' | 'ZPL300' | 'ShippingServiceDefault';
+    LabelFormat?: LabelFormat;
 }
 /**
  * Whether to include a packing slip.
@@ -817,7 +817,7 @@ export interface Length {
      * @type {UnitOfLength}
      * @memberof Length
      */
-    unit?: UnitOfLength | 'inches' | 'centimeters';
+    unit?: UnitOfLength;
 }
 /**
  * Error response returned when the request is unsuccessful.
@@ -873,13 +873,13 @@ export interface PackageDimensions {
      * @type {UnitOfLength}
      * @memberof PackageDimensions
      */
-    Unit?: UnitOfLength | 'inches' | 'centimeters';
+    Unit?: UnitOfLength;
     /**
      * 
      * @type {PredefinedPackageDimensions}
      * @memberof PackageDimensions
      */
-    PredefinedPackageDimensions?: PredefinedPackageDimensions | 'FedEx_Box_10kg' | 'FedEx_Box_25kg' | 'FedEx_Box_Extra_Large_1' | 'FedEx_Box_Extra_Large_2' | 'FedEx_Box_Large_1' | 'FedEx_Box_Large_2' | 'FedEx_Box_Medium_1' | 'FedEx_Box_Medium_2' | 'FedEx_Box_Small_1' | 'FedEx_Box_Small_2' | 'FedEx_Envelope' | 'FedEx_Padded_Pak' | 'FedEx_Pak_1' | 'FedEx_Pak_2' | 'FedEx_Tube' | 'FedEx_XL_Pak' | 'UPS_Box_10kg' | 'UPS_Box_25kg' | 'UPS_Express_Box' | 'UPS_Express_Box_Large' | 'UPS_Express_Box_Medium' | 'UPS_Express_Box_Small' | 'UPS_Express_Envelope' | 'UPS_Express_Hard_Pak' | 'UPS_Express_Legal_Envelope' | 'UPS_Express_Pak' | 'UPS_Express_Tube' | 'UPS_Laboratory_Pak' | 'UPS_Pad_Pak' | 'UPS_Pallet' | 'USPS_Card' | 'USPS_Flat' | 'USPS_FlatRateCardboardEnvelope' | 'USPS_FlatRateEnvelope' | 'USPS_FlatRateGiftCardEnvelope' | 'USPS_FlatRateLegalEnvelope' | 'USPS_FlatRatePaddedEnvelope' | 'USPS_FlatRateWindowEnvelope' | 'USPS_LargeFlatRateBoardGameBox' | 'USPS_LargeFlatRateBox' | 'USPS_Letter' | 'USPS_MediumFlatRateBox1' | 'USPS_MediumFlatRateBox2' | 'USPS_RegionalRateBoxA1' | 'USPS_RegionalRateBoxA2' | 'USPS_RegionalRateBoxB1' | 'USPS_RegionalRateBoxB2' | 'USPS_RegionalRateBoxC' | 'USPS_SmallFlatRateBox' | 'USPS_SmallFlatRateEnvelope';
+    PredefinedPackageDimensions?: PredefinedPackageDimensions;
 }
 /**
  * An enumeration of predefined parcel tokens. If you specify a PredefinedPackageDimensions token, you are not obligated to use a branded package from a carrier. For example, if you specify the FedEx_Box_10kg token, you do not have to use that particular package from FedEx. You are only obligated to use a box that matches the dimensions specified by the token.  Note: Please note that carriers can have restrictions on the type of package allowed for certain ship methods. Check the carrier website for all details. Example: Flat rate pricing is available when materials are sent by USPS in a USPS-produced Flat Rate Envelope or Box.
@@ -1011,7 +1011,7 @@ export interface SellerInputDefinition {
      * @type {InputTargetType}
      * @memberof SellerInputDefinition
      */
-    InputTarget?: InputTargetType | 'SHIPMENT_LEVEL' | 'ITEM_LEVEL';
+    InputTarget?: InputTargetType;
     /**
      * 
      * @type {AdditionalSellerInput}
@@ -1102,7 +1102,7 @@ export interface Shipment {
      * @type {ShipmentStatus}
      * @memberof Shipment
      */
-    Status: ShipmentStatus | 'Purchased' | 'RefundPending' | 'RefundRejected' | 'RefundApplied';
+    Status: ShipmentStatus;
     /**
      * The shipment tracking identifier provided by the carrier.
      * @type {string}
@@ -1224,13 +1224,13 @@ export interface ShippingOfferingFilter {
      * @type {CarrierWillPickUpOption}
      * @memberof ShippingOfferingFilter
      */
-    CarrierWillPickUp?: CarrierWillPickUpOption | 'CarrierWillPickUp' | 'ShipperWillDropOff' | 'NoPreference';
+    CarrierWillPickUp?: CarrierWillPickUpOption;
     /**
      * 
      * @type {DeliveryExperienceOption}
      * @memberof ShippingOfferingFilter
      */
-    DeliveryExperience?: DeliveryExperienceOption | 'DeliveryConfirmationWithAdultSignature' | 'DeliveryConfirmationWithSignature' | 'DeliveryConfirmationWithoutSignature' | 'NoTracking' | 'NoPreference';
+    DeliveryExperience?: DeliveryExperienceOption;
 }
 /**
  * A shipping service offer made by a carrier.
@@ -1303,7 +1303,7 @@ export interface ShippingService {
      * @type {Array<LabelFormat>}
      * @memberof ShippingService
      */
-    AvailableLabelFormats?: Array<(LabelFormat | 'PDF' | 'PNG' | 'ZPL203' | 'ZPL300' | 'ShippingServiceDefault')>;
+    AvailableLabelFormats?: Array<LabelFormat>;
     /**
      * The available label formats.
      * @type {Array<LabelFormatOption>}
@@ -1328,7 +1328,7 @@ export interface ShippingServiceOptions {
      * @type {DeliveryExperienceType}
      * @memberof ShippingServiceOptions
      */
-    DeliveryExperience: DeliveryExperienceType | 'DeliveryConfirmationWithAdultSignature' | 'DeliveryConfirmationWithSignature' | 'DeliveryConfirmationWithoutSignature' | 'NoTracking';
+    DeliveryExperience: DeliveryExperienceType;
     /**
      * 
      * @type {CurrencyAmount}
@@ -1346,13 +1346,13 @@ export interface ShippingServiceOptions {
      * @type {CarrierWillPickUpOption}
      * @memberof ShippingServiceOptions
      */
-    CarrierWillPickUpOption?: CarrierWillPickUpOption | 'CarrierWillPickUp' | 'ShipperWillDropOff' | 'NoPreference';
+    CarrierWillPickUpOption?: CarrierWillPickUpOption;
     /**
      * 
      * @type {LabelFormat}
      * @memberof ShippingServiceOptions
      */
-    LabelFormat?: LabelFormat | 'PDF' | 'PNG' | 'ZPL203' | 'ZPL300' | 'ShippingServiceDefault';
+    LabelFormat?: LabelFormat;
 }
 /**
  * The type of standard identifier to print on the label.
@@ -1426,7 +1426,7 @@ export interface Weight {
      * @type {UnitOfWeight}
      * @memberof Weight
      */
-    Unit: UnitOfWeight | 'oz' | 'g';
+    Unit: UnitOfWeight;
 }
 
 /**

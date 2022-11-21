@@ -76,7 +76,7 @@ export interface Issue {
      * @type {string}
      * @memberof Issue
      */
-    severity: IssueSeverityEnum | 'ERROR' | 'WARNING' | 'INFO';
+    severity: IssueSeverityEnum;
     /**
      * Names of the attributes associated with the issue, if applicable.
      * @type {Array<string>}
@@ -186,7 +186,7 @@ export interface ItemOfferByMarketplace {
      * @type {string}
      * @memberof ItemOfferByMarketplace
      */
-    offerType: ItemOfferByMarketplaceOfferTypeEnum | 'B2C' | 'B2B';
+    offerType: ItemOfferByMarketplaceOfferTypeEnum;
     /**
      * 
      * @type {Money}
@@ -252,13 +252,13 @@ export interface ItemSummaryByMarketplace {
      * @type {string}
      * @memberof ItemSummaryByMarketplace
      */
-    conditionType?: ItemSummaryByMarketplaceConditionTypeEnum | 'new_new' | 'new_open_box' | 'new_oem' | 'refurbished_refurbished' | 'used_like_new' | 'used_very_good' | 'used_good' | 'used_acceptable' | 'collectible_like_new' | 'collectible_very_good' | 'collectible_good' | 'collectible_acceptable' | 'club_club';
+    conditionType?: ItemSummaryByMarketplaceConditionTypeEnum;
     /**
      * Statuses that apply to the listings item.
      * @type {Array<string>}
      * @memberof ItemSummaryByMarketplace
      */
-    status: Array<(ItemSummaryByMarketplaceStatusEnum | 'BUYABLE' | 'DISCOVERABLE')>;
+    status: Array<ItemSummaryByMarketplaceStatusEnum>;
     /**
      * Fulfillment network stock keeping unit is an identifier used by Amazon fulfillment centers to identify each unique item.
      * @type {string}
@@ -355,7 +355,7 @@ export interface ListingsItemPutRequest {
      * @type {string}
      * @memberof ListingsItemPutRequest
      */
-    requirements?: ListingsItemPutRequestRequirementsEnum | 'LISTING' | 'LISTING_PRODUCT_ONLY' | 'LISTING_OFFER_ONLY';
+    requirements?: ListingsItemPutRequestRequirementsEnum;
     /**
      * JSON object containing structured listings item attribute data keyed by attribute name.
      * @type {object}
@@ -391,7 +391,7 @@ export interface ListingsItemSubmissionResponse {
      * @type {string}
      * @memberof ListingsItemSubmissionResponse
      */
-    status: ListingsItemSubmissionResponseStatusEnum | 'ACCEPTED' | 'INVALID';
+    status: ListingsItemSubmissionResponseStatusEnum;
     /**
      * The unique identifier of the listings item submission.
      * @type {string}
@@ -470,7 +470,7 @@ export interface PatchOperation {
      * @type {string}
      * @memberof PatchOperation
      */
-    op: PatchOperationOpEnum | 'add' | 'replace' | 'delete';
+    op: PatchOperationOpEnum;
     /**
      * JSON Pointer path of the element to patch. See <https://tools.ietf.org/html/rfc6902>.
      * @type {string}

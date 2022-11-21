@@ -101,13 +101,13 @@ export interface ProductTypeDefinition {
      * @type {string}
      * @memberof ProductTypeDefinition
      */
-    requirements: ProductTypeDefinitionRequirementsEnum | 'LISTING' | 'LISTING_PRODUCT_ONLY' | 'LISTING_OFFER_ONLY';
+    requirements: ProductTypeDefinitionRequirementsEnum;
     /**
      * Identifies if the required attributes for a requirements set are enforced by the product type definition schema. Non-enforced requirements enable structural validation of individual attributes without all of the required attributes being present (such as for partial updates).
      * @type {string}
      * @memberof ProductTypeDefinition
      */
-    requirementsEnforced: ProductTypeDefinitionRequirementsEnforcedEnum | 'ENFORCED' | 'NOT_ENFORCED';
+    requirementsEnforced: ProductTypeDefinitionRequirementsEnforcedEnum;
     /**
      * Mapping of property group names to property groups. Property groups represent logical groupings of schema properties that can be used for display or informational purposes.
      * @type {{ [key: string]: PropertyGroup; }}
@@ -257,7 +257,7 @@ export interface SchemaLinkLink {
      * @type {string}
      * @memberof SchemaLinkLink
      */
-    verb: SchemaLinkLinkVerbEnum | 'GET';
+    verb: SchemaLinkLinkVerbEnum;
 }
 
 /**

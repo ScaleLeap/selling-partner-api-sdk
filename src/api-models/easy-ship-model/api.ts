@@ -88,7 +88,7 @@ export interface CreateScheduledPackagesRequest {
      * @type {LabelFormat}
      * @memberof CreateScheduledPackagesRequest
      */
-    labelFormat: LabelFormat | 'PDF' | 'ZPL';
+    labelFormat: LabelFormat;
 }
 /**
  * The response schema for the bulk scheduling API. It returns by the bulk scheduling API containing an array of the scheduled packtages, an optional list of orders we couldn\'t schedule with the reason, and a pre-signed URL for a ZIP file containing the associated shipping labels plus the documents enabled for your marketplace.
@@ -144,7 +144,7 @@ export interface Dimensions {
      * @type {UnitOfLength}
      * @memberof Dimensions
      */
-    unit?: UnitOfLength | 'Cm';
+    unit?: UnitOfLength;
     /**
      * A string of up to 255 characters.
      * @type {string}
@@ -370,7 +370,7 @@ export interface Package {
      * @type {PackageStatus}
      * @memberof Package
      */
-    packageStatus?: PackageStatus | 'ReadyForPickup' | 'PickedUp' | 'AtOriginFC' | 'AtDestinationFC' | 'Delivered' | 'Rejected' | 'Undeliverable' | 'ReturnedToSeller' | 'LostInTransit' | 'LabelCanceled' | 'DamagedInTransit' | 'OutForDelivery';
+    packageStatus?: PackageStatus;
     /**
      * 
      * @type {TrackingDetails}
@@ -503,7 +503,7 @@ export interface TimeSlot {
      * @type {HandoverMethod}
      * @memberof TimeSlot
      */
-    handoverMethod?: HandoverMethod | 'Pickup' | 'Dropoff';
+    handoverMethod?: HandoverMethod;
 }
 /**
  * Representation of tracking metadata.
@@ -592,7 +592,7 @@ export interface Weight {
      * @type {UnitOfWeight}
      * @memberof Weight
      */
-    unit?: UnitOfWeight | 'Grams' | 'G';
+    unit?: UnitOfWeight;
 }
 
 /**

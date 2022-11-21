@@ -124,7 +124,7 @@ export interface Appointment {
      * @type {string}
      * @memberof Appointment
      */
-    appointmentStatus?: AppointmentAppointmentStatusEnum | 'ACTIVE' | 'CANCELLED' | 'COMPLETED';
+    appointmentStatus?: AppointmentAppointmentStatusEnum;
     /**
      * 
      * @type {AppointmentTime}
@@ -210,7 +210,7 @@ export interface AppointmentSlotReport {
      * @type {string}
      * @memberof AppointmentSlotReport
      */
-    schedulingType?: AppointmentSlotReportSchedulingTypeEnum | 'REAL_TIME_SCHEDULING' | 'NON_REAL_TIME_SCHEDULING';
+    schedulingType?: AppointmentSlotReportSchedulingTypeEnum;
     /**
      * Start Time from which the appointment slots are generated in ISO 8601 format.
      * @type {string}
@@ -358,7 +358,7 @@ export interface AssociatedItem {
      * @type {string}
      * @memberof AssociatedItem
      */
-    itemStatus?: AssociatedItemItemStatusEnum | 'ACTIVE' | 'CANCELLED' | 'SHIPPED' | 'DELIVERED';
+    itemStatus?: AssociatedItemItemStatusEnum;
     /**
      * The brand name of the item.
      * @type {string}
@@ -605,7 +605,7 @@ export interface EncryptionDetails {
      * @type {string}
      * @memberof EncryptionDetails
      */
-    standard: EncryptionDetailsStandardEnum | 'AES';
+    standard: EncryptionDetailsStandardEnum;
     /**
      * The vector to encrypt or decrypt the document contents using Cipher Block Chaining (CBC).
      * @type {string}
@@ -720,7 +720,7 @@ export interface FixedSlotCapacityQuery {
      * @type {Array<CapacityType>}
      * @memberof FixedSlotCapacityQuery
      */
-    capacityTypes?: Array<(CapacityType | 'SCHEDULED_CAPACITY' | 'AVAILABLE_CAPACITY' | 'ENCUMBERED_CAPACITY' | 'RESERVED_CAPACITY')>;
+    capacityTypes?: Array<CapacityType>;
     /**
      * Size in which slots are being requested. This value should be a multiple of 5 and fall in the range: 5 <= `slotDuration` <= 360.
      * @type {number}
@@ -933,7 +933,7 @@ export interface ModelError {
      * @type {string}
      * @memberof ModelError
      */
-    errorLevel?: ModelErrorErrorLevelEnum | 'ERROR' | 'WARNING';
+    errorLevel?: ModelErrorErrorLevelEnum;
 }
 
 /**
@@ -980,7 +980,7 @@ export interface Poa {
      * @type {string}
      * @memberof Poa
      */
-    poaType?: PoaPoaTypeEnum | 'NO_SIGNATURE_DUMMY_POS' | 'CUSTOMER_SIGNATURE' | 'DUMMY_RECEIPT' | 'POA_RECEIPT';
+    poaType?: PoaPoaTypeEnum;
 }
 
 /**
@@ -1005,7 +1005,7 @@ export interface RangeCapacity {
      * @type {CapacityType}
      * @memberof RangeCapacity
      */
-    capacityType?: CapacityType | 'SCHEDULED_CAPACITY' | 'AVAILABLE_CAPACITY' | 'ENCUMBERED_CAPACITY' | 'RESERVED_CAPACITY';
+    capacityType?: CapacityType;
     /**
      * Array of capacity slots in range slot format.
      * @type {Array<RangeSlot>}
@@ -1087,7 +1087,7 @@ export interface RangeSlotCapacityQuery {
      * @type {Array<CapacityType>}
      * @memberof RangeSlotCapacityQuery
      */
-    capacityTypes?: Array<(CapacityType | 'SCHEDULED_CAPACITY' | 'AVAILABLE_CAPACITY' | 'ENCUMBERED_CAPACITY' | 'RESERVED_CAPACITY')>;
+    capacityTypes?: Array<CapacityType>;
     /**
      * Start date time from which the capacity slots are being requested in ISO 8601 format.
      * @type {string}
@@ -1118,7 +1118,7 @@ export interface Recurrence {
      * @type {Array<DayOfWeek>}
      * @memberof Recurrence
      */
-    daysOfWeek?: Array<(DayOfWeek | 'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY')>;
+    daysOfWeek?: Array<DayOfWeek>;
     /**
      * Days of the month when recurrence is valid.
      * @type {Array<number>}
@@ -1162,7 +1162,7 @@ export interface Reservation {
      * @type {string}
      * @memberof Reservation
      */
-    type: ReservationTypeEnum | 'APPOINTMENT' | 'TRAVEL' | 'VACATION' | 'BREAK' | 'TRAINING';
+    type: ReservationTypeEnum;
     /**
      * 
      * @type {AvailabilityRecord}
@@ -1281,7 +1281,7 @@ export interface ServiceJob {
      * @type {string}
      * @memberof ServiceJob
      */
-    serviceJobStatus?: ServiceJobServiceJobStatusEnum | 'NOT_SERVICED' | 'CANCELLED' | 'COMPLETED' | 'PENDING_SCHEDULE' | 'NOT_FULFILLABLE' | 'HOLD' | 'PAYMENT_DECLINED';
+    serviceJobStatus?: ServiceJobServiceJobStatusEnum;
     /**
      * 
      * @type {ScopeOfWork}
@@ -1388,7 +1388,7 @@ export interface ServiceLocation {
      * @type {string}
      * @memberof ServiceLocation
      */
-    serviceLocationType?: ServiceLocationServiceLocationTypeEnum | 'IN_HOME' | 'IN_STORE' | 'ONLINE';
+    serviceLocationType?: ServiceLocationServiceLocationTypeEnum;
     /**
      * 
      * @type {Address}
@@ -1418,7 +1418,7 @@ export interface ServiceUploadDocument {
      * @type {string}
      * @memberof ServiceUploadDocument
      */
-    contentType: ServiceUploadDocumentContentTypeEnum | 'TIFF' | 'JPG' | 'PNG' | 'JPEG' | 'GIF' | 'PDF';
+    contentType: ServiceUploadDocumentContentTypeEnum;
     /**
      * The content length of the to-be-uploaded file
      * @type {number}

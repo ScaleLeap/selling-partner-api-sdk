@@ -256,7 +256,7 @@ export interface ResearchingQuantityEntry {
      * @type {string}
      * @memberof ResearchingQuantityEntry
      */
-    name: ResearchingQuantityEntryNameEnum | 'researchingQuantityInShortTerm' | 'researchingQuantityInMidTerm' | 'researchingQuantityInLongTerm';
+    name: ResearchingQuantityEntryNameEnum;
     /**
      * The number of units.
      * @type {number}

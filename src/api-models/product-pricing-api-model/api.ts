@@ -57,13 +57,13 @@ export interface BatchOffersRequestParams {
      * @type {ItemCondition}
      * @memberof BatchOffersRequestParams
      */
-    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    ItemCondition: ItemCondition;
     /**
      * 
      * @type {CustomerType}
      * @memberof BatchOffersRequestParams
      */
-    CustomerType?: CustomerType | 'Consumer' | 'Business';
+    CustomerType?: CustomerType;
 }
 /**
  * 
@@ -107,7 +107,7 @@ export interface BatchRequest {
      * @type {HttpMethod}
      * @memberof BatchRequest
      */
-    method: HttpMethod | 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST';
+    method: HttpMethod;
     /**
      * A mapping of additional HTTP headers to send/receive for the individual batch request.
      * @type {{ [key: string]: string; }}
@@ -132,7 +132,7 @@ export interface BuyBoxPriceType {
      * @type {OfferCustomerType}
      * @memberof BuyBoxPriceType
      */
-    offerType?: OfferCustomerType | 'B2C' | 'B2B';
+    offerType?: OfferCustomerType;
     /**
      * Indicates at what quantity this price becomes active.
      * @type {number}
@@ -144,7 +144,7 @@ export interface BuyBoxPriceType {
      * @type {QuantityDiscountType}
      * @memberof BuyBoxPriceType
      */
-    quantityDiscountType?: QuantityDiscountType | 'QUANTITY_DISCOUNT';
+    quantityDiscountType?: QuantityDiscountType;
     /**
      * 
      * @type {MoneyType}
@@ -211,7 +211,7 @@ export interface CompetitivePriceType {
      * @type {OfferCustomerType}
      * @memberof CompetitivePriceType
      */
-    offerType?: OfferCustomerType | 'B2C' | 'B2B';
+    offerType?: OfferCustomerType;
     /**
      * Indicates at what quantity this price becomes active.
      * @type {number}
@@ -223,7 +223,7 @@ export interface CompetitivePriceType {
      * @type {QuantityDiscountType}
      * @memberof CompetitivePriceType
      */
-    quantityDiscountType?: QuantityDiscountType | 'QUANTITY_DISCOUNT';
+    quantityDiscountType?: QuantityDiscountType;
     /**
      * The seller identifier for the offer.
      * @type {string}
@@ -314,7 +314,7 @@ export interface DetailedShippingTimeType {
      * @type {string}
      * @memberof DetailedShippingTimeType
      */
-    availabilityType?: DetailedShippingTimeTypeAvailabilityTypeEnum | 'NOW' | 'FUTURE_WITHOUT_DATE' | 'FUTURE_WITH_DATE';
+    availabilityType?: DetailedShippingTimeTypeAvailabilityTypeEnum;
 }
 
 /**
@@ -469,7 +469,7 @@ export interface GetOffersResult {
      * @type {ConditionType}
      * @memberof GetOffersResult
      */
-    ItemCondition: ConditionType | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    ItemCondition: ConditionType;
     /**
      * The status of the operation.
      * @type {string}
@@ -609,7 +609,7 @@ export interface ItemIdentifier {
      * @type {ConditionType}
      * @memberof ItemIdentifier
      */
-    ItemCondition: ConditionType | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    ItemCondition: ConditionType;
 }
 /**
  * 
@@ -628,7 +628,7 @@ export interface ItemOffersRequest {
      * @type {HttpMethod}
      * @memberof ItemOffersRequest
      */
-    method: HttpMethod | 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST';
+    method: HttpMethod;
     /**
      * A mapping of additional HTTP headers to send/receive for the individual batch request.
      * @type {{ [key: string]: string; }}
@@ -646,13 +646,13 @@ export interface ItemOffersRequest {
      * @type {ItemCondition}
      * @memberof ItemOffersRequest
      */
-    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    ItemCondition: ItemCondition;
     /**
      * 
      * @type {CustomerType}
      * @memberof ItemOffersRequest
      */
-    CustomerType?: CustomerType | 'Consumer' | 'Business';
+    CustomerType?: CustomerType;
 }
 /**
  * 
@@ -671,13 +671,13 @@ export interface ItemOffersRequestParams {
      * @type {ItemCondition}
      * @memberof ItemOffersRequestParams
      */
-    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    ItemCondition: ItemCondition;
     /**
      * 
      * @type {CustomerType}
      * @memberof ItemOffersRequestParams
      */
-    CustomerType?: CustomerType | 'Consumer' | 'Business';
+    CustomerType?: CustomerType;
     /**
      * The Amazon Standard Identification Number (ASIN) of the item. This is the same Asin passed as a request parameter.
      * @type {string}
@@ -759,7 +759,7 @@ export interface ListingOffersRequest {
      * @type {HttpMethod}
      * @memberof ListingOffersRequest
      */
-    method: HttpMethod | 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST';
+    method: HttpMethod;
     /**
      * A mapping of additional HTTP headers to send/receive for the individual batch request.
      * @type {{ [key: string]: string; }}
@@ -777,13 +777,13 @@ export interface ListingOffersRequest {
      * @type {ItemCondition}
      * @memberof ListingOffersRequest
      */
-    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    ItemCondition: ItemCondition;
     /**
      * 
      * @type {CustomerType}
      * @memberof ListingOffersRequest
      */
-    CustomerType?: CustomerType | 'Consumer' | 'Business';
+    CustomerType?: CustomerType;
 }
 /**
  * 
@@ -802,13 +802,13 @@ export interface ListingOffersRequestParams {
      * @type {ItemCondition}
      * @memberof ListingOffersRequestParams
      */
-    ItemCondition: ItemCondition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    ItemCondition: ItemCondition;
     /**
      * 
      * @type {CustomerType}
      * @memberof ListingOffersRequestParams
      */
-    CustomerType?: CustomerType | 'Consumer' | 'Business';
+    CustomerType?: CustomerType;
     /**
      * The seller stock keeping unit (SKU) of the item. This is the same SKU passed as a path parameter.
      * @type {string}
@@ -896,7 +896,7 @@ export interface LowestPriceType {
      * @type {OfferCustomerType}
      * @memberof LowestPriceType
      */
-    offerType?: OfferCustomerType | 'B2C' | 'B2B';
+    offerType?: OfferCustomerType;
     /**
      * Indicates at what quantity this price becomes active.
      * @type {number}
@@ -908,7 +908,7 @@ export interface LowestPriceType {
      * @type {QuantityDiscountType}
      * @memberof LowestPriceType
      */
-    quantityDiscountType?: QuantityDiscountType | 'QUANTITY_DISCOUNT';
+    quantityDiscountType?: QuantityDiscountType;
     /**
      * 
      * @type {MoneyType}
@@ -995,7 +995,7 @@ export interface OfferCountType {
      * @type {FulfillmentChannelType}
      * @memberof OfferCountType
      */
-    fulfillmentChannel?: FulfillmentChannelType | 'Amazon' | 'Merchant';
+    fulfillmentChannel?: FulfillmentChannelType;
     /**
      * The number of offers in a fulfillment channel that meet a specific condition.
      * @type {number}
@@ -1030,7 +1030,7 @@ export interface OfferDetail {
      * @type {OfferCustomerType}
      * @memberof OfferDetail
      */
-    offerType?: OfferCustomerType | 'B2C' | 'B2B';
+    offerType?: OfferCustomerType;
     /**
      * The subcondition of the item. Subcondition values: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
      * @type {string}
@@ -1146,7 +1146,7 @@ export interface OfferType {
      * @type {OfferCustomerType}
      * @memberof OfferType
      */
-    offerType?: OfferCustomerType | 'B2C' | 'B2B';
+    offerType?: OfferCustomerType;
     /**
      * 
      * @type {PriceType}
@@ -1356,7 +1356,7 @@ export interface QuantityDiscountPriceType {
      * @type {QuantityDiscountType}
      * @memberof QuantityDiscountPriceType
      */
-    quantityDiscountType: QuantityDiscountType | 'QUANTITY_DISCOUNT';
+    quantityDiscountType: QuantityDiscountType;
     /**
      * 
      * @type {MoneyType}

@@ -145,7 +145,7 @@ export interface Feed {
      * @type {string}
      * @memberof Feed
      */
-    processingStatus: FeedProcessingStatusEnum | 'CANCELLED' | 'DONE' | 'FATAL' | 'IN_PROGRESS' | 'IN_QUEUE';
+    processingStatus: FeedProcessingStatusEnum;
     /**
      * The date and time when feed processing started, in ISO 8601 date time format.
      * @type {string}
@@ -201,7 +201,7 @@ export interface FeedDocument {
      * @type {string}
      * @memberof FeedDocument
      */
-    compressionAlgorithm?: FeedDocumentCompressionAlgorithmEnum | 'GZIP';
+    compressionAlgorithm?: FeedDocumentCompressionAlgorithmEnum;
 }
 
 /**

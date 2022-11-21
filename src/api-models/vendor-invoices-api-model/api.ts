@@ -32,7 +32,7 @@ export interface AdditionalDetails {
      * @type {string}
      * @memberof AdditionalDetails
      */
-    type: AdditionalDetailsTypeEnum | 'SUR' | 'OCR' | 'CartonCount';
+    type: AdditionalDetailsTypeEnum;
     /**
      * The detail of the additional information provided by the selling party.
      * @type {string}
@@ -141,7 +141,7 @@ export interface AllowanceDetails {
      * @type {string}
      * @memberof AllowanceDetails
      */
-    type: AllowanceDetailsTypeEnum | 'Discount' | 'DiscountIncentive' | 'Defective' | 'Promotional' | 'UnsaleableMerchandise' | 'Special';
+    type: AllowanceDetailsTypeEnum;
     /**
      * Description of the allowance.
      * @type {string}
@@ -186,7 +186,7 @@ export interface ChargeDetails {
      * @type {string}
      * @memberof ChargeDetails
      */
-    type: ChargeDetailsTypeEnum | 'Freight' | 'Packing' | 'Duty' | 'Service' | 'SmallOrder' | 'InsurancePlacementCost' | 'InsuranceFee' | 'SpecialHandlingService' | 'CollectionAndRecyclingService' | 'EnvironmentalProtectionService' | 'TaxCollectedAtSource';
+    type: ChargeDetailsTypeEnum;
     /**
      * Description of the charge.
      * @type {string}
@@ -285,7 +285,7 @@ export interface Invoice {
      * @type {string}
      * @memberof Invoice
      */
-    invoiceType: InvoiceInvoiceTypeEnum | 'Invoice' | 'CreditNote';
+    invoiceType: InvoiceInvoiceTypeEnum;
     /**
      * Unique number relating to the charges defined in this document. This will be invoice number if the document type is Invoice or CreditNote number if the document type is Credit Note. Failure to provide this reference will result in a rejection.
      * @type {string}
@@ -471,7 +471,7 @@ export interface ItemQuantity {
      * @type {string}
      * @memberof ItemQuantity
      */
-    unitOfMeasure: ItemQuantityUnitOfMeasureEnum | 'Cases' | 'Eaches';
+    unitOfMeasure: ItemQuantityUnitOfMeasureEnum;
     /**
      * The case size, if the unit of measure value is Cases.
      * @type {number}
@@ -569,7 +569,7 @@ export interface PaymentTerms {
      * @type {string}
      * @memberof PaymentTerms
      */
-    type?: PaymentTermsTypeEnum | 'Basic' | 'EndOfMonth' | 'FixedDate' | 'Proximo' | 'PaymentDueUponReceiptOfInvoice' | 'LetterofCredit';
+    type?: PaymentTermsTypeEnum;
     /**
      * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation. <br>**Pattern** : `^-?(0|([1-9]\\d*))(\\.\\d+)?([eE][+-]?\\d+)?$`.
      * @type {string}
@@ -646,7 +646,7 @@ export interface TaxDetails {
      * @type {string}
      * @memberof TaxDetails
      */
-    taxType: TaxDetailsTaxTypeEnum | 'CGST' | 'SGST' | 'CESS' | 'UTGST' | 'IGST' | 'MwSt.' | 'PST' | 'TVA' | 'VAT' | 'GST' | 'ST' | 'Consumption' | 'MutuallyDefined' | 'DomesticVAT';
+    taxType: TaxDetailsTaxTypeEnum;
     /**
      * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation. <br>**Pattern** : `^-?(0|([1-9]\\d*))(\\.\\d+)?([eE][+-]?\\d+)?$`.
      * @type {string}
@@ -699,7 +699,7 @@ export interface TaxRegistrationDetails {
      * @type {string}
      * @memberof TaxRegistrationDetails
      */
-    taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum | 'VAT' | 'GST';
+    taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum;
     /**
      * The tax registration number for the entity. For example, VAT ID.
      * @type {string}
