@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.10.2](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.10.1...v6.10.2) (2022-12-06)
+
+
+### Bug Fixes
+
+* shipment in fulfillment inbound api v0 ([#649](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/649)) ([6170584](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/6170584de30fa2976f49acd6950afbced9359ab4)), closes [#648](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/648)
+
 ## [6.10.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.10.0...v6.10.1) (2022-11-21)
 
 
