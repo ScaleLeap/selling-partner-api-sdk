@@ -246,6 +246,44 @@ export interface ItemClassificationSalesRank {
     rank: number;
 }
 /**
+ * Individual contributor to the creation of an item, such as an author or actor.
+ * @export
+ * @interface ItemContributor
+ */
+export interface ItemContributor {
+    /**
+     * 
+     * @type {ItemContributorRole}
+     * @memberof ItemContributor
+     */
+    role: ItemContributorRole;
+    /**
+     * Name of the contributor, such as Jane Austen.
+     * @type {string}
+     * @memberof ItemContributor
+     */
+    value: string;
+}
+/**
+ * Role of an individual contributor in the creation of an item, such as author or actor.
+ * @export
+ * @interface ItemContributorRole
+ */
+export interface ItemContributorRole {
+    /**
+     * Display name of the role in the requested locale, such as Author or Actor.
+     * @type {string}
+     * @memberof ItemContributorRole
+     */
+    displayName?: string;
+    /**
+     * Role value for the Amazon catalog item, such as author or actor.
+     * @type {string}
+     * @memberof ItemContributorRole
+     */
+    value: string;
+}
+/**
  * Dimensions associated with the item in the Amazon catalog for the indicated Amazon marketplace.
  * @export
  * @interface ItemDimensionsByMarketplace
@@ -518,7 +556,7 @@ export interface ItemSalesRanksByMarketplace {
  */
 export interface ItemSearchResults {
     /**
-     * The estimated total number of Amazon catalog items matched by the search query (only results up to the page count limit will be returned per request regardless of the number found).  **Note:** The maximum number of items (ASINs) that can be returned and paged through is 1000.
+     * For `identifiers`-based searches, the total number of Amazon catalog items found. For `keywords`-based searches, the estimated total number of Amazon catalog items matched by the search query (only results up to the page count limit will be returned per request regardless of the number found).  Note: The maximum number of items (ASINs) that can be returned and paged through is 1000.
      * @type {number}
      * @memberof ItemSearchResults
      */
@@ -555,6 +593,18 @@ export interface ItemSummaryByMarketplace {
      */
     marketplaceId: string;
     /**
+     * Identifies an Amazon catalog item is intended for an adult audience or is sexual in nature.
+     * @type {boolean}
+     * @memberof ItemSummaryByMarketplace
+     */
+    adultProduct?: boolean;
+    /**
+     * Identifies an Amazon catalog item is autographed by a player or celebrity.
+     * @type {boolean}
+     * @memberof ItemSummaryByMarketplace
+     */
+    autographed?: boolean;
+    /**
      * Name of the brand associated with an Amazon catalog item.
      * @type {string}
      * @memberof ItemSummaryByMarketplace
@@ -572,6 +622,12 @@ export interface ItemSummaryByMarketplace {
      * @memberof ItemSummaryByMarketplace
      */
     color?: string;
+    /**
+     * Individual contributors to the creation of an item, such as the authors or actors.
+     * @type {Array<ItemContributor>}
+     * @memberof ItemSummaryByMarketplace
+     */
+    contributors?: Array<ItemContributor>;
     /**
      * Classification type associated with the Amazon catalog item.
      * @type {string}
@@ -591,6 +647,12 @@ export interface ItemSummaryByMarketplace {
      */
     manufacturer?: string;
     /**
+     * Identifies an Amazon catalog item is memorabilia valued for its connection with historical events, culture, or entertainment.
+     * @type {boolean}
+     * @memberof ItemSummaryByMarketplace
+     */
+    memorabilia?: boolean;
+    /**
      * Model number associated with an Amazon catalog item.
      * @type {string}
      * @memberof ItemSummaryByMarketplace
@@ -609,6 +671,12 @@ export interface ItemSummaryByMarketplace {
      */
     partNumber?: string;
     /**
+     * First date on which an Amazon catalog item is shippable to customers.
+     * @type {string}
+     * @memberof ItemSummaryByMarketplace
+     */
+    releaseDate?: string;
+    /**
      * Name of the size associated with an Amazon catalog item.
      * @type {string}
      * @memberof ItemSummaryByMarketplace
@@ -620,6 +688,12 @@ export interface ItemSummaryByMarketplace {
      * @memberof ItemSummaryByMarketplace
      */
     style?: string;
+    /**
+     * Identifies an Amazon catalog item is eligible for trade-in.
+     * @type {boolean}
+     * @memberof ItemSummaryByMarketplace
+     */
+    tradeInEligible?: boolean;
     /**
      * Identifier of the website display group associated with an Amazon catalog item.
      * @type {string}
@@ -827,7 +901,7 @@ export interface Refinements {
 export const CatalogApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Retrieves details for an item in the Amazon catalog.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Retrieves details for an item in the Amazon catalog.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} asin The Amazon Standard Identification Number (ASIN) of the item.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers. Data sets in the response contain data only for the specified marketplaces.
          * @param {Array<'attributes' | 'dimensions' | 'identifiers' | 'images' | 'productTypes' | 'relationships' | 'salesRanks' | 'summaries' | 'vendorDetails'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
@@ -877,7 +951,7 @@ export const CatalogApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Search for and return a list of Amazon catalog items and associated information either by identifier or by keywords.  **Usage Plans:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Search for and return a list of Amazon catalog items and associated information either by identifier or by keywords.  **Usage Plans:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
          * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers to search the Amazon catalog for. **Note:** Cannot be used with &#x60;keywords&#x60;.
          * @param {'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] Type of product identifiers to search the Amazon catalog for. **Note:** Required when &#x60;identifiers&#x60; are provided.
@@ -978,7 +1052,7 @@ export const CatalogApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = CatalogApiAxiosParamCreator(configuration)
     return {
         /**
-         * Retrieves details for an item in the Amazon catalog.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Retrieves details for an item in the Amazon catalog.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} asin The Amazon Standard Identification Number (ASIN) of the item.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers. Data sets in the response contain data only for the specified marketplaces.
          * @param {Array<'attributes' | 'dimensions' | 'identifiers' | 'images' | 'productTypes' | 'relationships' | 'salesRanks' | 'summaries' | 'vendorDetails'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
@@ -991,7 +1065,7 @@ export const CatalogApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Search for and return a list of Amazon catalog items and associated information either by identifier or by keywords.  **Usage Plans:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Search for and return a list of Amazon catalog items and associated information either by identifier or by keywords.  **Usage Plans:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
          * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers to search the Amazon catalog for. **Note:** Cannot be used with &#x60;keywords&#x60;.
          * @param {'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] Type of product identifiers to search the Amazon catalog for. **Note:** Required when &#x60;identifiers&#x60; are provided.
@@ -1022,7 +1096,7 @@ export const CatalogApiFactory = function (configuration?: Configuration, basePa
     const localVarFp = CatalogApiFp(configuration)
     return {
         /**
-         * Retrieves details for an item in the Amazon catalog.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Retrieves details for an item in the Amazon catalog.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} asin The Amazon Standard Identification Number (ASIN) of the item.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers. Data sets in the response contain data only for the specified marketplaces.
          * @param {Array<'attributes' | 'dimensions' | 'identifiers' | 'images' | 'productTypes' | 'relationships' | 'salesRanks' | 'summaries' | 'vendorDetails'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
@@ -1034,7 +1108,7 @@ export const CatalogApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.getCatalogItem(asin, marketplaceIds, includedData, locale, options).then((request) => request(axios, basePath));
         },
         /**
-         * Search for and return a list of Amazon catalog items and associated information either by identifier or by keywords.  **Usage Plans:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Search for and return a list of Amazon catalog items and associated information either by identifier or by keywords.  **Usage Plans:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
          * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers to search the Amazon catalog for. **Note:** Cannot be used with &#x60;keywords&#x60;.
          * @param {'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] Type of product identifiers to search the Amazon catalog for. **Note:** Required when &#x60;identifiers&#x60; are provided.
@@ -1190,7 +1264,7 @@ export interface CatalogApiSearchCatalogItemsRequest {
  */
 export class CatalogApi extends BaseAPI {
     /**
-     * Retrieves details for an item in the Amazon catalog.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * Retrieves details for an item in the Amazon catalog.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {CatalogApiGetCatalogItemRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1201,7 +1275,7 @@ export class CatalogApi extends BaseAPI {
     }
 
     /**
-     * Search for and return a list of Amazon catalog items and associated information either by identifier or by keywords.  **Usage Plans:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * Search for and return a list of Amazon catalog items and associated information either by identifier or by keywords.  **Usage Plans:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may observe higher rate and burst values than those shown here. For more information, refer to the [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {CatalogApiSearchCatalogItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

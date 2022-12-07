@@ -147,6 +147,8 @@ export {
   Item as CatalogItemsApiModelV20220401Item,
   ItemBrowseClassification as CatalogItemsApiModelV20220401ItemBrowseClassification,
   ItemClassificationSalesRank as CatalogItemsApiModelV20220401ItemClassificationSalesRank,
+  ItemContributor as CatalogItemsApiModelV20220401ItemContributor,
+  ItemContributorRole as CatalogItemsApiModelV20220401ItemContributorRole,
   ItemDimensionsByMarketplace as CatalogItemsApiModelV20220401ItemDimensionsByMarketplace,
   ItemDisplayGroupSalesRank as CatalogItemsApiModelV20220401ItemDisplayGroupSalesRank,
   ItemIdentifier as CatalogItemsApiModelV20220401ItemIdentifier,
