@@ -22,6 +22,37 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
+ * An event related to an Adhoc Disbursement.
+ * @export
+ * @interface AdhocDisbursementEvent
+ */
+export interface AdhocDisbursementEvent {
+    /**
+     * Indicates the type of transaction.  Example: \"Disbursed to Amazon Gift Card balance\"
+     * @type {string}
+     * @memberof AdhocDisbursementEvent
+     */
+    TransactionType?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdhocDisbursementEvent
+     */
+    PostedDate?: string;
+    /**
+     * The identifier for the transaction.
+     * @type {string}
+     * @memberof AdhocDisbursementEvent
+     */
+    TransactionId?: string;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof AdhocDisbursementEvent
+     */
+    TransactionAmount?: Currency;
+}
+/**
  * An adjustment to the seller\'s account.
  * @export
  * @interface AdjustmentEvent
@@ -163,6 +194,37 @@ export interface AffordabilityExpenseEvent {
     TotalExpense?: Currency;
 }
 /**
+ * An event related to a capacity reservation billing charge.
+ * @export
+ * @interface CapacityReservationBillingEvent
+ */
+export interface CapacityReservationBillingEvent {
+    /**
+     * Indicates the type of transaction.  Example: \"FBA Inventory Fee\"
+     * @type {string}
+     * @memberof CapacityReservationBillingEvent
+     */
+    TransactionType?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CapacityReservationBillingEvent
+     */
+    PostedDate?: string;
+    /**
+     * A short description of the capacity reservation billing event.
+     * @type {string}
+     * @memberof CapacityReservationBillingEvent
+     */
+    Description?: string;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof CapacityReservationBillingEvent
+     */
+    TransactionAmount?: Currency;
+}
+/**
  * A charge on the seller\'s account.  Possible values:  * Principal - The selling price of the order item, equal to the selling price of the item multiplied by the quantity ordered.  * Tax - The tax collected by the seller on the Principal.  * MarketplaceFacilitatorTax-Principal - The tax withheld on the Principal.  * MarketplaceFacilitatorTax-Shipping - The tax withheld on the ShippingCharge.  * MarketplaceFacilitatorTax-Giftwrap - The tax withheld on the Giftwrap charge.  * MarketplaceFacilitatorTax-Other - The tax withheld on other miscellaneous charges.  * Discount - The promotional discount for an order item.  * TaxDiscount - The tax amount deducted for promotional rebates.  * CODItemCharge - The COD charge for an order item.  * CODItemTaxCharge - The tax collected by the seller on a CODItemCharge.  * CODOrderCharge - The COD charge for an order.  * CODOrderTaxCharge - The tax collected by the seller on a CODOrderCharge.  * CODShippingCharge - Shipping charges for a COD order.  * CODShippingTaxCharge - The tax collected by the seller on a CODShippingCharge.  * ShippingCharge - The shipping charge.  * ShippingTax - The tax collected by the seller on a ShippingCharge.  * Goodwill - The amount given to a buyer as a gesture of goodwill or to compensate for pain and suffering in the buying experience.  * Giftwrap - The gift wrap charge.  * GiftwrapTax - The tax collected by the seller on a Giftwrap charge.  * RestockingFee - The charge applied to the buyer when returning a product in certain categories.  * ReturnShipping - The amount given to the buyer to compensate for shipping the item back in the event we are at fault.  * PointsFee - The value of Amazon Points deducted from the refund if the buyer does not have enough Amazon Points to cover the deduction.  * GenericDeduction - A generic bad debt deduction.  * FreeReplacementReturnShipping - The compensation for return shipping when a buyer receives the wrong item, requests a free replacement, and returns the incorrect item.  * PaymentMethodFee - The fee collected for certain payment methods in certain marketplaces.  * ExportCharge - The export duty that is charged when an item is shipped to an international destination as part of the Amazon Global program.  * SAFE-TReimbursement - The SAFE-T claim amount for the item.  * TCS-CGST - Tax Collected at Source (TCS) for Central Goods and Services Tax (CGST).  * TCS-SGST - Tax Collected at Source for State Goods and Services Tax (SGST).  * TCS-IGST - Tax Collected at Source for Integrated Goods and Services Tax (IGST).  * TCS-UTGST - Tax Collected at Source for Union Territories Goods and Services Tax (UTGST).
  * @export
  * @interface ChargeComponent
@@ -205,6 +267,56 @@ export interface ChargeInstrument {
      * @memberof ChargeInstrument
      */
     Amount?: Currency;
+}
+/**
+ * An event related to charge refund.
+ * @export
+ * @interface ChargeRefundEvent
+ */
+export interface ChargeRefundEvent {
+    /**
+     * 
+     * @type {string}
+     * @memberof ChargeRefundEvent
+     */
+    PostedDate?: string;
+    /**
+     * The reason given for a charge refund.  Example: `SubscriptionFeeCorrection`
+     * @type {string}
+     * @memberof ChargeRefundEvent
+     */
+    ReasonCode?: string;
+    /**
+     * A description of the Reason Code.   Example: `SubscriptionFeeCorrection`
+     * @type {string}
+     * @memberof ChargeRefundEvent
+     */
+    ReasonCodeDescription?: string;
+    /**
+     * 
+     * @type {ChargeRefundTransaction}
+     * @memberof ChargeRefundEvent
+     */
+    ChargeRefundTransactions?: ChargeRefundTransaction;
+}
+/**
+ * The charge refund transaction.
+ * @export
+ * @interface ChargeRefundTransaction
+ */
+export interface ChargeRefundTransaction {
+    /**
+     * 
+     * @type {Currency}
+     * @memberof ChargeRefundTransaction
+     */
+    ChargeAmount?: Currency;
+    /**
+     * The type of charge.
+     * @type {string}
+     * @memberof ChargeRefundTransaction
+     */
+    ChargeType?: string;
 }
 /**
  * An event related to coupon payments.
@@ -399,6 +511,55 @@ export interface FBALiquidationEvent {
     LiquidationFeeAmount?: Currency;
 }
 /**
+ * Failed ad hoc disbursement event list.
+ * @export
+ * @interface FailedAdhocDisbursementEventList
+ */
+export interface FailedAdhocDisbursementEventList {
+    /**
+     * The type of fund transfer.   Example \"Refund\"
+     * @type {string}
+     * @memberof FailedAdhocDisbursementEventList
+     */
+    FundsTransfersType?: string;
+    /**
+     * The transfer identifier.
+     * @type {string}
+     * @memberof FailedAdhocDisbursementEventList
+     */
+    TransferId?: string;
+    /**
+     * The disbursement identifier.
+     * @type {string}
+     * @memberof FailedAdhocDisbursementEventList
+     */
+    DisbursementId?: string;
+    /**
+     * The type of payment for disbursement.   Example `CREDIT_CARD`
+     * @type {string}
+     * @memberof FailedAdhocDisbursementEventList
+     */
+    PaymentDisbursementType?: string;
+    /**
+     * The status of the failed `AdhocDisbursement`.   Example `HARD_DECLINED`
+     * @type {string}
+     * @memberof FailedAdhocDisbursementEventList
+     */
+    Status?: string;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof FailedAdhocDisbursementEventList
+     */
+    TransferAmount?: Currency;
+    /**
+     * 
+     * @type {string}
+     * @memberof FailedAdhocDisbursementEventList
+     */
+    PostedDate?: string;
+}
+/**
  * A fee associated with the event.
  * @export
  * @interface FeeComponent
@@ -502,6 +663,12 @@ export interface FinancialEvents {
      * @memberof FinancialEvents
      */
     ShipmentEventList?: Array<ShipmentEvent>;
+    /**
+     * A list of `ShipmentEvent` items.
+     * @type {Array<ShipmentEvent>}
+     * @memberof FinancialEvents
+     */
+    ShipmentSettleEventList?: Array<ShipmentEvent>;
     /**
      * A list of shipment event information.
      * @type {Array<ShipmentEvent>}
@@ -629,24 +796,6 @@ export interface FinancialEvents {
      */
     AffordabilityExpenseReversalEventList?: Array<AffordabilityExpenseEvent>;
     /**
-     * A list of information about trial shipment financial events.
-     * @type {Array<TrialShipmentEvent>}
-     * @memberof FinancialEvents
-     */
-    TrialShipmentEventList?: Array<TrialShipmentEvent>;
-    /**
-     * A list of information about shipment settle financial events.
-     * @type {Array<ShipmentEvent>}
-     * @memberof FinancialEvents
-     */
-    ShipmentSettleEventList?: Array<ShipmentEvent>;
-    /**
-     * List of TaxWithholding events.
-     * @type {Array<TaxWithholdingEvent>}
-     * @memberof FinancialEvents
-     */
-    TaxWithholdingEventList?: Array<TaxWithholdingEvent>;
-    /**
      * A list of removal shipment event information.
      * @type {Array<RemovalShipmentEvent>}
      * @memberof FinancialEvents
@@ -658,6 +807,54 @@ export interface FinancialEvents {
      * @memberof FinancialEvents
      */
     RemovalShipmentAdjustmentEventList?: Array<RemovalShipmentAdjustmentEvent>;
+    /**
+     * A list of information about trial shipment financial events.
+     * @type {Array<TrialShipmentEvent>}
+     * @memberof FinancialEvents
+     */
+    TrialShipmentEventList?: Array<TrialShipmentEvent>;
+    /**
+     * A list of `TDSReimbursementEvent` items.
+     * @type {Array<TDSReimbursementEvent>}
+     * @memberof FinancialEvents
+     */
+    TDSReimbursementEventList?: Array<TDSReimbursementEvent>;
+    /**
+     * A list of `AdhocDisbursement` events.
+     * @type {Array<AdhocDisbursementEvent>}
+     * @memberof FinancialEvents
+     */
+    AdhocDisbursementEventList?: Array<AdhocDisbursementEvent>;
+    /**
+     * A list of `TaxWithholding` events.
+     * @type {Array<TaxWithholdingEvent>}
+     * @memberof FinancialEvents
+     */
+    TaxWithholdingEventList?: Array<TaxWithholdingEvent>;
+    /**
+     * A list of charge refund events.
+     * @type {Array<ChargeRefundEvent>}
+     * @memberof FinancialEvents
+     */
+    ChargeRefundEventList?: Array<ChargeRefundEvent>;
+    /**
+     * 
+     * @type {FailedAdhocDisbursementEventList}
+     * @memberof FinancialEvents
+     */
+    FailedAdhocDisbursementEventList?: FailedAdhocDisbursementEventList;
+    /**
+     * 
+     * @type {ValueAddedServiceChargeEventList}
+     * @memberof FinancialEvents
+     */
+    ValueAddedServiceChargeEventList?: ValueAddedServiceChargeEventList;
+    /**
+     * A list of `CapacityReservationBillingEvent` events.
+     * @type {Array<CapacityReservationBillingEvent>}
+     * @memberof FinancialEvents
+     */
+    CapacityReservationBillingEventList?: Array<CapacityReservationBillingEvent>;
 }
 /**
  * A fee event related to Amazon Imaging services.
@@ -1747,6 +1944,31 @@ export interface SolutionProviderCreditEvent {
     TransactionCreationDate?: string;
 }
 /**
+ * An event related to a Tax-Deducted-at-Source (TDS) reimbursement.
+ * @export
+ * @interface TDSReimbursementEvent
+ */
+export interface TDSReimbursementEvent {
+    /**
+     * 
+     * @type {string}
+     * @memberof TDSReimbursementEvent
+     */
+    PostedDate?: string;
+    /**
+     * The Tax-Deducted-at-Source (TDS) identifier.
+     * @type {string}
+     * @memberof TDSReimbursementEvent
+     */
+    TDSOrderId?: string;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof TDSReimbursementEvent
+     */
+    ReimbursedAmount?: Currency;
+}
+/**
  * Information about the taxes withheld.
  * @export
  * @interface TaxWithheldComponent
@@ -1852,6 +2074,37 @@ export interface TrialShipmentEvent {
      */
     FeeList?: Array<FeeComponent>;
 }
+/**
+ * An event related to a value added service charge.
+ * @export
+ * @interface ValueAddedServiceChargeEventList
+ */
+export interface ValueAddedServiceChargeEventList {
+    /**
+     * Indicates the type of transaction.  Example: \'Other Support Service fees\'
+     * @type {string}
+     * @memberof ValueAddedServiceChargeEventList
+     */
+    TransactionType?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ValueAddedServiceChargeEventList
+     */
+    PostedDate?: string;
+    /**
+     * A short description of the service charge event.
+     * @type {string}
+     * @memberof ValueAddedServiceChargeEventList
+     */
+    Description?: string;
+    /**
+     * 
+     * @type {Currency}
+     * @memberof ValueAddedServiceChargeEventList
+     */
+    TransactionAmount?: Currency;
+}
 
 /**
  * DefaultApi - axios parameter creator
@@ -1861,7 +2114,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
          * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
@@ -1914,7 +2167,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
          * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
@@ -1968,12 +2221,14 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Returns all financial events for the specified financial event group.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} eventGroupId The identifier of the financial event group to which the events belong.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
+         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in ISO 8601 date time format.
+         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in ISO 8601 date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventsByGroupId: async (eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
+        listFinancialEventsByGroupId: async (eventGroupId: string, maxResultsPerPage?: number, postedAfter?: string, postedBefore?: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'eventGroupId' is not null or undefined
             assertParamExists('listFinancialEventsByGroupId', 'eventGroupId', eventGroupId)
             const localVarPath = `/finances/v0/financialEventGroups/{eventGroupId}/financialEvents`
@@ -1991,6 +2246,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
             if (maxResultsPerPage !== undefined) {
                 localVarQueryParameter['MaxResultsPerPage'] = maxResultsPerPage;
+            }
+
+            if (postedAfter !== undefined) {
+                localVarQueryParameter['PostedAfter'] = (postedAfter as any instanceof Date) ?
+                    (postedAfter as any).toISOString() :
+                    postedAfter;
+            }
+
+            if (postedBefore !== undefined) {
+                localVarQueryParameter['PostedBefore'] = (postedBefore as any instanceof Date) ?
+                    (postedBefore as any).toISOString() :
+                    postedBefore;
             }
 
             if (nextToken !== undefined) {
@@ -2011,7 +2278,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Returns all financial events for the specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2063,7 +2330,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
          * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
@@ -2076,7 +2343,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
          * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
@@ -2090,19 +2357,21 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * Returns all financial events for the specified financial event group.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} eventGroupId The identifier of the financial event group to which the events belong.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
+         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in ISO 8601 date time format.
+         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in ISO 8601 date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, nextToken, options);
+        async listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, postedAfter?: string, postedBefore?: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListFinancialEventsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, postedAfter, postedBefore, nextToken, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Returns all financial events for the specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2123,7 +2392,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
          * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
@@ -2135,7 +2404,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
          * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
@@ -2148,18 +2417,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * Returns all financial events for the specified financial event group.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} eventGroupId The identifier of the financial event group to which the events belong.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
+         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in ISO 8601 date time format.
+         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in ISO 8601 date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, nextToken?: string, options?: any): AxiosPromise<ListFinancialEventsResponse> {
-            return localVarFp.listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, nextToken, options).then((request) => request(axios, basePath));
+        listFinancialEventsByGroupId(eventGroupId: string, maxResultsPerPage?: number, postedAfter?: string, postedBefore?: string, nextToken?: string, options?: any): AxiosPromise<ListFinancialEventsResponse> {
+            return localVarFp.listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, postedAfter, postedBefore, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns all financial events for the specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2177,7 +2448,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  */
 export interface DefaultApiListFinancialEventGroupsRequest {
     /**
-     * The maximum number of results to return per page.
+     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
      * @type {number}
      * @memberof DefaultApiListFinancialEventGroups
      */
@@ -2212,7 +2483,7 @@ export interface DefaultApiListFinancialEventGroupsRequest {
  */
 export interface DefaultApiListFinancialEventsRequest {
     /**
-     * The maximum number of results to return per page.
+     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
      * @type {number}
      * @memberof DefaultApiListFinancialEvents
      */
@@ -2254,11 +2525,25 @@ export interface DefaultApiListFinancialEventsByGroupIdRequest {
     readonly eventGroupId: string
 
     /**
-     * The maximum number of results to return per page.
+     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
      * @type {number}
      * @memberof DefaultApiListFinancialEventsByGroupId
      */
     readonly maxResultsPerPage?: number
+
+    /**
+     * A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in ISO 8601 date time format.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventsByGroupId
+     */
+    readonly postedAfter?: string
+
+    /**
+     * A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in ISO 8601 date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes.
+     * @type {string}
+     * @memberof DefaultApiListFinancialEventsByGroupId
+     */
+    readonly postedBefore?: string
 
     /**
      * A string token returned in the response of your previous request.
@@ -2282,7 +2567,7 @@ export interface DefaultApiListFinancialEventsByOrderIdRequest {
     readonly orderId: string
 
     /**
-     * The maximum number of results to return per page.
+     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
      * @type {number}
      * @memberof DefaultApiListFinancialEventsByOrderId
      */
@@ -2333,7 +2618,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public listFinancialEventsByGroupId(requestParameters: DefaultApiListFinancialEventsByGroupIdRequest, options?: any) {
-        return DefaultApiFp(this.configuration).listFinancialEventsByGroupId(requestParameters.eventGroupId, requestParameters.maxResultsPerPage, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
+        return DefaultApiFp(this.configuration).listFinancialEventsByGroupId(requestParameters.eventGroupId, requestParameters.maxResultsPerPage, requestParameters.postedAfter, requestParameters.postedBefore, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
