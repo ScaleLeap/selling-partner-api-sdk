@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.11.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.10.3...v6.11.0) (2022-12-30)
+
+
+### Features
+
+* add events information in finances api model ([#668](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/668)) ([0325cbd](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/0325cbd2bdfc7cf0c4f31566ecf809db35ce7e13))
+
 ## [6.10.3](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.10.2...v6.10.3) (2022-12-07)
 
 
