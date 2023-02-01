@@ -10,7 +10,6 @@ import {
   generateModelForStableVersion,
   writeStatementsToFile,
 } from './generator/api-model-generator'
-import { mapEnums2UnionType } from './generator/enum-mapping'
 
 async function generateAllModelsInDirectory(
   rootPath: string,
@@ -51,7 +50,6 @@ async function generateModels(rootPath: string) {
   const statements: string[] = await Promise.all(models.map(generateExportStatement))
   writeStatementsToFile(statements)
 
-  await Promise.all(mapEnums2UnionType())
   generateAPIClients(models)
 }
 
