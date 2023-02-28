@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.1.0",
-    "@aws-sdk/client-sts": "3.279.0",
+    "@aws-sdk/client-sts": "3.281.0",
     "@openapitools/openapi-generator-cli": "2.5.2",
     "@scaleleap/amazon-marketplaces": "17.2.0",
     "@scaleleap/jest-polly": "1.5.82",
