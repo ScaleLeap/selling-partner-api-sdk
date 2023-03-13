@@ -34,7 +34,7 @@
   "scripts": {
     "prebuild": "npm run clean",
     "build": "tsc --build tsconfig.build.json",
-    "clean": "rimraf lib/*",
+    "clean": "rimraf --glob lib/*",
     "dev": "ts-node-dev --respawn --transpileOnly src",
     "docs": "typedoc",
     "generate-models": "ts-node utils/generate",
@@ -73,7 +73,7 @@
     "jest": "29.4.1",
     "lodash": "4.17.21",
     "openapi-types": "12.1.0",
-    "rimraf": "4.1.4",
+    "rimraf": "4.4.0",
     "ts-jest": "29.0.5",
     "ts-morph": "17.0.1",
     "ts-node": "10.9.1",
