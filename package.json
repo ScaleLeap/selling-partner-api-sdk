@@ -34,7 +34,7 @@
   "scripts": {
     "prebuild": "npm run clean",
     "build": "tsc --build tsconfig.build.json",
-    "clean": "rimraf lib/*",
+    "clean": "rimraf lib",
     "dev": "ts-node-dev --respawn --transpileOnly src",
     "docs": "typedoc",
     "generate-models": "ts-node utils/generate",
