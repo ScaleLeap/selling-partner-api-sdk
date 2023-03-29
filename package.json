@@ -75,7 +75,7 @@
     "openapi-types": "12.1.0",
     "rimraf": "4.4.1",
     "ts-jest": "29.0.5",
-    "ts-morph": "17.0.1",
+    "ts-morph": "18.0.0",
     "ts-node": "10.9.1",
     "ts-node-dev": "2.0.0",
     "tsconfigs": "4.0.2",
