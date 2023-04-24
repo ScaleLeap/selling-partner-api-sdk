@@ -67,7 +67,7 @@
     "@types/node": "16.18.23",
     "danger": "11.2.6",
     "dotenv": "16.0.3",
-    "env-var": "7.3.0",
+    "env-var": "7.3.1",
     "fancy-log": "2.0.0",
     "global-agent": "3.0.0",
     "jest": "29.4.1",
