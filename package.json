@@ -79,7 +79,7 @@
     "ts-node": "10.9.1",
     "ts-node-dev": "2.0.0",
     "tsconfigs": "4.0.2",
-    "typedoc": "0.24.4",
+    "typedoc": "0.24.6",
     "typescript": "5.0.4"
   },
   "keywords": [
