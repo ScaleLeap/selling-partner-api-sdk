@@ -45,14 +45,15 @@ export const ApiClientHelpers = {
       })
 
       axiosInstance.interceptors.request.use(
-        aws4Interceptor(
-          {
+        aws4Interceptor({
+          instance: axiosInstance,
+          options: {
             region,
             service: 'execute-api',
             assumeRoleArn: roleArn,
           },
           credentials,
-        ),
+        }),
       )
     }
 

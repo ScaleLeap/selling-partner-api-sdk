@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { AxiosResponseHeaders } from 'axios'
+import { AxiosResponseHeaders, RawAxiosResponseHeaders } from 'axios'
 import { ExtendableError } from 'ts-error'
 
 export interface ModelErrorContainer {
@@ -30,7 +30,7 @@ export interface ModelError {
 export interface SellingPartnerErrorParameters {
   modelError: ModelError
 
-  headers: AxiosResponseHeaders
+  headers: RawAxiosResponseHeaders | AxiosResponseHeaders
 
   cause: Error
 }
