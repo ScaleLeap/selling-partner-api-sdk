@@ -22,7 +22,7 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
- * A field where selling party can provide additional information for tax related or any other purposes.
+ * A field where the selling party can provide additional information for tax-related or any other purposes.
  * @export
  * @interface AdditionalDetails
  */
@@ -236,7 +236,7 @@ export interface InvoiceDetail {
      */
     taxTotals?: Array<TaxDetail>;
     /**
-     * Additional details provided by the selling party, for tax related or other purposes.
+     * Additional details provided by the selling party, for tax-related or other purposes.
      * @type {Array<AdditionalDetails>}
      * @memberof InvoiceDetail
      */
@@ -303,7 +303,7 @@ export interface InvoiceItem {
      */
     vendorOrderNumber?: string;
     /**
-     * HSN tax code. The HSN number cannot contain alphabets.
+     * Harmonized System of Nomenclature (HSN) tax code. The HSN number cannot contain alphabets.
      * @type {string}
      * @memberof InvoiceItem
      */
@@ -556,7 +556,7 @@ export interface TransactionReference {
 export const VendorInvoiceApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Submits one or more invoices for a vendor\'s direct fulfillment orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Submits one or more invoices for a vendor\'s direct fulfillment orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitInvoiceRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -601,7 +601,7 @@ export const VendorInvoiceApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = VendorInvoiceApiAxiosParamCreator(configuration)
     return {
         /**
-         * Submits one or more invoices for a vendor\'s direct fulfillment orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Submits one or more invoices for a vendor\'s direct fulfillment orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitInvoiceRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -621,7 +621,7 @@ export const VendorInvoiceApiFactory = function (configuration?: Configuration, 
     const localVarFp = VendorInvoiceApiFp(configuration)
     return {
         /**
-         * Submits one or more invoices for a vendor\'s direct fulfillment orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Submits one or more invoices for a vendor\'s direct fulfillment orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitInvoiceRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -654,7 +654,7 @@ export interface VendorInvoiceApiSubmitInvoiceRequest {
  */
 export class VendorInvoiceApi extends BaseAPI {
     /**
-     * Submits one or more invoices for a vendor\'s direct fulfillment orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Submits one or more invoices for a vendor\'s direct fulfillment orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorInvoiceApiSubmitInvoiceRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
