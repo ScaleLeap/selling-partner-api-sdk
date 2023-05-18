@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Orders
- * The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools.
+ * The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools. The Orders API only supports orders that are less than two years old. Orders more than two years old will not show in the API response.
  *
  * The version of the OpenAPI document: v0
  * 
@@ -142,6 +142,40 @@ export interface AutomatedShippingSettings {
     AutomatedShipMethod?: string;
 }
 /**
+ * Business days and hours when the destination is open for deliveries.
+ * @export
+ * @interface BusinessHours
+ */
+export interface BusinessHours {
+    /**
+     * Day of the week.
+     * @type {string}
+     * @memberof BusinessHours
+     */
+    DayOfWeek?: BusinessHoursDayOfWeekEnum | 'SUN' | 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT';
+    /**
+     * Time window during the day when the business is open.
+     * @type {Array<OpenInterval>}
+     * @memberof BusinessHours
+     */
+    OpenIntervals?: Array<OpenInterval>;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum BusinessHoursDayOfWeekEnum {
+    Sun = 'SUN',
+    Mon = 'MON',
+    Tue = 'TUE',
+    Wed = 'WED',
+    Thu = 'THU',
+    Fri = 'FRI',
+    Sat = 'SAT'
+}
+
+/**
  * Buyer information for custom orders from the Amazon Custom program.
  * @export
  * @interface BuyerCustomizedInfoDetail
@@ -267,6 +301,109 @@ export interface BuyerTaxInformation {
     BuyerTaxOffice?: string;
 }
 /**
+ * The error response schema for an shipment confirmation.
+ * @export
+ * @interface ConfirmShipmentErrorResponse
+ */
+export interface ConfirmShipmentErrorResponse {
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof ConfirmShipmentErrorResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * A single order item.
+ * @export
+ * @interface ConfirmShipmentOrderItem
+ */
+export interface ConfirmShipmentOrderItem {
+    /**
+     * The unique identifier of the order item.
+     * @type {string}
+     * @memberof ConfirmShipmentOrderItem
+     */
+    orderItemId: string;
+    /**
+     * The quantity of the item.
+     * @type {number}
+     * @memberof ConfirmShipmentOrderItem
+     */
+    quantity: number;
+    /**
+     * A list of order items.
+     * @type {Array<string>}
+     * @memberof ConfirmShipmentOrderItem
+     */
+    transparencyCodes?: Array<string>;
+}
+/**
+ * The request schema for an shipment confirmation.
+ * @export
+ * @interface ConfirmShipmentRequest
+ */
+export interface ConfirmShipmentRequest {
+    /**
+     * 
+     * @type {PackageDetail}
+     * @memberof ConfirmShipmentRequest
+     */
+    packageDetail: PackageDetail;
+    /**
+     * The cod collection method, support in JP only. 
+     * @type {string}
+     * @memberof ConfirmShipmentRequest
+     */
+    codCollectionMethod?: ConfirmShipmentRequestCodCollectionMethodEnum | 'DirectPayment';
+    /**
+     * The unobfuscated marketplace identifier.
+     * @type {string}
+     * @memberof ConfirmShipmentRequest
+     */
+    marketplaceId: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ConfirmShipmentRequestCodCollectionMethodEnum {
+    DirectPayment = 'DirectPayment'
+}
+
+/**
+ * Contains all of the delivery instructions provided by the customer for the shipping address.
+ * @export
+ * @interface DeliveryPreferences
+ */
+export interface DeliveryPreferences {
+    /**
+     * Drop-off location selected by the customer.
+     * @type {string}
+     * @memberof DeliveryPreferences
+     */
+    DropOffLocation?: string;
+    /**
+     * 
+     * @type {PreferredDeliveryTime}
+     * @memberof DeliveryPreferences
+     */
+    PreferredDeliveryTime?: PreferredDeliveryTime;
+    /**
+     * Enumerated list of miscellaneous delivery attributes associated with the shipping address.
+     * @type {Array<OtherDeliveryAttributes>}
+     * @memberof DeliveryPreferences
+     */
+    OtherAttributes?: Array<(OtherDeliveryAttributes | 'HAS_ACCESS_POINT' | 'PALLET_ENABLED' | 'PALLET_DISABLED')>;
+    /**
+     * Building instructions, nearby landmark or navigation instructions.
+     * @type {string}
+     * @memberof DeliveryPreferences
+     */
+    AddressInstructions?: string;
+}
+/**
  * The status of the Amazon Easy Ship order. This property is included only for Amazon Easy Ship orders.
  * @export
  * @enum {string}
@@ -303,6 +440,31 @@ export enum ElectronicInvoiceStatus {
     Accepted = 'Accepted'
 }
 
+/**
+ * Dates when the business is closed or open with a different time window.
+ * @export
+ * @interface ExceptionDates
+ */
+export interface ExceptionDates {
+    /**
+     * Date when the business is closed, in ISO-8601 date format.
+     * @type {string}
+     * @memberof ExceptionDates
+     */
+    ExceptionDate?: string;
+    /**
+     * Boolean indicating if the business is closed or open on that date.
+     * @type {boolean}
+     * @memberof ExceptionDates
+     */
+    IsOpen?: boolean;
+    /**
+     * Time window during the day when the business is open.
+     * @type {Array<OpenInterval>}
+     * @memberof ExceptionDates
+     */
+    OpenIntervals?: Array<OpenInterval>;
+}
 /**
  * Contains the instructions about the fulfillment like where should it be fulfilled from.
  * @export
@@ -542,6 +704,44 @@ export interface Money {
      * @memberof Money
      */
     Amount?: string;
+}
+/**
+ * The time interval for which the business is open.
+ * @export
+ * @interface OpenInterval
+ */
+export interface OpenInterval {
+    /**
+     * 
+     * @type {OpenTimeInterval}
+     * @memberof OpenInterval
+     */
+    StartTime?: OpenTimeInterval;
+    /**
+     * 
+     * @type {OpenTimeInterval}
+     * @memberof OpenInterval
+     */
+    EndTime?: OpenTimeInterval;
+}
+/**
+ * The time when the business opens or closes.
+ * @export
+ * @interface OpenTimeInterval
+ */
+export interface OpenTimeInterval {
+    /**
+     * The hour when the business opens or closes.
+     * @type {number}
+     * @memberof OpenTimeInterval
+     */
+    Hour?: number;
+    /**
+     * The minute when the business opens or closes.
+     * @type {number}
+     * @memberof OpenTimeInterval
+     */
+    Minute?: number;
 }
 /**
  * Order information.
@@ -897,11 +1097,23 @@ export interface OrderAddress {
      */
     AmazonOrderId: string;
     /**
+     * Company name of the destination address.
+     * @type {string}
+     * @memberof OrderAddress
+     */
+    BuyerCompanyName?: string;
+    /**
      * 
      * @type {Address}
      * @memberof OrderAddress
      */
     ShippingAddress?: Address;
+    /**
+     * 
+     * @type {DeliveryPreferences}
+     * @memberof OrderAddress
+     */
+    DeliveryPreferences?: DeliveryPreferences;
 }
 /**
  * Buyer information for an order.
@@ -1156,6 +1368,12 @@ export interface OrderItem {
      * @memberof OrderItem
      */
     BuyerRequestedCancel?: BuyerRequestedCancel;
+    /**
+     * A list of serial numbers for electronic products that are shipped to customers. Returned for FBA orders only.
+     * @type {Array<string>}
+     * @memberof OrderItem
+     */
+    SerialNumbers?: Array<string>;
 }
 
 /**
@@ -1323,6 +1541,72 @@ export interface OrdersList {
     CreatedBefore?: string;
 }
 /**
+ * Miscellaneous delivery attributes associated with the shipping address.
+ * @export
+ * @enum {string}
+ */
+export enum OtherDeliveryAttributes {
+    HasAccessPoint = 'HAS_ACCESS_POINT',
+    PalletEnabled = 'PALLET_ENABLED',
+    PalletDisabled = 'PALLET_DISABLED'
+}
+
+/**
+ * Properties of packages
+ * @export
+ * @interface PackageDetail
+ */
+export interface PackageDetail {
+    /**
+     * A seller-supplied identifier that uniquely identifies a package within the scope of an order. Only positive numeric values are supported.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    packageReferenceId: string;
+    /**
+     * Identifies the carrier that will deliver the package. This field is required for all marketplaces, see [reference](https://developer-docs.amazon.com/sp-api/changelog/carriercode-value-required-in-shipment-confirmations-for-br-mx-ca-sg-au-in-jp-marketplaces).
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    carrierCode: string;
+    /**
+     * Carrier Name that will deliver the package. Required when carrierCode is \"Others\" 
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    carrierName?: string;
+    /**
+     * Ship method to be used for shipping the order.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    shippingMethod?: string;
+    /**
+     * The tracking number used to obtain tracking and delivery information.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    trackingNumber: string;
+    /**
+     * The shipping date for the package. Must be in ISO-8601 date/time format.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    shipDate: string;
+    /**
+     * The unique identifier of the supply source.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    shipFromSupplySourceId?: string;
+    /**
+     * A list of order items.
+     * @type {Array<ConfirmShipmentOrderItem>}
+     * @memberof PackageDetail
+     */
+    orderItems: Array<ConfirmShipmentOrderItem>;
+}
+/**
  * Information about a sub-payment method used to pay for a COD order.
  * @export
  * @interface PaymentExecutionDetailItem
@@ -1359,6 +1643,25 @@ export interface PointsGrantedDetail {
      * @memberof PointsGrantedDetail
      */
     PointsMonetaryValue?: Money;
+}
+/**
+ * The time window when the delivery is preferred.
+ * @export
+ * @interface PreferredDeliveryTime
+ */
+export interface PreferredDeliveryTime {
+    /**
+     * Business hours when the business is open for deliveries.
+     * @type {Array<BusinessHours>}
+     * @memberof PreferredDeliveryTime
+     */
+    BusinessHours?: Array<BusinessHours>;
+    /**
+     * Dates when the business is closed in the next 30 days.
+     * @type {Array<ExceptionDates>}
+     * @memberof PreferredDeliveryTime
+     */
+    ExceptionDates?: Array<ExceptionDates>;
 }
 /**
  * Product information on the number of items.
@@ -1663,6 +1966,45 @@ export enum VerificationStatus {
  */
 export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {ConfirmShipmentRequest} payload Request body of confirmShipment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmShipment: async (orderId: string, payload: ConfirmShipmentRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orderId' is not null or undefined
+            assertParamExists('confirmShipment', 'orderId', orderId)
+            // verify required parameter 'payload' is not null or undefined
+            assertParamExists('confirmShipment', 'payload', payload)
+            const localVarPath = `/orders/v0/orders/{orderId}/shipmentConfirmation`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(payload, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
@@ -2042,6 +2384,17 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = OrdersV0ApiAxiosParamCreator(configuration)
     return {
         /**
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {ConfirmShipmentRequest} payload Request body of confirmShipment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async confirmShipment(orderId: string, payload: ConfirmShipmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmShipment(orderId, payload, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
@@ -2152,6 +2505,16 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = OrdersV0ApiFp(configuration)
     return {
         /**
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {ConfirmShipmentRequest} payload Request body of confirmShipment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmShipment(orderId: string, payload: ConfirmShipmentRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.confirmShipment(orderId, payload, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
@@ -2245,6 +2608,27 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
         },
     };
 };
+
+/**
+ * Request parameters for confirmShipment operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiConfirmShipmentRequest
+ */
+export interface OrdersV0ApiConfirmShipmentRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiConfirmShipment
+     */
+    readonly orderId: string
+
+    /**
+     * Request body of confirmShipment.
+     * @type {ConfirmShipmentRequest}
+     * @memberof OrdersV0ApiConfirmShipment
+     */
+    readonly payload: ConfirmShipmentRequest
+}
 
 /**
  * Request parameters for getOrder operation in OrdersV0Api.
@@ -2505,6 +2889,17 @@ export interface OrdersV0ApiUpdateVerificationStatusRequest {
  * @extends {BaseAPI}
  */
 export class OrdersV0Api extends BaseAPI {
+    /**
+     * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {OrdersV0ApiConfirmShipmentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrdersV0Api
+     */
+    public confirmShipment(requestParameters: OrdersV0ApiConfirmShipmentRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).confirmShipment(requestParameters.orderId, requestParameters.payload, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiGetOrderRequest} requestParameters Request parameters.
