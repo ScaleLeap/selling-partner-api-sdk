@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.12.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.11.1...v6.12.0) (2023-05-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency aws4-axios to v3.1.10 ([c4f35a1](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/c4f35a1bbc4b7d92ce6a2aaa947b0f8eb1a8e796))
+* **deps:** update dependency aws4-axios to v3.1.11 ([9873d85](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/9873d851a388e53bf533cbcc4a1c56e65a9b7e90))
+* **deps:** update dependency aws4-axios to v3.1.12 ([8019875](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/8019875f3ef7cc65bc58c87bbc3f911dbd26a138))
+* **deps:** update dependency aws4-axios to v3.1.13 ([7d6ba0e](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/7d6ba0e75ad500f94367ec30456e9dab8d1b81a5))
+* **deps:** update dependency aws4-axios to v3.1.2 ([a8c868e](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/a8c868ef8914e92cb16d7e5933cc8fa24a33bc6d))
+* **deps:** update dependency aws4-axios to v3.1.4 ([c29bf4c](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/c29bf4c0a359a85a3ab5e7898b56b422d7fecf3d))
+* **deps:** update dependency aws4-axios to v3.1.6 ([72921f8](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/72921f80fe27aa41bcdc655efc60fefc6096abb1))
+* **deps:** update dependency aws4-axios to v3.1.7 ([dc19176](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/dc19176550c65887e62e348e21f18422247fbd5b))
+
+
+### Features
+
+* add product pricing api client v20220501 ([#784](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/784)) ([e4e7ff5](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/e4e7ff524bfbe92298cb70372beb1f1e79c47145))
+
 ## [6.11.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.11.0...v6.11.1) (2023-05-08)
 
 
