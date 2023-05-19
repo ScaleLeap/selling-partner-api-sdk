@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.12.1](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.12.0...v6.12.1) (2023-05-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency aws4-axios to v3.1.14 ([fc35b89](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/fc35b8948c6805ce1cdb36fc5c2a978a28274319))
+
 # [6.12.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.11.1...v6.12.0) (2023-05-18)
 
 
