@@ -63,7 +63,7 @@
     "@scaleleap/utils": "1.9.98",
     "@types/fancy-log": "2.0.0",
     "@types/jest": "29.5.1",
-    "@types/lodash": "4.14.194",
+    "@types/lodash": "4.14.195",
     "@types/node": "16.18.25",
     "danger": "11.2.6",
     "dotenv": "16.0.3",
