@@ -56,7 +56,7 @@ jobs:
         run: npm run docs
 
       - name: Deploy docs to Netlify
-        uses: nwtgck/actions-netlify@v2.0.0
+        uses: nwtgck/actions-netlify@v2.1.0
         with:
           publish-dir: ./docs/typedoc
           production-branch: master
