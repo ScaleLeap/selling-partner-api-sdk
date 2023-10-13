@@ -138,11 +138,11 @@ export interface Item {
      */
     fulfillmentAvailability?: Array<FulfillmentAvailability>;
     /**
-     * 
-     * @type {ItemProcurement}
+     * Vendor procurement information for the listings item.
+     * @type {Array<ItemProcurement>}
      * @memberof Item
      */
-    procurement?: ItemProcurement;
+    procurement?: Array<ItemProcurement>;
 }
 /**
  * Image for the listings item.

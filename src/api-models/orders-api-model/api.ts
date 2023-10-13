@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Orders
- * The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools. The Orders API only supports orders that are less than two years old. Orders more than two years old will not show in the API response.
+ * The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools. The Orders API supports orders that are two years old or less. Orders more than two years old will not show in the API response.  _Note:_ The Orders API supports orders from 2016 and after for the JP, AU, and SG marketplaces.
  *
  * The version of the OpenAPI document: v0
  * 
@@ -114,6 +114,40 @@ export interface Address {
 export enum AddressAddressTypeEnum {
     Residential = 'Residential',
     Commercial = 'Commercial'
+}
+
+/**
+ * An item associated with an order item. For example, a tire installation service purchased with tires.
+ * @export
+ * @interface AssociatedItem
+ */
+export interface AssociatedItem {
+    /**
+     * The order item\'s order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof AssociatedItem
+     */
+    OrderId?: string;
+    /**
+     * An Amazon-defined item identifier for the associated item.
+     * @type {string}
+     * @memberof AssociatedItem
+     */
+    OrderItemId?: string;
+    /**
+     * 
+     * @type {AssociationType}
+     * @memberof AssociatedItem
+     */
+    AssociationType?: AssociationType | 'VALUE_ADD_SERVICE';
+}
+/**
+ * The type of association an item has with an order item.
+ * @export
+ * @enum {string}
+ */
+export enum AssociationType {
+    ValueAddService = 'VALUE_ADD_SERVICE'
 }
 
 /**
@@ -662,6 +696,57 @@ export interface MarketplaceTaxInfo {
     TaxClassifications?: Array<TaxClassification>;
 }
 /**
+ * 
+ * @export
+ * @interface Measurement
+ */
+export interface Measurement {
+    /**
+     * The unit of measure for this measurement.
+     * @type {string}
+     * @memberof Measurement
+     */
+    Unit: MeasurementUnitEnum | 'OUNCES' | 'POUNDS' | 'KILOGRAMS' | 'GRAMS' | 'MILLIGRAMS' | 'INCHES' | 'FEET' | 'METERS' | 'CENTIMETERS' | 'MILLIMETERS' | 'SQUARE_METERS' | 'SQUARE_CENTIMETERS' | 'SQUARE_FEET' | 'SQUARE_INCHES' | 'GALLONS' | 'PINTS' | 'QUARTS' | 'FLUID_OUNCES' | 'LITERS' | 'CUBIC_METERS' | 'CUBIC_FEET' | 'CUBIC_INCHES' | 'CUBIC_CENTIMETERS' | 'COUNT';
+    /**
+     * The value of the measurement.
+     * @type {number}
+     * @memberof Measurement
+     */
+    Value: number;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum MeasurementUnitEnum {
+    Ounces = 'OUNCES',
+    Pounds = 'POUNDS',
+    Kilograms = 'KILOGRAMS',
+    Grams = 'GRAMS',
+    Milligrams = 'MILLIGRAMS',
+    Inches = 'INCHES',
+    Feet = 'FEET',
+    Meters = 'METERS',
+    Centimeters = 'CENTIMETERS',
+    Millimeters = 'MILLIMETERS',
+    SquareMeters = 'SQUARE_METERS',
+    SquareCentimeters = 'SQUARE_CENTIMETERS',
+    SquareFeet = 'SQUARE_FEET',
+    SquareInches = 'SQUARE_INCHES',
+    Gallons = 'GALLONS',
+    Pints = 'PINTS',
+    Quarts = 'QUARTS',
+    FluidOunces = 'FLUID_OUNCES',
+    Liters = 'LITERS',
+    CubicMeters = 'CUBIC_METERS',
+    CubicFeet = 'CUBIC_FEET',
+    CubicInches = 'CUBIC_INCHES',
+    CubicCentimeters = 'CUBIC_CENTIMETERS',
+    Count = 'COUNT'
+}
+
+/**
  * Error response returned when the request is unsuccessful.
  * @export
  * @interface ModelError
@@ -846,7 +931,7 @@ export interface Order {
      */
     MarketplaceId?: string;
     /**
-     * The shipment service level category of the order.  Possible values: Expedited, FreeEconomy, NextDay, SameDay, SecondDay, Scheduled, Standard.
+     * The shipment service level category of the order.  Possible values: Expedited, FreeEconomy, NextDay, Priority, SameDay, SecondDay, Scheduled, Standard.
      * @type {string}
      * @memberof Order
      */
@@ -1097,7 +1182,7 @@ export interface OrderAddress {
      */
     AmazonOrderId: string;
     /**
-     * Company name of the destination address.
+     * Company Name of the Buyer.
      * @type {string}
      * @memberof OrderAddress
      */
@@ -1182,6 +1267,12 @@ export interface OrderItem {
      * @memberof OrderItem
      */
     OrderItemId: string;
+    /**
+     * A list of associated items that a customer has purchased with a product. For example, a tire installation service purchased with tires.
+     * @type {Array<AssociatedItem>}
+     * @memberof OrderItem
+     */
+    AssociatedItems?: Array<AssociatedItem>;
     /**
      * The name of the item.
      * @type {string}
@@ -1333,7 +1424,7 @@ export interface OrderItem {
      */
     SerialNumberRequired?: boolean;
     /**
-     * When true, transparency codes are required.
+     * When true, the ASIN is enrolled in Transparency and the Transparency serial number that needs to be submitted can be determined by the following:  **1D or 2D Barcode:** This has a **T** logo. Submit either the 29-character alpha-numeric identifier beginning with **AZ** or **ZA**, or the 38-character Serialized Global Trade Item Number (SGTIN). **2D Barcode SN:** Submit the 7- to 20-character serial number barcode, which likely has the prefix **SN**. The serial number will be applied to the same side of the packaging as the GTIN (UPC/EAN/ISBN) barcode. **QR code SN:** Submit the URL that the QR code generates.
      * @type {boolean}
      * @memberof OrderItem
      */
@@ -1374,6 +1465,18 @@ export interface OrderItem {
      * @memberof OrderItem
      */
     SerialNumbers?: Array<string>;
+    /**
+     * 
+     * @type {SubstitutionPreferences}
+     * @memberof OrderItem
+     */
+    SubstitutionPreferences?: SubstitutionPreferences;
+    /**
+     * 
+     * @type {Measurement}
+     * @memberof OrderItem
+     */
+    Measurement?: Measurement;
 }
 
 /**
@@ -1619,7 +1722,7 @@ export interface PaymentExecutionDetailItem {
      */
     Payment: Money;
     /**
-     * A sub-payment method for a COD order.  Possible values:  * COD - Cash On Delivery.  * GC - Gift Card.  * PointsAccount - Amazon Points.
+     * A sub-payment method for a COD order.  Possible values: * `COD`: Cash On Delivery. * `GC`: Gift Card. * `PointsAccount`: Amazon Points. * `Invoice`: Invoice.
      * @type {string}
      * @memberof PaymentExecutionDetailItem
      */
@@ -1801,6 +1904,73 @@ export enum ShipmentStatus {
     ReadyForPickup = 'ReadyForPickup',
     PickedUp = 'PickedUp',
     RefusedPickup = 'RefusedPickup'
+}
+
+/**
+ * 
+ * @export
+ * @interface SubstitutionOption
+ */
+export interface SubstitutionOption {
+    /**
+     * The Amazon Standard Identification Number (ASIN) of the item.
+     * @type {string}
+     * @memberof SubstitutionOption
+     */
+    ASIN?: string;
+    /**
+     * The number of items to be picked for this substitution option. 
+     * @type {number}
+     * @memberof SubstitutionOption
+     */
+    QuantityOrdered?: number;
+    /**
+     * The seller stock keeping unit (SKU) of the item.
+     * @type {string}
+     * @memberof SubstitutionOption
+     */
+    SellerSKU?: string;
+    /**
+     * The title of the item.
+     * @type {string}
+     * @memberof SubstitutionOption
+     */
+    Title?: string;
+    /**
+     * 
+     * @type {Measurement}
+     * @memberof SubstitutionOption
+     */
+    Measurement?: Measurement;
+}
+/**
+ * 
+ * @export
+ * @interface SubstitutionPreferences
+ */
+export interface SubstitutionPreferences {
+    /**
+     * The type of substitution that these preferences represent.
+     * @type {string}
+     * @memberof SubstitutionPreferences
+     */
+    SubstitutionType: SubstitutionPreferencesSubstitutionTypeEnum | 'CUSTOMER_PREFERENCE' | 'AMAZON_RECOMMENDED' | 'DO_NOT_SUBSTITUTE';
+    /**
+     * A collection of substitution options.
+     * @type {Array<SubstitutionOption>}
+     * @memberof SubstitutionPreferences
+     */
+    SubstitutionOptions?: Array<SubstitutionOption>;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum SubstitutionPreferencesSubstitutionTypeEnum {
+    CustomerPreference = 'CUSTOMER_PREFERENCE',
+    AmazonRecommended = 'AMAZON_RECOMMENDED',
+    DoNotSubstitute = 'DO_NOT_SUBSTITUTE'
 }
 
 /**
@@ -2215,7 +2385,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  See the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.
+         * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of marketplaceId values.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
          * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
          * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
@@ -2233,10 +2403,14 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
+         * @param {string} [earliestDeliveryDateBefore] A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [earliestDeliveryDateAfter] A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [latestDeliveryDateBefore] A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [latestDeliveryDateAfter] A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in ISO 8601 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options: any = {}): Promise<RequestArgs> => {
+        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, earliestDeliveryDateBefore?: string, earliestDeliveryDateAfter?: string, latestDeliveryDateBefore?: string, latestDeliveryDateAfter?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceIds' is not null or undefined
             assertParamExists('getOrders', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/orders/v0/orders`;
@@ -2321,6 +2495,22 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
 
             if (storeChainStoreId !== undefined) {
                 localVarQueryParameter['StoreChainStoreId'] = storeChainStoreId;
+            }
+
+            if (earliestDeliveryDateBefore !== undefined) {
+                localVarQueryParameter['EarliestDeliveryDateBefore'] = earliestDeliveryDateBefore;
+            }
+
+            if (earliestDeliveryDateAfter !== undefined) {
+                localVarQueryParameter['EarliestDeliveryDateAfter'] = earliestDeliveryDateAfter;
+            }
+
+            if (latestDeliveryDateBefore !== undefined) {
+                localVarQueryParameter['LatestDeliveryDateBefore'] = latestDeliveryDateBefore;
+            }
+
+            if (latestDeliveryDateAfter !== undefined) {
+                localVarQueryParameter['LatestDeliveryDateAfter'] = latestDeliveryDateAfter;
             }
 
 
@@ -2458,7 +2648,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
         },
         /**
          * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  See the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.
+         * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of marketplaceId values.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
          * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
          * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
@@ -2476,11 +2666,15 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
+         * @param {string} [earliestDeliveryDateBefore] A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [earliestDeliveryDateAfter] A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [latestDeliveryDateBefore] A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [latestDeliveryDateAfter] A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in ISO 8601 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options);
+        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, earliestDeliveryDateBefore?: string, earliestDeliveryDateAfter?: string, latestDeliveryDateBefore?: string, latestDeliveryDateAfter?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, earliestDeliveryDateBefore, earliestDeliveryDateAfter, latestDeliveryDateBefore, latestDeliveryDateAfter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2572,7 +2766,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  See the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.
+         * @param {Array<string>} marketplaceIds A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of marketplaceId values.
          * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
          * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
          * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
@@ -2590,11 +2784,15 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
+         * @param {string} [earliestDeliveryDateBefore] A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [earliestDeliveryDateAfter] A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [latestDeliveryDateBefore] A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in ISO 8601 format.
+         * @param {string} [latestDeliveryDateAfter] A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in ISO 8601 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): AxiosPromise<GetOrdersResponse> {
-            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options).then((request) => request(axios, basePath));
+        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, earliestDeliveryDateBefore?: string, earliestDeliveryDateAfter?: string, latestDeliveryDateBefore?: string, latestDeliveryDateAfter?: string, options?: any): AxiosPromise<GetOrdersResponse> {
+            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, earliestDeliveryDateBefore, earliestDeliveryDateAfter, latestDeliveryDateBefore, latestDeliveryDateAfter, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
@@ -2735,7 +2933,7 @@ export interface OrdersV0ApiGetOrderRegulatedInfoRequest {
  */
 export interface OrdersV0ApiGetOrdersRequest {
     /**
-     * A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  See the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.
+     * A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of marketplaceId values.
      * @type {Array<string>}
      * @memberof OrdersV0ApiGetOrders
      */
@@ -2859,6 +3057,34 @@ export interface OrdersV0ApiGetOrdersRequest {
      * @memberof OrdersV0ApiGetOrders
      */
     readonly storeChainStoreId?: string
+
+    /**
+     * A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in ISO 8601 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly earliestDeliveryDateBefore?: string
+
+    /**
+     * A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in ISO 8601 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly earliestDeliveryDateAfter?: string
+
+    /**
+     * A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in ISO 8601 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly latestDeliveryDateBefore?: string
+
+    /**
+     * A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in ISO 8601 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly latestDeliveryDateAfter?: string
 }
 
 /**
@@ -2974,7 +3200,7 @@ export class OrdersV0Api extends BaseAPI {
      * @memberof OrdersV0Api
      */
     public getOrders(requestParameters: OrdersV0ApiGetOrdersRequest, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.electronicInvoiceStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, requestParameters.actualFulfillmentSupplySourceId, requestParameters.isISPU, requestParameters.storeChainStoreId, options).then((request) => request(this.axios, this.basePath));
+        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.electronicInvoiceStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, requestParameters.actualFulfillmentSupplySourceId, requestParameters.isISPU, requestParameters.storeChainStoreId, requestParameters.earliestDeliveryDateBefore, requestParameters.earliestDeliveryDateAfter, requestParameters.latestDeliveryDateBefore, requestParameters.latestDeliveryDateAfter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
