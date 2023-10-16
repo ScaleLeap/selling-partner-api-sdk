@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.13.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.12.23...v6.13.0) (2023-10-16)
+
+
+### Features
+
+* add replenishment api client ([#815](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/815)) ([30e3a32](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/30e3a328ae90ff7e0b07a3c07ddb3e1171d67e47))
+
 ## [6.12.23](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.12.22...v6.12.23) (2023-09-26)
 
 
