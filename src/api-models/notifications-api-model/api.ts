@@ -291,12 +291,28 @@ export interface EventFilter {
      */
     marketplaceIds?: Array<string>;
     /**
+     * A list of order change types to subscribe to (e.g. BuyerRequestedChange). To receive notifications of all change types, do not provide this list.
+     * @type {Array<OrderChangeTypeEnum>}
+     * @memberof EventFilter
+     */
+    orderChangeTypes?: Array<(OrderChangeTypeEnum | 'OrderStatusChange' | 'BuyerRequestedChange')>;
+    /**
      * An eventFilterType value that is supported by the specific notificationType. This is used by the subscription service to determine the type of event filter. Refer to the section of the [Notifications Use Case Guide](doc:notifications-api-v1-use-case-guide) that describes the specific notificationType to determine if an eventFilterType is supported.
      * @type {string}
      * @memberof EventFilter
      */
-    eventFilterType: string;
+    eventFilterType: EventFilterEventFilterTypeEnum | 'ANY_OFFER_CHANGED' | 'ORDER_CHANGE';
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum EventFilterEventFilterTypeEnum {
+    AnyOfferChanged = 'ANY_OFFER_CHANGED',
+    OrderChange = 'ORDER_CHANGE'
+}
+
 /**
  * 
  * @export
@@ -308,8 +324,18 @@ export interface EventFilterAllOf {
      * @type {string}
      * @memberof EventFilterAllOf
      */
-    eventFilterType: string;
+    eventFilterType: EventFilterAllOfEventFilterTypeEnum | 'ANY_OFFER_CHANGED' | 'ORDER_CHANGE';
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum EventFilterAllOfEventFilterTypeEnum {
+    AnyOfferChanged = 'ANY_OFFER_CHANGED',
+    OrderChange = 'ORDER_CHANGE'
+}
+
 /**
  * The response schema for the getDestination operation.
  * @export
@@ -425,7 +451,30 @@ export interface ModelError {
     details?: string;
 }
 /**
- * Additional information passed to the subscription to control the processing of notifications. For example, you can use an eventFilter to customize your subscription to send notifications for only the specified marketplaceId\'s, or select the aggregation time period at which to send notifications (e.g. limit to one notification every five minutes for high frequency notifications). The specific features available vary depending on the notificationType.  This feature is limited to specific notificationTypes and is currently only supported by the ANY_OFFER_CHANGED notificationType.
+ * The supported order change type of ORDER_CHANGE notification.
+ * @export
+ * @enum {string}
+ */
+export enum OrderChangeTypeEnum {
+    OrderStatusChange = 'OrderStatusChange',
+    BuyerRequestedChange = 'BuyerRequestedChange'
+}
+
+/**
+ * Use this event filter to customize your subscription to send notifications for only the specified orderChangeType.
+ * @export
+ * @interface OrderChangeTypeFilter
+ */
+export interface OrderChangeTypeFilter {
+    /**
+     * A list of order change types to subscribe to (e.g. BuyerRequestedChange). To receive notifications of all change types, do not provide this list.
+     * @type {Array<OrderChangeTypeEnum>}
+     * @memberof OrderChangeTypeFilter
+     */
+    orderChangeTypes?: Array<(OrderChangeTypeEnum | 'OrderStatusChange' | 'BuyerRequestedChange')>;
+}
+/**
+ * Additional information passed to the subscription to control the processing of notifications. For example, you can use an `eventFilter` to customize your subscription to send notifications for only the specified marketplaceId\'s, or select the aggregation time period at which to send notifications (e.g. limit to one notification every five minutes for high frequency notifications). The specific features available vary depending on the notificationType.  This feature is currently only supported by the `ANY_OFFER_CHANGED` and `ORDER_CHANGE` notificationTypes.
  * @export
  * @interface ProcessingDirective
  */

@@ -1047,7 +1047,7 @@ export interface TransactionReference {
     transactionId?: string;
 }
 /**
- * The weight.
+ * The weight. This object is mandatory when using the [`submitShipmentConfirmations`](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-v1-reference#submitshipmentconfirmations) operation.
  * @export
  * @interface Weight
  */
