@@ -1,4 +1,3 @@
-import { aws4Interceptor } from 'aws4-axios'
 import globalAxios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
 import { USER_AGENT } from '../constants'
@@ -34,8 +33,7 @@ export const ApiClientHelpers = {
     if (axios) {
       axiosInstance = axios
     } else {
-      const { accessToken, credentials, region, roleArn } =
-        ApiClientHelpers.validateRegion(parameters)
+      const { accessToken } = ApiClientHelpers.validateRegion(parameters)
 
       axiosInstance = globalAxios.create({
         headers: {
@@ -43,18 +41,6 @@ export const ApiClientHelpers = {
           'x-amz-access-token': accessToken ?? '',
         },
       })
-
-      axiosInstance.interceptors.request.use(
-        aws4Interceptor({
-          instance: axiosInstance,
-          options: {
-            region,
-            service: 'execute-api',
-            assumeRoleArn: roleArn,
-          },
-          credentials,
-        }),
-      )
     }
 
     axiosInstance.interceptors.response.use(

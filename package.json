@@ -49,14 +49,12 @@
   },
   "types": "lib/index.d.ts",
   "dependencies": {
-    "aws4-axios": "3.3.0",
     "axios": "1.6.1",
     "http-status-codes": "2.3.0",
     "ts-error": "1.0.6"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.1.0",
-    "@aws-sdk/client-sts": "3.450.0",
     "@openapitools/openapi-generator-cli": "2.7.0",
     "@scaleleap/amazon-marketplaces": "17.3.0",
     "@scaleleap/jest-polly": "1.6.11",

@@ -1,4 +1,3 @@
-import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts'
 import axios from 'axios'
 
 import { APIConfigurationParameters } from '../src'
@@ -28,29 +27,9 @@ export async function generateAPIConfigurations(
   basePath: string,
   tokens: TokenResponse,
 ): Promise<APIConfigurationParameters> {
-  const sts = new STSClient({
-    region,
-    credentials: {
-      accessKeyId: environment.AWS_ACCESS_KEY_ID,
-      secretAccessKey: environment.AWS_SECRET_ACCESS_KEY,
-    },
-  })
-
-  const { Credentials } = await sts.send(
-    new AssumeRoleCommand({
-      RoleArn: environment.ROLE_ARN,
-      RoleSessionName: 'selling-partner-api-axios',
-    }),
-  )
-
   return {
     basePath,
     region,
     accessToken: tokens.access_token,
-    credentials: {
-      accessKeyId: Credentials?.AccessKeyId || '',
-      secretAccessKey: Credentials?.SecretAccessKey || '',
-      sessionToken: Credentials?.SessionToken || '',
-    },
   }
 }
