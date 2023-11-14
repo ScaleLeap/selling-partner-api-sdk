@@ -1,5 +1,7 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 
+import { AmazonSellingPartnerAPICredentials } from './amazon-selling-partner-api-credentials'
+
 export interface APIConfigurationParameters {
   /**
    * Axios Instance
@@ -33,10 +35,28 @@ export interface APIConfigurationParameters {
   baseOptions?: AxiosRequestConfig
 
   /**
+   * Selling partner API credentials
+   *
+   * @deprecated Amazon no longer requires the requests to be signed with AWS4
+   * @type {AmazonSellingPartnerAPICredentials}
+   * @memberof APIConfigurationParameters
+   */
+  credentials?: AmazonSellingPartnerAPICredentials
+
+  /**
    * Selling partner API region
    *
    * @type {string}
    * @memberof APIConfigurationParameters
    */
   region?: string
+
+  /**
+   * ARN of the IAM Role to be assumed to get the credentials from.
+   *
+   * @deprecated Amazon no longer requires the requests to be signed with AWS4
+   * @type {string}
+   * @memberof APIConfigurationParameters
+   */
+  roleArn?: string
 }
