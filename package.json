@@ -66,7 +66,7 @@
     "@types/lodash": "4.14.202",
     "@types/node": "16.18.69",
     "danger": "11.3.1",
-    "dotenv": "16.4.0",
+    "dotenv": "16.4.1",
     "env-var": "7.4.1",
     "fancy-log": "2.0.0",
     "global-agent": "3.0.0",
