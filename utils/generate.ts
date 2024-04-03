@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
 import { generateAPIClients } from './generator/api-client-generator'
 import { APIModel } from './generator/api-model'
@@ -26,6 +26,14 @@ async function generateAllModelsInDirectory(
     .readdirSync(path.resolve(rootPath, dirname))
     .filter((model) => MODEL_FILE_EXTENSIONS.has(path.extname(model).toLowerCase()))
 
+  /**
+   * Skip the directories which don't contain any model.
+   * @see https://github.com/amzn/selling-partner-api-models/tree/main/models/authorization-api-model
+   */
+  if (!defaultVersion) {
+    return []
+  }
+
   const previewVersionAPIModels = await generateModelForPreviewVersions(
     rootPath,
     dirname,
@@ -41,7 +49,9 @@ async function generateAllModelsInDirectory(
 // TODO: Figure out a solution to show commits history in PR description
 async function generateModels(rootPath: string) {
   const modelPromieses: Promise<APIModel[]>[] = fs
-    .readdirSync(rootPath)
+    .readdirSync(rootPath, { withFileTypes: true })
+    .filter((index) => index.isDirectory())
+    .map((index) => index.name)
     .flatMap(async (dirname) => generateAllModelsInDirectory(rootPath, dirname))
 
   const models: APIModel[] = (await Promise.all(modelPromieses)).flat()
