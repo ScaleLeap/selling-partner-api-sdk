@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Listings Items
- * The Selling Partner API for Listings Items (Listings Items API) provides programmatic access to selling partner listings on Amazon. Use this API in collaboration with the Selling Partner API for Product Type Definitions, which you use to retrieve the information about Amazon product types needed to use the Listings Items API.  For more information, see the [Listings Items API Use Case Guide](doc:listings-items-api-v2021-08-01-use-case-guide).
+ * The Selling Partner API for Listings Items (Listings Items API) provides programmatic access to selling partner listings on Amazon. Use this API in collaboration with the Selling Partner API for Product Type Definitions, which you use to retrieve the information about Amazon product types needed to use the Listings Items API.  For more information, see the [Listings Items API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-use-case-guide).
  *
  * The version of the OpenAPI document: 2021-08-01
  * 
@@ -35,13 +35,13 @@ export interface ErrorList {
     errors: Array<Error>;
 }
 /**
- * Fulfillment availability details for the listings item.
+ * The fulfillment availability details for the listings item.
  * @export
  * @interface FulfillmentAvailability
  */
 export interface FulfillmentAvailability {
     /**
-     * Designates which fulfillment network will be used.
+     * The code of the fulfillment network that will be used.
      * @type {string}
      * @memberof FulfillmentAvailability
      */
@@ -78,11 +78,23 @@ export interface Issue {
      */
     severity: IssueSeverityEnum | 'ERROR' | 'WARNING' | 'INFO';
     /**
-     * Names of the attributes associated with the issue, if applicable.
+     * The names of the attributes associated with the issue, if applicable.
      * @type {Array<string>}
      * @memberof Issue
      */
     attributeNames?: Array<string>;
+    /**
+     * List of issue categories.   Possible vales:   * `INVALID_ATTRIBUTE` - Indicating an invalid attribute in the listing.   * `MISSING_ATTRIBUTE` - Highlighting a missing attribute in the listing.   * `INVALID_IMAGE` - Signifying an invalid image in the listing.   * `MISSING_IMAGE` - Noting the absence of an image in the listing.   * `INVALID_PRICE` - Pertaining to issues with the listing\'s price-related attributes.   * `MISSING_PRICE` - Pointing out the absence of a price attribute in the listing.   * `DUPLICATE` - Identifying listings with potential duplicate problems, such as this ASIN potentially being a duplicate of another ASIN.   * `QUALIFICATION_REQUIRED` - Indicating that the listing requires qualification-related approval.
+     * @type {Array<string>}
+     * @memberof Issue
+     */
+    categories: Array<string>;
+    /**
+     * 
+     * @type {IssueEnforcements}
+     * @memberof Issue
+     */
+    enforcements?: IssueEnforcements;
 }
 
 /**
@@ -93,6 +105,68 @@ export enum IssueSeverityEnum {
     Error = 'ERROR',
     Warning = 'WARNING',
     Info = 'INFO'
+}
+
+/**
+ * The enforcement action taken by Amazon that affect the publishing or status of a listing
+ * @export
+ * @interface IssueEnforcementAction
+ */
+export interface IssueEnforcementAction {
+    /**
+     * The enforcement action name.   Possible values:   * `LISTING_SUPPRESSED` - This enforcement takes down the current listing item\'s buyability.   * `ATTRIBUTE_SUPPRESSED` - An attribute\'s value on the listing item is invalid, which causes it to be rejected by Amazon.   * `CATALOG_ITEM_REMOVED` - This catalog item is inactive on Amazon, and all offers against it in the applicable marketplace are non-buyable.   * `SEARCH_SUPPRESSED` - This value indicates that the catalog item is hidden from search results.
+     * @type {string}
+     * @memberof IssueEnforcementAction
+     */
+    action: string;
+}
+/**
+ * This field provides information about the enforcement actions taken by Amazon that affect the publishing or status of a listing. It also includes details about any associated exemptions.
+ * @export
+ * @interface IssueEnforcements
+ */
+export interface IssueEnforcements {
+    /**
+     * List of enforcement actions taken by Amazon that affect the publishing or status of a listing.
+     * @type {Array<IssueEnforcementAction>}
+     * @memberof IssueEnforcements
+     */
+    actions: Array<IssueEnforcementAction>;
+    /**
+     * 
+     * @type {IssueExemption}
+     * @memberof IssueEnforcements
+     */
+    exemption: IssueExemption;
+}
+/**
+ * Conveying the status of the listed enforcement actions and, if applicable, provides information about the exemption\'s expiry date.
+ * @export
+ * @interface IssueExemption
+ */
+export interface IssueExemption {
+    /**
+     * This field indicates the current exemption status for the listed enforcement actions. It can take values such as `EXEMPT`, signifying permanent exemption, `EXEMPT_UNTIL_EXPIRY_DATE` indicating temporary exemption until a specified date, or `NOT_EXEMPT` signifying no exemptions, and enforcement actions were already applied.
+     * @type {string}
+     * @memberof IssueExemption
+     */
+    status: IssueExemptionStatusEnum | 'EXEMPT' | 'EXEMPT_UNTIL_EXPIRY_DATE' | 'NOT_EXEMPT';
+    /**
+     * This field represents the timestamp, following the ISO 8601 format, which specifies the date when temporary exemptions, if applicable, will expire, and Amazon will begin enforcing the listed actions.
+     * @type {string}
+     * @memberof IssueExemption
+     */
+    expiryDate?: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum IssueExemptionStatusEnum {
+    Exempt = 'EXEMPT',
+    ExemptUntilExpiryDate = 'EXEMPT_UNTIL_EXPIRY_DATE',
+    NotExempt = 'NOT_EXEMPT'
 }
 
 /**
@@ -114,13 +188,13 @@ export interface Item {
      */
     summaries?: Array<ItemSummaryByMarketplace>;
     /**
-     * JSON object containing structured listings item attribute data keyed by attribute name.
+     * A JSON object containing structured listings item attribute data keyed by attribute name.
      * @type {object}
      * @memberof Item
      */
     attributes?: object;
     /**
-     * Issues associated with the listings item.
+     * The issues associated with the listings item.
      * @type {Array<Issue>}
      * @memberof Item
      */
@@ -132,38 +206,57 @@ export interface Item {
      */
     offers?: Array<ItemOfferByMarketplace>;
     /**
-     * Fulfillment availability for the listings item.
+     * The fulfillment availability for the listings item.
      * @type {Array<FulfillmentAvailability>}
      * @memberof Item
      */
     fulfillmentAvailability?: Array<FulfillmentAvailability>;
     /**
-     * Vendor procurement information for the listings item.
+     * The vendor procurement information for the listings item.
      * @type {Array<ItemProcurement>}
      * @memberof Item
      */
     procurement?: Array<ItemProcurement>;
 }
 /**
- * Image for the listings item.
+ * Identity attributes associated with the item in the Amazon catalog for the indicated Amazon marketplace.
+ * @export
+ * @interface ItemIdentifiersByMarketplace
+ */
+export interface ItemIdentifiersByMarketplace {
+    /**
+     * A marketplace identifier. Identifies the Amazon marketplace for the listings item.
+     * @type {string}
+     * @memberof ItemIdentifiersByMarketplace
+     */
+    marketplaceId?: string;
+    /**
+     * Amazon Standard Identification Number (ASIN) of the listings item.
+     * @type {string}
+     * @memberof ItemIdentifiersByMarketplace
+     */
+    asin?: string;
+}
+/**
+ * The image for the listings item.
  * @export
  * @interface ItemImage
  */
 export interface ItemImage {
     /**
-     * Link, or URL, for the image.
+     * The link, or URL, to the image.
      * @type {string}
      * @memberof ItemImage
      */
     link: string;
     /**
-     * Height of the image in pixels.
+     * The height of the image in pixels.
      * @type {number}
      * @memberof ItemImage
      */
     height: number;
     /**
-     * Width of the image in pixels.
+     * The width of the image in pixels.
      * @type {number}
      * @memberof ItemImage
      */
@@ -176,7 +269,7 @@ export interface ItemImage {
  */
 export interface ItemOfferByMarketplace {
     /**
-     * Amazon marketplace identifier.
+     * The Amazon marketplace identifier.
      * @type {string}
      * @memberof ItemOfferByMarketplace
      */
@@ -211,7 +304,7 @@ export enum ItemOfferByMarketplaceOfferTypeEnum {
 }
 
 /**
- * Vendor procurement information for the listings item.
+ * The vendor procurement information for the listings item.
  * @export
  * @interface ItemProcurement
  */
@@ -260,25 +353,25 @@ export interface ItemSummaryByMarketplace {
      */
     status: Array<(ItemSummaryByMarketplaceStatusEnum | 'BUYABLE' | 'DISCOVERABLE')>;
     /**
-     * Fulfillment network stock keeping unit is an identifier used by Amazon fulfillment centers to identify each unique item.
+     * The fulfillment network stock keeping unit is an identifier used by Amazon fulfillment centers to identify each unique item.
      * @type {string}
      * @memberof ItemSummaryByMarketplace
      */
     fnSku?: string;
     /**
-     * Name, or title, associated with an Amazon catalog item.
+     * The name or title associated with an Amazon catalog item.
      * @type {string}
      * @memberof ItemSummaryByMarketplace
      */
     itemName: string;
     /**
-     * Date the listings item was created, in ISO 8601 format.
+     * The date the listings item was created in ISO 8601 format.
      * @type {string}
      * @memberof ItemSummaryByMarketplace
      */
     createdDate: string;
     /**
-     * Date the listings item was last updated, in ISO 8601 format.
+     * The date the listings item was last updated in ISO 8601 format.
      * @type {string}
      * @memberof ItemSummaryByMarketplace
      */
@@ -320,7 +413,7 @@ export enum ItemSummaryByMarketplaceStatusEnum {
 }
 
 /**
- * The request body schema for the patchListingsItem operation.
+ * The request body schema for the `patchListingsItem` operation.
  * @export
  * @interface ListingsItemPatchRequest
  */
@@ -339,7 +432,7 @@ export interface ListingsItemPatchRequest {
     patches: Array<PatchOperation>;
 }
 /**
- * The request body schema for the putListingsItem operation.
+ * The request body schema for the `putListingsItem` operation.
  * @export
  * @interface ListingsItemPutRequest
  */
@@ -357,7 +450,7 @@ export interface ListingsItemPutRequest {
      */
     requirements?: ListingsItemPutRequestRequirementsEnum | 'LISTING' | 'LISTING_PRODUCT_ONLY' | 'LISTING_OFFER_ONLY';
     /**
-     * JSON object containing structured listings item attribute data keyed by attribute name.
+     * A JSON object containing structured listings item attribute data keyed by attribute name.
      * @type {object}
      * @memberof ListingsItemPutRequest
      */
@@ -391,7 +484,7 @@ export interface ListingsItemSubmissionResponse {
      * @type {string}
      * @memberof ListingsItemSubmissionResponse
      */
-    status: ListingsItemSubmissionResponseStatusEnum | 'ACCEPTED' | 'INVALID';
+    status: ListingsItemSubmissionResponseStatusEnum | 'ACCEPTED' | 'INVALID' | 'VALID';
     /**
      * The unique identifier of the listings item submission.
      * @type {string}
@@ -404,6 +497,12 @@ export interface ListingsItemSubmissionResponse {
      * @memberof ListingsItemSubmissionResponse
      */
     issues?: Array<Issue>;
+    /**
+     * Identity attributes associated with the item in the Amazon catalog, such as the ASIN.
+     * @type {Array<ItemIdentifiersByMarketplace>}
+     * @memberof ListingsItemSubmissionResponse
+     */
+    identifiers?: Array<ItemIdentifiersByMarketplace>;
 }
 
 /**
@@ -412,7 +511,8 @@ export interface ListingsItemSubmissionResponse {
     */
 export enum ListingsItemSubmissionResponseStatusEnum {
     Accepted = 'ACCEPTED',
-    Invalid = 'INVALID'
+    Invalid = 'INVALID',
+    Valid = 'VALID'
 }
 
 /**
@@ -441,13 +541,13 @@ export interface ModelError {
     details?: string;
 }
 /**
- * The currency type and the amount.
+ * The currency type and amount.
  * @export
  * @interface Money
  */
 export interface Money {
     /**
-     * Three-digit currency code. In ISO 4217 format.
+     * Three-digit currency code in ISO 4217 format.
      * @type {string}
      * @memberof Money
      */
@@ -466,13 +566,13 @@ export interface Money {
  */
 export interface PatchOperation {
     /**
-     * Type of JSON Patch operation. Supported JSON Patch operations include add, replace, and delete. See <https://tools.ietf.org/html/rfc6902>.
+     * Type of JSON Patch operation. Supported JSON Patch operations include add, replace, and delete. Refer to [JavaScript Object Notation (JSON) Patch](https://tools.ietf.org/html/rfc6902) for more information.
      * @type {string}
      * @memberof PatchOperation
      */
     op: PatchOperationOpEnum | 'add' | 'replace' | 'delete';
     /**
-     * JSON Pointer path of the element to patch. See <https://tools.ietf.org/html/rfc6902>.
+     * JSON Pointer path of the element to patch. Refer to [JavaScript Object Notation (JSON) Patch](https://tools.ietf.org/html/rfc6902) for more information.
      * @type {string}
      * @memberof PatchOperation
      */
@@ -496,7 +596,7 @@ export enum PatchOperationOpEnum {
 }
 
 /**
- * The number of Amazon Points offered with the purchase of an item, and their monetary value. Note that the Points element is only returned in Japan (JP).
+ * The number of Amazon Points offered with the purchase of an item, and their monetary value. Note that the `Points` element is only returned in Japan (JP).
  * @export
  * @interface Points
  */
@@ -520,7 +620,7 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -569,8 +669,8 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: summaries.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -619,16 +719,18 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {ListingsItemPatchRequest} body The request body schema for the patchListingsItem operation.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {ListingsItemPatchRequest} body The request body schema for the &#x60;patchListingsItem&#x60; operation.
+         * @param {Array<'identifiers' | 'issues'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
+         * @param {'VALIDATION_PREVIEW'} [mode] The mode of operation for the request.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchListingsItem: async (sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPatchRequest, issueLocale?: string, options: any = {}): Promise<RequestArgs> => {
+        patchListingsItem: async (sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPatchRequest, includedData?: Array<'identifiers' | 'issues'>, mode?: 'VALIDATION_PREVIEW', issueLocale?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerId' is not null or undefined
             assertParamExists('patchListingsItem', 'sellerId', sellerId)
             // verify required parameter 'sku' is not null or undefined
@@ -655,6 +757,14 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['marketplaceIds'] = marketplaceIds.join(COLLECTION_FORMATS.csv);
             }
 
+            if (includedData) {
+                localVarQueryParameter['includedData'] = includedData.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (mode !== undefined) {
+                localVarQueryParameter['mode'] = mode;
+            }
+
             if (issueLocale !== undefined) {
                 localVarQueryParameter['issueLocale'] = issueLocale;
             }
@@ -674,16 +784,18 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Creates a new or fully-updates an existing listings item for a selling partner.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates or fully updates an existing listings item for a selling partner.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {ListingsItemPutRequest} body The request body schema for the putListingsItem operation.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {ListingsItemPutRequest} body The request body schema for the &#x60;putListingsItem&#x60; operation.
+         * @param {Array<'identifiers' | 'issues'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
+         * @param {'VALIDATION_PREVIEW'} [mode] The mode of operation for the request.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putListingsItem: async (sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPutRequest, issueLocale?: string, options: any = {}): Promise<RequestArgs> => {
+        putListingsItem: async (sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPutRequest, includedData?: Array<'identifiers' | 'issues'>, mode?: 'VALIDATION_PREVIEW', issueLocale?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerId' is not null or undefined
             assertParamExists('putListingsItem', 'sellerId', sellerId)
             // verify required parameter 'sku' is not null or undefined
@@ -708,6 +820,14 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
 
             if (marketplaceIds) {
                 localVarQueryParameter['marketplaceIds'] = marketplaceIds.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (includedData) {
+                localVarQueryParameter['includedData'] = includedData.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (mode !== undefined) {
+                localVarQueryParameter['mode'] = mode;
             }
 
             if (issueLocale !== undefined) {
@@ -743,7 +863,7 @@ export const ListingsApiFp = function(configuration?: Configuration) {
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -756,8 +876,8 @@ export const ListingsApiFp = function(configuration?: Configuration) {
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: summaries.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -766,31 +886,35 @@ export const ListingsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {ListingsItemPatchRequest} body The request body schema for the patchListingsItem operation.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {ListingsItemPatchRequest} body The request body schema for the &#x60;patchListingsItem&#x60; operation.
+         * @param {Array<'identifiers' | 'issues'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
+         * @param {'VALIDATION_PREVIEW'} [mode] The mode of operation for the request.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async patchListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPatchRequest, issueLocale?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListingsItemSubmissionResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchListingsItem(sellerId, sku, marketplaceIds, body, issueLocale, options);
+        async patchListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPatchRequest, includedData?: Array<'identifiers' | 'issues'>, mode?: 'VALIDATION_PREVIEW', issueLocale?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListingsItemSubmissionResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchListingsItem(sellerId, sku, marketplaceIds, body, includedData, mode, issueLocale, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Creates a new or fully-updates an existing listings item for a selling partner.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates or fully updates an existing listings item for a selling partner.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {ListingsItemPutRequest} body The request body schema for the putListingsItem operation.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {ListingsItemPutRequest} body The request body schema for the &#x60;putListingsItem&#x60; operation.
+         * @param {Array<'identifiers' | 'issues'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
+         * @param {'VALIDATION_PREVIEW'} [mode] The mode of operation for the request.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPutRequest, issueLocale?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListingsItemSubmissionResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putListingsItem(sellerId, sku, marketplaceIds, body, issueLocale, options);
+        async putListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPutRequest, includedData?: Array<'identifiers' | 'issues'>, mode?: 'VALIDATION_PREVIEW', issueLocale?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListingsItemSubmissionResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putListingsItem(sellerId, sku, marketplaceIds, body, includedData, mode, issueLocale, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -808,7 +932,7 @@ export const ListingsApiFactory = function (configuration?: Configuration, baseP
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -820,8 +944,8 @@ export const ListingsApiFactory = function (configuration?: Configuration, baseP
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: summaries.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -829,30 +953,34 @@ export const ListingsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getListingsItem(sellerId, sku, marketplaceIds, issueLocale, includedData, options).then((request) => request(axios, basePath));
         },
         /**
-         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {ListingsItemPatchRequest} body The request body schema for the patchListingsItem operation.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {ListingsItemPatchRequest} body The request body schema for the &#x60;patchListingsItem&#x60; operation.
+         * @param {Array<'identifiers' | 'issues'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
+         * @param {'VALIDATION_PREVIEW'} [mode] The mode of operation for the request.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPatchRequest, issueLocale?: string, options?: any): AxiosPromise<ListingsItemSubmissionResponse> {
-            return localVarFp.patchListingsItem(sellerId, sku, marketplaceIds, body, issueLocale, options).then((request) => request(axios, basePath));
+        patchListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPatchRequest, includedData?: Array<'identifiers' | 'issues'>, mode?: 'VALIDATION_PREVIEW', issueLocale?: string, options?: any): AxiosPromise<ListingsItemSubmissionResponse> {
+            return localVarFp.patchListingsItem(sellerId, sku, marketplaceIds, body, includedData, mode, issueLocale, options).then((request) => request(axios, basePath));
         },
         /**
-         * Creates a new or fully-updates an existing listings item for a selling partner.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates or fully updates an existing listings item for a selling partner.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {ListingsItemPutRequest} body The request body schema for the putListingsItem operation.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {ListingsItemPutRequest} body The request body schema for the &#x60;putListingsItem&#x60; operation.
+         * @param {Array<'identifiers' | 'issues'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
+         * @param {'VALIDATION_PREVIEW'} [mode] The mode of operation for the request.
+         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPutRequest, issueLocale?: string, options?: any): AxiosPromise<ListingsItemSubmissionResponse> {
-            return localVarFp.putListingsItem(sellerId, sku, marketplaceIds, body, issueLocale, options).then((request) => request(axios, basePath));
+        putListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, body: ListingsItemPutRequest, includedData?: Array<'identifiers' | 'issues'>, mode?: 'VALIDATION_PREVIEW', issueLocale?: string, options?: any): AxiosPromise<ListingsItemSubmissionResponse> {
+            return localVarFp.putListingsItem(sellerId, sku, marketplaceIds, body, includedData, mode, issueLocale, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -885,7 +1013,7 @@ export interface ListingsApiDeleteListingsItemRequest {
     readonly marketplaceIds: Array<string>
 
     /**
-     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
      * @type {string}
      * @memberof ListingsApiDeleteListingsItem
      */
@@ -920,14 +1048,14 @@ export interface ListingsApiGetListingsItemRequest {
     readonly marketplaceIds: Array<string>
 
     /**
-     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
      * @type {string}
      * @memberof ListingsApiGetListingsItem
      */
     readonly issueLocale?: string
 
     /**
-     * A comma-delimited list of data sets to include in the response. Default: summaries.
+     * A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
      * @type {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>}
      * @memberof ListingsApiGetListingsItem
      */
@@ -962,14 +1090,28 @@ export interface ListingsApiPatchListingsItemRequest {
     readonly marketplaceIds: Array<string>
 
     /**
-     * The request body schema for the patchListingsItem operation.
+     * The request body schema for the &#x60;patchListingsItem&#x60; operation.
      * @type {ListingsItemPatchRequest}
      * @memberof ListingsApiPatchListingsItem
      */
     readonly body: ListingsItemPatchRequest
 
     /**
-     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+     * A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
+     * @type {Array<'identifiers' | 'issues'>}
+     * @memberof ListingsApiPatchListingsItem
+     */
+    readonly includedData?: Array<'identifiers' | 'issues'>
+
+    /**
+     * The mode of operation for the request.
+     * @type {'VALIDATION_PREVIEW'}
+     * @memberof ListingsApiPatchListingsItem
+     */
+    readonly mode?: 'VALIDATION_PREVIEW'
+
+    /**
+     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
      * @type {string}
      * @memberof ListingsApiPatchListingsItem
      */
@@ -1004,14 +1146,28 @@ export interface ListingsApiPutListingsItemRequest {
     readonly marketplaceIds: Array<string>
 
     /**
-     * The request body schema for the putListingsItem operation.
+     * The request body schema for the &#x60;putListingsItem&#x60; operation.
      * @type {ListingsItemPutRequest}
      * @memberof ListingsApiPutListingsItem
      */
     readonly body: ListingsItemPutRequest
 
     /**
-     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+     * A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
+     * @type {Array<'identifiers' | 'issues'>}
+     * @memberof ListingsApiPutListingsItem
+     */
+    readonly includedData?: Array<'identifiers' | 'issues'>
+
+    /**
+     * The mode of operation for the request.
+     * @type {'VALIDATION_PREVIEW'}
+     * @memberof ListingsApiPutListingsItem
+     */
+    readonly mode?: 'VALIDATION_PREVIEW'
+
+    /**
+     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
      * @type {string}
      * @memberof ListingsApiPutListingsItem
      */
@@ -1048,25 +1204,25 @@ export class ListingsApi extends BaseAPI {
     }
 
     /**
-     * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ListingsApiPatchListingsItemRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ListingsApi
      */
     public patchListingsItem(requestParameters: ListingsApiPatchListingsItemRequest, options?: any) {
-        return ListingsApiFp(this.configuration).patchListingsItem(requestParameters.sellerId, requestParameters.sku, requestParameters.marketplaceIds, requestParameters.body, requestParameters.issueLocale, options).then((request) => request(this.axios, this.basePath));
+        return ListingsApiFp(this.configuration).patchListingsItem(requestParameters.sellerId, requestParameters.sku, requestParameters.marketplaceIds, requestParameters.body, requestParameters.includedData, requestParameters.mode, requestParameters.issueLocale, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Creates a new or fully-updates an existing listings item for a selling partner.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Creates or fully updates an existing listings item for a selling partner.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ListingsApiPutListingsItemRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ListingsApi
      */
     public putListingsItem(requestParameters: ListingsApiPutListingsItemRequest, options?: any) {
-        return ListingsApiFp(this.configuration).putListingsItem(requestParameters.sellerId, requestParameters.sku, requestParameters.marketplaceIds, requestParameters.body, requestParameters.issueLocale, options).then((request) => request(this.axios, this.basePath));
+        return ListingsApiFp(this.configuration).putListingsItem(requestParameters.sellerId, requestParameters.sku, requestParameters.marketplaceIds, requestParameters.body, requestParameters.includedData, requestParameters.mode, requestParameters.issueLocale, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
