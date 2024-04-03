@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.13.8...v7.0.0) (2024-04-03)
+
+
+### Bug Fixes
+
+* **deps:** update dependency aws4-axios to v3.3.4 ([#1018](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1018)) ([40f547d](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/40f547df48041b1bd96c08c8aa39c335640f2746))
+* **deps:** update dependency axios to v1.6.8 ([#1023](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1023)) ([ae0275e](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/ae0275e6c5f18a6a6a8d965c47704394b3771b71))
+* installs @scaleleap/semantic-release-config ([dccfedb](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/dccfedb9f6552e6ec0bd6acb6c56d81397ea3664))
+* remove singing requests ([#951](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/951)) ([4169903](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/41699034b5bc1a46cd763656d6b714c3576a2e5e))
+* update @scaleleap/semantic-release-config ([03d1fe4](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/03d1fe472b1a83877b58e33aedfa1ee39f54421c))
+
+
+### Features
+
+* update API models ([#1031](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1031)) ([3215b39](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/3215b394d04485c1fc415f9ecc539c972b218b3c)), closes [#1021](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1021) [#1022](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1022) [#564](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/564)
+
+
+### BREAKING CHANGES
+
+* - Removes authorization API client. Refer to the [SP-API
+Deprecations](https://developer-docs.amazon.com/sp-api/docs/sp-api-deprecations)
+table for more information.
+
+Adds support for:
+
+- Data Kiosk APi
+- Fulfillment Inbound API (`v20240320`)
+- Shipping API (`v2`)
+- Supply Sources API
+
 ## [6.13.8](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.13.7...v6.13.8) (2024-01-25)
 
 
