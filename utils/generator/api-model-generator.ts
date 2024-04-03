@@ -66,7 +66,15 @@ export function writeStatementsToFile(statements: string[]): void {
 }
 
 export function executeCommand(model: APIModel): APIModel {
-  const command = `openapi-generator-cli generate -g typescript-axios --additional-properties=supportsES6=true,useSingleRequestParameter=true --type-mappings=set=Array --skip-validate-spec -o ${model.outputPath} -i ${model.modelPath}`
+  const command = `
+  openapi-generator-cli generate \
+    -g typescript-axios \
+    --additional-properties=supportsES6=true,useSingleRequestParameter=true \
+    --language-specific-primitives Promise \
+    --type-mappings=set=Array \
+    --skip-validate-spec \
+    -o ${model.outputPath} \
+    -i ${model.modelPath}`
   log.info(`Starting generating ${model.dirname}`)
   /**
    * TODO: Investigate:
@@ -92,7 +100,7 @@ export async function generateModelForPreviewVersions(
       const modelPath = path.resolve(rootPath, dirname, baseName)
       const parser = new Parser(modelPath)
       const version = await parser.version
-      const outputDirname = `${dirname}-v${version.replace(/-/g, '')}`
+      const outputDirname = `${dirname}-v${version.replace(/-|v/g, '')}`
       const outputPath = `src/api-models/${outputDirname}`
 
       return {
