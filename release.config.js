@@ -1,1 +1,1 @@
-module.exports = require('@scaleleap/utils/semantic-release')
+module.exports = require('@scaleleap/semantic-release-config')
