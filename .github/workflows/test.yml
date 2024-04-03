@@ -19,8 +19,8 @@ jobs:
     strategy:
       matrix:
         node:
-          - 14
           - 16
+          - 18
         os:
           - ubuntu-latest
           - macOS-latest
