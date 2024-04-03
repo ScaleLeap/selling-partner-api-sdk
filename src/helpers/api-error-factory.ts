@@ -44,24 +44,33 @@ export function apiErrorFactory(error: AxiosError): ExtendableError {
       const errorParameters = { modelError, headers, cause: error }
 
       switch (status) {
-        case StatusCodes.BAD_REQUEST:
+        case StatusCodes.BAD_REQUEST: {
           return new SellingPartnerBadRequestError(errorParameters)
-        case StatusCodes.FORBIDDEN:
+        }
+        case StatusCodes.FORBIDDEN: {
           return new SellingPartnerForbiddenError(errorParameters)
-        case StatusCodes.NOT_FOUND:
+        }
+        case StatusCodes.NOT_FOUND: {
           return new SellingPartnerNotFoundError(errorParameters)
-        case StatusCodes.REQUEST_TOO_LONG:
+        }
+        case StatusCodes.REQUEST_TOO_LONG: {
           return new SellingPartnerRequestTooLongError(errorParameters)
-        case StatusCodes.UNSUPPORTED_MEDIA_TYPE:
+        }
+        case StatusCodes.UNSUPPORTED_MEDIA_TYPE: {
           return new SellingPartnerUnsupportedMediaTypeError(errorParameters)
-        case StatusCodes.TOO_MANY_REQUESTS:
+        }
+        case StatusCodes.TOO_MANY_REQUESTS: {
           return new SellingPartnerTooManyRequestsError(errorParameters)
-        case StatusCodes.INTERNAL_SERVER_ERROR:
+        }
+        case StatusCodes.INTERNAL_SERVER_ERROR: {
           return new SellingPartnerInternalServerError(errorParameters)
-        case StatusCodes.SERVICE_UNAVAILABLE:
+        }
+        case StatusCodes.SERVICE_UNAVAILABLE: {
           return new SellingPartnerServiceUnavailableError(errorParameters)
-        default:
+        }
+        default: {
           return new SellingPartnerGenericError(errorParameters)
+        }
       }
     }
   }
