@@ -72,6 +72,12 @@ export interface ProductType {
      */
     name: string;
     /**
+     * The human-readable and localized description of the Amazon product type.
+     * @type {string}
+     * @memberof ProductType
+     */
+    displayName: string;
+    /**
      * The Amazon marketplace identifiers for which the product type definition is available.
      * @type {Array<string>}
      * @memberof ProductType
@@ -133,6 +139,12 @@ export interface ProductTypeDefinition {
      */
     productType: string;
     /**
+     * Human-readable and localized description of the Amazon product type.
+     * @type {string}
+     * @memberof ProductTypeDefinition
+     */
+    displayName: string;
+    /**
      * 
      * @type {ProductTypeVersion}
      * @memberof ProductTypeDefinition
@@ -170,6 +182,12 @@ export interface ProductTypeList {
      * @memberof ProductTypeList
      */
     productTypes: Array<ProductType>;
+    /**
+     * Amazon product type version identifier.
+     * @type {string}
+     * @memberof ProductTypeList
+     */
+    productTypeVersion: string;
 }
 /**
  * The version details for an Amazon product type.
@@ -343,11 +361,14 @@ export const DefinitionsApiAxiosParamCreator = function (configuration?: Configu
         /**
          * Search for and return a list of Amazon product types that have definitions available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {Array<string>} [keywords] A comma-delimited list of keywords to search product types by.
+         * @param {Array<string>} [keywords] A comma-delimited list of keywords to search product types. **Note:** Cannot be used with &#x60;itemName&#x60;.
+         * @param {string} [itemName] The title of the ASIN to get the product type recommendation. **Note:** Cannot be used with &#x60;keywords&#x60;.
+         * @param {string} [locale] The locale for the display names in the response. Defaults to the primary locale of the marketplace.
+         * @param {string} [searchLocale] The locale used for the &#x60;keywords&#x60; and &#x60;itemName&#x60; parameters. Defaults to the primary locale of the marketplace.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchDefinitionsProductTypes: async (marketplaceIds: Array<string>, keywords?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        searchDefinitionsProductTypes: async (marketplaceIds: Array<string>, keywords?: Array<string>, itemName?: string, locale?: string, searchLocale?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceIds' is not null or undefined
             assertParamExists('searchDefinitionsProductTypes', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/definitions/2020-09-01/productTypes`;
@@ -368,6 +389,18 @@ export const DefinitionsApiAxiosParamCreator = function (configuration?: Configu
 
             if (marketplaceIds) {
                 localVarQueryParameter['marketplaceIds'] = marketplaceIds.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (itemName !== undefined) {
+                localVarQueryParameter['itemName'] = itemName;
+            }
+
+            if (locale !== undefined) {
+                localVarQueryParameter['locale'] = locale;
+            }
+
+            if (searchLocale !== undefined) {
+                localVarQueryParameter['searchLocale'] = searchLocale;
             }
 
 
@@ -410,12 +443,15 @@ export const DefinitionsApiFp = function(configuration?: Configuration) {
         /**
          * Search for and return a list of Amazon product types that have definitions available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {Array<string>} [keywords] A comma-delimited list of keywords to search product types by.
+         * @param {Array<string>} [keywords] A comma-delimited list of keywords to search product types. **Note:** Cannot be used with &#x60;itemName&#x60;.
+         * @param {string} [itemName] The title of the ASIN to get the product type recommendation. **Note:** Cannot be used with &#x60;keywords&#x60;.
+         * @param {string} [locale] The locale for the display names in the response. Defaults to the primary locale of the marketplace.
+         * @param {string} [searchLocale] The locale used for the &#x60;keywords&#x60; and &#x60;itemName&#x60; parameters. Defaults to the primary locale of the marketplace.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async searchDefinitionsProductTypes(marketplaceIds: Array<string>, keywords?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductTypeList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.searchDefinitionsProductTypes(marketplaceIds, keywords, options);
+        async searchDefinitionsProductTypes(marketplaceIds: Array<string>, keywords?: Array<string>, itemName?: string, locale?: string, searchLocale?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductTypeList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchDefinitionsProductTypes(marketplaceIds, keywords, itemName, locale, searchLocale, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -446,12 +482,15 @@ export const DefinitionsApiFactory = function (configuration?: Configuration, ba
         /**
          * Search for and return a list of Amazon product types that have definitions available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {Array<string>} [keywords] A comma-delimited list of keywords to search product types by.
+         * @param {Array<string>} [keywords] A comma-delimited list of keywords to search product types. **Note:** Cannot be used with &#x60;itemName&#x60;.
+         * @param {string} [itemName] The title of the ASIN to get the product type recommendation. **Note:** Cannot be used with &#x60;keywords&#x60;.
+         * @param {string} [locale] The locale for the display names in the response. Defaults to the primary locale of the marketplace.
+         * @param {string} [searchLocale] The locale used for the &#x60;keywords&#x60; and &#x60;itemName&#x60; parameters. Defaults to the primary locale of the marketplace.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchDefinitionsProductTypes(marketplaceIds: Array<string>, keywords?: Array<string>, options?: any): AxiosPromise<ProductTypeList> {
-            return localVarFp.searchDefinitionsProductTypes(marketplaceIds, keywords, options).then((request) => request(axios, basePath));
+        searchDefinitionsProductTypes(marketplaceIds: Array<string>, keywords?: Array<string>, itemName?: string, locale?: string, searchLocale?: string, options?: any): AxiosPromise<ProductTypeList> {
+            return localVarFp.searchDefinitionsProductTypes(marketplaceIds, keywords, itemName, locale, searchLocale, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -526,11 +565,32 @@ export interface DefinitionsApiSearchDefinitionsProductTypesRequest {
     readonly marketplaceIds: Array<string>
 
     /**
-     * A comma-delimited list of keywords to search product types by.
+     * A comma-delimited list of keywords to search product types. **Note:** Cannot be used with &#x60;itemName&#x60;.
      * @type {Array<string>}
      * @memberof DefinitionsApiSearchDefinitionsProductTypes
      */
     readonly keywords?: Array<string>
+
+    /**
+     * The title of the ASIN to get the product type recommendation. **Note:** Cannot be used with &#x60;keywords&#x60;.
+     * @type {string}
+     * @memberof DefinitionsApiSearchDefinitionsProductTypes
+     */
+    readonly itemName?: string
+
+    /**
+     * The locale for the display names in the response. Defaults to the primary locale of the marketplace.
+     * @type {string}
+     * @memberof DefinitionsApiSearchDefinitionsProductTypes
+     */
+    readonly locale?: string
+
+    /**
+     * The locale used for the &#x60;keywords&#x60; and &#x60;itemName&#x60; parameters. Defaults to the primary locale of the marketplace.
+     * @type {string}
+     * @memberof DefinitionsApiSearchDefinitionsProductTypes
+     */
+    readonly searchLocale?: string
 }
 
 /**
@@ -559,7 +619,7 @@ export class DefinitionsApi extends BaseAPI {
      * @memberof DefinitionsApi
      */
     public searchDefinitionsProductTypes(requestParameters: DefinitionsApiSearchDefinitionsProductTypesRequest, options?: any) {
-        return DefinitionsApiFp(this.configuration).searchDefinitionsProductTypes(requestParameters.marketplaceIds, requestParameters.keywords, options).then((request) => request(this.axios, this.basePath));
+        return DefinitionsApiFp(this.configuration).searchDefinitionsProductTypes(requestParameters.marketplaceIds, requestParameters.keywords, requestParameters.itemName, requestParameters.locale, requestParameters.searchLocale, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
