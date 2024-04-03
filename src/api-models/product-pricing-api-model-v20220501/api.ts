@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Pricing
- * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer pricing information for Amazon Marketplace products.  For more information, see the [Product Pricing v2022-05-01 Use Case Guide](doc:product-pricing-api-v2022-05-01-use-case-guide).
+ * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer pricing information for Amazon Marketplace products.  For more information, refer to the [Product Pricing v2022-05-01 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-use-case-guide).
  *
  * The version of the OpenAPI document: 2022-05-01
  * 
@@ -28,7 +28,7 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
  */
 export interface BatchRequest {
     /**
-     * The URI associated with an individual request within a batch. For FeaturedOfferExpectedPrice, this should be \'/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice\'.
+     * The URI associated with an individual request within a batch. For `FeaturedOfferExpectedPrice`, this should be `/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice`.
      * @type {string}
      * @memberof BatchRequest
      */
@@ -72,6 +72,128 @@ export interface BatchResponse {
     status: HttpStatusLine;
 }
 /**
+ * The `competitiveSummary` batch request data.
+ * @export
+ * @interface CompetitiveSummaryBatchRequest
+ */
+export interface CompetitiveSummaryBatchRequest {
+    /**
+     * A batched list of `competitiveSummary` requests.
+     * @type {Array<CompetitiveSummaryRequest>}
+     * @memberof CompetitiveSummaryBatchRequest
+     */
+    requests: Array<CompetitiveSummaryRequest>;
+}
+/**
+ * The response schema of the `competitiveSummaryBatch` operation.
+ * @export
+ * @interface CompetitiveSummaryBatchResponse
+ */
+export interface CompetitiveSummaryBatchResponse {
+    /**
+     * The response list of the `competitiveSummaryBatch` operation.
+     * @type {Array<CompetitiveSummaryResponse>}
+     * @memberof CompetitiveSummaryBatchResponse
+     */
+    responses: Array<CompetitiveSummaryResponse>;
+}
+/**
+ * The supported types of data in the `getCompetitiveSummary` API.
+ * @export
+ * @enum {string}
+ */
+export enum CompetitiveSummaryIncludedData {
+    FeaturedBuyingOptions = 'featuredBuyingOptions'
+}
+
+/**
+ * An individual `competitiveSummary` request for an ASIN and `marketplaceId`.
+ * @export
+ * @interface CompetitiveSummaryRequest
+ */
+export interface CompetitiveSummaryRequest {
+    /**
+     * The Amazon Standard Identification Number (ASIN) of the item.
+     * @type {string}
+     * @memberof CompetitiveSummaryRequest
+     */
+    asin: string;
+    /**
+     * A marketplace identifier. Specifies the marketplace for which data is returned.
+     * @type {string}
+     * @memberof CompetitiveSummaryRequest
+     */
+    marketplaceId: string;
+    /**
+     * The list of requested competitive pricing data for the product.
+     * @type {Array<CompetitiveSummaryIncludedData>}
+     * @memberof CompetitiveSummaryRequest
+     */
+    includedData: Array<(CompetitiveSummaryIncludedData | 'featuredBuyingOptions')>;
+    /**
+     * 
+     * @type {HttpMethod}
+     * @memberof CompetitiveSummaryRequest
+     */
+    method: HttpMethod | 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST';
+    /**
+     * The URI associated with the individual APIs being called as part of the batch request.
+     * @type {string}
+     * @memberof CompetitiveSummaryRequest
+     */
+    uri: string;
+}
+/**
+ * The response for the individual `competitiveSummary` request in the batch operation.
+ * @export
+ * @interface CompetitiveSummaryResponse
+ */
+export interface CompetitiveSummaryResponse {
+    /**
+     * 
+     * @type {HttpStatusLine}
+     * @memberof CompetitiveSummaryResponse
+     */
+    status: HttpStatusLine;
+    /**
+     * 
+     * @type {CompetitiveSummaryResponseBody}
+     * @memberof CompetitiveSummaryResponse
+     */
+    body: CompetitiveSummaryResponseBody;
+}
+/**
+ * The `competitiveSummaryResponse` body for a requested ASIN and `marketplaceId`.
+ * @export
+ * @interface CompetitiveSummaryResponseBody
+ */
+export interface CompetitiveSummaryResponseBody {
+    /**
+     * The Amazon Standard Identification Number (ASIN) of the item.
+     * @type {string}
+     * @memberof CompetitiveSummaryResponseBody
+     */
+    asin: string;
+    /**
+     * A marketplace identifier. Specifies the marketplace for which data is returned.
+     * @type {string}
+     * @memberof CompetitiveSummaryResponseBody
+     */
+    marketplaceId: string;
+    /**
+     * A list of featured buying options for the given ASIN `marketplaceId` combination.
+     * @type {Array<FeaturedBuyingOption>}
+     * @memberof CompetitiveSummaryResponseBody
+     */
+    featuredBuyingOptions?: Array<FeaturedBuyingOption>;
+    /**
+     * 
+     * @type {Errors}
+     * @memberof CompetitiveSummaryResponseBody
+     */
+    errors?: Errors;
+}
+/**
  * The condition of the item.
  * @export
  * @enum {string}
@@ -97,6 +219,34 @@ export interface Errors {
      */
     errors: Array<Error>;
 }
+/**
+ * Describes a featured buying option which includes a list of segmented featured offers for a particular item condition.
+ * @export
+ * @interface FeaturedBuyingOption
+ */
+export interface FeaturedBuyingOption {
+    /**
+     * The buying option type of the featured offer. This field represents the buying options that a customer sees on the detail page. For example, B2B, Fresh, and Subscribe n Save. Currently supports `NEW`
+     * @type {string}
+     * @memberof FeaturedBuyingOption
+     */
+    buyingOptionType: FeaturedBuyingOptionBuyingOptionTypeEnum | 'New';
+    /**
+     * A list of segmented featured offers for the current buying option type. A segment can be considered as a group of regional contexts that all have the same featured offer. A regional context is a combination of factors such as customer type, region or postal code and buying option.
+     * @type {Array<SegmentedFeaturedOffer>}
+     * @memberof FeaturedBuyingOption
+     */
+    segmentedFeaturedOffers: Array<SegmentedFeaturedOffer>;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum FeaturedBuyingOptionBuyingOptionTypeEnum {
+    New = 'New'
+}
+
 /**
  * 
  * @export
@@ -148,7 +298,7 @@ export interface FeaturedOfferExpectedPrice {
  */
 export interface FeaturedOfferExpectedPriceRequest {
     /**
-     * The URI associated with an individual request within a batch. For FeaturedOfferExpectedPrice, this should be \'/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice\'.
+     * The URI associated with an individual request within a batch. For `FeaturedOfferExpectedPrice`, this should be `/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice`.
      * @type {string}
      * @memberof FeaturedOfferExpectedPriceRequest
      */
@@ -291,7 +441,7 @@ export interface FeaturedOfferExpectedPriceResult {
      */
     featuredOfferExpectedPrice?: FeaturedOfferExpectedPrice;
     /**
-     * The status of the featured offer expected price computation. Possible values include VALID_FOEP, NO_COMPETING_OFFER, OFFER_NOT_ELIGIBLE, OFFER_NOT_FOUND.
+     * The status of the featured offer expected price computation. Possible values include `VALID_FOEP`, `NO_COMPETING_OFFER`, `OFFER_NOT_ELIGIBLE`, `OFFER_NOT_FOUND`, `ASIN_NOT_ELIGIBLE`. Additional values may be added in the future.
      * @type {string}
      * @memberof FeaturedOfferExpectedPriceResult
      */
@@ -310,6 +460,35 @@ export interface FeaturedOfferExpectedPriceResult {
     currentFeaturedOffer?: FeaturedOffer;
 }
 /**
+ * Describes the segment in which the offer is featured.
+ * @export
+ * @interface FeaturedOfferSegment
+ */
+export interface FeaturedOfferSegment {
+    /**
+     * The customer membership type that make up this segment
+     * @type {string}
+     * @memberof FeaturedOfferSegment
+     */
+    customerMembership: FeaturedOfferSegmentCustomerMembershipEnum | 'PRIME' | 'NON_PRIME';
+    /**
+     * 
+     * @type {SegmentDetails}
+     * @memberof FeaturedOfferSegment
+     */
+    segmentDetails: SegmentDetails;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum FeaturedOfferSegmentCustomerMembershipEnum {
+    Prime = 'PRIME',
+    NonPrime = 'NON_PRIME'
+}
+
+/**
  * Indicates whether the item is fulfilled by Amazon or by the seller (merchant).
  * @export
  * @enum {string}
@@ -320,7 +499,7 @@ export enum FulfillmentType {
 }
 
 /**
- * The request body for the getFeaturedOfferExpectedPriceBatch operation.
+ * The request body for the `getFeaturedOfferExpectedPriceBatch` operation.
  * @export
  * @interface GetFeaturedOfferExpectedPriceBatchRequest
  */
@@ -333,7 +512,7 @@ export interface GetFeaturedOfferExpectedPriceBatchRequest {
     requests?: Array<FeaturedOfferExpectedPriceRequest>;
 }
 /**
- * The response schema for the getFeaturedOfferExpectedPriceBatch operation.
+ * The response schema for the `getFeaturedOfferExpectedPriceBatch` operation.
  * @export
  * @interface GetFeaturedOfferExpectedPriceBatchResponse
  */
@@ -396,7 +575,7 @@ export interface ModelError {
      */
     message: string;
     /**
-     * Additional information that can help the caller understand or fix the issue.
+     * Additional details that can help the caller understand or fix the issue.
      * @type {string}
      * @memberof ModelError
      */
@@ -420,6 +599,49 @@ export interface MoneyType {
      * @memberof MoneyType
      */
     amount?: number;
+}
+/**
+ * The offer data of a product.
+ * @export
+ * @interface Offer
+ */
+export interface Offer {
+    /**
+     * The seller identifier for the offer.
+     * @type {string}
+     * @memberof Offer
+     */
+    sellerId: string;
+    /**
+     * 
+     * @type {Condition}
+     * @memberof Offer
+     */
+    condition: Condition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    /**
+     * 
+     * @type {FulfillmentType}
+     * @memberof Offer
+     */
+    fulfillmentType: FulfillmentType | 'AFN' | 'MFN';
+    /**
+     * 
+     * @type {MoneyType}
+     * @memberof Offer
+     */
+    listingPrice: MoneyType;
+    /**
+     * A list of shipping options associated with this offer
+     * @type {Array<ShippingOption>}
+     * @memberof Offer
+     */
+    shippingOptions?: Array<ShippingOption>;
+    /**
+     * 
+     * @type {Points}
+     * @memberof Offer
+     */
+    points?: Points;
 }
 /**
  * Identifies an offer from a particular seller on an ASIN.
@@ -502,6 +724,109 @@ export interface Price {
      */
     points?: Points;
 }
+/**
+ * The details about the segment.
+ * @export
+ * @interface SegmentDetails
+ */
+export interface SegmentDetails {
+    /**
+     * Glance view weight percentage for this segment. The glance views for this segment as a percentage of total glance views across all segments on the ASIN. A higher percentage indicates more Amazon customers see this offer as the Featured Offer.
+     * @type {number}
+     * @memberof SegmentDetails
+     */
+    glanceViewWeightPercentage?: number;
+}
+/**
+ * A product offer with segment information indicating where it\'s featured.
+ * @export
+ * @interface SegmentedFeaturedOffer
+ */
+export interface SegmentedFeaturedOffer {
+    /**
+     * The seller identifier for the offer.
+     * @type {string}
+     * @memberof SegmentedFeaturedOffer
+     */
+    sellerId: string;
+    /**
+     * 
+     * @type {Condition}
+     * @memberof SegmentedFeaturedOffer
+     */
+    condition: Condition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    /**
+     * 
+     * @type {FulfillmentType}
+     * @memberof SegmentedFeaturedOffer
+     */
+    fulfillmentType: FulfillmentType | 'AFN' | 'MFN';
+    /**
+     * 
+     * @type {MoneyType}
+     * @memberof SegmentedFeaturedOffer
+     */
+    listingPrice: MoneyType;
+    /**
+     * A list of shipping options associated with this offer
+     * @type {Array<ShippingOption>}
+     * @memberof SegmentedFeaturedOffer
+     */
+    shippingOptions?: Array<ShippingOption>;
+    /**
+     * 
+     * @type {Points}
+     * @memberof SegmentedFeaturedOffer
+     */
+    points?: Points;
+    /**
+     * The list of segment information in which the offer is featured.
+     * @type {Array<FeaturedOfferSegment>}
+     * @memberof SegmentedFeaturedOffer
+     */
+    featuredOfferSegments: Array<FeaturedOfferSegment>;
+}
+/**
+ * The list of segment information in which the offer is featured.
+ * @export
+ * @interface SegmentedFeaturedOfferAllOf
+ */
+export interface SegmentedFeaturedOfferAllOf {
+    /**
+     * The list of segment information in which the offer is featured.
+     * @type {Array<FeaturedOfferSegment>}
+     * @memberof SegmentedFeaturedOfferAllOf
+     */
+    featuredOfferSegments: Array<FeaturedOfferSegment>;
+}
+/**
+ * The shipping option available for the offer.
+ * @export
+ * @interface ShippingOption
+ */
+export interface ShippingOption {
+    /**
+     * The type of the shipping option.
+     * @type {string}
+     * @memberof ShippingOption
+     */
+    shippingOptionType: ShippingOptionShippingOptionTypeEnum | 'DEFAULT';
+    /**
+     * 
+     * @type {MoneyType}
+     * @memberof ShippingOption
+     */
+    price: MoneyType;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ShippingOptionShippingOptionTypeEnum {
+    Default = 'DEFAULT'
+}
+
 
 /**
  * ProductPricingApi - axios parameter creator
@@ -510,7 +835,42 @@ export interface Price {
 export const ProductPricingApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the competitive summary response including featured buying options for the ASIN and `marketplaceId` combination.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {CompetitiveSummaryBatchRequest} requests The batch of &#x60;getCompetitiveSummary&#x60; requests.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCompetitiveSummary: async (requests: CompetitiveSummaryBatchRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requests' is not null or undefined
+            assertParamExists('getCompetitiveSummary', 'requests', requests)
+            const localVarPath = `/batches/products/pricing/2022-05-01/items/competitiveSummary`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requests, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -555,7 +915,17 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ProductPricingApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the competitive summary response including featured buying options for the ASIN and `marketplaceId` combination.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {CompetitiveSummaryBatchRequest} requests The batch of &#x60;getCompetitiveSummary&#x60; requests.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCompetitiveSummary(requests: CompetitiveSummaryBatchRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompetitiveSummaryBatchResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCompetitiveSummary(requests, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -575,7 +945,16 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
     const localVarFp = ProductPricingApiFp(configuration)
     return {
         /**
-         * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the competitive summary response including featured buying options for the ASIN and `marketplaceId` combination.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {CompetitiveSummaryBatchRequest} requests The batch of &#x60;getCompetitiveSummary&#x60; requests.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCompetitiveSummary(requests: CompetitiveSummaryBatchRequest, options?: any): AxiosPromise<CompetitiveSummaryBatchResponse> {
+            return localVarFp.getCompetitiveSummary(requests, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -585,6 +964,20 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
         },
     };
 };
+
+/**
+ * Request parameters for getCompetitiveSummary operation in ProductPricingApi.
+ * @export
+ * @interface ProductPricingApiGetCompetitiveSummaryRequest
+ */
+export interface ProductPricingApiGetCompetitiveSummaryRequest {
+    /**
+     * The batch of &#x60;getCompetitiveSummary&#x60; requests.
+     * @type {CompetitiveSummaryBatchRequest}
+     * @memberof ProductPricingApiGetCompetitiveSummary
+     */
+    readonly requests: CompetitiveSummaryBatchRequest
+}
 
 /**
  * Request parameters for getFeaturedOfferExpectedPriceBatch operation in ProductPricingApi.
@@ -608,7 +1001,18 @@ export interface ProductPricingApiGetFeaturedOfferExpectedPriceBatchRequest {
  */
 export class ProductPricingApi extends BaseAPI {
     /**
-     * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns the competitive summary response including featured buying options for the ASIN and `marketplaceId` combination.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {ProductPricingApiGetCompetitiveSummaryRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProductPricingApi
+     */
+    public getCompetitiveSummary(requestParameters: ProductPricingApiGetCompetitiveSummaryRequest, options?: any) {
+        return ProductPricingApiFp(this.configuration).getCompetitiveSummary(requestParameters.requests, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ProductPricingApiGetFeaturedOfferExpectedPriceBatchRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

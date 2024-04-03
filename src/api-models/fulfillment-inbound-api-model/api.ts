@@ -75,10 +75,10 @@ export interface ASINPrepInstructions {
      * @type {Array<PrepInstruction>}
      * @memberof ASINPrepInstructions
      */
-    PrepInstructionList?: Array<(PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment' | 'SetCreation' | 'Boxing' | 'RemoveFromHanger' | 'Debundle' | 'SuffocationStickering' | 'CapSealing' | 'SetStickering' | 'BlankStickering' | 'NoPrep')>;
+    PrepInstructionList?: Array<(PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment' | 'SetCreation' | 'Boxing' | 'RemoveFromHanger' | 'Debundle' | 'SuffocationStickering' | 'CapSealing' | 'SetStickering' | 'BlankStickering' | 'ShipsInProductPackaging' | 'NoPrep')>;
 }
 /**
- * 
+ * Specific details to identify a place.
  * @export
  * @interface Address
  */
@@ -143,7 +143,7 @@ export interface AmazonPrepFeesDetails {
      * @type {PrepInstruction}
      * @memberof AmazonPrepFeesDetails
      */
-    PrepInstruction?: PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment' | 'SetCreation' | 'Boxing' | 'RemoveFromHanger' | 'Debundle' | 'SuffocationStickering' | 'CapSealing' | 'SetStickering' | 'BlankStickering' | 'NoPrep';
+    PrepInstruction?: PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment' | 'SetCreation' | 'Boxing' | 'RemoveFromHanger' | 'Debundle' | 'SuffocationStickering' | 'CapSealing' | 'SetStickering' | 'BlankStickering' | 'ShipsInProductPackaging' | 'NoPrep';
     /**
      * 
      * @type {Amount}
@@ -164,7 +164,7 @@ export interface Amount {
      */
     CurrencyCode: CurrencyCode | 'USD' | 'GBP';
     /**
-     * 
+     * Number format that supports decimal.
      * @type {number}
      * @memberof Amount
      */
@@ -182,7 +182,7 @@ export enum BarcodeInstruction {
 }
 
 /**
- * 
+ * Download URL for the bill of lading.
  * @export
  * @interface BillOfLadingDownloadURL
  */
@@ -232,7 +232,7 @@ export enum BoxContentsSource {
 }
 
 /**
- * 
+ * Common container for transport result
  * @export
  * @interface CommonTransportResult
  */
@@ -290,19 +290,19 @@ export interface ConfirmPreorderResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * Result for confirm preorder operation
  * @export
  * @interface ConfirmPreorderResult
  */
 export interface ConfirmPreorderResult {
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof ConfirmPreorderResult
      */
     ConfirmedNeedByDate?: string;
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof ConfirmPreorderResult
      */
@@ -389,7 +389,7 @@ export interface CreateInboundShipmentPlanRequest {
      */
     ShipToCountrySubdivisionCode?: string;
     /**
-     * 
+     * List of inbound shipment plan requests
      * @type {Array<InboundShipmentPlanRequestItem>}
      * @memberof CreateInboundShipmentPlanRequest
      */
@@ -415,7 +415,7 @@ export interface CreateInboundShipmentPlanResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * Result for the create inbound shipment operation
  * @export
  * @interface CreateInboundShipmentPlanResult
  */
@@ -444,19 +444,19 @@ export enum CurrencyCode {
  */
 export interface Dimensions {
     /**
-     * 
+     * Number format that supports decimal.
      * @type {number}
      * @memberof Dimensions
      */
     Length: number;
     /**
-     * 
+     * Number format that supports decimal.
      * @type {number}
      * @memberof Dimensions
      */
     Width: number;
     /**
-     * 
+     * Number format that supports decimal.
      * @type {number}
      * @memberof Dimensions
      */
@@ -517,26 +517,7 @@ export interface GetBillOfLadingResponse {
     errors?: Array<Error>;
 }
 /**
- * The response schema for the getInboundGuidance operation.
- * @export
- * @interface GetInboundGuidanceResponse
- */
-export interface GetInboundGuidanceResponse {
-    /**
-     * 
-     * @type {GetInboundGuidanceResult}
-     * @memberof GetInboundGuidanceResponse
-     */
-    payload?: GetInboundGuidanceResult;
-    /**
-     * A list of error responses returned when a request is unsuccessful.
-     * @type {Array<Error>}
-     * @memberof GetInboundGuidanceResponse
-     */
-    errors?: Array<Error>;
-}
-/**
- * 
+ * Result for the get inbound guidance operation
  * @export
  * @interface GetInboundGuidanceResult
  */
@@ -605,7 +586,7 @@ export interface GetPreorderInfoResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * Result for the get preorder info operation
  * @export
  * @interface GetPreorderInfoResult
  */
@@ -623,13 +604,13 @@ export interface GetPreorderInfoResult {
      */
     ShipmentConfirmedForPreorder?: boolean;
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof GetPreorderInfoResult
      */
     NeedByDate?: string;
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof GetPreorderInfoResult
      */
@@ -655,7 +636,7 @@ export interface GetPrepInstructionsResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * Result for the get prep instructions operation
  * @export
  * @interface GetPrepInstructionsResult
  */
@@ -705,7 +686,7 @@ export interface GetShipmentItemsResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * Result for the get shipment items operation
  * @export
  * @interface GetShipmentItemsResult
  */
@@ -743,7 +724,7 @@ export interface GetShipmentsResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * Result for the get shipments operation
  * @export
  * @interface GetShipmentsResult
  */
@@ -781,7 +762,7 @@ export interface GetTransportDetailsResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * Result for the get transport details operation
  * @export
  * @interface GetTransportDetailsResult
  */
@@ -911,7 +892,7 @@ export interface InboundShipmentInfo {
      */
     AreCasesRequired: boolean;
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof InboundShipmentInfo
      */
@@ -972,7 +953,7 @@ export interface InboundShipmentItem {
      */
     QuantityInCase?: number;
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof InboundShipmentItem
      */
@@ -1146,7 +1127,7 @@ export interface InboundShipmentResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * Result of an inbound shipment operation
  * @export
  * @interface InboundShipmentResult
  */
@@ -1170,7 +1151,7 @@ export enum IntendedBoxContentsSource {
 }
 
 /**
- * 
+ * Contains details about an invalid ASIN
  * @export
  * @interface InvalidASIN
  */
@@ -1189,7 +1170,7 @@ export interface InvalidASIN {
     ErrorReason?: ErrorReason | 'DoesNotExist' | 'InvalidASIN';
 }
 /**
- * 
+ * Contains detail about an invalid SKU
  * @export
  * @interface InvalidSKU
  */
@@ -1208,7 +1189,7 @@ export interface InvalidSKU {
     ErrorReason?: ErrorReason | 'DoesNotExist' | 'InvalidASIN';
 }
 /**
- * 
+ * Download URL for a label
  * @export
  * @interface LabelDownloadURL
  */
@@ -1428,13 +1409,13 @@ export interface PartneredEstimate {
      */
     Amount: Amount;
     /**
-     * 
+     * Timestamp in ISO 8601 format.
      * @type {string}
      * @memberof PartneredEstimate
      */
     ConfirmDeadline?: string;
     /**
-     * 
+     * Timestamp in ISO 8601 format.
      * @type {string}
      * @memberof PartneredEstimate
      */
@@ -1453,7 +1434,7 @@ export interface PartneredLtlDataInput {
      */
     Contact?: Contact;
     /**
-     * 
+     * Contains an unsigned integer
      * @type {number}
      * @memberof PartneredLtlDataInput
      */
@@ -1465,7 +1446,7 @@ export interface PartneredLtlDataInput {
      */
     SellerFreightClass?: SellerFreightClass | '50' | '55' | '60' | '65' | '70' | '77.5' | '85' | '92.5' | '100' | '110' | '125' | '150' | '175' | '200' | '250' | '300' | '400' | '500';
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof PartneredLtlDataInput
      */
@@ -1502,7 +1483,7 @@ export interface PartneredLtlDataOutput {
      */
     Contact: Contact;
     /**
-     * 
+     * Contains an unsigned integer
      * @type {number}
      * @memberof PartneredLtlDataOutput
      */
@@ -1514,7 +1495,7 @@ export interface PartneredLtlDataOutput {
      */
     SellerFreightClass?: SellerFreightClass | '50' | '55' | '60' | '65' | '70' | '77.5' | '85' | '92.5' | '100' | '110' | '125' | '150' | '175' | '200' | '250' | '300' | '400' | '500';
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof PartneredLtlDataOutput
      */
@@ -1544,13 +1525,13 @@ export interface PartneredLtlDataOutput {
      */
     AmazonCalculatedValue?: Amount;
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof PartneredLtlDataOutput
      */
     PreviewPickupDate: string;
     /**
-     * 
+     * Type containing date in string format
      * @type {string}
      * @memberof PartneredLtlDataOutput
      */
@@ -1691,7 +1672,7 @@ export interface PrepDetails {
      * @type {PrepInstruction}
      * @memberof PrepDetails
      */
-    PrepInstruction: PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment' | 'SetCreation' | 'Boxing' | 'RemoveFromHanger' | 'Debundle' | 'SuffocationStickering' | 'CapSealing' | 'SetStickering' | 'BlankStickering' | 'NoPrep';
+    PrepInstruction: PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment' | 'SetCreation' | 'Boxing' | 'RemoveFromHanger' | 'Debundle' | 'SuffocationStickering' | 'CapSealing' | 'SetStickering' | 'BlankStickering' | 'ShipsInProductPackaging' | 'NoPrep';
     /**
      * 
      * @type {PrepOwner}
@@ -1730,6 +1711,7 @@ export enum PrepInstruction {
     CapSealing = 'CapSealing',
     SetStickering = 'SetStickering',
     BlankStickering = 'BlankStickering',
+    ShipsInProductPackaging = 'ShipsInProductPackaging',
     NoPrep = 'NoPrep'
 }
 
@@ -1853,7 +1835,7 @@ export interface SKUPrepInstructions {
      * @type {Array<PrepInstruction>}
      * @memberof SKUPrepInstructions
      */
-    PrepInstructionList?: Array<(PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment' | 'SetCreation' | 'Boxing' | 'RemoveFromHanger' | 'Debundle' | 'SuffocationStickering' | 'CapSealing' | 'SetStickering' | 'BlankStickering' | 'NoPrep')>;
+    PrepInstructionList?: Array<(PrepInstruction | 'Polybagging' | 'BubbleWrapping' | 'Taping' | 'BlackShrinkWrapping' | 'Labeling' | 'HangGarment' | 'SetCreation' | 'Boxing' | 'RemoveFromHanger' | 'Debundle' | 'SuffocationStickering' | 'CapSealing' | 'SetStickering' | 'BlankStickering' | 'ShipsInProductPackaging' | 'NoPrep')>;
     /**
      * A list of preparation instructions and fees for Amazon to prep goods for shipment.
      * @type {Array<AmazonPrepFeesDetails>}
@@ -2123,7 +2105,7 @@ export interface VoidTransportResponse {
  */
 export interface Weight {
     /**
-     * 
+     * Number format that supports decimal.
      * @type {number}
      * @memberof Weight
      */
@@ -2227,7 +2209,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {InboundShipmentRequest} body 
+         * @param {InboundShipmentRequest} body The request schema for the InboundShipmentRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2265,7 +2247,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon\'s fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateInboundShipmentPlanRequest} body 
+         * @param {CreateInboundShipmentPlanRequest} body The request schema for the CreateInboundShipmentPlanRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2352,52 +2334,6 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon\'s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-         * @param {Array<string>} [sellerSKUList] A list of SellerSKU values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: SellerSKU is qualified by the SellerId, which is included with every Selling Partner API operation that you submit. If you specify a SellerSKU that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold. 
-         * @param {Array<string>} [aSINList] A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getInboundGuidance: async (marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'marketplaceId' is not null or undefined
-            assertParamExists('getInboundGuidance', 'marketplaceId', marketplaceId)
-            const localVarPath = `/fba/inbound/v0/itemsGuidance`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (marketplaceId !== undefined) {
-                localVarQueryParameter['MarketplaceId'] = marketplaceId;
-            }
-
-            if (sellerSKUList) {
-                localVarQueryParameter['SellerSKUList'] = sellerSKUList.join(COLLECTION_FORMATS.csv);
-            }
-
-            if (aSINList) {
-                localVarQueryParameter['ASINList'] = aSINList.join(COLLECTION_FORMATS.csv);
-            }
 
 
     
@@ -2778,7 +2714,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Sends transportation information to Amazon about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {PutTransportDetailsRequest} body 
+         * @param {PutTransportDetailsRequest} body The request schema for the PutTransportDetailsRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2817,7 +2753,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {InboundShipmentRequest} body 
+         * @param {InboundShipmentRequest} body The request schema for the InboundShipmentRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2921,7 +2857,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
         /**
          * Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {InboundShipmentRequest} body 
+         * @param {InboundShipmentRequest} body The request schema for the InboundShipmentRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2931,7 +2867,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
         },
         /**
          * Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon\'s fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateInboundShipmentPlanRequest} body 
+         * @param {CreateInboundShipmentPlanRequest} body The request schema for the CreateInboundShipmentPlanRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2957,18 +2893,6 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
          */
         async getBillOfLading(shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetBillOfLadingResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getBillOfLading(shipmentId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon\'s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-         * @param {Array<string>} [sellerSKUList] A list of SellerSKU values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: SellerSKU is qualified by the SellerId, which is included with every Selling Partner API operation that you submit. If you specify a SellerSKU that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold. 
-         * @param {Array<string>} [aSINList] A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getInboundGuidance(marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetInboundGuidanceResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getInboundGuidance(marketplaceId, sellerSKUList, aSINList, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3065,7 +2989,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
         /**
          * Sends transportation information to Amazon about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {PutTransportDetailsRequest} body 
+         * @param {PutTransportDetailsRequest} body The request schema for the PutTransportDetailsRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3076,7 +3000,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
         /**
          * Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {InboundShipmentRequest} body 
+         * @param {InboundShipmentRequest} body The request schema for the InboundShipmentRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3127,7 +3051,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
         /**
          * Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {InboundShipmentRequest} body 
+         * @param {InboundShipmentRequest} body The request schema for the InboundShipmentRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3136,7 +3060,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon\'s fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateInboundShipmentPlanRequest} body 
+         * @param {CreateInboundShipmentPlanRequest} body The request schema for the CreateInboundShipmentPlanRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3160,17 +3084,6 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
          */
         getBillOfLading(shipmentId: string, options?: any): AxiosPromise<GetBillOfLadingResponse> {
             return localVarFp.getBillOfLading(shipmentId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon\'s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} marketplaceId A marketplace identifier. Specifies the marketplace where the product would be stored.
-         * @param {Array<string>} [sellerSKUList] A list of SellerSKU values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: SellerSKU is qualified by the SellerId, which is included with every Selling Partner API operation that you submit. If you specify a SellerSKU that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold. 
-         * @param {Array<string>} [aSINList] A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getInboundGuidance(marketplaceId: string, sellerSKUList?: Array<string>, aSINList?: Array<string>, options?: any): AxiosPromise<GetInboundGuidanceResponse> {
-            return localVarFp.getInboundGuidance(marketplaceId, sellerSKUList, aSINList, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns package/pallet labels for faster and more accurate shipment processing at the Amazon fulfillment center.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
@@ -3259,7 +3172,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
         /**
          * Sends transportation information to Amazon about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {PutTransportDetailsRequest} body 
+         * @param {PutTransportDetailsRequest} body The request schema for the PutTransportDetailsRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3269,7 +3182,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
         /**
          * Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId A shipment identifier originally returned by the createInboundShipmentPlan operation.
-         * @param {InboundShipmentRequest} body 
+         * @param {InboundShipmentRequest} body The request schema for the InboundShipmentRequest operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3344,7 +3257,7 @@ export interface FbaInboundApiCreateInboundShipmentRequest {
     readonly shipmentId: string
 
     /**
-     * 
+     * The request schema for the InboundShipmentRequest operation.
      * @type {InboundShipmentRequest}
      * @memberof FbaInboundApiCreateInboundShipment
      */
@@ -3358,7 +3271,7 @@ export interface FbaInboundApiCreateInboundShipmentRequest {
  */
 export interface FbaInboundApiCreateInboundShipmentPlanRequest {
     /**
-     * 
+     * The request schema for the CreateInboundShipmentPlanRequest operation.
      * @type {CreateInboundShipmentPlanRequest}
      * @memberof FbaInboundApiCreateInboundShipmentPlan
      */
@@ -3391,34 +3304,6 @@ export interface FbaInboundApiGetBillOfLadingRequest {
      * @memberof FbaInboundApiGetBillOfLading
      */
     readonly shipmentId: string
-}
-
-/**
- * Request parameters for getInboundGuidance operation in FbaInboundApi.
- * @export
- * @interface FbaInboundApiGetInboundGuidanceRequest
- */
-export interface FbaInboundApiGetInboundGuidanceRequest {
-    /**
-     * A marketplace identifier. Specifies the marketplace where the product would be stored.
-     * @type {string}
-     * @memberof FbaInboundApiGetInboundGuidance
-     */
-    readonly marketplaceId: string
-
-    /**
-     * A list of SellerSKU values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: SellerSKU is qualified by the SellerId, which is included with every Selling Partner API operation that you submit. If you specify a SellerSKU that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold. 
-     * @type {Array<string>}
-     * @memberof FbaInboundApiGetInboundGuidance
-     */
-    readonly sellerSKUList?: Array<string>
-
-    /**
-     * A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon\&#39;s fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
-     * @type {Array<string>}
-     * @memberof FbaInboundApiGetInboundGuidance
-     */
-    readonly aSINList?: Array<string>
 }
 
 /**
@@ -3680,7 +3565,7 @@ export interface FbaInboundApiPutTransportDetailsRequest {
     readonly shipmentId: string
 
     /**
-     * 
+     * The request schema for the PutTransportDetailsRequest operation.
      * @type {PutTransportDetailsRequest}
      * @memberof FbaInboundApiPutTransportDetails
      */
@@ -3701,7 +3586,7 @@ export interface FbaInboundApiUpdateInboundShipmentRequest {
     readonly shipmentId: string
 
     /**
-     * 
+     * The request schema for the InboundShipmentRequest operation.
      * @type {InboundShipmentRequest}
      * @memberof FbaInboundApiUpdateInboundShipment
      */
@@ -3793,17 +3678,6 @@ export class FbaInboundApi extends BaseAPI {
      */
     public getBillOfLading(requestParameters: FbaInboundApiGetBillOfLadingRequest, options?: any) {
         return FbaInboundApiFp(this.configuration).getBillOfLading(requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon\'s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @param {FbaInboundApiGetInboundGuidanceRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FbaInboundApi
-     */
-    public getInboundGuidance(requestParameters: FbaInboundApiGetInboundGuidanceRequest, options?: any) {
-        return FbaInboundApiFp(this.configuration).getInboundGuidance(requestParameters.marketplaceId, requestParameters.sellerSKUList, requestParameters.aSINList, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

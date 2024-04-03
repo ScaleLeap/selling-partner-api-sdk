@@ -165,7 +165,7 @@ export interface Container {
      * @type {Weight}
      * @memberof Container
      */
-    weight?: Weight;
+    weight: Weight;
     /**
      * A list of packed items.
      * @type {Array<PackedItem>}
@@ -796,13 +796,13 @@ export interface StatusUpdateDetails {
      */
     trackingNumber: string;
     /**
-     * Indicates the shipment status code of the package that provides transportation information for Amazon tracking systems and ultimately for the final customer.
+     * Indicates the shipment status code of the package that provides transportation information for Amazon tracking systems and ultimately for the final customer. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
      * @type {string}
      * @memberof StatusUpdateDetails
      */
     statusCode: string;
     /**
-     * Provides a reason code for the status of the package that will provide additional information about the transportation status.
+     * Provides a reason code for the status of the package that will provide additional information about the transportation status. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
      * @type {string}
      * @memberof StatusUpdateDetails
      */
@@ -920,7 +920,7 @@ export interface TransactionReference {
     transactionId?: string;
 }
 /**
- * The weight. This object is required when using the [`submitShipmentConfirmations`](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-2021-12-28-reference#submitshipmentconfirmations) operation.
+ * The weight.
  * @export
  * @interface Weight
  */
