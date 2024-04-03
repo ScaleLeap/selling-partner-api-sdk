@@ -100,7 +100,7 @@ export async function generateModelForPreviewVersions(
       const modelPath = path.resolve(rootPath, dirname, baseName)
       const parser = new Parser(modelPath)
       const version = await parser.version
-      const outputDirname = `${dirname}-v${version.replace(/-/g, '')}`
+      const outputDirname = `${dirname}-v${version.replace(/-|v/g, '')}`
       const outputPath = `src/api-models/${outputDirname}`
 
       return {
