@@ -37,6 +37,7 @@ export interface APIConfigurationParameters {
   /**
    * Selling partner API credentials
    *
+   * @deprecated Amazon no longer requires the requests to be signed with AWS4
    * @type {AmazonSellingPartnerAPICredentials}
    * @memberof APIConfigurationParameters
    */
@@ -53,6 +54,7 @@ export interface APIConfigurationParameters {
   /**
    * ARN of the IAM Role to be assumed to get the credentials from.
    *
+   * @deprecated Amazon no longer requires the requests to be signed with AWS4
    * @type {string}
    * @memberof APIConfigurationParameters
    */
