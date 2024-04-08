@@ -2448,7 +2448,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
+            localVarHeaderParameter['Content-Type'] = 'application/json; charset=utf-8';
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2676,7 +2676,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
+            localVarHeaderParameter['Content-Type'] = 'application/json; charset=utf-8';
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -5065,6 +5065,8 @@ export class FbaInboundApi extends BaseAPI {
      * @memberof FbaInboundApi
      */
     public confirmPackingOption(requestParameters: FbaInboundApiConfirmPackingOptionRequest, options?: any) {
+        localVarHeaderParameter['Content-Type'] = 'application/json; charset=utf-8';
+        
         return FbaInboundApiFp(this.configuration).confirmPackingOption(requestParameters.inboundPlanId, requestParameters.packingOptionId, options).then((request) => request(this.axios, this.basePath));
     }
 
