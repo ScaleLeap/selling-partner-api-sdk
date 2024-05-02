@@ -104,7 +104,7 @@ export interface CreateFeedSpecification {
  */
 export interface ErrorList {
     /**
-     * 
+     * An error response returned when the request is unsuccessful.
      * @type {Array<Error>}
      * @memberof ErrorList
      */
@@ -244,7 +244,7 @@ export interface ModelError {
      */
     code: string;
     /**
-     * A message that describes the error condition in a human-readable form.
+     * A message that describes the error condition.
      * @type {string}
      * @memberof ModelError
      */
@@ -298,7 +298,7 @@ export const FeedsApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * Creates a feed. Upload the contents of the feed document before calling this operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0083 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateFeedSpecification} body 
+         * @param {CreateFeedSpecification} body Information required to create the feed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -333,7 +333,7 @@ export const FeedsApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * Creates a feed document for the feed type that you specify. This operation returns a presigned URL for uploading the feed document contents. It also returns a feedDocumentId value that you can pass in with a subsequent call to the createFeed operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateFeedDocumentSpecification} body 
+         * @param {CreateFeedDocumentSpecification} body Specifies the content type for the createFeedDocument operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -522,7 +522,7 @@ export const FeedsApiFp = function(configuration?: Configuration) {
         },
         /**
          * Creates a feed. Upload the contents of the feed document before calling this operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0083 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateFeedSpecification} body 
+         * @param {CreateFeedSpecification} body Information required to create the feed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -532,7 +532,7 @@ export const FeedsApiFp = function(configuration?: Configuration) {
         },
         /**
          * Creates a feed document for the feed type that you specify. This operation returns a presigned URL for uploading the feed document contents. It also returns a feedDocumentId value that you can pass in with a subsequent call to the createFeed operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateFeedDocumentSpecification} body 
+         * @param {CreateFeedDocumentSpecification} body Specifies the content type for the createFeedDocument operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -597,7 +597,7 @@ export const FeedsApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * Creates a feed. Upload the contents of the feed document before calling this operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0083 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateFeedSpecification} body 
+         * @param {CreateFeedSpecification} body Information required to create the feed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -606,7 +606,7 @@ export const FeedsApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * Creates a feed document for the feed type that you specify. This operation returns a presigned URL for uploading the feed document contents. It also returns a feedDocumentId value that you can pass in with a subsequent call to the createFeed operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateFeedDocumentSpecification} body 
+         * @param {CreateFeedDocumentSpecification} body Specifies the content type for the createFeedDocument operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -670,7 +670,7 @@ export interface FeedsApiCancelFeedRequest {
  */
 export interface FeedsApiCreateFeedRequest {
     /**
-     * 
+     * Information required to create the feed.
      * @type {CreateFeedSpecification}
      * @memberof FeedsApiCreateFeed
      */
@@ -684,7 +684,7 @@ export interface FeedsApiCreateFeedRequest {
  */
 export interface FeedsApiCreateFeedDocumentRequest {
     /**
-     * 
+     * Specifies the content type for the createFeedDocument operation.
      * @type {CreateFeedDocumentSpecification}
      * @memberof FeedsApiCreateFeedDocument
      */
