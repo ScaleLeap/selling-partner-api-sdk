@@ -65,7 +65,7 @@
     "@types/node": "16.18.97",
     "@typescript-eslint/eslint-plugin": "7.13.1",
     "@typescript-eslint/parser": "7.13.1",
-    "danger": "12.3.2",
+    "danger": "12.3.3",
     "dotenv": "16.4.5",
     "env-var": "7.5.0",
     "eslint-config-airbnb-base": "15.0.0",
