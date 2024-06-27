@@ -61,7 +61,7 @@
     "@scaleleap/semantic-release-config": "1.1.41",
     "@types/fancy-log": "2.0.2",
     "@types/jest": "29.5.12",
-    "@types/lodash": "4.17.5",
+    "@types/lodash": "4.17.6",
     "@types/node": "16.18.97",
     "@typescript-eslint/eslint-plugin": "7.14.1",
     "@typescript-eslint/parser": "7.14.1",
