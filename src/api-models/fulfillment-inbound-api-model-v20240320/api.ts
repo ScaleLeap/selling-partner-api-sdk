@@ -58,11 +58,23 @@ export interface Address {
      */
     countryCode: string;
     /**
-     * The name of the individual or business.
+     * The email address.
+     * @type {string}
+     * @memberof Address
+     */
+    email?: string;
+    /**
+     * The name of the individual who is the primary contact.
      * @type {string}
      * @memberof Address
      */
     name: string;
+    /**
+     * The phone number.
+     * @type {string}
+     * @memberof Address
+     */
+    phoneNumber?: string;
     /**
      * The postal code.
      * @type {string}
@@ -73,6 +85,73 @@ export interface Address {
      * The state or province code.
      * @type {string}
      * @memberof Address
+     */
+    stateOrProvinceCode?: string;
+}
+/**
+ * Specific details to identify a place.
+ * @export
+ * @interface AddressInput
+ */
+export interface AddressInput {
+    /**
+     * Street address information.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    addressLine1: string;
+    /**
+     * Additional street address information.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    addressLine2?: string;
+    /**
+     * The city.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    city: string;
+    /**
+     * The name of the business.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    companyName?: string;
+    /**
+     * The country code in two-character ISO 3166-1 alpha-2 format.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    countryCode: string;
+    /**
+     * The email address.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    email?: string;
+    /**
+     * The name of the individual who is the primary contact.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    name: string;
+    /**
+     * The phone number.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    phoneNumber: string;
+    /**
+     * The postal code.
+     * @type {string}
+     * @memberof AddressInput
+     */
+    postalCode: string;
+    /**
+     * The state or province code.
+     * @type {string}
+     * @memberof AddressInput
      */
     stateOrProvinceCode?: string;
 }
@@ -96,7 +175,7 @@ export interface AppointmentSlot {
     slotTime: AppointmentSlotTime;
 }
 /**
- * An appointment slot time with a start and end.
+ * An appointment slot time with start and end.
  * @export
  * @interface AppointmentSlotTime
  */
@@ -115,17 +194,23 @@ export interface AppointmentSlotTime {
     startTime: string;
 }
 /**
- * Contains information about a box that is used in the inbound plan. The box may contain an item and metadata about the box itself.
+ * Contains information about a box that is used in the inbound plan. The box is a container that holds multiple items.
  * @export
  * @interface Box
  */
 export interface Box {
     /**
-     * The ID provided by Amazon that identifies a given box. This ID is comprised of the external shipment ID (which         is generated after transportation has been confirmed) and the index of the box.
+     * The ID provided by Amazon that identifies a given box. This ID is comprised of the external shipment ID (which is generated after transportation has been confirmed) and the index of the box.
      * @type {string}
      * @memberof Box
      */
     boxId?: string;
+    /**
+     * 
+     * @type {BoxContentInformationSource}
+     * @memberof Box
+     */
+    contentInformationSource?: BoxContentInformationSource | 'BOX_CONTENT_PROVIDED' | 'MANUAL_PROCESS' | 'BARCODE_2D';
     /**
      * 
      * @type {Region}
@@ -170,49 +255,6 @@ export interface Box {
     weight?: Weight;
 }
 /**
- * Specifies contents in a box. Each `BoxContent` minimally contains a mapping of an MSKU to the prep owner, label owner and its quantity in the box. It also contains the MSKU expiration date and manufacturing lot code if applicable.
- * @export
- * @interface BoxContent
- */
-export interface BoxContent {
-    /**
-     * The date in ISO 8601 format for when the MSKU expires.
-     * @type {string}
-     * @memberof BoxContent
-     */
-    expiration?: string;
-    /**
-     * 
-     * @type {LabelOwner}
-     * @memberof BoxContent
-     */
-    labelOwner: LabelOwner | 'AMAZON' | 'SELLER';
-    /**
-     * The manufacturing lot code.
-     * @type {string}
-     * @memberof BoxContent
-     */
-    manufacturingLotCode?: string;
-    /**
-     * The merchant SKU, a merchant-supplied identifier for a specific SKU.
-     * @type {string}
-     * @memberof BoxContent
-     */
-    msku: string;
-    /**
-     * 
-     * @type {PrepOwner}
-     * @memberof BoxContent
-     */
-    prepOwner: PrepOwner | 'AMAZON' | 'SELLER';
-    /**
-     * The number of units of the given MSKU in the box.
-     * @type {number}
-     * @memberof BoxContent
-     */
-    quantityInBox: number;
-}
-/**
  * Indication of how box content is meant to be provided.
  * @export
  * @enum {string}
@@ -230,23 +272,11 @@ export enum BoxContentInformationSource {
  */
 export interface BoxInput {
     /**
-     * The ID of the box to update that was provided by Amazon. This ID is comprised of the external shipment ID         (which is generated after transportation has been confirmed) and the index of the box.
-     * @type {string}
-     * @memberof BoxInput
-     */
-    boxId?: string;
-    /**
      * 
      * @type {BoxContentInformationSource}
      * @memberof BoxInput
      */
     contentInformationSource: BoxContentInformationSource | 'BOX_CONTENT_PROVIDED' | 'MANUAL_PROCESS' | 'BARCODE_2D';
-    /**
-     * The Contents of the box containing a list of MSKUs and their quantity. If `boxAttribute` is `BARCODE_2D` or `MANUAL_PROCESS`, user should provide ALL of the items that could be in the box, without specifying item quantities.
-     * @type {Array<BoxContent>}
-     * @memberof BoxInput
-     */
-    contents?: Array<BoxContent>;
     /**
      * 
      * @type {Dimensions}
@@ -254,21 +284,64 @@ export interface BoxInput {
      */
     dimensions: Dimensions;
     /**
+     * The items and their quantity in the box. This must be empty if the box `contentInformationSource` is `BARCODE_2D` or `MANUAL_PROCESS`.
+     * @type {Array<ItemInput>}
+     * @memberof BoxInput
+     */
+    items?: Array<ItemInput>;
+    /**
      * The number of containers where all other properties like weight or dimensions are identical.
      * @type {number}
      * @memberof BoxInput
      */
     quantity: number;
     /**
-     * The seller-provided name for a \'type\' of box (or a group of boxes with the same contents), which will be used to identify all created boxes of that type. When providing bulk box information, this value must be unique from the other box types. When providing individual boxes with existing IDs, this value can be shared between many boxes that have the same contents.
-     * @type {string}
-     * @memberof BoxInput
-     */
-    templateName: string;
-    /**
      * 
      * @type {Weight}
      * @memberof BoxInput
+     */
+    weight: Weight;
+}
+/**
+ * Input information for updating a box
+ * @export
+ * @interface BoxUpdateInput
+ */
+export interface BoxUpdateInput {
+    /**
+     * 
+     * @type {BoxContentInformationSource}
+     * @memberof BoxUpdateInput
+     */
+    contentInformationSource: BoxContentInformationSource | 'BOX_CONTENT_PROVIDED' | 'MANUAL_PROCESS' | 'BARCODE_2D';
+    /**
+     * 
+     * @type {Dimensions}
+     * @memberof BoxUpdateInput
+     */
+    dimensions: Dimensions;
+    /**
+     * The items and their quantity in the box. This must be empty if the box `contentInformationSource` is `BARCODE_2D` or `MANUAL_PROCESS`.
+     * @type {Array<ItemInput>}
+     * @memberof BoxUpdateInput
+     */
+    items?: Array<ItemInput>;
+    /**
+     * Primary key to uniquely identify a Box Package. PackageId must be provided if the intent is to update an existing box. Adding a new box will not require providing this value. Any existing PackageIds not provided will be treated as to-be-removed
+     * @type {string}
+     * @memberof BoxUpdateInput
+     */
+    packageId?: string;
+    /**
+     * The number of containers where all other properties like weight or dimensions are identical.
+     * @type {number}
+     * @memberof BoxUpdateInput
+     */
+    quantity: number;
+    /**
+     * 
+     * @type {Weight}
+     * @memberof BoxUpdateInput
      */
     weight: Weight;
 }
@@ -299,7 +372,7 @@ export interface CancelSelfShipAppointmentRequest {
     reasonComment?: ReasonComment | 'APPOINTMENT_REQUESTED_BY_MISTAKE' | 'VEHICLE_DELAY' | 'SLOT_NOT_SUITABLE' | 'OUTSIDE_CARRIER_BUSINESS_HOURS' | 'UNFAVOURABLE_EXTERNAL_CONDITIONS' | 'PROCUREMENT_DELAY' | 'SHIPPING_PLAN_CHANGED' | 'INCREASED_QUANTITY' | 'OTHER';
 }
 /**
- * The `cancelSelfShipAppointment` response.
+ * The `CancelSelfShipAppointment` response.
  * @export
  * @interface CancelSelfShipAppointmentResponse
  */
@@ -329,6 +402,25 @@ export interface Carrier {
      * @memberof Carrier
      */
     name?: string;
+}
+/**
+ * Contains details for a transportation carrier appointment. This appointment is vended out by Amazon and is an indicator for when a transportation carrier is accepting shipments to be picked up.
+ * @export
+ * @interface CarrierAppointment
+ */
+export interface CarrierAppointment {
+    /**
+     * The end timestamp of the appointment in UTC.
+     * @type {string}
+     * @memberof CarrierAppointment
+     */
+    endTime: string;
+    /**
+     * The start timestamp of the appointment in UTC.
+     * @type {string}
+     * @memberof CarrierAppointment
+     */
+    startTime: string;
 }
 /**
  * Contains item identifiers and related tax information.
@@ -362,6 +454,19 @@ export interface ComplianceDetail {
     taxDetails?: TaxDetails;
 }
 /**
+ * The `confirmDeliveryWindowOptions` response.
+ * @export
+ * @interface ConfirmDeliveryWindowOptionsResponse
+ */
+export interface ConfirmDeliveryWindowOptionsResponse {
+    /**
+     * UUID for the given operation.
+     * @type {string}
+     * @memberof ConfirmDeliveryWindowOptionsResponse
+     */
+    operationId: string;
+}
+/**
  * The `confirmPackingOption` response.
  * @export
  * @interface ConfirmPackingOptionResponse
@@ -384,6 +489,19 @@ export interface ConfirmPlacementOptionResponse {
      * UUID for the given operation.
      * @type {string}
      * @memberof ConfirmPlacementOptionResponse
+     */
+    operationId: string;
+}
+/**
+ * The `confirmShipmentContentUpdatePreview` response.
+ * @export
+ * @interface ConfirmShipmentContentUpdatePreviewResponse
+ */
+export interface ConfirmShipmentContentUpdatePreviewResponse {
+    /**
+     * UUID for the given operation.
+     * @type {string}
+     * @memberof ConfirmShipmentContentUpdatePreviewResponse
      */
     operationId: string;
 }
@@ -420,23 +538,54 @@ export interface ConfirmTransportationOptionsResponse {
  */
 export interface ContactInformation {
     /**
-     * Email address.
+     * The email address.
      * @type {string}
      * @memberof ContactInformation
      */
     email?: string;
     /**
-     * The name belonging to the contact. This field is required when contact information is being provided for         Less-Than-Truckload (LTL) carrier shipments.
+     * The contact\'s name.
      * @type {string}
      * @memberof ContactInformation
      */
-    name?: string;
+    name: string;
     /**
-     * The phone number of the seller.
+     * The phone number.
      * @type {string}
      * @memberof ContactInformation
      */
     phoneNumber: string;
+}
+/**
+ * Preview of the changes that will be applied to the shipment.
+ * @export
+ * @interface ContentUpdatePreview
+ */
+export interface ContentUpdatePreview {
+    /**
+     * Identifier of a content update preview.
+     * @type {string}
+     * @memberof ContentUpdatePreview
+     */
+    contentUpdatePreviewId: string;
+    /**
+     * The date in ISO 8601 format for when the content update expires.
+     * @type {string}
+     * @memberof ContentUpdatePreview
+     */
+    expiration: string;
+    /**
+     * 
+     * @type {RequestedUpdates}
+     * @memberof ContentUpdatePreview
+     */
+    requestedUpdates: RequestedUpdates;
+    /**
+     * 
+     * @type {TransportationOption}
+     * @memberof ContentUpdatePreview
+     */
+    transportationOption: TransportationOption;
 }
 /**
  * The `createInboundPlan` request.
@@ -444,12 +593,6 @@ export interface ContactInformation {
  * @interface CreateInboundPlanRequest
  */
 export interface CreateInboundPlanRequest {
-    /**
-     * 
-     * @type {ContactInformation}
-     * @memberof CreateInboundPlanRequest
-     */
-    contactInformation: ContactInformation;
     /**
      * Marketplaces where the items need to be shipped to. Currently only one marketplace can be selected in this request.
      * @type {Array<string>}
@@ -470,10 +613,10 @@ export interface CreateInboundPlanRequest {
     name?: string;
     /**
      * 
-     * @type {Address}
+     * @type {AddressInput}
      * @memberof CreateInboundPlanRequest
      */
-    sourceAddress: Address;
+    sourceAddress: AddressInput;
 }
 /**
  * The `createInboundPlan` response.
@@ -482,7 +625,7 @@ export interface CreateInboundPlanRequest {
  */
 export interface CreateInboundPlanResponse {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof CreateInboundPlanResponse
      */
@@ -493,6 +636,68 @@ export interface CreateInboundPlanResponse {
      * @memberof CreateInboundPlanResponse
      */
     operationId: string;
+}
+/**
+ * The `createMarketplaceItemLabels` request.
+ * @export
+ * @interface CreateMarketplaceItemLabelsRequest
+ */
+export interface CreateMarketplaceItemLabelsRequest {
+    /**
+     * The height of the item label.
+     * @type {number}
+     * @memberof CreateMarketplaceItemLabelsRequest
+     */
+    height?: number;
+    /**
+     * 
+     * @type {LabelPrintType}
+     * @memberof CreateMarketplaceItemLabelsRequest
+     */
+    labelType: LabelPrintType | 'STANDARD_FORMAT' | 'THERMAL_PRINTING';
+    /**
+     * The locale code constructed from ISO 639 language code and ISO 3166-1 alpha-2 standard of country codes separated by an underscore character.
+     * @type {string}
+     * @memberof CreateMarketplaceItemLabelsRequest
+     */
+    localeCode?: string;
+    /**
+     * The Marketplace ID. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a list of possible values.
+     * @type {string}
+     * @memberof CreateMarketplaceItemLabelsRequest
+     */
+    marketplaceId: string;
+    /**
+     * Represents the quantity of an msku to print item labels for.
+     * @type {Array<MskuQuantity>}
+     * @memberof CreateMarketplaceItemLabelsRequest
+     */
+    mskuQuantities: Array<MskuQuantity>;
+    /**
+     * 
+     * @type {ItemLabelPageType}
+     * @memberof CreateMarketplaceItemLabelsRequest
+     */
+    pageType?: ItemLabelPageType | 'A4_21' | 'A4_24' | 'A4_24_64x33' | 'A4_24_66x35' | 'A4_24_70x36' | 'A4_24_70x37' | 'A4_24i' | 'A4_27' | 'A4_40_52x29' | 'A4_44_48x25' | 'Letter_30';
+    /**
+     * The width of the item label.
+     * @type {number}
+     * @memberof CreateMarketplaceItemLabelsRequest
+     */
+    width?: number;
+}
+/**
+ * The `createMarketplaceItemLabels` response.
+ * @export
+ * @interface CreateMarketplaceItemLabelsResponse
+ */
+export interface CreateMarketplaceItemLabelsResponse {
+    /**
+     * Resources to download the requested document.
+     * @type {Array<DocumentDownload>}
+     * @memberof CreateMarketplaceItemLabelsResponse
+     */
+    documentDownloads: Array<DocumentDownload>;
 }
 /**
  * Currency definition.
@@ -533,7 +738,7 @@ export interface CustomPlacementInput {
     warehouseId: string;
 }
 /**
- * Specifies the dates that the seller expects their shipment will be shipped and delivered.
+ * Specifies the date that the seller expects their shipment will be shipped.
  * @export
  * @interface Dates
  */
@@ -543,28 +748,59 @@ export interface Dates {
      * @type {Window}
      * @memberof Dates
      */
-    deliveryWindow?: Window;
-    /**
-     * 
-     * @type {Window}
-     * @memberof Dates
-     */
     readyToShipWindow?: Window;
 }
 /**
- * Measurement of a package dimensions.
+ * Contains information pertaining to a delivery window option.
+ * @export
+ * @interface DeliveryWindowOption
+ */
+export interface DeliveryWindowOption {
+    /**
+     * Identifies type of Delivery Window Availability. Values: `AVAILABLE`, `CONGESTED`
+     * @type {string}
+     * @memberof DeliveryWindowOption
+     */
+    availabilityType: string;
+    /**
+     * Identifier of a delivery window option. A delivery window option represent one option for when a shipment is expected to be delivered.
+     * @type {string}
+     * @memberof DeliveryWindowOption
+     */
+    deliveryWindowOptionId: string;
+    /**
+     * The timestamp at which this delivery window option ends. This is based in ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     * @type {string}
+     * @memberof DeliveryWindowOption
+     */
+    endDate: string;
+    /**
+     * The timestamp at which this delivery window option starts. This is based in ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     * @type {string}
+     * @memberof DeliveryWindowOption
+     */
+    startDate: string;
+    /**
+     * The timestamp at which this window delivery option becomes no longer valid. This is based in ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     * @type {string}
+     * @memberof DeliveryWindowOption
+     */
+    validUntil: string;
+}
+/**
+ * Measurement of a package\'s dimensions.
  * @export
  * @interface Dimensions
  */
 export interface Dimensions {
     /**
-     * Height.
+     * The height of a package.
      * @type {number}
      * @memberof Dimensions
      */
     height: number;
     /**
-     * Length.
+     * The length of a package.
      * @type {number}
      * @memberof Dimensions
      */
@@ -576,7 +812,7 @@ export interface Dimensions {
      */
     unitOfMeasurement: UnitOfMeasurement | 'IN' | 'CM';
     /**
-     * Width.
+     * The width of a package.
      * @type {number}
      * @memberof Dimensions
      */
@@ -589,7 +825,7 @@ export interface Dimensions {
  */
 export interface DocumentDownload {
     /**
-     * The type of download. Can be `URL` or `PDF_BASE64`.
+     * The type of download. Can be `URL`.
      * @type {string}
      * @memberof DocumentDownload
      */
@@ -621,6 +857,38 @@ export interface ErrorList {
     errors: Array<Error>;
 }
 /**
+ * Freight information describes the skus being transported. Freight carrier options and quotes will only be returned if the freight information is provided.
+ * @export
+ * @interface FreightInformation
+ */
+export interface FreightInformation {
+    /**
+     * 
+     * @type {Currency}
+     * @memberof FreightInformation
+     */
+    declaredValue?: Currency;
+    /**
+     * Freight class. Can be: `NONE`, `FC_50`, `FC_55`, `FC_60`, `FC_65`, `FC_70`, `FC_77_5`, `FC_85`, `FC_92_5`, `FC_100`, `FC_110`, `FC_125`, `FC_150`, `FC_175`, `FC_200`, `FC_250`, `FC_300`, `FC_400`, `FC_500`.
+     * @type {string}
+     * @memberof FreightInformation
+     */
+    freightClass?: string;
+}
+/**
+ * The `generateDeliveryWindowOptions` response.
+ * @export
+ * @interface GenerateDeliveryWindowOptionsResponse
+ */
+export interface GenerateDeliveryWindowOptionsResponse {
+    /**
+     * UUID for the given operation.
+     * @type {string}
+     * @memberof GenerateDeliveryWindowOptionsResponse
+     */
+    operationId: string;
+}
+/**
  * The `generatePackingOptions` response.
  * @export
  * @interface GeneratePackingOptionsResponse
@@ -640,7 +908,7 @@ export interface GeneratePackingOptionsResponse {
  */
 export interface GeneratePlacementOptionsRequest {
     /**
-     * Custom placements options to be added to the plan.
+     * Custom placement options to be added to the plan.
      * @type {Array<CustomPlacementInput>}
      * @memberof GeneratePlacementOptionsRequest
      */
@@ -688,6 +956,38 @@ export interface GenerateSelfShipAppointmentSlotsResponse {
      * UUID for the given operation.
      * @type {string}
      * @memberof GenerateSelfShipAppointmentSlotsResponse
+     */
+    operationId: string;
+}
+/**
+ * The `GenerateShipmentContentUpdatePreviews` request.
+ * @export
+ * @interface GenerateShipmentContentUpdatePreviewsRequest
+ */
+export interface GenerateShipmentContentUpdatePreviewsRequest {
+    /**
+     * A list of boxes that will be present in the shipment after the update.
+     * @type {Array<BoxUpdateInput>}
+     * @memberof GenerateShipmentContentUpdatePreviewsRequest
+     */
+    boxes: Array<BoxUpdateInput>;
+    /**
+     * A list of all items that will be present in the shipment after the update.
+     * @type {Array<ItemInput>}
+     * @memberof GenerateShipmentContentUpdatePreviewsRequest
+     */
+    items: Array<ItemInput>;
+}
+/**
+ * The `GenerateShipmentContentUpdatePreviews` response.
+ * @export
+ * @interface GenerateShipmentContentUpdatePreviewsResponse
+ */
+export interface GenerateShipmentContentUpdatePreviewsResponse {
+    /**
+     * UUID for the given operation.
+     * @type {string}
+     * @memberof GenerateShipmentContentUpdatePreviewsResponse
      */
     operationId: string;
 }
@@ -756,19 +1056,19 @@ export interface GetSelfShipAppointmentSlotsResponse {
     selfShipAppointmentSlotsAvailability: SelfShipAppointmentSlotsAvailability;
 }
 /**
- * The `getInboundOperationStatus` response.
+ * GetInboundOperationStatus response.
  * @export
  * @interface InboundOperationStatus
  */
 export interface InboundOperationStatus {
     /**
-     * The name of the operation that was executed in the asynchronous API call.
+     * The name of the operation in the asynchronous API call.
      * @type {string}
      * @memberof InboundOperationStatus
      */
     operation: string;
     /**
-     * The operation Id returned by the asynchronous API call.
+     * The operation ID returned by the asynchronous API call.
      * @type {string}
      * @memberof InboundOperationStatus
      */
@@ -793,19 +1093,13 @@ export interface InboundOperationStatus {
  */
 export interface InboundPlan {
     /**
-     * 
-     * @type {ContactInformation}
-     * @memberof InboundPlan
-     */
-    contactInformation: ContactInformation;
-    /**
      * The ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
      * @type {string}
      * @memberof InboundPlan
      */
     createdAt: string;
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof InboundPlan
      */
@@ -823,25 +1117,25 @@ export interface InboundPlan {
      */
     marketplaceIds: Array<string>;
     /**
-     * The human-readable name of the inbound plan.
+     * Human-readable name of the inbound plan.
      * @type {string}
      * @memberof InboundPlan
      */
     name: string;
     /**
-     * Packing options for the inbound plan. This property will be populated when it has been generated via the corresponding endpoint. If there is a chosen placement option, only packing options for that placement option will be returned. If there are confirmed shipments, only packing options for those shipments will be returned. Query the packing option for more details.
+     * Packing options for the inbound plan. This property will be populated when it has been generated via the corresponding operation. If there is a chosen placement option, only packing options for that placement option will be returned. If there are confirmed shipments, only packing options for those shipments will be returned. Query the packing option for more details.
      * @type {Array<PackingOptionSummary>}
      * @memberof InboundPlan
      */
     packingOptions?: Array<PackingOptionSummary>;
     /**
-     * Placement options for the inbound plan. This property will be populated when it has been generated via the corresponding endpoint. If there is a chosen placement option, that will be the only returned option. Query the placement option for more details.
+     * Placement options for the inbound plan. This property will be populated when it has been generated via the corresponding operation. If there is a chosen placement option, that will be the only returned option. Query the placement option for more details.
      * @type {Array<PlacementOptionSummary>}
      * @memberof InboundPlan
      */
     placementOptions?: Array<PlacementOptionSummary>;
     /**
-     * Shipment IDs for the inbound plan. This property will be populated when it has been generated via the corresponding endpoint. If there is a chosen placement option, only shipments for that option will be returned. If there are confirmed shipments, only those shipments will be returned. Query the shipment for more details.
+     * Shipment IDs for the inbound plan. This property will be populated when it has been generated via the corresponding operation. If there is a chosen placement option, only shipments for that option will be returned. If there are confirmed shipments, only those shipments will be returned. Query the shipment for more details.
      * @type {Array<ShipmentSummary>}
      * @memberof InboundPlan
      */
@@ -853,7 +1147,7 @@ export interface InboundPlan {
      */
     sourceAddress: Address;
     /**
-     * Current status of the inbound plan. Can be `ACTIVE`, `VOIDED`, or `SHIPPED`.
+     * Current status of the inbound plan. Can be: `ACTIVE`, `VOIDED`, `SHIPPED`, \'ERRORED\'.
      * @type {string}
      * @memberof InboundPlan
      */
@@ -866,25 +1160,19 @@ export interface InboundPlan {
  */
 export interface InboundPlanSummary {
     /**
-     * 
-     * @type {ContactInformation}
-     * @memberof InboundPlanSummary
-     */
-    contactInformation: ContactInformation;
-    /**
      * The ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
      * @type {string}
      * @memberof InboundPlanSummary
      */
     createdAt: string;
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof InboundPlanSummary
      */
     inboundPlanId: string;
     /**
-     * ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     * The ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
      * @type {string}
      * @memberof InboundPlanSummary
      */
@@ -908,7 +1196,7 @@ export interface InboundPlanSummary {
      */
     sourceAddress: Address;
     /**
-     * Current status of the inbound plan. Can be \'ACTIVE\', \'VOIDED\', or \'SHIPPED\'.
+     * Current status of the inbound plan. Can be: `ACTIVE`, `VOIDED`, `SHIPPED`, \'ERRORED\'.
      * @type {string}
      * @memberof InboundPlanSummary
      */
@@ -933,7 +1221,7 @@ export interface Incentive {
      */
     target: string;
     /**
-     * Type of incentive. Can be `FEE` or `DISCOUNT`.
+     * Type of incentive. Can be: `FEE`, `DISCOUNT`.
      * @type {string}
      * @memberof Incentive
      */
@@ -970,7 +1258,7 @@ export interface Item {
      */
     fnsku: string;
     /**
-     * Specifies who will label the items. Options include `AMAZON` and `SELLER`.
+     * Specifies who will label the items. Options include `AMAZON`, `SELLER`, and `NONE`.
      * @type {string}
      * @memberof Item
      */
@@ -1017,7 +1305,7 @@ export interface ItemInput {
      * @type {LabelOwner}
      * @memberof ItemInput
      */
-    labelOwner: LabelOwner | 'AMAZON' | 'SELLER';
+    labelOwner: LabelOwner | 'AMAZON' | 'SELLER' | 'NONE';
     /**
      * The manufacturing lot code.
      * @type {string}
@@ -1025,7 +1313,7 @@ export interface ItemInput {
      */
     manufacturingLotCode?: string;
     /**
-     * The merchant SKU.
+     * Merchant SKU.
      * @type {string}
      * @memberof ItemInput
      */
@@ -1035,26 +1323,75 @@ export interface ItemInput {
      * @type {PrepOwner}
      * @memberof ItemInput
      */
-    prepOwner: PrepOwner | 'AMAZON' | 'SELLER';
+    prepOwner: PrepOwner | 'AMAZON' | 'SELLER' | 'NONE';
     /**
-     * The number of units of the specified MSKU that will be shipped.
+     * The number of units of the specified msku that will be shipped.
      * @type {number}
      * @memberof ItemInput
      */
     quantity: number;
 }
 /**
- * Specifies who will label the items. Options include `AMAZON` and `SELLER`.
+ * The page type to use to print the labels. Possible values: \'A4_21\', \'A4_24\', \'A4_24_64x33\', \'A4_24_66x35\', \'A4_24_70x36\', \'A4_24_70x37\', \'A4_24i\', \'A4_27\', \'A4_40_52x29\', \'A4_44_48x25\', \'Letter_30\'.
+ * @export
+ * @enum {string}
+ */
+export enum ItemLabelPageType {
+    A421 = 'A4_21',
+    A424 = 'A4_24',
+    A42464x33 = 'A4_24_64x33',
+    A42466x35 = 'A4_24_66x35',
+    A42470x36 = 'A4_24_70x36',
+    A42470x37 = 'A4_24_70x37',
+    A424i = 'A4_24i',
+    A427 = 'A4_27',
+    A44052x29 = 'A4_40_52x29',
+    A44448x25 = 'A4_44_48x25',
+    Letter30 = 'Letter_30'
+}
+
+/**
+ * Specifies who will label the items. Options include `AMAZON`, `SELLER` or `NONE`.
  * @export
  * @enum {string}
  */
 export enum LabelOwner {
     Amazon = 'AMAZON',
-    Seller = 'SELLER'
+    Seller = 'SELLER',
+    None = 'NONE'
 }
 
 /**
- * `listInboundPlanBoxes` response.
+ * Indicates the type of print type for a given label.
+ * @export
+ * @enum {string}
+ */
+export enum LabelPrintType {
+    StandardFormat = 'STANDARD_FORMAT',
+    ThermalPrinting = 'THERMAL_PRINTING'
+}
+
+/**
+ * The `listDeliveryWindowOptions` response.
+ * @export
+ * @interface ListDeliveryWindowOptionsResponse
+ */
+export interface ListDeliveryWindowOptionsResponse {
+    /**
+     * Delivery window options generated for the placement option.
+     * @type {Array<DeliveryWindowOption>}
+     * @memberof ListDeliveryWindowOptionsResponse
+     */
+    deliveryWindowOptions: Array<DeliveryWindowOption>;
+    /**
+     * 
+     * @type {Pagination}
+     * @memberof ListDeliveryWindowOptionsResponse
+     */
+    pagination?: Pagination;
+}
+/**
+ * The `listInboundPlanBoxes` response.
  * @export
  * @interface ListInboundPlanBoxesResponse
  */
@@ -1073,7 +1410,7 @@ export interface ListInboundPlanBoxesResponse {
     pagination?: Pagination;
 }
 /**
- * `listInboundPlanItems` response.
+ * The `listInboundPlanItems` response.
  * @export
  * @interface ListInboundPlanItemsResponse
  */
@@ -1092,7 +1429,7 @@ export interface ListInboundPlanItemsResponse {
     pagination?: Pagination;
 }
 /**
- * `listInboundPlanPallets` response.
+ * The `listInboundPlanPallets` response.
  * @export
  * @interface ListInboundPlanPalletsResponse
  */
@@ -1111,7 +1448,7 @@ export interface ListInboundPlanPalletsResponse {
     pallets: Array<Pallet>;
 }
 /**
- * `listInboundPlans` response.
+ * The `listInboundPlans` response.
  * @export
  * @interface ListInboundPlansResponse
  */
@@ -1130,7 +1467,7 @@ export interface ListInboundPlansResponse {
     pagination?: Pagination;
 }
 /**
- * `listItemComplianceDetails` response.
+ * The `listItemComplianceDetails` response.
  * @export
  * @interface ListItemComplianceDetailsResponse
  */
@@ -1143,13 +1480,32 @@ export interface ListItemComplianceDetailsResponse {
     complianceDetails?: Array<ComplianceDetail>;
 }
 /**
- * `listPackingGroupItems` response.
+ * The `listPackingGroupBoxes` response.
+ * @export
+ * @interface ListPackingGroupBoxesResponse
+ */
+export interface ListPackingGroupBoxesResponse {
+    /**
+     * Provides the information about the list of boxes in the packing group.
+     * @type {Array<Box>}
+     * @memberof ListPackingGroupBoxesResponse
+     */
+    boxes: Array<Box>;
+    /**
+     * 
+     * @type {Pagination}
+     * @memberof ListPackingGroupBoxesResponse
+     */
+    pagination?: Pagination;
+}
+/**
+ * The `listPackingGroupItems` response.
  * @export
  * @interface ListPackingGroupItemsResponse
  */
 export interface ListPackingGroupItemsResponse {
     /**
-     * Provides the information about the list of items in the inbound plan.
+     * Provides the information about the list of items in the packing group.
      * @type {Array<Item>}
      * @memberof ListPackingGroupItemsResponse
      */
@@ -1162,7 +1518,7 @@ export interface ListPackingGroupItemsResponse {
     pagination?: Pagination;
 }
 /**
- * `listPackingOptions` response.
+ * The `listPlacementOptions` response.
  * @export
  * @interface ListPackingOptionsResponse
  */
@@ -1181,7 +1537,7 @@ export interface ListPackingOptionsResponse {
     pagination?: Pagination;
 }
 /**
- * `listPlacementOptions` response.
+ * The `listPlacementOptions` response.
  * @export
  * @interface ListPlacementOptionsResponse
  */
@@ -1200,7 +1556,83 @@ export interface ListPlacementOptionsResponse {
     placementOptions: Array<PlacementOption>;
 }
 /**
- * `listTransportationOptions` response.
+ * The `listShipmentBoxes` response.
+ * @export
+ * @interface ListShipmentBoxesResponse
+ */
+export interface ListShipmentBoxesResponse {
+    /**
+     * A list of boxes in a shipment.
+     * @type {Array<Box>}
+     * @memberof ListShipmentBoxesResponse
+     */
+    boxes: Array<Box>;
+    /**
+     * 
+     * @type {Pagination}
+     * @memberof ListShipmentBoxesResponse
+     */
+    pagination?: Pagination;
+}
+/**
+ * The `ListShipmentContentUpdatePreviews` response.
+ * @export
+ * @interface ListShipmentContentUpdatePreviewsResponse
+ */
+export interface ListShipmentContentUpdatePreviewsResponse {
+    /**
+     * A list of content update previews in a shipment.
+     * @type {Array<ContentUpdatePreview>}
+     * @memberof ListShipmentContentUpdatePreviewsResponse
+     */
+    contentUpdatePreviews: Array<ContentUpdatePreview>;
+    /**
+     * 
+     * @type {Pagination}
+     * @memberof ListShipmentContentUpdatePreviewsResponse
+     */
+    pagination?: Pagination;
+}
+/**
+ * The `listShipmentItems` response.
+ * @export
+ * @interface ListShipmentItemsResponse
+ */
+export interface ListShipmentItemsResponse {
+    /**
+     * The items in a shipment.
+     * @type {Array<Item>}
+     * @memberof ListShipmentItemsResponse
+     */
+    items: Array<Item>;
+    /**
+     * 
+     * @type {Pagination}
+     * @memberof ListShipmentItemsResponse
+     */
+    pagination?: Pagination;
+}
+/**
+ * The `listShipmentPallets` response.
+ * @export
+ * @interface ListShipmentPalletsResponse
+ */
+export interface ListShipmentPalletsResponse {
+    /**
+     * 
+     * @type {Pagination}
+     * @memberof ListShipmentPalletsResponse
+     */
+    pagination?: Pagination;
+    /**
+     * The pallets in a shipment.
+     * @type {Array<Pallet>}
+     * @memberof ListShipmentPalletsResponse
+     */
+    pallets: Array<Pallet>;
+}
+/**
+ * The `listTransportationOptions` response.
  * @export
  * @interface ListTransportationOptionsResponse
  */
@@ -1282,6 +1714,25 @@ export interface ModelError {
     message: string;
 }
 /**
+ * Represents an msku and the related quantity.
+ * @export
+ * @interface MskuQuantity
+ */
+export interface MskuQuantity {
+    /**
+     * The merchant SKU, a merchant-supplied identifier for a specific SKU.
+     * @type {string}
+     * @memberof MskuQuantity
+     */
+    msku: string;
+    /**
+     * A positive integer.
+     * @type {number}
+     * @memberof MskuQuantity
+     */
+    quantity: number;
+}
+/**
  * A problem with additional properties persisted to an operation.
  * @export
  * @interface OperationProblem
@@ -1306,7 +1757,7 @@ export interface OperationProblem {
      */
     message: string;
     /**
-     * The severity of the problem. Can be \'WARNING\', or \'ERROR\'.
+     * The severity of the problem. Can be: `WARNING`, `ERROR`.
      * @type {string}
      * @memberof OperationProblem
      */
@@ -1361,7 +1812,7 @@ export interface PackingOption {
      */
     discounts: Array<Incentive>;
     /**
-     * The timestamp at which this packing option becomes no longer valid. This is in ISO 8601 datetime format with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     * The timestamp at which this packing option becomes no longer valid. This is based in ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
      * @type {string}
      * @memberof PackingOption
      */
@@ -1373,25 +1824,19 @@ export interface PackingOption {
      */
     fees: Array<Incentive>;
     /**
-     * Identifier to an inbound plan.
-     * @type {string}
-     * @memberof PackingOption
-     */
-    inboundPlanId: string;
-    /**
      * Packing group IDs.
      * @type {Array<string>}
      * @memberof PackingOption
      */
     packingGroups: Array<string>;
     /**
-     * Identifier to a packing option.
+     * Identifier of a packing option.
      * @type {string}
      * @memberof PackingOption
      */
     packingOptionId: string;
     /**
-     * The status of the packing option. Can be `OFFERED`, `ACCEPTED`, or `EXPIRED`.
+     * The status of the packing option. Can be: `OFFERED`, `ACCEPTED`, or `EXPIRED`.
      * @type {string}
      * @memberof PackingOption
      */
@@ -1410,7 +1855,7 @@ export interface PackingOption {
  */
 export interface PackingOptionSummary {
     /**
-     * Identifier to a packing option.
+     * Identifier of a packing option.
      * @type {string}
      * @memberof PackingOptionSummary
      */
@@ -1473,32 +1918,7 @@ export interface Pallet {
     weight?: Weight;
 }
 /**
- * Pallet information, including weight, dimensions, quantity, stackability, freight class, and declared value.
- * @export
- * @interface PalletInformation
- */
-export interface PalletInformation {
-    /**
-     * 
-     * @type {Currency}
-     * @memberof PalletInformation
-     */
-    declaredValue?: Currency;
-    /**
-     * Freight class. Can be `NONE`, `FC_50`, `FC_55`, `FC_60`, `FC_65`, `FC_70`, `FC_77_5`, `FC_85`, `FC_92_5`, `FC_100`, `FC_110`, `FC_125`, `FC_150`, `FC_175`, `FC_200`, `FC_250`, `FC_300`, `FC_400`, or `FC_500`.
-     * @type {string}
-     * @memberof PalletInformation
-     */
-    freightClass?: string;
-    /**
-     * Set pallet configuration for Less-Than-Truckload (LTL).
-     * @type {Array<PalletInput>}
-     * @memberof PalletInformation
-     */
-    pallets: Array<PalletInput>;
-}
-/**
- * Set pallet configuration for Less-Than-Truckload (LTL).
+ * Contains input information about a pallet to be used in the inbound plan.
  * @export
  * @interface PalletInput
  */
@@ -1541,7 +1961,7 @@ export interface PlacementOption {
      */
     discounts: Array<Incentive>;
     /**
-     * The expiration date of the placement option. This is in ISO 8601 datetime format with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     * The expiration date of the placement option. This is based in ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
      * @type {string}
      * @memberof PlacementOption
      */
@@ -1553,7 +1973,7 @@ export interface PlacementOption {
      */
     fees: Array<Incentive>;
     /**
-     * Identifier to a placement option. A placement option represents the shipment splits and destinations of SKUs.
+     * The identifier of a placement option. A placement option represents the shipment splits and destinations of SKUs.
      * @type {string}
      * @memberof PlacementOption
      */
@@ -1565,7 +1985,7 @@ export interface PlacementOption {
      */
     shipmentIds: Array<string>;
     /**
-     * The status of a placement option. Can be `OFFERED`, `ACCEPTED`, or `EXPIRED`.
+     * The status of a placement option. Can be: `OFFERED`, `ACCEPTED`, or `EXPIRED`.
      * @type {string}
      * @memberof PlacementOption
      */
@@ -1578,13 +1998,13 @@ export interface PlacementOption {
  */
 export interface PlacementOptionSummary {
     /**
-     * Identifier to a placement option. A placement option represents the shipment splits and destinations of SKUs.
+     * The identifier of a placement option. A placement option represents the shipment splits and destinations of SKUs.
      * @type {string}
      * @memberof PlacementOptionSummary
      */
     placementOptionId: string;
     /**
-     * The status of a placement option. Can be `OFFERED` or `ACCEPTED`.
+     * The status of a placement option. Can be: `OFFERED` or `ACCEPTED`.
      * @type {string}
      * @memberof PlacementOptionSummary
      */
@@ -1603,26 +2023,27 @@ export interface PrepInstruction {
      */
     fee?: Currency;
     /**
-     * In some situations, special preparations are required for items and this field reflects the owner of the         preparations. Options include `AMAZON` or `SELLER`.
+     * In some situations, special preparations are required for items and this field reflects the owner of the preparations. Options include `AMAZON`, `SELLER` or `NONE`.
      * @type {string}
      * @memberof PrepInstruction
      */
     prepOwner?: string;
     /**
-     * Type of preparation that should be done. Can be `ITEM_LABELING`, `ITEM_BUBBLEWRAP`, `ITEM_POLYBAGGING`, `ITEM_TAPING`, `ITEM_BLACK_SHRINKWRAP`, `ITEM_HANG_GARMENT`, `ITEM_BOXING`, `ITEM_SETCREAT`, `ITEM_RMOVHANG`, `ITEM_SUFFOSTK`, `ITEM_CAP_SEALING`, `ITEM_DEBUNDLE`, `ITEM_SETSTK`, `ITEM_SIOC`, `ITEM_NO_PREP`, `ADULT`, `BABY`, `TEXTILE`, `HANGER`, `FRAGILE`, `LIQUID`, `SHARP`, `SMALL`, `PERFORATED`, `GRANULAR`, `SET`, `FC_PROVIDED`, `UNKNOWN`, or `NONE`.
+     * Type of preparation that should be done. Can be: `ITEM_LABELING`, `ITEM_BUBBLEWRAP`, `ITEM_POLYBAGGING`, `ITEM_TAPING`, `ITEM_BLACK_SHRINKWRAP`, `ITEM_HANG_GARMENT`, `ITEM_BOXING`, `ITEM_SETCREAT`, `ITEM_RMOVHANG`, `ITEM_SUFFOSTK`, `ITEM_CAP_SEALING`, `ITEM_DEBUNDLE`, `ITEM_SETSTK`, `ITEM_SIOC`, `ITEM_NO_PREP`, `ADULT`, `BABY`, `TEXTILE`, `HANGER`, `FRAGILE`, `LIQUID`, `SHARP`, `SMALL`, `PERFORATED`, `GRANULAR`, `SET`, `FC_PROVIDED`, `UNKNOWN`, `NONE`.
      * @type {string}
      * @memberof PrepInstruction
      */
     prepType?: string;
 }
 /**
- * In some situations, special preparations are required for items and this field reflects the owner of the preparations. Options include `AMAZON` or `SELLER`.
+ * In some situations, special preparations are required for items and this field reflects the owner of the preparations. Options include `AMAZON`, `SELLER` or `NONE`.
  * @export
  * @enum {string}
  */
 export enum PrepOwner {
     Amazon = 'AMAZON',
-    Seller = 'SELLER'
+    Seller = 'SELLER',
+    None = 'NONE'
 }
 
 /**
@@ -1638,7 +2059,7 @@ export interface Quote {
      */
     cost: Currency;
     /**
-     * The timestamp at which this transportation option quote becomes no longer valid. This is in ISO 8601 datetime format with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     * The timestamp at which this transportation option quote becomes no longer valid. This is based in ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
      * @type {string}
      * @memberof Quote
      */
@@ -1693,7 +2114,26 @@ export interface Region {
     warehouseId?: string;
 }
 /**
- * `scheduleSelfShipAppointment` request.
+ * Objects that were included in the update request.
+ * @export
+ * @interface RequestedUpdates
+ */
+export interface RequestedUpdates {
+    /**
+     * A list of boxes that will be present in the shipment after the update.
+     * @type {Array<BoxUpdateInput>}
+     * @memberof RequestedUpdates
+     */
+    boxes?: Array<BoxUpdateInput>;
+    /**
+     * A list of all items that will be present in the shipment after the update.
+     * @type {Array<ItemInput>}
+     * @memberof RequestedUpdates
+     */
+    items?: Array<ItemInput>;
+}
+/**
+ * The `scheduleSelfShipAppointment` request.
  * @export
  * @interface ScheduleSelfShipAppointmentRequest
  */
@@ -1706,7 +2146,7 @@ export interface ScheduleSelfShipAppointmentRequest {
     reasonComment?: ReasonComment | 'APPOINTMENT_REQUESTED_BY_MISTAKE' | 'VEHICLE_DELAY' | 'SLOT_NOT_SUITABLE' | 'OUTSIDE_CARRIER_BUSINESS_HOURS' | 'UNFAVOURABLE_EXTERNAL_CONDITIONS' | 'PROCUREMENT_DELAY' | 'SHIPPING_PLAN_CHANGED' | 'INCREASED_QUANTITY' | 'OTHER';
 }
 /**
- * `scheduleSelfShipAppointment` response.
+ * The `scheduleSelfShipAppointment` response.
  * @export
  * @interface ScheduleSelfShipAppointmentResponse
  */
@@ -1717,6 +2157,43 @@ export interface ScheduleSelfShipAppointmentResponse {
      * @memberof ScheduleSelfShipAppointmentResponse
      */
     selfShipAppointmentDetails: SelfShipAppointmentDetails;
+}
+/**
+ * Selected delivery window attributes.
+ * @export
+ * @interface SelectedDeliveryWindow
+ */
+export interface SelectedDeliveryWindow {
+    /**
+     * Identifies type of Delivery Window Availability. Values: `AVAILABLE`, `CONGESTED`
+     * @type {string}
+     * @memberof SelectedDeliveryWindow
+     */
+    availabilityType: string;
+    /**
+     * Identifier of a delivery window option. A delivery window option represent one option for when a shipment is expected to be delivered.
+     * @type {string}
+     * @memberof SelectedDeliveryWindow
+     */
+    deliveryWindowOptionId: string;
+    /**
+     * The timestamp at which this Window can no longer be edited.
+     * @type {string}
+     * @memberof SelectedDeliveryWindow
+     */
+    editableUntil?: string;
+    /**
+     * The end timestamp of the window.
+     * @type {string}
+     * @memberof SelectedDeliveryWindow
+     */
+    endDate: string;
+    /**
+     * The start timestamp of the window.
+     * @type {string}
+     * @memberof SelectedDeliveryWindow
+     */
+    startDate: string;
 }
 /**
  * Appointment details for carrier pickup or fulfillment center appointments.
@@ -1750,7 +2227,7 @@ export interface SelfShipAppointmentDetails {
  */
 export interface SelfShipAppointmentSlotsAvailability {
     /**
-     * ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     * The ISO 8601 datetime with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
      * @type {string}
      * @memberof SelfShipAppointmentSlotsAvailability
      */
@@ -1763,7 +2240,7 @@ export interface SelfShipAppointmentSlotsAvailability {
     slots?: Array<AppointmentSlot>;
 }
 /**
- * `setPackingInformation` request.
+ * The `setPackingInformation` request.
  * @export
  * @interface SetPackingInformationRequest
  */
@@ -1773,10 +2250,10 @@ export interface SetPackingInformationRequest {
      * @type {Array<PackageGroupingInput>}
      * @memberof SetPackingInformationRequest
      */
-    packageGroupings?: Array<PackageGroupingInput>;
+    packageGroupings: Array<PackageGroupingInput>;
 }
 /**
- * `setPackingInformation` response.
+ * The `setPackingInformation` response.
  * @export
  * @interface SetPackingInformationResponse
  */
@@ -1819,11 +2296,11 @@ export interface Shipment {
      */
     destination: ShipmentDestination;
     /**
-     * Identifier to an inbound plan.
-     * @type {string}
+     * 
+     * @type {FreightInformation}
      * @memberof Shipment
      */
-    inboundPlanId: string;
+    freightInformation?: FreightInformation;
     /**
      * The name of the shipment.
      * @type {string}
@@ -1831,19 +2308,19 @@ export interface Shipment {
      */
     name?: string;
     /**
-     * 
-     * @type {PalletInformation}
-     * @memberof Shipment
-     */
-    palletInformation?: PalletInformation;
-    /**
-     * Identifier to a placement option. A placement option represents the shipment splits and destinations of SKUs.
+     * The identifier of a placement option. A placement option represents the shipment splits and destinations of SKUs.
      * @type {string}
      * @memberof Shipment
      */
     placementOptionId: string;
     /**
-     * Identifier to a transportation option. A transportation option represent one option for how to send a shipment.
+     * 
+     * @type {SelectedDeliveryWindow}
+     * @memberof Shipment
+     */
+    selectedDeliveryWindow?: SelectedDeliveryWindow;
+    /**
+     * Identifier of a transportation option. A transportation option represent one option for how to send a shipment.
      * @type {string}
      * @memberof Shipment
      */
@@ -1855,13 +2332,13 @@ export interface Shipment {
      */
     selfShipAppointmentDetails?: Array<SelfShipAppointmentDetails>;
     /**
-     * The confirmed shipment ID which shows up on labels (for example, FBA1234ABCD).
+     * The confirmed shipment ID which shows up on labels (for example, `FBA1234ABCD`).
      * @type {string}
      * @memberof Shipment
      */
     shipmentConfirmationId?: string;
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof Shipment
      */
@@ -1898,13 +2375,13 @@ export interface ShipmentDestination {
      */
     address?: Address;
     /**
-     * The type of destination for this shipment. Can be `AMAZON_OPTIMIZED`, or `AMAZON_WAREHOUSE`.
+     * The type of destination for this shipment. Can be: `AMAZON_OPTIMIZED`, `AMAZON_WAREHOUSE`.
      * @type {string}
      * @memberof ShipmentDestination
      */
     destinationType: string;
     /**
-     * The warehouse that the shipment should be sent to.  Empty if the destination type is `AMAZON_OPTIMIZED`.
+     * The warehouse that the shipment should be sent to. Empty if the destination type is `AMAZON_OPTIMIZED`.
      * @type {string}
      * @memberof ShipmentDestination
      */
@@ -1923,7 +2400,7 @@ export interface ShipmentSource {
      */
     address?: Address;
     /**
-     * The type of source for this shipment. Can be `SELLER_FACILITY`.
+     * The type of source for this shipment. Can be: `SELLER_FACILITY`.
      * @type {string}
      * @memberof ShipmentSource
      */
@@ -1936,13 +2413,13 @@ export interface ShipmentSource {
  */
 export interface ShipmentSummary {
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof ShipmentSummary
      */
     shipmentId: string;
     /**
-     * The status of a shipment. The state of the shipment will typically start in `WORKING` and transition to `READY_TO_SHIP` once required actions are complete prior to being picked up or shipped out. Can be `ABANDONED`, `CANCELLED`, `CHECKED_IN`, `CLOSED`, `DELETED`, `DELIVERED`, `IN_TRANSIT`, `MIXED`, `READY_TO_SHIP`, `RECEIVING`, `SHIPPED`, or `WORKING`.
+     * The status of a shipment. The state of the shipment will typically start in `WORKING` and transition to `READY_TO_SHIP` once required actions are complete prior to being picked up or shipped out. Can be: `ABANDONED`, `CANCELLED`, `CHECKED_IN`, `CLOSED`, `DELETED`, `DELIVERED`, `IN_TRANSIT`, `MIXED`, `READY_TO_SHIP`, `RECEIVING`, `SHIPPED`, `WORKING`.
      * @type {string}
      * @memberof ShipmentSummary
      */
@@ -1962,10 +2439,16 @@ export interface ShipmentTransportationConfiguration {
     contactInformation?: ContactInformation;
     /**
      * 
-     * @type {PalletInformation}
+     * @type {FreightInformation}
      * @memberof ShipmentTransportationConfiguration
      */
-    palletInformation?: PalletInformation;
+    freightInformation?: FreightInformation;
+    /**
+     * List of pallet configuration inputs.
+     * @type {Array<PalletInput>}
+     * @memberof ShipmentTransportationConfiguration
+     */
+    pallets?: Array<PalletInput>;
     /**
      * 
      * @type {WindowInput}
@@ -1973,7 +2456,7 @@ export interface ShipmentTransportationConfiguration {
      */
     readyToShipWindow: WindowInput;
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof ShipmentTransportationConfiguration
      */
@@ -1986,13 +2469,13 @@ export interface ShipmentTransportationConfiguration {
  */
 export interface ShippingConfiguration {
     /**
-     * Mode of shipment transportation that this option will provide. Can be `GROUND_SMALL_PARCEL`, `FREIGHT_LTL`, `FREIGHT_FTL_PALLET`, `FREIGHT_FTL_NONPALLET`, `OCEAN_LCL`, `OCEAN_FCL`, `AIR_SMALL_PARCEL`, or `AIR_SMALL_PARCEL_EXPRESS`.
+     * Mode of shipment transportation that this option will provide. Can be: `GROUND_SMALL_PARCEL`, `FREIGHT_LTL`, `FREIGHT_FTL_PALLET`, `FREIGHT_FTL_NONPALLET`, `OCEAN_LCL`, `OCEAN_FCL`, `AIR_SMALL_PARCEL`, `AIR_SMALL_PARCEL_EXPRESS`.
      * @type {string}
      * @memberof ShippingConfiguration
      */
     shippingMode?: string;
     /**
-     * Shipping program for the option. Can be `AMAZON_PARTNERED_CARRIER` or `USE_YOUR_OWN_CARRIER`.
+     * Shipping program for the option. Can be: `AMAZON_PARTNERED_CARRIER`, `USE_YOUR_OWN_CARRIER`.
      * @type {string}
      * @memberof ShippingConfiguration
      */
@@ -2031,7 +2514,7 @@ export interface SpdTrackingDetailInput {
  */
 export interface SpdTrackingItem {
     /**
-     * The ID provided by Amazon that identifies a given box. This ID is comprised of the external shipment ID (which         is generated after transportation has been confirmed) and the index of the box.
+     * The ID provided by Amazon that identifies a given box. This ID is comprised of the external shipment ID (which is generated after transportation has been confirmed) and the index of the box.
      * @type {string}
      * @memberof SpdTrackingItem
      */
@@ -2043,7 +2526,7 @@ export interface SpdTrackingItem {
      */
     trackingId?: string;
     /**
-     * Whether or not Amazon has validated the tracking number. If more than 24 hours have passed and the status is         not yet \'VALIDATED\', please verify the number and update if necessary. Can be `VALIDATED` or `NOT_VALIDATED`.
+     * Whether or not Amazon has validated the tracking number. If more than 24 hours have passed and the status is not yet \'VALIDATED\', please verify the number and update if necessary. Can be: `VALIDATED`, `NOT_VALIDATED`.
      * @type {string}
      * @memberof SpdTrackingItem
      */
@@ -2056,13 +2539,13 @@ export interface SpdTrackingItem {
  */
 export interface SpdTrackingItemInput {
     /**
-     * The ID provided by Amazon that identifies a given box. This ID is comprised of the external shipment ID (which         is generated after transportation has been confirmed) and the index of the box.
+     * The ID provided by Amazon that identifies a given box. This ID is comprised of the external shipment ID (which is generated after transportation has been confirmed) and the index of the box.
      * @type {string}
      * @memberof SpdTrackingItemInput
      */
     boxId: string;
     /**
-     * The tracking Id associated with each box in a non-Amazon partnered Small Parcel Delivery (SPD) shipment. The seller must provide this information. 
+     * The tracking Id associated with each box in a non-Amazon partnered Small Parcel Delivery (SPD) shipment. The seller must provide this information.
      * @type {string}
      * @memberof SpdTrackingItemInput
      */
@@ -2122,7 +2605,7 @@ export interface TaxRate {
      */
     gstRate?: number;
     /**
-     * Type of tax. Can be `CGST`, `SGST`, `IGST`, or `TOTAL_TAX`.
+     * Type of tax. Can be: `CGST`, `SGST`, `IGST`, `TOTAL_TAX`.
      * @type {string}
      * @memberof TaxRate
      */
@@ -2174,28 +2657,22 @@ export interface TrackingDetailsInput {
 export interface TransportationOption {
     /**
      * 
-     * @type {AppointmentSlot}
-     * @memberof TransportationOption
-     */
-    appointmentSlot?: AppointmentSlot;
-    /**
-     * 
      * @type {Carrier}
      * @memberof TransportationOption
      */
     carrier: Carrier;
     /**
-     * Identifier to an inbound plan.
-     * @type {string}
+     * 
+     * @type {CarrierAppointment}
      * @memberof TransportationOption
      */
-    inboundPlanId: string;
+    carrierAppointment?: CarrierAppointment;
     /**
-     * The identifier of a placement option. A placement option represents the shipment splits and destinations of SKUs.
-     * @type {string}
+     * Identifies a list of preconditions for confirming the transportation option.
+     * @type {Array<string>}
      * @memberof TransportationOption
      */
-    placementOptionId: string;
+    preconditions: Array<string>;
     /**
      * 
      * @type {Quote}
@@ -2203,25 +2680,25 @@ export interface TransportationOption {
      */
     quote?: Quote;
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof TransportationOption
      */
     shipmentId: string;
     /**
-     * The shipping mode associated with the transportation option. Available modes are ground small parcel, freight less-than-truckload (LTL), freight full-truckload (FTL) palletized, freight FTL non-palletized, ocean less-than-container-load (LCL), ocean full-container load (FCL), air small parcel, and air small parcel express.
+     * Mode of shipment transportation that this option will provide. Can be: `GROUND_SMALL_PARCEL`, `FREIGHT_LTL`, `FREIGHT_FTL_PALLET`, `FREIGHT_FTL_NONPALLET`, `OCEAN_LCL`, `OCEAN_FCL`, `AIR_SMALL_PARCEL`, `AIR_SMALL_PARCEL_EXPRESS`.
      * @type {string}
      * @memberof TransportationOption
      */
     shippingMode: string;
     /**
-     * The shipping solution associated with the transportation option. Available solutions are Amazon-partnered carrier or \'use your own carrier\'.
+     * Shipping program for the option. Can be: `AMAZON_PARTNERED_CARRIER`, `USE_YOUR_OWN_CARRIER`.
      * @type {string}
      * @memberof TransportationOption
      */
     shippingSolution: string;
     /**
-     * Identifier to a transportation option. A transportation option represent one option for how to send a shipment.
+     * Identifier of a transportation option. A transportation option represent one option for how to send a shipment.
      * @type {string}
      * @memberof TransportationOption
      */
@@ -2239,12 +2716,6 @@ export interface TransportationSelection {
      * @memberof TransportationSelection
      */
     contactInformation?: ContactInformation;
-    /**
-     * 
-     * @type {WindowInput}
-     * @memberof TransportationSelection
-     */
-    deliveryWindow?: WindowInput;
     /**
      * Shipment ID that the transportation Option is for.
      * @type {string}
@@ -2279,6 +2750,19 @@ export enum UnitOfWeight {
 }
 
 /**
+ * The `updateInboundPlanName` request.
+ * @export
+ * @interface UpdateInboundPlanNameRequest
+ */
+export interface UpdateInboundPlanNameRequest {
+    /**
+     * A human-readable name to update the inbound plan name to.
+     * @type {string}
+     * @memberof UpdateInboundPlanNameRequest
+     */
+    name: string;
+}
+/**
  * The `updateItemComplianceDetails` request.
  * @export
  * @interface UpdateItemComplianceDetailsRequest
@@ -2311,28 +2795,41 @@ export interface UpdateItemComplianceDetailsResponse {
     operationId: string;
 }
 /**
- * The `updateShipmentDeliveryWindow` request.
+ * The `updateShipmentName` request.
  * @export
- * @interface UpdateShipmentDeliveryWindowRequest
+ * @interface UpdateShipmentNameRequest
  */
-export interface UpdateShipmentDeliveryWindowRequest {
+export interface UpdateShipmentNameRequest {
     /**
-     * 
-     * @type {WindowInput}
-     * @memberof UpdateShipmentDeliveryWindowRequest
+     * A human-readable name to update the shipment name to.
+     * @type {string}
+     * @memberof UpdateShipmentNameRequest
      */
-    deliveryWindow: WindowInput;
+    name: string;
 }
 /**
- * The `updateShipmentDeliveryWindow` response.
+ * The `UpdateShipmentSourceAddress` request.
  * @export
- * @interface UpdateShipmentDeliveryWindowResponse
+ * @interface UpdateShipmentSourceAddressRequest
  */
-export interface UpdateShipmentDeliveryWindowResponse {
+export interface UpdateShipmentSourceAddressRequest {
+    /**
+     * 
+     * @type {AddressInput}
+     * @memberof UpdateShipmentSourceAddressRequest
+     */
+    address: AddressInput;
+}
+/**
+ * The `UpdateShipmentSourceAddress` response.
+ * @export
+ * @interface UpdateShipmentSourceAddressResponse
+ */
+export interface UpdateShipmentSourceAddressResponse {
     /**
      * UUID for the given operation.
      * @type {string}
-     * @memberof UpdateShipmentDeliveryWindowResponse
+     * @memberof UpdateShipmentSourceAddressResponse
      */
     operationId: string;
 }
@@ -2427,8 +2924,8 @@ export interface WindowInput {
 export const FbaInboundApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Cancels an Inbound Plan. Charges may apply if the cancellation is performed outside of a void window. The window     for Amazon Partnered Carriers is 24 hours for Small Parcel Delivery (SPD) and one hour for Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Cancels an Inbound Plan. Charges may apply if the cancellation is performed outside of a void window. The window for Amazon Partnered Carriers is 24 hours for Small Parcel Delivery (SPD) and one hour for Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2460,27 +2957,23 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Cancels a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {string} slotId Identifier to a self-ship appointment slot.
+         * Cancels a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {CancelSelfShipAppointmentRequest} body The body of the request to &#x60;cancelSelfShipAppointment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelSelfShipAppointment: async (inboundPlanId: string, shipmentId: string, slotId: string, body: CancelSelfShipAppointmentRequest, options: any = {}): Promise<RequestArgs> => {
+        cancelSelfShipAppointment: async (inboundPlanId: string, shipmentId: string, body: CancelSelfShipAppointmentRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'inboundPlanId' is not null or undefined
             assertParamExists('cancelSelfShipAppointment', 'inboundPlanId', inboundPlanId)
             // verify required parameter 'shipmentId' is not null or undefined
             assertParamExists('cancelSelfShipAppointment', 'shipmentId', shipmentId)
-            // verify required parameter 'slotId' is not null or undefined
-            assertParamExists('cancelSelfShipAppointment', 'slotId', slotId)
             // verify required parameter 'body' is not null or undefined
             assertParamExists('cancelSelfShipAppointment', 'body', body)
-            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/selfShipAppointmentSlots/{slotId}/cancellation`
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/selfShipAppointmentCancellation`
                 .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
-                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)))
-                .replace(`{${"slotId"}}`, encodeURIComponent(String(slotId)));
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2507,9 +3000,50 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Confirms the packing option for an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} packingOptionId Identifier to a packing option.
+         * Confirms the delivery window option for chosen shipment within an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new delivery window options cannot be generated, but the chosen delivery window option can be updated before shipment closure. The window is used to provide the expected time when a shipment will arrive at the warehouse. All transportation options which have the program `CONFIRMED_DELIVERY_WINDOW` require a delivery window to be confirmed prior to transportation option confirmation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to confirm the delivery window option for.
+         * @param {string} deliveryWindowOptionId The id of the delivery window option to be confirmed.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmDeliveryWindowOptions: async (inboundPlanId: string, shipmentId: string, deliveryWindowOptionId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('confirmDeliveryWindowOptions', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('confirmDeliveryWindowOptions', 'shipmentId', shipmentId)
+            // verify required parameter 'deliveryWindowOptionId' is not null or undefined
+            assertParamExists('confirmDeliveryWindowOptions', 'deliveryWindowOptionId', deliveryWindowOptionId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/deliveryWindowOptions/{deliveryWindowOptionId}/confirmation`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)))
+                .replace(`{${"deliveryWindowOptionId"}}`, encodeURIComponent(String(deliveryWindowOptionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Confirms the packing option for an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingOptionId Identifier of a packing option.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2544,9 +3078,9 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Confirms the placement option for an inbound plan. Once confirmed, it cannot be changed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} placementOptionId Identifier to a placement option. A placement option represents the shipment splits and destinations of SKUs.
+         * Confirms the placement option for an inbound plan. Once confirmed, it cannot be changed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} placementOptionId The identifier of a placement option. A placement option represents the shipment splits and destinations of SKUs.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2581,8 +3115,49 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Confirms all the transportation options for an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new transportation options can not be generated or confirmed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Confirm a shipment content update preview and accept the changes in transportation cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} contentUpdatePreviewId Identifier of a content update preview.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmShipmentContentUpdatePreview: async (inboundPlanId: string, shipmentId: string, contentUpdatePreviewId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('confirmShipmentContentUpdatePreview', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('confirmShipmentContentUpdatePreview', 'shipmentId', shipmentId)
+            // verify required parameter 'contentUpdatePreviewId' is not null or undefined
+            assertParamExists('confirmShipmentContentUpdatePreview', 'contentUpdatePreviewId', contentUpdatePreviewId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/contentUpdatePreviews/{contentUpdatePreviewId}/confirmation`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)))
+                .replace(`{${"contentUpdatePreviewId"}}`, encodeURIComponent(String(contentUpdatePreviewId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Confirms all the transportation options for an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new transportation options can not be generated or confirmed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {ConfirmTransportationOptionsRequest} body The body of the request to &#x60;confirmTransportationOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2620,7 +3195,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Creates an inbound plan. An inbound plan contains all the necessary information to send shipments into Amazon\'s fufillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates an inbound plan. An inbound plan contains all the necessary information to send shipments into Amazon\'s fufillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {CreateInboundPlanRequest} body The body of the request to &#x60;createInboundPlan&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2655,8 +3230,80 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Generates available packing options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * For a given marketplace - creates labels for a list of mskus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {CreateMarketplaceItemLabelsRequest} body The body of the request to &#x60;createMarketplaceItemLabels&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createMarketplaceItemLabels: async (body: CreateMarketplaceItemLabelsRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('createMarketplaceItemLabels', 'body', body)
+            const localVarPath = `/inbound/fba/2024-03-20/items/labels`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Generates available delivery window options for a given shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to generate delivery window options for.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateDeliveryWindowOptions: async (inboundPlanId: string, shipmentId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('generateDeliveryWindowOptions', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('generateDeliveryWindowOptions', 'shipmentId', shipmentId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/deliveryWindowOptions`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Generates available packing options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2688,8 +3335,8 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Generates placement options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Generates placement options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {GeneratePlacementOptionsRequest} body The body of the request to &#x60;generatePlacementOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2727,10 +3374,10 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Initiates the process of generating the appointment slots list.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {GenerateSelfShipAppointmentSlotsRequest} body The body of the request &#x60;generateSelfShipAppointmentSlots&#x60;.
+         * Initiates the process of generating the appointment slots list.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {GenerateSelfShipAppointmentSlotsRequest} body The body of the request to &#x60;generateSelfShipAppointmentSlots&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2770,8 +3417,51 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Generates available transportation options for a given placement option.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Generate a shipment content update preview given a set of intended boxes and/or items for a shipment with a confirmed carrier. The shipment content update preview will be viewable with the updated costs and contents prior to confirmation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {GenerateShipmentContentUpdatePreviewsRequest} body The body of the request to &#x60;generateShipmentContentUpdatePreviews&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateShipmentContentUpdatePreviews: async (inboundPlanId: string, shipmentId: string, body: GenerateShipmentContentUpdatePreviewsRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('generateShipmentContentUpdatePreviews', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('generateShipmentContentUpdatePreviews', 'shipmentId', shipmentId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('generateShipmentContentUpdatePreviews', 'body', body)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/contentUpdatePreviews`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Generates available transportation options for a given placement option.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {GenerateTransportationOptionsRequest} body The body of the request to &#x60;generateTransportationOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2809,9 +3499,9 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Provide delivery challan document for PCP transportation in IN marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Provide delivery challan document for PCP transportation in IN marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2846,8 +3536,8 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Gets the status of the processing of an asynchronous API call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} operationId Identifier to an asynchronous operation.
+         * Gets the status of the processing of an asynchronous API call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} operationId Identifier of an asynchronous operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2879,8 +3569,8 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Fetches the top level information about an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Fetches the top level information about an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2912,9 +3602,9 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Retrieves a list of available self-ship appointment slots used to drop off a shipment at a warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Retrieves a list of available self-ship appointment slots used to drop off a shipment at a warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {number} [pageSize] The number of self ship appointment slots to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -2959,9 +3649,9 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Provides the full details for a specific shipment within an inbound plan. The `transportationOptionId` inside `acceptedTransportationSelection` can be used to retrieve the transportation details for the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Provides the full details for a specific shipment within an inbound plan. The `transportationOptionId` inside `acceptedTransportationSelection` can be used to retrieve the transportation details for the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2996,8 +3686,96 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Provides a paginated list of box packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Retrieve a shipment content update preview which provides a summary of the requested shipment content changes along with the transportation cost implications of the change that can only be confirmed prior to the expiry date specified.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} contentUpdatePreviewId Identifier of a content update preview.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getShipmentContentUpdatePreview: async (inboundPlanId: string, shipmentId: string, contentUpdatePreviewId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('getShipmentContentUpdatePreview', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('getShipmentContentUpdatePreview', 'shipmentId', shipmentId)
+            // verify required parameter 'contentUpdatePreviewId' is not null or undefined
+            assertParamExists('getShipmentContentUpdatePreview', 'contentUpdatePreviewId', contentUpdatePreviewId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/contentUpdatePreviews/{contentUpdatePreviewId}`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)))
+                .replace(`{${"contentUpdatePreviewId"}}`, encodeURIComponent(String(contentUpdatePreviewId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieves all delivery window options for a shipment. Delivery window options must first be generated by the `generateDeliveryWindowOptions` operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to get delivery window options for.
+         * @param {number} [pageSize] The number of delivery window options to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listDeliveryWindowOptions: async (inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('listDeliveryWindowOptions', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('listDeliveryWindowOptions', 'shipmentId', shipmentId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/deliveryWindowOptions`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (paginationToken !== undefined) {
+                localVarQueryParameter['paginationToken'] = paginationToken;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Provides a paginated list of box packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of boxes to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3039,8 +3817,8 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Provides a paginated list of item packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of item packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of items to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3082,8 +3860,8 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Provides a paginated list of pallet packages in an inbound plan. An inbound plan will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of pallet packages in an inbound plan. An inbound plan will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of pallets to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3125,7 +3903,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Provides a list of inbound plans with minimal information.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Provides a list of inbound plans with minimal information.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {number} [pageSize] The number of inbound plans to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {'ACTIVE' | 'VOIDED' | 'SHIPPED'} [status] The status of an inbound plan.
@@ -3179,8 +3957,8 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * List the inbound compliance details for MSKUs in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} mskus List of merchant SKUs, a merchant-supplied identifier for a specific SKU.
+         * List the inbound compliance details for MSKUs in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {Array<string>} mskus List of merchant SKUs - a merchant-supplied identifier for a specific SKU.
          * @param {string} marketplaceId The Marketplace ID. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a list of possible values.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3222,25 +4000,21 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Retrieves a list of all items in a packing options\'s packing group. Packing options must first be generated by the corresponding endpoint before packing group items can be listed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} packingOptionId Identifier to a packing option.
-         * @param {string} packingGroupId Identifier to a packing group.
-         * @param {number} [pageSize] The number of packing group items to return in the response matching the given query.
+         * Retrieves a page of boxes from a given packing group. These boxes were previously provided through the `setPackingInformation` operation. This API is used for workflows where boxes are packed before Amazon determines shipment splits.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingGroupId Identifier of a packing group.
+         * @param {number} [pageSize] The number of packing group boxes to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listPackingGroupItems: async (inboundPlanId: string, packingOptionId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options: any = {}): Promise<RequestArgs> => {
+        listPackingGroupBoxes: async (inboundPlanId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'inboundPlanId' is not null or undefined
-            assertParamExists('listPackingGroupItems', 'inboundPlanId', inboundPlanId)
-            // verify required parameter 'packingOptionId' is not null or undefined
-            assertParamExists('listPackingGroupItems', 'packingOptionId', packingOptionId)
+            assertParamExists('listPackingGroupBoxes', 'inboundPlanId', inboundPlanId)
             // verify required parameter 'packingGroupId' is not null or undefined
-            assertParamExists('listPackingGroupItems', 'packingGroupId', packingGroupId)
-            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/packingOptions/{packingOptionId}/packingGroups/{packingGroupId}/items`
+            assertParamExists('listPackingGroupBoxes', 'packingGroupId', packingGroupId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/packingGroups/{packingGroupId}/boxes`
                 .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
-                .replace(`{${"packingOptionId"}}`, encodeURIComponent(String(packingOptionId)))
                 .replace(`{${"packingGroupId"}}`, encodeURIComponent(String(packingGroupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3273,8 +4047,55 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Retrieves a list of all packing options for an inbound plan. Packing options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Retrieves a page of items in a given packing group. Packing options must first be generated by the corresponding operation before packing group items can be listed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingGroupId Identifier of a packing group.
+         * @param {number} [pageSize] The number of packing group items to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPackingGroupItems: async (inboundPlanId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('listPackingGroupItems', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'packingGroupId' is not null or undefined
+            assertParamExists('listPackingGroupItems', 'packingGroupId', packingGroupId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/packingGroups/{packingGroupId}/items`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"packingGroupId"}}`, encodeURIComponent(String(packingGroupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (paginationToken !== undefined) {
+                localVarQueryParameter['paginationToken'] = paginationToken;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieves a list of all packing options for an inbound plan. Packing options must first be generated by the corresponding operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of packing options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3316,8 +4137,8 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Provides a list of all placement options for an inbound plan. Placement options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a list of all placement options for an inbound plan. Placement options must first be generated by the corresponding operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of placement options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3359,12 +4180,200 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Retrieves all transportation options for a shipment. Transportation options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of box packages in a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of boxes to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listShipmentBoxes: async (inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('listShipmentBoxes', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('listShipmentBoxes', 'shipmentId', shipmentId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/boxes`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (paginationToken !== undefined) {
+                localVarQueryParameter['paginationToken'] = paginationToken;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieve a paginated list of shipment content update previews for a given shipment. The shipment content update preview is a summary of the requested shipment content changes along with the transportation cost implications of the change that can only be confirmed prior to the expiry date specified.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of content update previews to return.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listShipmentContentUpdatePreviews: async (inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('listShipmentContentUpdatePreviews', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('listShipmentContentUpdatePreviews', 'shipmentId', shipmentId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/contentUpdatePreviews`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (paginationToken !== undefined) {
+                localVarQueryParameter['paginationToken'] = paginationToken;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Provides a paginated list of item packages in a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of items to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listShipmentItems: async (inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('listShipmentItems', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('listShipmentItems', 'shipmentId', shipmentId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/items`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (paginationToken !== undefined) {
+                localVarQueryParameter['paginationToken'] = paginationToken;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Provides a paginated list of pallet packages in a shipment. A palletized shipment will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of pallets to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listShipmentPallets: async (inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('listShipmentPallets', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('listShipmentPallets', 'shipmentId', shipmentId)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/pallets`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (paginationToken !== undefined) {
+                localVarQueryParameter['paginationToken'] = paginationToken;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieves all transportation options for a shipment. Transportation options must first be generated by the `generateTransportationOptions` operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of transportation options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
-         * @param {string} [placementOptionId] The placement option to get transportation options for. Either placementOptionId or shipmentId must be specified.
-         * @param {string} [shipmentId] The shipment to get transportation options for. Either placementOptionId or shipmentId must be specified.
+         * @param {string} [placementOptionId] The placement option to get transportation options for. Either &#x60;placementOptionId&#x60; or &#x60;shipmentId&#x60; must be specified.
+         * @param {string} [shipmentId] The shipment to get transportation options for. Either &#x60;placementOptionId&#x60; or &#x60;shipmentId&#x60; must be specified.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3412,10 +4421,10 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Confirms or reschedules a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {string} slotId Identifier to a self-ship appointment slot.
+         * Confirms or reschedules a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} slotId An identifier to a self-ship appointment slot.
          * @param {ScheduleSelfShipAppointmentRequest} body The body of the request to &#x60;scheduleSelfShipAppointment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3459,8 +4468,8 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Sets packing information for an inbound plan. This should be called after an inbound plan is created to populate     the box level information required for planning and transportation estimates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Sets packing information for an inbound plan. This should be called after an inbound plan is created to populate the box level information required for planning and transportation estimates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {SetPackingInformationRequest} body The body of the request to &#x60;setPackingInformation&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3498,7 +4507,46 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Update compliance details for list of MSKUs. The details provided here are only used for the IN marketplace compliance validation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates the name of an existing inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {UpdateInboundPlanNameRequest} body The body of the request to &#x60;updateInboundPlanName&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateInboundPlanName: async (inboundPlanId: string, body: UpdateInboundPlanNameRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('updateInboundPlanName', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('updateInboundPlanName', 'body', body)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/name`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Update compliance details for list of MSKUs. The details provided here are only used for the IN marketplace compliance validation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {string} marketplaceId The Marketplace ID. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a list of possible values.
          * @param {UpdateItemComplianceDetailsRequest} body The body of the request to &#x60;updateItemComplianceDetails&#x60;.
          * @param {*} [options] Override http request option.
@@ -3540,21 +4588,21 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Update the time window that a shipment will be delivered to the warehouse. The window is used to provide the expected time that a non-Amazon partnered carrier will arrive at the warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {UpdateShipmentDeliveryWindowRequest} body The body of the request to &#x60;updateShipmentDeliveryWindow&#x60;.
+         * Updates the name of an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {UpdateShipmentNameRequest} body The body of the request to &#x60;updateShipmentName&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateShipmentDeliveryWindow: async (inboundPlanId: string, shipmentId: string, body: UpdateShipmentDeliveryWindowRequest, options: any = {}): Promise<RequestArgs> => {
+        updateShipmentName: async (inboundPlanId: string, shipmentId: string, body: UpdateShipmentNameRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'inboundPlanId' is not null or undefined
-            assertParamExists('updateShipmentDeliveryWindow', 'inboundPlanId', inboundPlanId)
+            assertParamExists('updateShipmentName', 'inboundPlanId', inboundPlanId)
             // verify required parameter 'shipmentId' is not null or undefined
-            assertParamExists('updateShipmentDeliveryWindow', 'shipmentId', shipmentId)
+            assertParamExists('updateShipmentName', 'shipmentId', shipmentId)
             // verify required parameter 'body' is not null or undefined
-            assertParamExists('updateShipmentDeliveryWindow', 'body', body)
-            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/deliveryWindow`
+            assertParamExists('updateShipmentName', 'body', body)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/name`
                 .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
                 .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -3564,7 +4612,7 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -3583,9 +4631,52 @@ export const FbaInboundApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Updates a shipment\'s tracking details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Updates the source address of an existing shipment. The shipment source address can only be updated prior to the confirmation of the shipment carriers. As a result of the updated source address, existing transportation options will be invalidated and will need to be regenerated to capture the potential difference in transportation options and quotes due to the new source address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {UpdateShipmentSourceAddressRequest} body The body of the request to &#x60;updateShipmentSourceAddress&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateShipmentSourceAddress: async (inboundPlanId: string, shipmentId: string, body: UpdateShipmentSourceAddressRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inboundPlanId' is not null or undefined
+            assertParamExists('updateShipmentSourceAddress', 'inboundPlanId', inboundPlanId)
+            // verify required parameter 'shipmentId' is not null or undefined
+            assertParamExists('updateShipmentSourceAddress', 'shipmentId', shipmentId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('updateShipmentSourceAddress', 'body', body)
+            const localVarPath = `/inbound/fba/2024-03-20/inboundPlans/{inboundPlanId}/shipments/{shipmentId}/sourceAddress`
+                .replace(`{${"inboundPlanId"}}`, encodeURIComponent(String(inboundPlanId)))
+                .replace(`{${"shipmentId"}}`, encodeURIComponent(String(shipmentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Updates a shipment\'s tracking details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {UpdateShipmentTrackingDetailsRequest} body The body of the request to &#x60;updateShipmentTrackingDetails&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3636,8 +4727,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FbaInboundApiAxiosParamCreator(configuration)
     return {
         /**
-         * Cancels an Inbound Plan. Charges may apply if the cancellation is performed outside of a void window. The window     for Amazon Partnered Carriers is 24 hours for Small Parcel Delivery (SPD) and one hour for Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Cancels an Inbound Plan. Charges may apply if the cancellation is performed outside of a void window. The window for Amazon Partnered Carriers is 24 hours for Small Parcel Delivery (SPD) and one hour for Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3646,22 +4737,33 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Cancels a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {string} slotId Identifier to a self-ship appointment slot.
+         * Cancels a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {CancelSelfShipAppointmentRequest} body The body of the request to &#x60;cancelSelfShipAppointment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cancelSelfShipAppointment(inboundPlanId: string, shipmentId: string, slotId: string, body: CancelSelfShipAppointmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelSelfShipAppointmentResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelSelfShipAppointment(inboundPlanId, shipmentId, slotId, body, options);
+        async cancelSelfShipAppointment(inboundPlanId: string, shipmentId: string, body: CancelSelfShipAppointmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CancelSelfShipAppointmentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelSelfShipAppointment(inboundPlanId, shipmentId, body, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Confirms the packing option for an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} packingOptionId Identifier to a packing option.
+         * Confirms the delivery window option for chosen shipment within an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new delivery window options cannot be generated, but the chosen delivery window option can be updated before shipment closure. The window is used to provide the expected time when a shipment will arrive at the warehouse. All transportation options which have the program `CONFIRMED_DELIVERY_WINDOW` require a delivery window to be confirmed prior to transportation option confirmation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to confirm the delivery window option for.
+         * @param {string} deliveryWindowOptionId The id of the delivery window option to be confirmed.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async confirmDeliveryWindowOptions(inboundPlanId: string, shipmentId: string, deliveryWindowOptionId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmDeliveryWindowOptionsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmDeliveryWindowOptions(inboundPlanId, shipmentId, deliveryWindowOptionId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Confirms the packing option for an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingOptionId Identifier of a packing option.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3670,9 +4772,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Confirms the placement option for an inbound plan. Once confirmed, it cannot be changed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} placementOptionId Identifier to a placement option. A placement option represents the shipment splits and destinations of SKUs.
+         * Confirms the placement option for an inbound plan. Once confirmed, it cannot be changed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} placementOptionId The identifier of a placement option. A placement option represents the shipment splits and destinations of SKUs.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3681,8 +4783,20 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Confirms all the transportation options for an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new transportation options can not be generated or confirmed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Confirm a shipment content update preview and accept the changes in transportation cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} contentUpdatePreviewId Identifier of a content update preview.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async confirmShipmentContentUpdatePreview(inboundPlanId: string, shipmentId: string, contentUpdatePreviewId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmShipmentContentUpdatePreviewResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmShipmentContentUpdatePreview(inboundPlanId, shipmentId, contentUpdatePreviewId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Confirms all the transportation options for an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new transportation options can not be generated or confirmed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {ConfirmTransportationOptionsRequest} body The body of the request to &#x60;confirmTransportationOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3692,7 +4806,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Creates an inbound plan. An inbound plan contains all the necessary information to send shipments into Amazon\'s fufillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates an inbound plan. An inbound plan contains all the necessary information to send shipments into Amazon\'s fufillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {CreateInboundPlanRequest} body The body of the request to &#x60;createInboundPlan&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3702,8 +4816,29 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Generates available packing options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * For a given marketplace - creates labels for a list of mskus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {CreateMarketplaceItemLabelsRequest} body The body of the request to &#x60;createMarketplaceItemLabels&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createMarketplaceItemLabels(body: CreateMarketplaceItemLabelsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMarketplaceItemLabelsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createMarketplaceItemLabels(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Generates available delivery window options for a given shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to generate delivery window options for.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async generateDeliveryWindowOptions(inboundPlanId: string, shipmentId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GenerateDeliveryWindowOptionsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.generateDeliveryWindowOptions(inboundPlanId, shipmentId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Generates available packing options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3712,8 +4847,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Generates placement options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Generates placement options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {GeneratePlacementOptionsRequest} body The body of the request to &#x60;generatePlacementOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3723,10 +4858,10 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Initiates the process of generating the appointment slots list.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {GenerateSelfShipAppointmentSlotsRequest} body The body of the request &#x60;generateSelfShipAppointmentSlots&#x60;.
+         * Initiates the process of generating the appointment slots list.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {GenerateSelfShipAppointmentSlotsRequest} body The body of the request to &#x60;generateSelfShipAppointmentSlots&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3735,8 +4870,20 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Generates available transportation options for a given placement option.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Generate a shipment content update preview given a set of intended boxes and/or items for a shipment with a confirmed carrier. The shipment content update preview will be viewable with the updated costs and contents prior to confirmation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {GenerateShipmentContentUpdatePreviewsRequest} body The body of the request to &#x60;generateShipmentContentUpdatePreviews&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async generateShipmentContentUpdatePreviews(inboundPlanId: string, shipmentId: string, body: GenerateShipmentContentUpdatePreviewsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GenerateShipmentContentUpdatePreviewsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.generateShipmentContentUpdatePreviews(inboundPlanId, shipmentId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Generates available transportation options for a given placement option.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {GenerateTransportationOptionsRequest} body The body of the request to &#x60;generateTransportationOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3746,9 +4893,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Provide delivery challan document for PCP transportation in IN marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Provide delivery challan document for PCP transportation in IN marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3757,8 +4904,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Gets the status of the processing of an asynchronous API call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} operationId Identifier to an asynchronous operation.
+         * Gets the status of the processing of an asynchronous API call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} operationId Identifier of an asynchronous operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3767,8 +4914,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Fetches the top level information about an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Fetches the top level information about an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3777,9 +4924,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Retrieves a list of available self-ship appointment slots used to drop off a shipment at a warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Retrieves a list of available self-ship appointment slots used to drop off a shipment at a warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {number} [pageSize] The number of self ship appointment slots to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3790,9 +4937,9 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Provides the full details for a specific shipment within an inbound plan. The `transportationOptionId` inside `acceptedTransportationSelection` can be used to retrieve the transportation details for the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Provides the full details for a specific shipment within an inbound plan. The `transportationOptionId` inside `acceptedTransportationSelection` can be used to retrieve the transportation details for the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3801,8 +4948,33 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Provides a paginated list of box packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Retrieve a shipment content update preview which provides a summary of the requested shipment content changes along with the transportation cost implications of the change that can only be confirmed prior to the expiry date specified.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} contentUpdatePreviewId Identifier of a content update preview.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getShipmentContentUpdatePreview(inboundPlanId: string, shipmentId: string, contentUpdatePreviewId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ContentUpdatePreview>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getShipmentContentUpdatePreview(inboundPlanId, shipmentId, contentUpdatePreviewId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Retrieves all delivery window options for a shipment. Delivery window options must first be generated by the `generateDeliveryWindowOptions` operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to get delivery window options for.
+         * @param {number} [pageSize] The number of delivery window options to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listDeliveryWindowOptions(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDeliveryWindowOptionsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listDeliveryWindowOptions(inboundPlanId, shipmentId, pageSize, paginationToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Provides a paginated list of box packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of boxes to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3813,8 +4985,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Provides a paginated list of item packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of item packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of items to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3825,8 +4997,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Provides a paginated list of pallet packages in an inbound plan. An inbound plan will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of pallet packages in an inbound plan. An inbound plan will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of pallets to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3837,7 +5009,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Provides a list of inbound plans with minimal information.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Provides a list of inbound plans with minimal information.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {number} [pageSize] The number of inbound plans to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {'ACTIVE' | 'VOIDED' | 'SHIPPED'} [status] The status of an inbound plan.
@@ -3851,8 +5023,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * List the inbound compliance details for MSKUs in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} mskus List of merchant SKUs, a merchant-supplied identifier for a specific SKU.
+         * List the inbound compliance details for MSKUs in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {Array<string>} mskus List of merchant SKUs - a merchant-supplied identifier for a specific SKU.
          * @param {string} marketplaceId The Marketplace ID. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a list of possible values.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3862,22 +5034,34 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Retrieves a list of all items in a packing options\'s packing group. Packing options must first be generated by the corresponding endpoint before packing group items can be listed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} packingOptionId Identifier to a packing option.
-         * @param {string} packingGroupId Identifier to a packing group.
+         * Retrieves a page of boxes from a given packing group. These boxes were previously provided through the `setPackingInformation` operation. This API is used for workflows where boxes are packed before Amazon determines shipment splits.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingGroupId Identifier of a packing group.
+         * @param {number} [pageSize] The number of packing group boxes to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPackingGroupBoxes(inboundPlanId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPackingGroupBoxesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPackingGroupBoxes(inboundPlanId, packingGroupId, pageSize, paginationToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Retrieves a page of items in a given packing group. Packing options must first be generated by the corresponding operation before packing group items can be listed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingGroupId Identifier of a packing group.
          * @param {number} [pageSize] The number of packing group items to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listPackingGroupItems(inboundPlanId: string, packingOptionId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPackingGroupItemsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listPackingGroupItems(inboundPlanId, packingOptionId, packingGroupId, pageSize, paginationToken, options);
+        async listPackingGroupItems(inboundPlanId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPackingGroupItemsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPackingGroupItems(inboundPlanId, packingGroupId, pageSize, paginationToken, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Retrieves a list of all packing options for an inbound plan. Packing options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Retrieves a list of all packing options for an inbound plan. Packing options must first be generated by the corresponding operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of packing options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3888,8 +5072,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Provides a list of all placement options for an inbound plan. Placement options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a list of all placement options for an inbound plan. Placement options must first be generated by the corresponding operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of placement options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -3900,12 +5084,64 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Retrieves all transportation options for a shipment. Transportation options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of box packages in a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of boxes to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listShipmentBoxes(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListShipmentBoxesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listShipmentBoxes(inboundPlanId, shipmentId, pageSize, paginationToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Retrieve a paginated list of shipment content update previews for a given shipment. The shipment content update preview is a summary of the requested shipment content changes along with the transportation cost implications of the change that can only be confirmed prior to the expiry date specified.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of content update previews to return.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listShipmentContentUpdatePreviews(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListShipmentContentUpdatePreviewsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listShipmentContentUpdatePreviews(inboundPlanId, shipmentId, pageSize, paginationToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Provides a paginated list of item packages in a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of items to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listShipmentItems(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListShipmentItemsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listShipmentItems(inboundPlanId, shipmentId, pageSize, paginationToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Provides a paginated list of pallet packages in a shipment. A palletized shipment will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of pallets to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listShipmentPallets(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListShipmentPalletsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listShipmentPallets(inboundPlanId, shipmentId, pageSize, paginationToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Retrieves all transportation options for a shipment. Transportation options must first be generated by the `generateTransportationOptions` operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of transportation options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
-         * @param {string} [placementOptionId] The placement option to get transportation options for. Either placementOptionId or shipmentId must be specified.
-         * @param {string} [shipmentId] The shipment to get transportation options for. Either placementOptionId or shipmentId must be specified.
+         * @param {string} [placementOptionId] The placement option to get transportation options for. Either &#x60;placementOptionId&#x60; or &#x60;shipmentId&#x60; must be specified.
+         * @param {string} [shipmentId] The shipment to get transportation options for. Either &#x60;placementOptionId&#x60; or &#x60;shipmentId&#x60; must be specified.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3914,10 +5150,10 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Confirms or reschedules a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {string} slotId Identifier to a self-ship appointment slot.
+         * Confirms or reschedules a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} slotId An identifier to a self-ship appointment slot.
          * @param {ScheduleSelfShipAppointmentRequest} body The body of the request to &#x60;scheduleSelfShipAppointment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3927,8 +5163,8 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Sets packing information for an inbound plan. This should be called after an inbound plan is created to populate     the box level information required for planning and transportation estimates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Sets packing information for an inbound plan. This should be called after an inbound plan is created to populate the box level information required for planning and transportation estimates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {SetPackingInformationRequest} body The body of the request to &#x60;setPackingInformation&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3938,7 +5174,18 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Update compliance details for list of MSKUs. The details provided here are only used for the IN marketplace compliance validation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates the name of an existing inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {UpdateInboundPlanNameRequest} body The body of the request to &#x60;updateInboundPlanName&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateInboundPlanName(inboundPlanId: string, body: UpdateInboundPlanNameRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateInboundPlanName(inboundPlanId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Update compliance details for list of MSKUs. The details provided here are only used for the IN marketplace compliance validation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {string} marketplaceId The Marketplace ID. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a list of possible values.
          * @param {UpdateItemComplianceDetailsRequest} body The body of the request to &#x60;updateItemComplianceDetails&#x60;.
          * @param {*} [options] Override http request option.
@@ -3949,21 +5196,33 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Update the time window that a shipment will be delivered to the warehouse. The window is used to provide the expected time that a non-Amazon partnered carrier will arrive at the warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {UpdateShipmentDeliveryWindowRequest} body The body of the request to &#x60;updateShipmentDeliveryWindow&#x60;.
+         * Updates the name of an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {UpdateShipmentNameRequest} body The body of the request to &#x60;updateShipmentName&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateShipmentDeliveryWindow(inboundPlanId: string, shipmentId: string, body: UpdateShipmentDeliveryWindowRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateShipmentDeliveryWindowResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateShipmentDeliveryWindow(inboundPlanId, shipmentId, body, options);
+        async updateShipmentName(inboundPlanId: string, shipmentId: string, body: UpdateShipmentNameRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateShipmentName(inboundPlanId, shipmentId, body, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Updates a shipment\'s tracking details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Updates the source address of an existing shipment. The shipment source address can only be updated prior to the confirmation of the shipment carriers. As a result of the updated source address, existing transportation options will be invalidated and will need to be regenerated to capture the potential difference in transportation options and quotes due to the new source address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {UpdateShipmentSourceAddressRequest} body The body of the request to &#x60;updateShipmentSourceAddress&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateShipmentSourceAddress(inboundPlanId: string, shipmentId: string, body: UpdateShipmentSourceAddressRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateShipmentSourceAddressResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateShipmentSourceAddress(inboundPlanId, shipmentId, body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Updates a shipment\'s tracking details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {UpdateShipmentTrackingDetailsRequest} body The body of the request to &#x60;updateShipmentTrackingDetails&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3983,8 +5242,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
     const localVarFp = FbaInboundApiFp(configuration)
     return {
         /**
-         * Cancels an Inbound Plan. Charges may apply if the cancellation is performed outside of a void window. The window     for Amazon Partnered Carriers is 24 hours for Small Parcel Delivery (SPD) and one hour for Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Cancels an Inbound Plan. Charges may apply if the cancellation is performed outside of a void window. The window for Amazon Partnered Carriers is 24 hours for Small Parcel Delivery (SPD) and one hour for Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3992,21 +5251,31 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.cancelInboundPlan(inboundPlanId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Cancels a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {string} slotId Identifier to a self-ship appointment slot.
+         * Cancels a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {CancelSelfShipAppointmentRequest} body The body of the request to &#x60;cancelSelfShipAppointment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelSelfShipAppointment(inboundPlanId: string, shipmentId: string, slotId: string, body: CancelSelfShipAppointmentRequest, options?: any): AxiosPromise<CancelSelfShipAppointmentResponse> {
-            return localVarFp.cancelSelfShipAppointment(inboundPlanId, shipmentId, slotId, body, options).then((request) => request(axios, basePath));
+        cancelSelfShipAppointment(inboundPlanId: string, shipmentId: string, body: CancelSelfShipAppointmentRequest, options?: any): AxiosPromise<CancelSelfShipAppointmentResponse> {
+            return localVarFp.cancelSelfShipAppointment(inboundPlanId, shipmentId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Confirms the packing option for an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} packingOptionId Identifier to a packing option.
+         * Confirms the delivery window option for chosen shipment within an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new delivery window options cannot be generated, but the chosen delivery window option can be updated before shipment closure. The window is used to provide the expected time when a shipment will arrive at the warehouse. All transportation options which have the program `CONFIRMED_DELIVERY_WINDOW` require a delivery window to be confirmed prior to transportation option confirmation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to confirm the delivery window option for.
+         * @param {string} deliveryWindowOptionId The id of the delivery window option to be confirmed.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmDeliveryWindowOptions(inboundPlanId: string, shipmentId: string, deliveryWindowOptionId: string, options?: any): AxiosPromise<ConfirmDeliveryWindowOptionsResponse> {
+            return localVarFp.confirmDeliveryWindowOptions(inboundPlanId, shipmentId, deliveryWindowOptionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Confirms the packing option for an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingOptionId Identifier of a packing option.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4014,9 +5283,9 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.confirmPackingOption(inboundPlanId, packingOptionId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Confirms the placement option for an inbound plan. Once confirmed, it cannot be changed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} placementOptionId Identifier to a placement option. A placement option represents the shipment splits and destinations of SKUs.
+         * Confirms the placement option for an inbound plan. Once confirmed, it cannot be changed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} placementOptionId The identifier of a placement option. A placement option represents the shipment splits and destinations of SKUs.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4024,8 +5293,19 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.confirmPlacementOption(inboundPlanId, placementOptionId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Confirms all the transportation options for an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new transportation options can not be generated or confirmed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Confirm a shipment content update preview and accept the changes in transportation cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} contentUpdatePreviewId Identifier of a content update preview.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmShipmentContentUpdatePreview(inboundPlanId: string, shipmentId: string, contentUpdatePreviewId: string, options?: any): AxiosPromise<ConfirmShipmentContentUpdatePreviewResponse> {
+            return localVarFp.confirmShipmentContentUpdatePreview(inboundPlanId, shipmentId, contentUpdatePreviewId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Confirms all the transportation options for an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new transportation options can not be generated or confirmed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {ConfirmTransportationOptionsRequest} body The body of the request to &#x60;confirmTransportationOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4034,7 +5314,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.confirmTransportationOptions(inboundPlanId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Creates an inbound plan. An inbound plan contains all the necessary information to send shipments into Amazon\'s fufillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates an inbound plan. An inbound plan contains all the necessary information to send shipments into Amazon\'s fufillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {CreateInboundPlanRequest} body The body of the request to &#x60;createInboundPlan&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4043,8 +5323,27 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.createInboundPlan(body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Generates available packing options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * For a given marketplace - creates labels for a list of mskus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {CreateMarketplaceItemLabelsRequest} body The body of the request to &#x60;createMarketplaceItemLabels&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createMarketplaceItemLabels(body: CreateMarketplaceItemLabelsRequest, options?: any): AxiosPromise<CreateMarketplaceItemLabelsResponse> {
+            return localVarFp.createMarketplaceItemLabels(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Generates available delivery window options for a given shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to generate delivery window options for.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateDeliveryWindowOptions(inboundPlanId: string, shipmentId: string, options?: any): AxiosPromise<GenerateDeliveryWindowOptionsResponse> {
+            return localVarFp.generateDeliveryWindowOptions(inboundPlanId, shipmentId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Generates available packing options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4052,8 +5351,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.generatePackingOptions(inboundPlanId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Generates placement options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Generates placement options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {GeneratePlacementOptionsRequest} body The body of the request to &#x60;generatePlacementOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4062,10 +5361,10 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.generatePlacementOptions(inboundPlanId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Initiates the process of generating the appointment slots list.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {GenerateSelfShipAppointmentSlotsRequest} body The body of the request &#x60;generateSelfShipAppointmentSlots&#x60;.
+         * Initiates the process of generating the appointment slots list.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {GenerateSelfShipAppointmentSlotsRequest} body The body of the request to &#x60;generateSelfShipAppointmentSlots&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4073,8 +5372,19 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.generateSelfShipAppointmentSlots(inboundPlanId, shipmentId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Generates available transportation options for a given placement option.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Generate a shipment content update preview given a set of intended boxes and/or items for a shipment with a confirmed carrier. The shipment content update preview will be viewable with the updated costs and contents prior to confirmation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {GenerateShipmentContentUpdatePreviewsRequest} body The body of the request to &#x60;generateShipmentContentUpdatePreviews&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateShipmentContentUpdatePreviews(inboundPlanId: string, shipmentId: string, body: GenerateShipmentContentUpdatePreviewsRequest, options?: any): AxiosPromise<GenerateShipmentContentUpdatePreviewsResponse> {
+            return localVarFp.generateShipmentContentUpdatePreviews(inboundPlanId, shipmentId, body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Generates available transportation options for a given placement option.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {GenerateTransportationOptionsRequest} body The body of the request to &#x60;generateTransportationOptions&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4083,9 +5393,9 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.generateTransportationOptions(inboundPlanId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Provide delivery challan document for PCP transportation in IN marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Provide delivery challan document for PCP transportation in IN marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4093,8 +5403,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getDeliveryChallanDocument(inboundPlanId, shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Gets the status of the processing of an asynchronous API call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} operationId Identifier to an asynchronous operation.
+         * Gets the status of the processing of an asynchronous API call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} operationId Identifier of an asynchronous operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4102,8 +5412,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getInboundOperationStatus(operationId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Fetches the top level information about an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Fetches the top level information about an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4111,9 +5421,9 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getInboundPlan(inboundPlanId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Retrieves a list of available self-ship appointment slots used to drop off a shipment at a warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Retrieves a list of available self-ship appointment slots used to drop off a shipment at a warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {number} [pageSize] The number of self ship appointment slots to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -4123,9 +5433,9 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getSelfShipAppointmentSlots(inboundPlanId, shipmentId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Provides the full details for a specific shipment within an inbound plan. The `transportationOptionId` inside `acceptedTransportationSelection` can be used to retrieve the transportation details for the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Provides the full details for a specific shipment within an inbound plan. The `transportationOptionId` inside `acceptedTransportationSelection` can be used to retrieve the transportation details for the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4133,8 +5443,31 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getShipment(inboundPlanId, shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Provides a paginated list of box packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Retrieve a shipment content update preview which provides a summary of the requested shipment content changes along with the transportation cost implications of the change that can only be confirmed prior to the expiry date specified.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} contentUpdatePreviewId Identifier of a content update preview.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getShipmentContentUpdatePreview(inboundPlanId: string, shipmentId: string, contentUpdatePreviewId: string, options?: any): AxiosPromise<ContentUpdatePreview> {
+            return localVarFp.getShipmentContentUpdatePreview(inboundPlanId, shipmentId, contentUpdatePreviewId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieves all delivery window options for a shipment. Delivery window options must first be generated by the `generateDeliveryWindowOptions` operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId The shipment to get delivery window options for.
+         * @param {number} [pageSize] The number of delivery window options to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listDeliveryWindowOptions(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): AxiosPromise<ListDeliveryWindowOptionsResponse> {
+            return localVarFp.listDeliveryWindowOptions(inboundPlanId, shipmentId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Provides a paginated list of box packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of boxes to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -4144,8 +5477,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listInboundPlanBoxes(inboundPlanId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Provides a paginated list of item packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of item packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of items to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -4155,8 +5488,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listInboundPlanItems(inboundPlanId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Provides a paginated list of pallet packages in an inbound plan. An inbound plan will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of pallet packages in an inbound plan. An inbound plan will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of pallets to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -4166,7 +5499,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listInboundPlanPallets(inboundPlanId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Provides a list of inbound plans with minimal information.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Provides a list of inbound plans with minimal information.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {number} [pageSize] The number of inbound plans to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {'ACTIVE' | 'VOIDED' | 'SHIPPED'} [status] The status of an inbound plan.
@@ -4179,8 +5512,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listInboundPlans(pageSize, paginationToken, status, sortBy, sortOrder, options).then((request) => request(axios, basePath));
         },
         /**
-         * List the inbound compliance details for MSKUs in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} mskus List of merchant SKUs, a merchant-supplied identifier for a specific SKU.
+         * List the inbound compliance details for MSKUs in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {Array<string>} mskus List of merchant SKUs - a merchant-supplied identifier for a specific SKU.
          * @param {string} marketplaceId The Marketplace ID. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a list of possible values.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4189,21 +5522,32 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listItemComplianceDetails(mskus, marketplaceId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Retrieves a list of all items in a packing options\'s packing group. Packing options must first be generated by the corresponding endpoint before packing group items can be listed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} packingOptionId Identifier to a packing option.
-         * @param {string} packingGroupId Identifier to a packing group.
+         * Retrieves a page of boxes from a given packing group. These boxes were previously provided through the `setPackingInformation` operation. This API is used for workflows where boxes are packed before Amazon determines shipment splits.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingGroupId Identifier of a packing group.
+         * @param {number} [pageSize] The number of packing group boxes to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPackingGroupBoxes(inboundPlanId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options?: any): AxiosPromise<ListPackingGroupBoxesResponse> {
+            return localVarFp.listPackingGroupBoxes(inboundPlanId, packingGroupId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieves a page of items in a given packing group. Packing options must first be generated by the corresponding operation before packing group items can be listed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} packingGroupId Identifier of a packing group.
          * @param {number} [pageSize] The number of packing group items to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listPackingGroupItems(inboundPlanId: string, packingOptionId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options?: any): AxiosPromise<ListPackingGroupItemsResponse> {
-            return localVarFp.listPackingGroupItems(inboundPlanId, packingOptionId, packingGroupId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
+        listPackingGroupItems(inboundPlanId: string, packingGroupId: string, pageSize?: number, paginationToken?: string, options?: any): AxiosPromise<ListPackingGroupItemsResponse> {
+            return localVarFp.listPackingGroupItems(inboundPlanId, packingGroupId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Retrieves a list of all packing options for an inbound plan. Packing options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Retrieves a list of all packing options for an inbound plan. Packing options must first be generated by the corresponding operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of packing options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -4213,8 +5557,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listPackingOptions(inboundPlanId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Provides a list of all placement options for an inbound plan. Placement options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a list of all placement options for an inbound plan. Placement options must first be generated by the corresponding operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of placement options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
          * @param {*} [options] Override http request option.
@@ -4224,12 +5568,60 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listPlacementOptions(inboundPlanId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Retrieves all transportation options for a shipment. Transportation options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Provides a paginated list of box packages in a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of boxes to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listShipmentBoxes(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): AxiosPromise<ListShipmentBoxesResponse> {
+            return localVarFp.listShipmentBoxes(inboundPlanId, shipmentId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve a paginated list of shipment content update previews for a given shipment. The shipment content update preview is a summary of the requested shipment content changes along with the transportation cost implications of the change that can only be confirmed prior to the expiry date specified.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of content update previews to return.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listShipmentContentUpdatePreviews(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): AxiosPromise<ListShipmentContentUpdatePreviewsResponse> {
+            return localVarFp.listShipmentContentUpdatePreviews(inboundPlanId, shipmentId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Provides a paginated list of item packages in a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of items to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listShipmentItems(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): AxiosPromise<ListShipmentItemsResponse> {
+            return localVarFp.listShipmentItems(inboundPlanId, shipmentId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Provides a paginated list of pallet packages in a shipment. A palletized shipment will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {number} [pageSize] The number of pallets to return in the response matching the given query.
+         * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listShipmentPallets(inboundPlanId: string, shipmentId: string, pageSize?: number, paginationToken?: string, options?: any): AxiosPromise<ListShipmentPalletsResponse> {
+            return localVarFp.listShipmentPallets(inboundPlanId, shipmentId, pageSize, paginationToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieves all transportation options for a shipment. Transportation options must first be generated by the `generateTransportationOptions` operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {number} [pageSize] The number of transportation options to return in the response matching the given query.
          * @param {string} [paginationToken] A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
-         * @param {string} [placementOptionId] The placement option to get transportation options for. Either placementOptionId or shipmentId must be specified.
-         * @param {string} [shipmentId] The shipment to get transportation options for. Either placementOptionId or shipmentId must be specified.
+         * @param {string} [placementOptionId] The placement option to get transportation options for. Either &#x60;placementOptionId&#x60; or &#x60;shipmentId&#x60; must be specified.
+         * @param {string} [shipmentId] The shipment to get transportation options for. Either &#x60;placementOptionId&#x60; or &#x60;shipmentId&#x60; must be specified.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4237,10 +5629,10 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listTransportationOptions(inboundPlanId, pageSize, paginationToken, placementOptionId, shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Confirms or reschedules a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {string} slotId Identifier to a self-ship appointment slot.
+         * Confirms or reschedules a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {string} slotId An identifier to a self-ship appointment slot.
          * @param {ScheduleSelfShipAppointmentRequest} body The body of the request to &#x60;scheduleSelfShipAppointment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4249,8 +5641,8 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.scheduleSelfShipAppointment(inboundPlanId, shipmentId, slotId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Sets packing information for an inbound plan. This should be called after an inbound plan is created to populate     the box level information required for planning and transportation estimates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
+         * Sets packing information for an inbound plan. This should be called after an inbound plan is created to populate the box level information required for planning and transportation estimates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
          * @param {SetPackingInformationRequest} body The body of the request to &#x60;setPackingInformation&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4259,7 +5651,17 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.setPackingInformation(inboundPlanId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Update compliance details for list of MSKUs. The details provided here are only used for the IN marketplace compliance validation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates the name of an existing inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {UpdateInboundPlanNameRequest} body The body of the request to &#x60;updateInboundPlanName&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateInboundPlanName(inboundPlanId: string, body: UpdateInboundPlanNameRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.updateInboundPlanName(inboundPlanId, body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Update compliance details for list of MSKUs. The details provided here are only used for the IN marketplace compliance validation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
          * @param {string} marketplaceId The Marketplace ID. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a list of possible values.
          * @param {UpdateItemComplianceDetailsRequest} body The body of the request to &#x60;updateItemComplianceDetails&#x60;.
          * @param {*} [options] Override http request option.
@@ -4269,20 +5671,31 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
             return localVarFp.updateItemComplianceDetails(marketplaceId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Update the time window that a shipment will be delivered to the warehouse. The window is used to provide the expected time that a non-Amazon partnered carrier will arrive at the warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
-         * @param {UpdateShipmentDeliveryWindowRequest} body The body of the request to &#x60;updateShipmentDeliveryWindow&#x60;.
+         * Updates the name of an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {UpdateShipmentNameRequest} body The body of the request to &#x60;updateShipmentName&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateShipmentDeliveryWindow(inboundPlanId: string, shipmentId: string, body: UpdateShipmentDeliveryWindowRequest, options?: any): AxiosPromise<UpdateShipmentDeliveryWindowResponse> {
-            return localVarFp.updateShipmentDeliveryWindow(inboundPlanId, shipmentId, body, options).then((request) => request(axios, basePath));
+        updateShipmentName(inboundPlanId: string, shipmentId: string, body: UpdateShipmentNameRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.updateShipmentName(inboundPlanId, shipmentId, body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Updates a shipment\'s tracking details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} inboundPlanId Identifier to an inbound plan.
-         * @param {string} shipmentId Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+         * Updates the source address of an existing shipment. The shipment source address can only be updated prior to the confirmation of the shipment carriers. As a result of the updated source address, existing transportation options will be invalidated and will need to be regenerated to capture the potential difference in transportation options and quotes due to the new source address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+         * @param {UpdateShipmentSourceAddressRequest} body The body of the request to &#x60;updateShipmentSourceAddress&#x60;.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateShipmentSourceAddress(inboundPlanId: string, shipmentId: string, body: UpdateShipmentSourceAddressRequest, options?: any): AxiosPromise<UpdateShipmentSourceAddressResponse> {
+            return localVarFp.updateShipmentSourceAddress(inboundPlanId, shipmentId, body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Updates a shipment\'s tracking details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+         * @param {string} inboundPlanId Identifier of an inbound plan.
+         * @param {string} shipmentId Identifier of a shipment. A shipment contains the boxes and units being inbounded.
          * @param {UpdateShipmentTrackingDetailsRequest} body The body of the request to &#x60;updateShipmentTrackingDetails&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4300,7 +5713,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
  */
 export interface FbaInboundApiCancelInboundPlanRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiCancelInboundPlan
      */
@@ -4314,25 +5727,18 @@ export interface FbaInboundApiCancelInboundPlanRequest {
  */
 export interface FbaInboundApiCancelSelfShipAppointmentRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiCancelSelfShipAppointment
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof FbaInboundApiCancelSelfShipAppointment
      */
     readonly shipmentId: string
-
-    /**
-     * Identifier to a self-ship appointment slot.
-     * @type {string}
-     * @memberof FbaInboundApiCancelSelfShipAppointment
-     */
-    readonly slotId: string
 
     /**
      * The body of the request to &#x60;cancelSelfShipAppointment&#x60;.
@@ -4343,20 +5749,48 @@ export interface FbaInboundApiCancelSelfShipAppointmentRequest {
 }
 
 /**
+ * Request parameters for confirmDeliveryWindowOptions operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiConfirmDeliveryWindowOptionsRequest
+ */
+export interface FbaInboundApiConfirmDeliveryWindowOptionsRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmDeliveryWindowOptions
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * The shipment to confirm the delivery window option for.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmDeliveryWindowOptions
+     */
+    readonly shipmentId: string
+
+    /**
+     * The id of the delivery window option to be confirmed.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmDeliveryWindowOptions
+     */
+    readonly deliveryWindowOptionId: string
+}
+
+/**
  * Request parameters for confirmPackingOption operation in FbaInboundApi.
  * @export
  * @interface FbaInboundApiConfirmPackingOptionRequest
  */
 export interface FbaInboundApiConfirmPackingOptionRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiConfirmPackingOption
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a packing option.
+     * Identifier of a packing option.
      * @type {string}
      * @memberof FbaInboundApiConfirmPackingOption
      */
@@ -4370,18 +5804,46 @@ export interface FbaInboundApiConfirmPackingOptionRequest {
  */
 export interface FbaInboundApiConfirmPlacementOptionRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiConfirmPlacementOption
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a placement option. A placement option represents the shipment splits and destinations of SKUs.
+     * The identifier of a placement option. A placement option represents the shipment splits and destinations of SKUs.
      * @type {string}
      * @memberof FbaInboundApiConfirmPlacementOption
      */
     readonly placementOptionId: string
+}
+
+/**
+ * Request parameters for confirmShipmentContentUpdatePreview operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiConfirmShipmentContentUpdatePreviewRequest
+ */
+export interface FbaInboundApiConfirmShipmentContentUpdatePreviewRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmShipmentContentUpdatePreview
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmShipmentContentUpdatePreview
+     */
+    readonly shipmentId: string
+
+    /**
+     * Identifier of a content update preview.
+     * @type {string}
+     * @memberof FbaInboundApiConfirmShipmentContentUpdatePreview
+     */
+    readonly contentUpdatePreviewId: string
 }
 
 /**
@@ -4391,7 +5853,7 @@ export interface FbaInboundApiConfirmPlacementOptionRequest {
  */
 export interface FbaInboundApiConfirmTransportationOptionsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiConfirmTransportationOptions
      */
@@ -4420,13 +5882,48 @@ export interface FbaInboundApiCreateInboundPlanRequest {
 }
 
 /**
+ * Request parameters for createMarketplaceItemLabels operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiCreateMarketplaceItemLabelsRequest
+ */
+export interface FbaInboundApiCreateMarketplaceItemLabelsRequest {
+    /**
+     * The body of the request to &#x60;createMarketplaceItemLabels&#x60;.
+     * @type {CreateMarketplaceItemLabelsRequest}
+     * @memberof FbaInboundApiCreateMarketplaceItemLabels
+     */
+    readonly body: CreateMarketplaceItemLabelsRequest
+}
+
+/**
+ * Request parameters for generateDeliveryWindowOptions operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGenerateDeliveryWindowOptionsRequest
+ */
+export interface FbaInboundApiGenerateDeliveryWindowOptionsRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiGenerateDeliveryWindowOptions
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * The shipment to generate delivery window options for.
+     * @type {string}
+     * @memberof FbaInboundApiGenerateDeliveryWindowOptions
+     */
+    readonly shipmentId: string
+}
+
+/**
  * Request parameters for generatePackingOptions operation in FbaInboundApi.
  * @export
  * @interface FbaInboundApiGeneratePackingOptionsRequest
  */
 export interface FbaInboundApiGeneratePackingOptionsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiGeneratePackingOptions
      */
@@ -4440,7 +5937,7 @@ export interface FbaInboundApiGeneratePackingOptionsRequest {
  */
 export interface FbaInboundApiGeneratePlacementOptionsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiGeneratePlacementOptions
      */
@@ -4461,25 +5958,53 @@ export interface FbaInboundApiGeneratePlacementOptionsRequest {
  */
 export interface FbaInboundApiGenerateSelfShipAppointmentSlotsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiGenerateSelfShipAppointmentSlots
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof FbaInboundApiGenerateSelfShipAppointmentSlots
      */
     readonly shipmentId: string
 
     /**
-     * The body of the request &#x60;generateSelfShipAppointmentSlots&#x60;.
+     * The body of the request to &#x60;generateSelfShipAppointmentSlots&#x60;.
      * @type {GenerateSelfShipAppointmentSlotsRequest}
      * @memberof FbaInboundApiGenerateSelfShipAppointmentSlots
      */
     readonly body: GenerateSelfShipAppointmentSlotsRequest
+}
+
+/**
+ * Request parameters for generateShipmentContentUpdatePreviews operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGenerateShipmentContentUpdatePreviewsRequest
+ */
+export interface FbaInboundApiGenerateShipmentContentUpdatePreviewsRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiGenerateShipmentContentUpdatePreviews
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+     * @type {string}
+     * @memberof FbaInboundApiGenerateShipmentContentUpdatePreviews
+     */
+    readonly shipmentId: string
+
+    /**
+     * The body of the request to &#x60;generateShipmentContentUpdatePreviews&#x60;.
+     * @type {GenerateShipmentContentUpdatePreviewsRequest}
+     * @memberof FbaInboundApiGenerateShipmentContentUpdatePreviews
+     */
+    readonly body: GenerateShipmentContentUpdatePreviewsRequest
 }
 
 /**
@@ -4489,7 +6014,7 @@ export interface FbaInboundApiGenerateSelfShipAppointmentSlotsRequest {
  */
 export interface FbaInboundApiGenerateTransportationOptionsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiGenerateTransportationOptions
      */
@@ -4510,14 +6035,14 @@ export interface FbaInboundApiGenerateTransportationOptionsRequest {
  */
 export interface FbaInboundApiGetDeliveryChallanDocumentRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiGetDeliveryChallanDocument
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof FbaInboundApiGetDeliveryChallanDocument
      */
@@ -4531,7 +6056,7 @@ export interface FbaInboundApiGetDeliveryChallanDocumentRequest {
  */
 export interface FbaInboundApiGetInboundOperationStatusRequest {
     /**
-     * Identifier to an asynchronous operation.
+     * Identifier of an asynchronous operation.
      * @type {string}
      * @memberof FbaInboundApiGetInboundOperationStatus
      */
@@ -4545,7 +6070,7 @@ export interface FbaInboundApiGetInboundOperationStatusRequest {
  */
 export interface FbaInboundApiGetInboundPlanRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiGetInboundPlan
      */
@@ -4559,14 +6084,14 @@ export interface FbaInboundApiGetInboundPlanRequest {
  */
 export interface FbaInboundApiGetSelfShipAppointmentSlotsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiGetSelfShipAppointmentSlots
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof FbaInboundApiGetSelfShipAppointmentSlots
      */
@@ -4594,18 +6119,81 @@ export interface FbaInboundApiGetSelfShipAppointmentSlotsRequest {
  */
 export interface FbaInboundApiGetShipmentRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiGetShipment
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof FbaInboundApiGetShipment
      */
     readonly shipmentId: string
+}
+
+/**
+ * Request parameters for getShipmentContentUpdatePreview operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiGetShipmentContentUpdatePreviewRequest
+ */
+export interface FbaInboundApiGetShipmentContentUpdatePreviewRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentContentUpdatePreview
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentContentUpdatePreview
+     */
+    readonly shipmentId: string
+
+    /**
+     * Identifier of a content update preview.
+     * @type {string}
+     * @memberof FbaInboundApiGetShipmentContentUpdatePreview
+     */
+    readonly contentUpdatePreviewId: string
+}
+
+/**
+ * Request parameters for listDeliveryWindowOptions operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiListDeliveryWindowOptionsRequest
+ */
+export interface FbaInboundApiListDeliveryWindowOptionsRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiListDeliveryWindowOptions
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * The shipment to get delivery window options for.
+     * @type {string}
+     * @memberof FbaInboundApiListDeliveryWindowOptions
+     */
+    readonly shipmentId: string
+
+    /**
+     * The number of delivery window options to return in the response matching the given query.
+     * @type {number}
+     * @memberof FbaInboundApiListDeliveryWindowOptions
+     */
+    readonly pageSize?: number
+
+    /**
+     * A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+     * @type {string}
+     * @memberof FbaInboundApiListDeliveryWindowOptions
+     */
+    readonly paginationToken?: string
 }
 
 /**
@@ -4615,7 +6203,7 @@ export interface FbaInboundApiGetShipmentRequest {
  */
 export interface FbaInboundApiListInboundPlanBoxesRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiListInboundPlanBoxes
      */
@@ -4643,7 +6231,7 @@ export interface FbaInboundApiListInboundPlanBoxesRequest {
  */
 export interface FbaInboundApiListInboundPlanItemsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiListInboundPlanItems
      */
@@ -4671,7 +6259,7 @@ export interface FbaInboundApiListInboundPlanItemsRequest {
  */
 export interface FbaInboundApiListInboundPlanPalletsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiListInboundPlanPallets
      */
@@ -4741,7 +6329,7 @@ export interface FbaInboundApiListInboundPlansRequest {
  */
 export interface FbaInboundApiListItemComplianceDetailsRequest {
     /**
-     * List of merchant SKUs, a merchant-supplied identifier for a specific SKU.
+     * List of merchant SKUs - a merchant-supplied identifier for a specific SKU.
      * @type {Array<string>}
      * @memberof FbaInboundApiListItemComplianceDetails
      */
@@ -4756,27 +6344,55 @@ export interface FbaInboundApiListItemComplianceDetailsRequest {
 }
 
 /**
+ * Request parameters for listPackingGroupBoxes operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiListPackingGroupBoxesRequest
+ */
+export interface FbaInboundApiListPackingGroupBoxesRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiListPackingGroupBoxes
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a packing group.
+     * @type {string}
+     * @memberof FbaInboundApiListPackingGroupBoxes
+     */
+    readonly packingGroupId: string
+
+    /**
+     * The number of packing group boxes to return in the response matching the given query.
+     * @type {number}
+     * @memberof FbaInboundApiListPackingGroupBoxes
+     */
+    readonly pageSize?: number
+
+    /**
+     * A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+     * @type {string}
+     * @memberof FbaInboundApiListPackingGroupBoxes
+     */
+    readonly paginationToken?: string
+}
+
+/**
  * Request parameters for listPackingGroupItems operation in FbaInboundApi.
  * @export
  * @interface FbaInboundApiListPackingGroupItemsRequest
  */
 export interface FbaInboundApiListPackingGroupItemsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiListPackingGroupItems
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a packing option.
-     * @type {string}
-     * @memberof FbaInboundApiListPackingGroupItems
-     */
-    readonly packingOptionId: string
-
-    /**
-     * Identifier to a packing group.
+     * Identifier of a packing group.
      * @type {string}
      * @memberof FbaInboundApiListPackingGroupItems
      */
@@ -4804,7 +6420,7 @@ export interface FbaInboundApiListPackingGroupItemsRequest {
  */
 export interface FbaInboundApiListPackingOptionsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiListPackingOptions
      */
@@ -4832,7 +6448,7 @@ export interface FbaInboundApiListPackingOptionsRequest {
  */
 export interface FbaInboundApiListPlacementOptionsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiListPlacementOptions
      */
@@ -4854,13 +6470,153 @@ export interface FbaInboundApiListPlacementOptionsRequest {
 }
 
 /**
+ * Request parameters for listShipmentBoxes operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiListShipmentBoxesRequest
+ */
+export interface FbaInboundApiListShipmentBoxesRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentBoxes
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentBoxes
+     */
+    readonly shipmentId: string
+
+    /**
+     * The number of boxes to return in the response matching the given query.
+     * @type {number}
+     * @memberof FbaInboundApiListShipmentBoxes
+     */
+    readonly pageSize?: number
+
+    /**
+     * A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentBoxes
+     */
+    readonly paginationToken?: string
+}
+
+/**
+ * Request parameters for listShipmentContentUpdatePreviews operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiListShipmentContentUpdatePreviewsRequest
+ */
+export interface FbaInboundApiListShipmentContentUpdatePreviewsRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentContentUpdatePreviews
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentContentUpdatePreviews
+     */
+    readonly shipmentId: string
+
+    /**
+     * The number of content update previews to return.
+     * @type {number}
+     * @memberof FbaInboundApiListShipmentContentUpdatePreviews
+     */
+    readonly pageSize?: number
+
+    /**
+     * A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentContentUpdatePreviews
+     */
+    readonly paginationToken?: string
+}
+
+/**
+ * Request parameters for listShipmentItems operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiListShipmentItemsRequest
+ */
+export interface FbaInboundApiListShipmentItemsRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentItems
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentItems
+     */
+    readonly shipmentId: string
+
+    /**
+     * The number of items to return in the response matching the given query.
+     * @type {number}
+     * @memberof FbaInboundApiListShipmentItems
+     */
+    readonly pageSize?: number
+
+    /**
+     * A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentItems
+     */
+    readonly paginationToken?: string
+}
+
+/**
+ * Request parameters for listShipmentPallets operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiListShipmentPalletsRequest
+ */
+export interface FbaInboundApiListShipmentPalletsRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentPallets
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentPallets
+     */
+    readonly shipmentId: string
+
+    /**
+     * The number of pallets to return in the response matching the given query.
+     * @type {number}
+     * @memberof FbaInboundApiListShipmentPallets
+     */
+    readonly pageSize?: number
+
+    /**
+     * A token to fetch a certain page when there are multiple pages worth of results. The value of this token is fetched from the &#x60;pagination&#x60; returned in the API response. In the absence of the token value from the query parameter the API returns the first page of the result.
+     * @type {string}
+     * @memberof FbaInboundApiListShipmentPallets
+     */
+    readonly paginationToken?: string
+}
+
+/**
  * Request parameters for listTransportationOptions operation in FbaInboundApi.
  * @export
  * @interface FbaInboundApiListTransportationOptionsRequest
  */
 export interface FbaInboundApiListTransportationOptionsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiListTransportationOptions
      */
@@ -4881,14 +6637,14 @@ export interface FbaInboundApiListTransportationOptionsRequest {
     readonly paginationToken?: string
 
     /**
-     * The placement option to get transportation options for. Either placementOptionId or shipmentId must be specified.
+     * The placement option to get transportation options for. Either &#x60;placementOptionId&#x60; or &#x60;shipmentId&#x60; must be specified.
      * @type {string}
      * @memberof FbaInboundApiListTransportationOptions
      */
     readonly placementOptionId?: string
 
     /**
-     * The shipment to get transportation options for. Either placementOptionId or shipmentId must be specified.
+     * The shipment to get transportation options for. Either &#x60;placementOptionId&#x60; or &#x60;shipmentId&#x60; must be specified.
      * @type {string}
      * @memberof FbaInboundApiListTransportationOptions
      */
@@ -4902,21 +6658,21 @@ export interface FbaInboundApiListTransportationOptionsRequest {
  */
 export interface FbaInboundApiScheduleSelfShipAppointmentRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiScheduleSelfShipAppointment
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof FbaInboundApiScheduleSelfShipAppointment
      */
     readonly shipmentId: string
 
     /**
-     * Identifier to a self-ship appointment slot.
+     * An identifier to a self-ship appointment slot.
      * @type {string}
      * @memberof FbaInboundApiScheduleSelfShipAppointment
      */
@@ -4937,7 +6693,7 @@ export interface FbaInboundApiScheduleSelfShipAppointmentRequest {
  */
 export interface FbaInboundApiSetPackingInformationRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiSetPackingInformation
      */
@@ -4949,6 +6705,27 @@ export interface FbaInboundApiSetPackingInformationRequest {
      * @memberof FbaInboundApiSetPackingInformation
      */
     readonly body: SetPackingInformationRequest
+}
+
+/**
+ * Request parameters for updateInboundPlanName operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiUpdateInboundPlanNameRequest
+ */
+export interface FbaInboundApiUpdateInboundPlanNameRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiUpdateInboundPlanName
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * The body of the request to &#x60;updateInboundPlanName&#x60;.
+     * @type {UpdateInboundPlanNameRequest}
+     * @memberof FbaInboundApiUpdateInboundPlanName
+     */
+    readonly body: UpdateInboundPlanNameRequest
 }
 
 /**
@@ -4973,31 +6750,59 @@ export interface FbaInboundApiUpdateItemComplianceDetailsRequest {
 }
 
 /**
- * Request parameters for updateShipmentDeliveryWindow operation in FbaInboundApi.
+ * Request parameters for updateShipmentName operation in FbaInboundApi.
  * @export
- * @interface FbaInboundApiUpdateShipmentDeliveryWindowRequest
+ * @interface FbaInboundApiUpdateShipmentNameRequest
  */
-export interface FbaInboundApiUpdateShipmentDeliveryWindowRequest {
+export interface FbaInboundApiUpdateShipmentNameRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
-     * @memberof FbaInboundApiUpdateShipmentDeliveryWindow
+     * @memberof FbaInboundApiUpdateShipmentName
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
-     * @memberof FbaInboundApiUpdateShipmentDeliveryWindow
+     * @memberof FbaInboundApiUpdateShipmentName
      */
     readonly shipmentId: string
 
     /**
-     * The body of the request to &#x60;updateShipmentDeliveryWindow&#x60;.
-     * @type {UpdateShipmentDeliveryWindowRequest}
-     * @memberof FbaInboundApiUpdateShipmentDeliveryWindow
+     * The body of the request to &#x60;updateShipmentName&#x60;.
+     * @type {UpdateShipmentNameRequest}
+     * @memberof FbaInboundApiUpdateShipmentName
      */
-    readonly body: UpdateShipmentDeliveryWindowRequest
+    readonly body: UpdateShipmentNameRequest
+}
+
+/**
+ * Request parameters for updateShipmentSourceAddress operation in FbaInboundApi.
+ * @export
+ * @interface FbaInboundApiUpdateShipmentSourceAddressRequest
+ */
+export interface FbaInboundApiUpdateShipmentSourceAddressRequest {
+    /**
+     * Identifier of an inbound plan.
+     * @type {string}
+     * @memberof FbaInboundApiUpdateShipmentSourceAddress
+     */
+    readonly inboundPlanId: string
+
+    /**
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
+     * @type {string}
+     * @memberof FbaInboundApiUpdateShipmentSourceAddress
+     */
+    readonly shipmentId: string
+
+    /**
+     * The body of the request to &#x60;updateShipmentSourceAddress&#x60;.
+     * @type {UpdateShipmentSourceAddressRequest}
+     * @memberof FbaInboundApiUpdateShipmentSourceAddress
+     */
+    readonly body: UpdateShipmentSourceAddressRequest
 }
 
 /**
@@ -5007,14 +6812,14 @@ export interface FbaInboundApiUpdateShipmentDeliveryWindowRequest {
  */
 export interface FbaInboundApiUpdateShipmentTrackingDetailsRequest {
     /**
-     * Identifier to an inbound plan.
+     * Identifier of an inbound plan.
      * @type {string}
      * @memberof FbaInboundApiUpdateShipmentTrackingDetails
      */
     readonly inboundPlanId: string
 
     /**
-     * Identifier to a shipment. A shipment contains the boxes and units being inbounded.
+     * Identifier of a shipment. A shipment contains the boxes and units being inbounded.
      * @type {string}
      * @memberof FbaInboundApiUpdateShipmentTrackingDetails
      */
@@ -5036,7 +6841,7 @@ export interface FbaInboundApiUpdateShipmentTrackingDetailsRequest {
  */
 export class FbaInboundApi extends BaseAPI {
     /**
-     * Cancels an Inbound Plan. Charges may apply if the cancellation is performed outside of a void window. The window     for Amazon Partnered Carriers is 24 hours for Small Parcel Delivery (SPD) and one hour for Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Cancels an Inbound Plan. Charges may apply if the cancellation is performed outside of a void window. The window for Amazon Partnered Carriers is 24 hours for Small Parcel Delivery (SPD) and one hour for Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiCancelInboundPlanRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5047,18 +6852,29 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Cancels a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Cancels a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiCancelSelfShipAppointmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
     public cancelSelfShipAppointment(requestParameters: FbaInboundApiCancelSelfShipAppointmentRequest, options?: any) {
-        return FbaInboundApiFp(this.configuration).cancelSelfShipAppointment(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.slotId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return FbaInboundApiFp(this.configuration).cancelSelfShipAppointment(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Confirms the packing option for an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Confirms the delivery window option for chosen shipment within an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new delivery window options cannot be generated, but the chosen delivery window option can be updated before shipment closure. The window is used to provide the expected time when a shipment will arrive at the warehouse. All transportation options which have the program `CONFIRMED_DELIVERY_WINDOW` require a delivery window to be confirmed prior to transportation option confirmation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiConfirmDeliveryWindowOptionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public confirmDeliveryWindowOptions(requestParameters: FbaInboundApiConfirmDeliveryWindowOptionsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).confirmDeliveryWindowOptions(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.deliveryWindowOptionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Confirms the packing option for an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiConfirmPackingOptionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5069,7 +6885,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Confirms the placement option for an inbound plan. Once confirmed, it cannot be changed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Confirms the placement option for an inbound plan. Once confirmed, it cannot be changed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiConfirmPlacementOptionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5080,7 +6896,18 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Confirms all the transportation options for an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new transportation options can not be generated or confirmed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Confirm a shipment content update preview and accept the changes in transportation cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiConfirmShipmentContentUpdatePreviewRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public confirmShipmentContentUpdatePreview(requestParameters: FbaInboundApiConfirmShipmentContentUpdatePreviewRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).confirmShipmentContentUpdatePreview(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.contentUpdatePreviewId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Confirms all the transportation options for an inbound plan. A placement option must be confirmed prior to use of this API. Once confirmed, new transportation options can not be generated or confirmed for the Inbound Plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiConfirmTransportationOptionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5091,7 +6918,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Creates an inbound plan. An inbound plan contains all the necessary information to send shipments into Amazon\'s fufillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Creates an inbound plan. An inbound plan contains all the necessary information to send shipments into Amazon\'s fufillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiCreateInboundPlanRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5102,7 +6929,29 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Generates available packing options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * For a given marketplace - creates labels for a list of mskus.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiCreateMarketplaceItemLabelsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public createMarketplaceItemLabels(requestParameters: FbaInboundApiCreateMarketplaceItemLabelsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).createMarketplaceItemLabels(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Generates available delivery window options for a given shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiGenerateDeliveryWindowOptionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public generateDeliveryWindowOptions(requestParameters: FbaInboundApiGenerateDeliveryWindowOptionsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).generateDeliveryWindowOptions(requestParameters.inboundPlanId, requestParameters.shipmentId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Generates available packing options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGeneratePackingOptionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5113,7 +6962,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Generates placement options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Generates placement options for the inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGeneratePlacementOptionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5124,7 +6973,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Initiates the process of generating the appointment slots list.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Initiates the process of generating the appointment slots list.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGenerateSelfShipAppointmentSlotsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5135,7 +6984,18 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Generates available transportation options for a given placement option.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Generate a shipment content update preview given a set of intended boxes and/or items for a shipment with a confirmed carrier. The shipment content update preview will be viewable with the updated costs and contents prior to confirmation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiGenerateShipmentContentUpdatePreviewsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public generateShipmentContentUpdatePreviews(requestParameters: FbaInboundApiGenerateShipmentContentUpdatePreviewsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).generateShipmentContentUpdatePreviews(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Generates available transportation options for a given placement option.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGenerateTransportationOptionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5146,7 +7006,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Provide delivery challan document for PCP transportation in IN marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Provide delivery challan document for PCP transportation in IN marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGetDeliveryChallanDocumentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5157,7 +7017,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Gets the status of the processing of an asynchronous API call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Gets the status of the processing of an asynchronous API call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGetInboundOperationStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5168,7 +7028,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Fetches the top level information about an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Fetches the top level information about an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGetInboundPlanRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5179,7 +7039,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Retrieves a list of available self-ship appointment slots used to drop off a shipment at a warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Retrieves a list of available self-ship appointment slots used to drop off a shipment at a warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGetSelfShipAppointmentSlotsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5190,7 +7050,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Provides the full details for a specific shipment within an inbound plan. The `transportationOptionId` inside `acceptedTransportationSelection` can be used to retrieve the transportation details for the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Provides the full details for a specific shipment within an inbound plan. The `transportationOptionId` inside `acceptedTransportationSelection` can be used to retrieve the transportation details for the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiGetShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5201,7 +7061,29 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Provides a paginated list of box packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Retrieve a shipment content update preview which provides a summary of the requested shipment content changes along with the transportation cost implications of the change that can only be confirmed prior to the expiry date specified.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiGetShipmentContentUpdatePreviewRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public getShipmentContentUpdatePreview(requestParameters: FbaInboundApiGetShipmentContentUpdatePreviewRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).getShipmentContentUpdatePreview(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.contentUpdatePreviewId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieves all delivery window options for a shipment. Delivery window options must first be generated by the `generateDeliveryWindowOptions` operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiListDeliveryWindowOptionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public listDeliveryWindowOptions(requestParameters: FbaInboundApiListDeliveryWindowOptionsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).listDeliveryWindowOptions(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.pageSize, requestParameters.paginationToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Provides a paginated list of box packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListInboundPlanBoxesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5212,7 +7094,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Provides a paginated list of item packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Provides a paginated list of item packages in an inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListInboundPlanItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5223,7 +7105,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Provides a paginated list of pallet packages in an inbound plan. An inbound plan will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Provides a paginated list of pallet packages in an inbound plan. An inbound plan will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListInboundPlanPalletsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5234,7 +7116,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Provides a list of inbound plans with minimal information.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Provides a list of inbound plans with minimal information.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListInboundPlansRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5245,7 +7127,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * List the inbound compliance details for MSKUs in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * List the inbound compliance details for MSKUs in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListItemComplianceDetailsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5256,18 +7138,29 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Retrieves a list of all items in a packing options\'s packing group. Packing options must first be generated by the corresponding endpoint before packing group items can be listed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Retrieves a page of boxes from a given packing group. These boxes were previously provided through the `setPackingInformation` operation. This API is used for workflows where boxes are packed before Amazon determines shipment splits.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiListPackingGroupBoxesRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public listPackingGroupBoxes(requestParameters: FbaInboundApiListPackingGroupBoxesRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).listPackingGroupBoxes(requestParameters.inboundPlanId, requestParameters.packingGroupId, requestParameters.pageSize, requestParameters.paginationToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieves a page of items in a given packing group. Packing options must first be generated by the corresponding operation before packing group items can be listed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListPackingGroupItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
     public listPackingGroupItems(requestParameters: FbaInboundApiListPackingGroupItemsRequest, options?: any) {
-        return FbaInboundApiFp(this.configuration).listPackingGroupItems(requestParameters.inboundPlanId, requestParameters.packingOptionId, requestParameters.packingGroupId, requestParameters.pageSize, requestParameters.paginationToken, options).then((request) => request(this.axios, this.basePath));
+        return FbaInboundApiFp(this.configuration).listPackingGroupItems(requestParameters.inboundPlanId, requestParameters.packingGroupId, requestParameters.pageSize, requestParameters.paginationToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Retrieves a list of all packing options for an inbound plan. Packing options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Retrieves a list of all packing options for an inbound plan. Packing options must first be generated by the corresponding operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListPackingOptionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5278,7 +7171,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Provides a list of all placement options for an inbound plan. Placement options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Provides a list of all placement options for an inbound plan. Placement options must first be generated by the corresponding operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListPlacementOptionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5289,7 +7182,51 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Retrieves all transportation options for a shipment. Transportation options must first be generated by the corresponding endpoint before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Provides a paginated list of box packages in a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiListShipmentBoxesRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public listShipmentBoxes(requestParameters: FbaInboundApiListShipmentBoxesRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).listShipmentBoxes(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.pageSize, requestParameters.paginationToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieve a paginated list of shipment content update previews for a given shipment. The shipment content update preview is a summary of the requested shipment content changes along with the transportation cost implications of the change that can only be confirmed prior to the expiry date specified.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiListShipmentContentUpdatePreviewsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public listShipmentContentUpdatePreviews(requestParameters: FbaInboundApiListShipmentContentUpdatePreviewsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).listShipmentContentUpdatePreviews(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.pageSize, requestParameters.paginationToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Provides a paginated list of item packages in a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiListShipmentItemsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public listShipmentItems(requestParameters: FbaInboundApiListShipmentItemsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).listShipmentItems(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.pageSize, requestParameters.paginationToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Provides a paginated list of pallet packages in a shipment. A palletized shipment will have pallets when the related details are provided after generating Less-Than-Truckload (LTL) carrier shipments.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiListShipmentPalletsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public listShipmentPallets(requestParameters: FbaInboundApiListShipmentPalletsRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).listShipmentPallets(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.pageSize, requestParameters.paginationToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieves all transportation options for a shipment. Transportation options must first be generated by the `generateTransportationOptions` operation before becoming available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 6 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiListTransportationOptionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5300,7 +7237,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Confirms or reschedules a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Confirms or reschedules a self-ship appointment slot against a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiScheduleSelfShipAppointmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5311,7 +7248,7 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Sets packing information for an inbound plan. This should be called after an inbound plan is created to populate     the box level information required for planning and transportation estimates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.05 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Sets packing information for an inbound plan. This should be called after an inbound plan is created to populate the box level information required for planning and transportation estimates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiSetPackingInformationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5322,7 +7259,18 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Update compliance details for list of MSKUs. The details provided here are only used for the IN marketplace compliance validation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Updates the name of an existing inbound plan.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiUpdateInboundPlanNameRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public updateInboundPlanName(requestParameters: FbaInboundApiUpdateInboundPlanNameRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).updateInboundPlanName(requestParameters.inboundPlanId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Update compliance details for list of MSKUs. The details provided here are only used for the IN marketplace compliance validation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiUpdateItemComplianceDetailsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5333,18 +7281,29 @@ export class FbaInboundApi extends BaseAPI {
     }
 
     /**
-     * Update the time window that a shipment will be delivered to the warehouse. The window is used to provide the expected time that a non-Amazon partnered carrier will arrive at the warehouse.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @param {FbaInboundApiUpdateShipmentDeliveryWindowRequest} requestParameters Request parameters.
+     * Updates the name of an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiUpdateShipmentNameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FbaInboundApi
      */
-    public updateShipmentDeliveryWindow(requestParameters: FbaInboundApiUpdateShipmentDeliveryWindowRequest, options?: any) {
-        return FbaInboundApiFp(this.configuration).updateShipmentDeliveryWindow(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateShipmentName(requestParameters: FbaInboundApiUpdateShipmentNameRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).updateShipmentName(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Updates a shipment\'s tracking details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Updates the source address of an existing shipment. The shipment source address can only be updated prior to the confirmation of the shipment carriers. As a result of the updated source address, existing transportation options will be invalidated and will need to be regenerated to capture the potential difference in transportation options and quotes due to the new source address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
+     * @param {FbaInboundApiUpdateShipmentSourceAddressRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaInboundApi
+     */
+    public updateShipmentSourceAddress(requestParameters: FbaInboundApiUpdateShipmentSourceAddressRequest, options?: any) {
+        return FbaInboundApiFp(this.configuration).updateShipmentSourceAddress(requestParameters.inboundPlanId, requestParameters.shipmentId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Updates a shipment\'s tracking details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api). 
      * @param {FbaInboundApiUpdateShipmentTrackingDetailsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

@@ -47,7 +47,7 @@ export interface AcknowledgementStatus {
  */
 export interface Address {
     /**
-     * The name of the person, business or institution at that address. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
+     * The name of the person, business, or institution at that address. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
      * @type {string}
      * @memberof Address
      */
@@ -77,19 +77,19 @@ export interface Address {
      */
     addressLine3?: string;
     /**
-     * The city where the person, business or institution is located. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
+     * The city where the person, business, or institution is located. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
      * @type {string}
      * @memberof Address
      */
     city?: string;
     /**
-     * The county where person, business or institution is located. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
+     * The county where the person, business, or institution is located. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
      * @type {string}
      * @memberof Address
      */
     county?: string;
     /**
-     * The district where person, business or institution is located. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
+     * The district where the person, business, or institution is located. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
      * @type {string}
      * @memberof Address
      */
@@ -113,7 +113,7 @@ export interface Address {
      */
     countryCode: string;
     /**
-     * The phone number of the person, business or institution located at that address. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
+     * The phone number of the person, business, or institution located at that address. For Amazon label only vendors, this field will have the value `xxxxx` within the object `shipToParty`.
      * @type {string}
      * @memberof Address
      */
@@ -249,7 +249,7 @@ export interface Money {
     amount?: string;
 }
 /**
- * 
+ * Represents a purchase order.
  * @export
  * @interface Order
  */
@@ -396,7 +396,7 @@ export enum OrderDetailsOrderStatusEnum {
 }
 
 /**
- * 
+ * The total tax object within the shipment that relates to the order.
  * @export
  * @interface OrderDetailsTaxTotal
  */
@@ -409,7 +409,7 @@ export interface OrderDetailsTaxTotal {
     taxLineItem?: Array<TaxDetails>;
 }
 /**
- * 
+ * An order item.
  * @export
  * @interface OrderItem
  */
@@ -476,7 +476,7 @@ export interface OrderItem {
     totalPrice?: Money;
 }
 /**
- * 
+ * Individual item details within the acknowledged order.
  * @export
  * @interface OrderItemAcknowledgement
  */
@@ -520,7 +520,7 @@ export interface OrderItemTaxDetails {
     taxLineItem?: Array<TaxDetails>;
 }
 /**
- * 
+ * A purchase orders list returned as a response.
  * @export
  * @interface OrderList
  */
@@ -532,14 +532,14 @@ export interface OrderList {
      */
     pagination?: Pagination;
     /**
-     * 
+     * Represents a purchase order within the `OrderList`.
      * @type {Array<Order>}
      * @memberof OrderList
      */
     orders?: Array<Order>;
 }
 /**
- * 
+ * The pagination elements required to retrieve the remaining data.
  * @export
  * @interface Pagination
  */
@@ -552,7 +552,7 @@ export interface Pagination {
     nextToken?: string;
 }
 /**
- * 
+ * Name, address, and tax details of a party.
  * @export
  * @interface PartyIdentification
  */
@@ -702,7 +702,7 @@ export interface SubmitAcknowledgementResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * The order\'s tax details.
  * @export
  * @interface TaxDetails
  */
@@ -789,7 +789,7 @@ export enum TaxRegistrationDetailsTaxRegistrationTypeEnum {
 }
 
 /**
- * 
+ * Response that contains the transaction ID.
  * @export
  * @interface TransactionId
  */
@@ -920,7 +920,7 @@ export const VendorOrdersApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body The request body that contains the order acknowledgement.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -992,7 +992,7 @@ export const VendorOrdersApiFp = function(configuration?: Configuration) {
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body The request body that contains the order acknowledgement.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1037,7 +1037,7 @@ export const VendorOrdersApiFactory = function (configuration?: Configuration, b
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body The request body that contains the order acknowledgement.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1131,7 +1131,7 @@ export interface VendorOrdersApiGetOrdersRequest {
  */
 export interface VendorOrdersApiSubmitAcknowledgementRequest {
     /**
-     * 
+     * The request body that contains the order acknowledgement.
      * @type {SubmitAcknowledgementRequest}
      * @memberof VendorOrdersApiSubmitAcknowledgement
      */
