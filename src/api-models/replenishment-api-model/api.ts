@@ -22,7 +22,7 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
- * The time period used to group data in the response. Note that this is only valid for the performance time period type.
+ * The time period used to group data in the response. Note that this is only valid for the `PERFORMANCE` time period type.
  * @export
  * @enum {string}
  */
@@ -85,7 +85,7 @@ export enum EnrollmentMethod {
  */
 export interface ErrorList {
     /**
-     * 
+     * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
      * @memberof ErrorList
      */
@@ -114,7 +114,7 @@ export interface GetSellingPartnerMetricsRequest {
      * @type {Array<Metric>}
      * @memberof GetSellingPartnerMetricsRequest
      */
-    metrics?: Array<(Metric | 'SHIPPED_SUBSCRIPTION_UNITS' | 'TOTAL_SUBSCRIPTIONS_REVENUE' | 'ACTIVE_SUBSCRIPTIONS' | 'NOT_DELIVERED_DUE_TO_OOS' | 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REVENUE')>;
+    metrics?: Array<(Metric | 'SHIPPED_SUBSCRIPTION_UNITS' | 'TOTAL_SUBSCRIPTIONS_REVENUE' | 'ACTIVE_SUBSCRIPTIONS' | 'NOT_DELIVERED_DUE_TO_OOS' | 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REVENUE' | 'LOST_REVENUE_DUE_TO_OOS' | 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REORDERS' | 'COUPONS_REVENUE_PENETRATION')>;
     /**
      * 
      * @type {TimePeriodType}
@@ -154,41 +154,65 @@ export interface GetSellingPartnerMetricsResponse {
  */
 export interface GetSellingPartnerMetricsResponseMetric {
     /**
-     * The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable only for the PERFORMANCE timePeriodType.
+     * The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     notDeliveredDueToOOS?: number;
     /**
-     * The revenue generated from subscriptions over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
+     * The revenue generated from subscriptions over a period of time. Applicable for both the `PERFORMANCE` and `FORECAST` `timePeriodType`.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     totalSubscriptionsRevenue?: number;
     /**
-     * The number of units shipped to the subscribers over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
+     * The number of units shipped to the subscribers over a period of time. Applicable for both the `PERFORMANCE` and `FORECAST` `timePeriodType`.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     shippedSubscriptionUnits?: number;
     /**
-     * The number of active subscriptions present at the end of the period. Applicable only for the PERFORMANCE timePeriodType.
+     * The number of active subscriptions present at the end of the period. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     activeSubscriptions?: number;
     /**
-     * The average revenue per subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable only for the PERFORMANCE timePeriodType.
+     * The average revenue per subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     subscriberAverageRevenue?: number;
     /**
-     * The average revenue per non-subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable only for the PERFORMANCE timePeriodType.
+     * The average revenue per non-subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     nonSubscriberAverageRevenue?: number;
+    /**
+     * The revenue that would have been generated had there not been out of stock. Applicable only for the PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    lostRevenueDueToOOS?: number;
+    /**
+     * The average reorders per subscriber of the program over a period of 12 months. Applicable only for the PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    subscriberAverageReorders?: number;
+    /**
+     * The average reorders per non-subscriber of the program over a period of past 12 months. Applicable only for the PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    nonSubscriberAverageReorders?: number;
+    /**
+     * The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable only for the PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    couponsRevenuePenetration?: number;
     /**
      * 
      * @type {TimeInterval}
@@ -340,67 +364,79 @@ export interface ListOfferMetricsResponseOffer {
      */
     asin?: string;
     /**
-     * The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable only for the PERFORMANCE timePeriodType.
+     * The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     notDeliveredDueToOOS?: number;
     /**
-     * The revenue generated from subscriptions over a period of time. Applicable only for the PERFORMANCE timePeriodType.
+     * The revenue generated from subscriptions over a period of time. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     totalSubscriptionsRevenue?: number;
     /**
-     * The number of units shipped to the subscribers over a period of time. Applicable only for the PERFORMANCE timePeriodType.
+     * The number of units shipped to the subscribers over a period of time. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     shippedSubscriptionUnits?: number;
     /**
-     * The number of active subscriptions present at the end of the period. Applicable only for the PERFORMANCE timePeriodType.
+     * The number of active subscriptions present at the end of the period. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     activeSubscriptions?: number;
     /**
-     * The percentage of total program revenue out of total product revenue. Applicable only for the PERFORMANCE timePeriodType.
+     * The percentage of total program revenue out of total product revenue. Applicable only for the `PERFORMANCE` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     revenuePenetration?: number;
     /**
-     * The forecasted total subscription revenue for the next 30 days. Applicable only for the FORECAST timePeriodType.
+     * The revenue that would have been generated had there not been out of stock. Applicable only for the PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof ListOfferMetricsResponseOffer
+     */
+    lostRevenueDueToOOS?: number;
+    /**
+     * The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable only for the PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof ListOfferMetricsResponseOffer
+     */
+    couponsRevenuePenetration?: number;
+    /**
+     * The forecasted total subscription revenue for the next 30 days. Applicable only for the `FORECAST` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next30DayTotalSubscriptionsRevenue?: number;
     /**
-     * The forecasted total subscription revenue for the next 60 days. Applicable only for the FORECAST timePeriodType.
+     * The forecasted total subscription revenue for the next 60 days. Applicable only for the `FORECAST` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next60DayTotalSubscriptionsRevenue?: number;
     /**
-     * The forecasted total subscription revenue for the next 90 days. Applicable only for the FORECAST timePeriodType.
+     * The forecasted total subscription revenue for the next 90 days. Applicable only for the `FORECAST` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next90DayTotalSubscriptionsRevenue?: number;
     /**
-     * The forecasted shipped subscription units for the next 30 days. Applicable only for the FORECAST timePeriodType.
+     * The forecasted shipped subscription units for the next 30 days. Applicable only for the `FORECAST` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next30DayShippedSubscriptionUnits?: number;
     /**
-     * The forecasted shipped subscription units for the next 60 days. Applicable only for the FORECAST timePeriodType.
+     * The forecasted shipped subscription units for the next 60 days. Applicable only for the `FORECAST` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next60DayShippedSubscriptionUnits?: number;
     /**
-     * The forecasted shipped subscription units for the next 90 days. Applicable only for the FORECAST timePeriodType.
+     * The forecasted shipped subscription units for the next 90 days. Applicable only for the `FORECAST` `timePeriodType`.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
@@ -638,7 +674,10 @@ export enum Metric {
     TotalSubscriptionsRevenue = 'TOTAL_SUBSCRIPTIONS_REVENUE',
     ActiveSubscriptions = 'ACTIVE_SUBSCRIPTIONS',
     NotDeliveredDueToOos = 'NOT_DELIVERED_DUE_TO_OOS',
-    SubscriberNonSubscriberAverageRevenue = 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REVENUE'
+    SubscriberNonSubscriberAverageRevenue = 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REVENUE',
+    LostRevenueDueToOos = 'LOST_REVENUE_DUE_TO_OOS',
+    SubscriberNonSubscriberAverageReorders = 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REORDERS',
+    CouponsRevenuePenetration = 'COUPONS_REVENUE_PENETRATION'
 }
 
 /**
@@ -831,13 +870,13 @@ export enum SortOrder {
  */
 export interface TimeInterval {
     /**
-     * When this object is used as a request parameter, the specified startDate is adjusted based on the aggregation frequency.  * For WEEK the metric is computed from the first day of the week (that is, Sunday based on ISO 8601) that contains the startDate. * For MONTH the metric is computed from the first day of the month that contains the startDate. * For QUARTER the metric is computed from the first day of the quarter that contains the startDate. * For YEAR the metric is computed from the first day of the year that contains the startDate.
+     * When this object is used as a request parameter, the specified `startDate` is adjusted based on the aggregation frequency.  * For `WEEK` the metric is computed from the first day of the week (Sunday, based on ISO 8601) that contains the `startDate`. * For `MONTH` the metric is computed from the first day of the month that contains the `startDate`. * For `QUARTER` the metric is computed from the first day of the quarter that contains the `startDate`. * For `YEAR` the metric is computed from the first day of the year that contains the `startDate`.
      * @type {string}
      * @memberof TimeInterval
      */
     startDate: string;
     /**
-     * When this object is used as a request parameter, the specified endDate is adjusted based on the aggregation frequency.  * For WEEK the metric is computed up to the last day of the week (that is, Sunday based on ISO 8601) that contains the endDate. * For MONTH, the metric is computed up to the last day that contains the endDate. * For QUARTER the metric is computed up to the last day of the quarter that contains the endDate. * For YEAR the metric is computed up to the last day of the year that contains the endDate.  Note: The end date may be adjusted to a lower value based on the data available in our system.
+     * When this object is used as a request parameter, the specified `endDate` is adjusted based on the aggregation frequency.  * For `WEEK` the metric is computed up to the last day of the week (Sunday, based on ISO 8601) that contains the `endDate`. * For `MONTH`, the metric is computed up to the last day that contains the `endDate`. * For `QUARTER` the metric is computed up to the last day of the quarter that contains the `endDate`. * For `YEAR` the metric is computed up to the last day of the year that contains the `endDate`.  Note: The end date may be adjusted to a lower value based on the data available in our system.
      * @type {string}
      * @memberof TimeInterval
      */
@@ -894,8 +933,8 @@ export const OffersApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * Returns the details of a selling partner\'s replenishment program offers. Note that this operation only supports sellers at this time.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {ListOffersRequest} [body] 
+         * Returns the details of a selling partner\'s replenishment program offers.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {ListOffersRequest} [body] The request body for the &#x60;listOffers&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -947,8 +986,8 @@ export const OffersApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the details of a selling partner\'s replenishment program offers. Note that this operation only supports sellers at this time.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {ListOffersRequest} [body] 
+         * Returns the details of a selling partner\'s replenishment program offers.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {ListOffersRequest} [body] The request body for the &#x60;listOffers&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -976,8 +1015,8 @@ export const OffersApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.listOfferMetrics(body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the details of a selling partner\'s replenishment program offers. Note that this operation only supports sellers at this time.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {ListOffersRequest} [body] 
+         * Returns the details of a selling partner\'s replenishment program offers.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {ListOffersRequest} [body] The request body for the &#x60;listOffers&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1008,7 +1047,7 @@ export interface OffersApiListOfferMetricsRequest {
  */
 export interface OffersApiListOffersRequest {
     /**
-     * 
+     * The request body for the &#x60;listOffers&#x60; operation.
      * @type {ListOffersRequest}
      * @memberof OffersApiListOffers
      */
@@ -1034,7 +1073,7 @@ export class OffersApi extends BaseAPI {
     }
 
     /**
-     * Returns the details of a selling partner\'s replenishment program offers. Note that this operation only supports sellers at this time.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns the details of a selling partner\'s replenishment program offers.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OffersApiListOffersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1054,7 +1093,7 @@ export const SellingpartnersApiAxiosParamCreator = function (configuration?: Con
     return {
         /**
          * Returns aggregated replenishment program metrics for a selling partner.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetSellingPartnerMetricsRequest} [body] 
+         * @param {GetSellingPartnerMetricsRequest} [body] The request body for the &#x60;getSellingPartnerMetrics&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1097,7 +1136,7 @@ export const SellingpartnersApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Returns aggregated replenishment program metrics for a selling partner.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetSellingPartnerMetricsRequest} [body] 
+         * @param {GetSellingPartnerMetricsRequest} [body] The request body for the &#x60;getSellingPartnerMetrics&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1117,7 +1156,7 @@ export const SellingpartnersApiFactory = function (configuration?: Configuration
     return {
         /**
          * Returns aggregated replenishment program metrics for a selling partner.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetSellingPartnerMetricsRequest} [body] 
+         * @param {GetSellingPartnerMetricsRequest} [body] The request body for the &#x60;getSellingPartnerMetrics&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1134,7 +1173,7 @@ export const SellingpartnersApiFactory = function (configuration?: Configuration
  */
 export interface SellingpartnersApiGetSellingPartnerMetricsRequest {
     /**
-     * 
+     * The request body for the &#x60;getSellingPartnerMetrics&#x60; operation.
      * @type {GetSellingPartnerMetricsRequest}
      * @memberof SellingpartnersApiGetSellingPartnerMetrics
      */

@@ -120,7 +120,7 @@ export interface Address {
     phone?: string;
 }
 /**
- * 
+ * The details of the products the vendor has configured as customizable.
  * @export
  * @interface BuyerCustomizedInfoDetail
  */
@@ -139,7 +139,7 @@ export interface BuyerCustomizedInfoDetail {
  */
 export interface ErrorList {
     /**
-     * 
+     * An array of Error objects representing individual errors encountered during the request.
      * @type {Array<Error>}
      * @memberof ErrorList
      */
@@ -237,7 +237,7 @@ export interface Money {
     amount?: string;
 }
 /**
- * 
+ * Represents a purchase order.
  * @export
  * @interface Order
  */
@@ -384,7 +384,7 @@ export enum OrderDetailsOrderStatusEnum {
 }
 
 /**
- * 
+ * An item within an order
  * @export
  * @interface OrderItem
  */
@@ -457,7 +457,7 @@ export interface OrderItem {
     buyerCustomizedInfo?: BuyerCustomizedInfoDetail;
 }
 /**
- * 
+ * Details of an individual item within the order being acknowledged.
  * @export
  * @interface OrderItemAcknowledgement
  */
@@ -488,7 +488,7 @@ export interface OrderItemAcknowledgement {
     acknowledgedQuantity: ItemQuantity;
 }
 /**
- * 
+ * A list of purchase orders.
  * @export
  * @interface OrderList
  */
@@ -500,14 +500,14 @@ export interface OrderList {
      */
     pagination?: Pagination;
     /**
-     * 
+     * Represents a purchase order within the OrderList.
      * @type {Array<Order>}
      * @memberof OrderList
      */
     orders?: Array<Order>;
 }
 /**
- * 
+ * The pagination elements required to retrieve the remaining data.
  * @export
  * @interface Pagination
  */
@@ -520,7 +520,7 @@ export interface Pagination {
     nextToken?: string;
 }
 /**
- * 
+ * Name, address and tax details of a party.
  * @export
  * @interface PartyIdentification
  */
@@ -670,7 +670,7 @@ export interface SubmitAcknowledgementResponse {
     errors?: ErrorList;
 }
 /**
- * 
+ * The tax details related to the order.
  * @export
  * @interface TaxDetails
  */
@@ -770,7 +770,7 @@ export enum TaxRegistrationDetailsTaxRegistrationTypeEnum {
 }
 
 /**
- * 
+ * Response containing the transaction ID.
  * @export
  * @interface TransactionId
  */
@@ -901,7 +901,7 @@ export const VendorOrdersApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body The request body containing the acknowledgement to an order
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -973,7 +973,7 @@ export const VendorOrdersApiFp = function(configuration?: Configuration) {
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body The request body containing the acknowledgement to an order
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1018,7 +1018,7 @@ export const VendorOrdersApiFactory = function (configuration?: Configuration, b
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body The request body containing the acknowledgement to an order
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1112,7 +1112,7 @@ export interface VendorOrdersApiGetOrdersRequest {
  */
 export interface VendorOrdersApiSubmitAcknowledgementRequest {
     /**
-     * 
+     * The request body containing the acknowledgement to an order
      * @type {SubmitAcknowledgementRequest}
      * @memberof VendorOrdersApiSubmitAcknowledgement
      */
