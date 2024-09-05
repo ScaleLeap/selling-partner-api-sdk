@@ -1,4 +1,7 @@
-import { APIConfigurationParameters, ReportsApiClientV20210630 as ReportsApiClient } from '../../src'
+import {
+  APIConfigurationParameters,
+  ReportsApiClientV20210630 as ReportsApiClient,
+} from '../../src'
 import { SellersApiClient } from '../../src/api-clients/sellers-api-client'
 import { generateAPIConfigurations, getTokens, TokenResponse } from '../authentication'
 
