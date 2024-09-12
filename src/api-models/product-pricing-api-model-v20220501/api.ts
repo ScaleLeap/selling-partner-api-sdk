@@ -103,7 +103,9 @@ export interface CompetitiveSummaryBatchResponse {
  * @enum {string}
  */
 export enum CompetitiveSummaryIncludedData {
-    FeaturedBuyingOptions = 'featuredBuyingOptions'
+    FeaturedBuyingOptions = 'featuredBuyingOptions',
+    ReferencePrices = 'referencePrices',
+    LowestPricedOffers = 'lowestPricedOffers'
 }
 
 /**
@@ -129,7 +131,13 @@ export interface CompetitiveSummaryRequest {
      * @type {Array<CompetitiveSummaryIncludedData>}
      * @memberof CompetitiveSummaryRequest
      */
-    includedData: Array<(CompetitiveSummaryIncludedData | 'featuredBuyingOptions')>;
+    includedData: Array<(CompetitiveSummaryIncludedData | 'featuredBuyingOptions' | 'referencePrices' | 'lowestPricedOffers')>;
+    /**
+     * The list of `lowestPricedOffersInput` parameters used to build the `lowestPricedOffers` in the response. This attribute is valid only if `lowestPricedOffers` is requested in `includedData`.
+     * @type {Array<LowestPricedOffersInput>}
+     * @memberof CompetitiveSummaryRequest
+     */
+    lowestPricedOffersInputs?: Array<LowestPricedOffersInput>;
     /**
      * 
      * @type {HttpMethod}
@@ -187,11 +195,23 @@ export interface CompetitiveSummaryResponseBody {
      */
     featuredBuyingOptions?: Array<FeaturedBuyingOption>;
     /**
-     * 
-     * @type {Errors}
+     * A list of the lowest priced offers for the given ASIN `marketplaceId` combination.
+     * @type {Array<LowestPricedOffer>}
      * @memberof CompetitiveSummaryResponseBody
      */
-    errors?: Errors;
+    lowestPricedOffers?: Array<LowestPricedOffer>;
+    /**
+     * A list of reference prices for the given ASIN `marketplaceId` combination.
+     * @type {Array<ReferencePrice>}
+     * @memberof CompetitiveSummaryResponseBody
+     */
+    referencePrices?: Array<ReferencePrice>;
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof CompetitiveSummaryResponseBody
+     */
+    errors?: Array<Error>;
 }
 /**
  * The condition of the item.
@@ -248,7 +268,7 @@ export enum FeaturedBuyingOptionBuyingOptionTypeEnum {
 }
 
 /**
- * 
+ * Schema for `currentFeaturedOffer` or `competingFeaturedOffer`.
  * @export
  * @interface FeaturedOffer
  */
@@ -354,7 +374,7 @@ export interface FeaturedOfferExpectedPriceRequestParams {
     sku: string;
 }
 /**
- * 
+ * Schema for an individual featured offer expected price response.
  * @export
  * @interface FeaturedOfferExpectedPriceResponse
  */
@@ -557,6 +577,53 @@ export interface HttpStatusLine {
     reasonPhrase?: string;
 }
 /**
+ * The lowest priced offer for the requested item condition and offer type.
+ * @export
+ * @interface LowestPricedOffer
+ */
+export interface LowestPricedOffer {
+    /**
+     * 
+     * @type {LowestPricedOffersInput}
+     * @memberof LowestPricedOffer
+     */
+    lowestPricedOffersInput: LowestPricedOffersInput;
+    /**
+     * A list of up to 20 lowest priced offers that match the criteria specified in the `lowestPricedOffersInput` parameter.
+     * @type {Array<Offer>}
+     * @memberof LowestPricedOffer
+     */
+    offers: Array<Offer>;
+}
+/**
+ * The input required for building the `LowestPricedOffers` data in the response.
+ * @export
+ * @interface LowestPricedOffersInput
+ */
+export interface LowestPricedOffersInput {
+    /**
+     * 
+     * @type {Condition}
+     * @memberof LowestPricedOffersInput
+     */
+    itemCondition: Condition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
+    /**
+     * The type of offers requested for the `LowestPricedOffers`. The `offerType` options are `Consumer` or `Business`. The default `offerType` is `Consumer`.
+     * @type {string}
+     * @memberof LowestPricedOffersInput
+     */
+    offerType: LowestPricedOffersInputOfferTypeEnum | 'CONSUMER';
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum LowestPricedOffersInputOfferTypeEnum {
+    Consumer = 'CONSUMER'
+}
+
+/**
  * Error response returned when the request is unsuccessful.
  * @export
  * @interface ModelError
@@ -582,7 +649,7 @@ export interface ModelError {
     details?: string;
 }
 /**
- * 
+ * Currency type and monetary value. Schema for demonstrating pricing info.
  * @export
  * @interface MoneyType
  */
@@ -619,6 +686,12 @@ export interface Offer {
      */
     condition: Condition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
     /**
+     * The item subcondition for the offer.
+     * @type {string}
+     * @memberof Offer
+     */
+    subCondition?: OfferSubConditionEnum | 'New' | 'Mint' | 'VeryGood' | 'Good' | 'Acceptable' | 'Poor' | 'Club' | 'OEM' | 'Warranty' | 'RefurbishedWarranty' | 'Refurbished' | 'OpenBox' | 'Other';
+    /**
      * 
      * @type {FulfillmentType}
      * @memberof Offer
@@ -642,7 +715,34 @@ export interface Offer {
      * @memberof Offer
      */
     points?: Points;
+    /**
+     * 
+     * @type {PrimeDetails}
+     * @memberof Offer
+     */
+    primeDetails?: PrimeDetails;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum OfferSubConditionEnum {
+    New = 'New',
+    Mint = 'Mint',
+    VeryGood = 'VeryGood',
+    Good = 'Good',
+    Acceptable = 'Acceptable',
+    Poor = 'Poor',
+    Club = 'Club',
+    Oem = 'OEM',
+    Warranty = 'Warranty',
+    RefurbishedWarranty = 'RefurbishedWarranty',
+    Refurbished = 'Refurbished',
+    OpenBox = 'OpenBox',
+    Other = 'Other'
+}
+
 /**
  * Identifies an offer from a particular seller on an ASIN.
  * @export
@@ -681,7 +781,7 @@ export interface OfferIdentifier {
     fulfillmentType?: FulfillmentType | 'AFN' | 'MFN';
 }
 /**
- * 
+ * The number of Amazon Points offered with the purchase of an item, and their monetary value.
  * @export
  * @interface Points
  */
@@ -700,7 +800,7 @@ export interface Points {
     pointsMonetaryValue?: MoneyType;
 }
 /**
- * 
+ * Schema for item\'s price information, including listing price, shipping price, and Amazon points.
  * @export
  * @interface Price
  */
@@ -723,6 +823,49 @@ export interface Price {
      * @memberof Price
      */
     points?: Points;
+}
+/**
+ * Amazon Prime details.
+ * @export
+ * @interface PrimeDetails
+ */
+export interface PrimeDetails {
+    /**
+     * Indicates whether the offer is an Amazon Prime offer.
+     * @type {string}
+     * @memberof PrimeDetails
+     */
+    eligibility: PrimeDetailsEligibilityEnum | 'NATIONAL' | 'REGIONAL' | 'NONE';
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum PrimeDetailsEligibilityEnum {
+    National = 'NATIONAL',
+    Regional = 'REGIONAL',
+    None = 'NONE'
+}
+
+/**
+ * The reference price for the given ASIN `marketplaceId` combination. 
+ * @export
+ * @interface ReferencePrice
+ */
+export interface ReferencePrice {
+    /**
+     * The name of the reference price like `CompetitivePriceThreshold`.
+     * @type {string}
+     * @memberof ReferencePrice
+     */
+    name: string;
+    /**
+     * 
+     * @type {MoneyType}
+     * @memberof ReferencePrice
+     */
+    price: MoneyType;
 }
 /**
  * The details about the segment.
@@ -756,6 +899,12 @@ export interface SegmentedFeaturedOffer {
      */
     condition: Condition | 'New' | 'Used' | 'Collectible' | 'Refurbished' | 'Club';
     /**
+     * The item subcondition for the offer.
+     * @type {string}
+     * @memberof SegmentedFeaturedOffer
+     */
+    subCondition?: SegmentedFeaturedOfferSubConditionEnum | 'New' | 'Mint' | 'VeryGood' | 'Good' | 'Acceptable' | 'Poor' | 'Club' | 'OEM' | 'Warranty' | 'RefurbishedWarranty' | 'Refurbished' | 'OpenBox' | 'Other';
+    /**
      * 
      * @type {FulfillmentType}
      * @memberof SegmentedFeaturedOffer
@@ -780,12 +929,39 @@ export interface SegmentedFeaturedOffer {
      */
     points?: Points;
     /**
+     * 
+     * @type {PrimeDetails}
+     * @memberof SegmentedFeaturedOffer
+     */
+    primeDetails?: PrimeDetails;
+    /**
      * The list of segment information in which the offer is featured.
      * @type {Array<FeaturedOfferSegment>}
      * @memberof SegmentedFeaturedOffer
      */
     featuredOfferSegments: Array<FeaturedOfferSegment>;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum SegmentedFeaturedOfferSubConditionEnum {
+    New = 'New',
+    Mint = 'Mint',
+    VeryGood = 'VeryGood',
+    Good = 'Good',
+    Acceptable = 'Acceptable',
+    Poor = 'Poor',
+    Club = 'Club',
+    Oem = 'OEM',
+    Warranty = 'Warranty',
+    RefurbishedWarranty = 'RefurbishedWarranty',
+    Refurbished = 'Refurbished',
+    OpenBox = 'OpenBox',
+    Other = 'Other'
+}
+
 /**
  * The list of segment information in which the offer is featured.
  * @export
@@ -871,7 +1047,7 @@ export const ProductPricingApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody 
+         * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -926,7 +1102,7 @@ export const ProductPricingApiFp = function(configuration?: Configuration) {
         },
         /**
          * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody 
+         * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -955,7 +1131,7 @@ export const ProductPricingApiFactory = function (configuration?: Configuration,
         },
         /**
          * Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed, because competing offers may change, and different offers may be featured based on other factors, including fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.033 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody 
+         * @param {GetFeaturedOfferExpectedPriceBatchRequest} getFeaturedOfferExpectedPriceBatchRequestBody The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -986,7 +1162,7 @@ export interface ProductPricingApiGetCompetitiveSummaryRequest {
  */
 export interface ProductPricingApiGetFeaturedOfferExpectedPriceBatchRequest {
     /**
-     * 
+     * The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests.
      * @type {GetFeaturedOfferExpectedPriceBatchRequest}
      * @memberof ProductPricingApiGetFeaturedOfferExpectedPriceBatch
      */

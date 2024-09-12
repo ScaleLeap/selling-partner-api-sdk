@@ -28,14 +28,14 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
  */
 export interface ErrorList {
     /**
-     * 
+     * An array of individual error objects that contain error details.
      * @type {Array<Error>}
      * @memberof ErrorList
      */
     errors: Array<Error>;
 }
 /**
- * The request body for the generateOrderScenarios operation.
+ * The `generateOrderScenarios` request body.
  * @export
  * @interface GenerateOrderScenarioRequest
  */
@@ -54,7 +54,7 @@ export interface GenerateOrderScenarioRequest {
  */
 export interface ModelError {
     /**
-     * An error code that identifies the type of error that occured.
+     * An error code that identifies the type of error that occurred.
      * @type {string}
      * @memberof ModelError
      */
@@ -92,26 +92,26 @@ export interface OrderScenarioRequest {
     shipFromParty: PartyIdentification;
 }
 /**
- * A generated string used to pass information to your next request. If NextToken is returned, pass the value of NextToken to the next request. If NextToken is not returned, there are no more order items to return.
+ * A generated string used to pass information to your next request. If `NextToken` is returned, pass the value of `NextToken` to the next request. If `NextToken` is not returned, there are no more order items to return.
  * @export
  * @interface Pagination
  */
 export interface Pagination {
     /**
-     * 
+     * A generated token that retrieves the next set of results. This token is specified in the next request.
      * @type {string}
      * @memberof Pagination
      */
     nextToken?: string;
 }
 /**
- * The identification object for the party information. For example, warehouse code or vendor code. Please refer to specific party for more details.
+ * The identification object for the party information. For example, warehouse code or vendor code.
  * @export
  * @interface PartyIdentification
  */
 export interface PartyIdentification {
     /**
-     * Assigned identification for the party. For example, warehouse code or vendor code. Please refer to specific party for more details.
+     * Assigned identification for the party. For example, warehouse code or vendor code.
      * @type {string}
      * @memberof PartyIdentification
      */
@@ -163,13 +163,13 @@ export interface TestOrder {
     orderId: string;
 }
 /**
- * The transaction details including the status. If the transaction was successful, also includes the requested test order data.
+ * The transaction details that include the status. If the transaction is successful, also includes the requested test order data.
  * @export
  * @interface Transaction
  */
 export interface Transaction {
     /**
-     * The unique identifier returned in the response to the generateOrderScenarios request.
+     * The unique identifier returned in the response for the `generateOrderScenarios` request.
      * @type {string}
      * @memberof Transaction
      */
@@ -205,14 +205,14 @@ export enum TransactionStatusEnum {
  */
 export interface TransactionReference {
     /**
-     * 
+     * A GUID (Globally Unique Identifier) assigned by Amazon to uniquely identify the transaction.
      * @type {string}
      * @memberof TransactionReference
      */
     transactionId?: string;
 }
 /**
- * The payload for the getOrderScenarios operation.
+ * The payload for `getOrderScenarios`.
  * @export
  * @interface TransactionStatus
  */
@@ -233,7 +233,7 @@ export const VendorDFSandboxApiAxiosParamCreator = function (configuration?: Con
     return {
         /**
          * Submits a request to generate test order data for Vendor Direct Fulfillment API entities.
-         * @param {GenerateOrderScenarioRequest} body 
+         * @param {GenerateOrderScenarioRequest} body The request payload that contain parameters to generate test order data scenarios.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -278,7 +278,7 @@ export const VendorDFSandboxApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Submits a request to generate test order data for Vendor Direct Fulfillment API entities.
-         * @param {GenerateOrderScenarioRequest} body 
+         * @param {GenerateOrderScenarioRequest} body The request payload that contain parameters to generate test order data scenarios.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -298,7 +298,7 @@ export const VendorDFSandboxApiFactory = function (configuration?: Configuration
     return {
         /**
          * Submits a request to generate test order data for Vendor Direct Fulfillment API entities.
-         * @param {GenerateOrderScenarioRequest} body 
+         * @param {GenerateOrderScenarioRequest} body The request payload that contain parameters to generate test order data scenarios.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -315,7 +315,7 @@ export const VendorDFSandboxApiFactory = function (configuration?: Configuration
  */
 export interface VendorDFSandboxApiGenerateOrderScenariosRequest {
     /**
-     * 
+     * The request payload that contain parameters to generate test order data scenarios.
      * @type {GenerateOrderScenarioRequest}
      * @memberof VendorDFSandboxApiGenerateOrderScenarios
      */
@@ -349,8 +349,8 @@ export class VendorDFSandboxApi extends BaseAPI {
 export const VendorDFSandboxtransactionstatusApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns the status of the transaction indicated by the specified transactionId. If the transaction was successful, also returns the requested test order data.
-         * @param {string} transactionId The transaction identifier returned in the response to the generateOrderScenarios operation.
+         * Retrieves the transaction status identified by the specified `transactionId`, and returns the requested test order data if the transaction is successful.
+         * @param {string} transactionId The transaction identifier returned in the response for the &#x60;generateOrderScenarios&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -392,8 +392,8 @@ export const VendorDFSandboxtransactionstatusApiFp = function(configuration?: Co
     const localVarAxiosParamCreator = VendorDFSandboxtransactionstatusApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns the status of the transaction indicated by the specified transactionId. If the transaction was successful, also returns the requested test order data.
-         * @param {string} transactionId The transaction identifier returned in the response to the generateOrderScenarios operation.
+         * Retrieves the transaction status identified by the specified `transactionId`, and returns the requested test order data if the transaction is successful.
+         * @param {string} transactionId The transaction identifier returned in the response for the &#x60;generateOrderScenarios&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -412,8 +412,8 @@ export const VendorDFSandboxtransactionstatusApiFactory = function (configuratio
     const localVarFp = VendorDFSandboxtransactionstatusApiFp(configuration)
     return {
         /**
-         * Returns the status of the transaction indicated by the specified transactionId. If the transaction was successful, also returns the requested test order data.
-         * @param {string} transactionId The transaction identifier returned in the response to the generateOrderScenarios operation.
+         * Retrieves the transaction status identified by the specified `transactionId`, and returns the requested test order data if the transaction is successful.
+         * @param {string} transactionId The transaction identifier returned in the response for the &#x60;generateOrderScenarios&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -430,7 +430,7 @@ export const VendorDFSandboxtransactionstatusApiFactory = function (configuratio
  */
 export interface VendorDFSandboxtransactionstatusApiGetOrderScenariosRequest {
     /**
-     * The transaction identifier returned in the response to the generateOrderScenarios operation.
+     * The transaction identifier returned in the response for the &#x60;generateOrderScenarios&#x60; operation.
      * @type {string}
      * @memberof VendorDFSandboxtransactionstatusApiGetOrderScenarios
      */
@@ -445,7 +445,7 @@ export interface VendorDFSandboxtransactionstatusApiGetOrderScenariosRequest {
  */
 export class VendorDFSandboxtransactionstatusApi extends BaseAPI {
     /**
-     * Returns the status of the transaction indicated by the specified transactionId. If the transaction was successful, also returns the requested test order data.
+     * Retrieves the transaction status identified by the specified `transactionId`, and returns the requested test order data if the transaction is successful.
      * @param {VendorDFSandboxtransactionstatusApiGetOrderScenariosRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

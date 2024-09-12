@@ -123,6 +123,34 @@ export interface Address {
     phone?: string;
 }
 /**
+ * A quantity based on unit of measure.
+ * @export
+ * @interface Amount
+ */
+export interface Amount {
+    /**
+     * The unit of measure for the amount.
+     * @type {string}
+     * @memberof Amount
+     */
+    unitOfMeasure: AmountUnitOfMeasureEnum | 'Eaches';
+    /**
+     * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation.
+     * @type {string}
+     * @memberof Amount
+     */
+    value: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum AmountUnitOfMeasureEnum {
+    Eaches = 'Eaches'
+}
+
+/**
  * The COD (Cash On Delivery) charges that you associate with a COD fulfillment order.
  * @export
  * @interface CODSettings
@@ -258,7 +286,7 @@ export interface CreateFulfillmentOrderRequest {
      */
     displayableOrderId: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof CreateFulfillmentOrderRequest
      */
@@ -287,6 +315,12 @@ export interface CreateFulfillmentOrderRequest {
      * @memberof CreateFulfillmentOrderRequest
      */
     destinationAddress: Address;
+    /**
+     * 
+     * @type {DeliveryPreferences}
+     * @memberof CreateFulfillmentOrderRequest
+     */
+    deliveryPreferences?: DeliveryPreferences;
     /**
      * 
      * @type {FulfillmentAction}
@@ -382,7 +416,7 @@ export interface CreateFulfillmentReturnResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * The result for the createFulfillmentReturn operation.
  * @export
  * @interface CreateFulfillmentReturnResult
  */
@@ -470,24 +504,201 @@ export enum CurrentStatus {
 }
 
 /**
+ * The time range within which something (for example, a delivery) will occur.
+ * @export
+ * @interface DateRange
+ */
+export interface DateRange {
+    /**
+     * Date timestamp
+     * @type {string}
+     * @memberof DateRange
+     */
+    earliest: string;
+    /**
+     * Date timestamp
+     * @type {string}
+     * @memberof DateRange
+     */
+    latest: string;
+}
+/**
+ * Localized messaging for a delivery offering.
+ * @export
+ * @interface DeliveryMessage
+ */
+export interface DeliveryMessage {
+    /**
+     * The message content for a delivery offering.
+     * @type {string}
+     * @memberof DeliveryMessage
+     */
+    text?: string;
+    /**
+     * The locale for the message (for example, en_US).
+     * @type {string}
+     * @memberof DeliveryMessage
+     */
+    locale?: string;
+}
+/**
+ * An available offer for delivery of a product.
+ * @export
+ * @interface DeliveryOffer
+ */
+export interface DeliveryOffer {
+    /**
+     * Date timestamp
+     * @type {string}
+     * @memberof DeliveryOffer
+     */
+    expiresAt?: string;
+    /**
+     * 
+     * @type {DateRange}
+     * @memberof DeliveryOffer
+     */
+    dateRange?: DateRange;
+    /**
+     * 
+     * @type {DeliveryPolicy}
+     * @memberof DeliveryOffer
+     */
+    policy?: DeliveryPolicy;
+}
+/**
+ * The policy for a delivery offering.
+ * @export
+ * @interface DeliveryPolicy
+ */
+export interface DeliveryPolicy {
+    /**
+     * 
+     * @type {DeliveryMessage}
+     * @memberof DeliveryPolicy
+     */
+    message?: DeliveryMessage;
+}
+/**
+ * The delivery preferences applied to the destination address. These preferences will be applied when possible and are best effort. This feature is currently supported only in the JP marketplace and not applicable for other marketplaces.
+ * @export
+ * @interface DeliveryPreferences
+ */
+export interface DeliveryPreferences {
+    /**
+     * Additional delivery instructions. For example, this could be instructions on how to enter a building, nearby landmark or navigation instructions, \'Beware of dogs\', etc.
+     * @type {string}
+     * @memberof DeliveryPreferences
+     */
+    deliveryInstructions?: string;
+    /**
+     * 
+     * @type {DropOffLocation}
+     * @memberof DeliveryPreferences
+     */
+    dropOffLocation?: DropOffLocation;
+}
+/**
+ * A quantity based on unit of measure.
+ * @export
+ * @interface DeliveryQuantity
+ */
+export interface DeliveryQuantity {
+    /**
+     * The unit of measure for the amount.
+     * @type {string}
+     * @memberof DeliveryQuantity
+     */
+    unitOfMeasure: DeliveryQuantityUnitOfMeasureEnum | 'Each';
+    /**
+     * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation.
+     * @type {string}
+     * @memberof DeliveryQuantity
+     */
+    amount: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum DeliveryQuantityUnitOfMeasureEnum {
+    Each = 'Each'
+}
+
+/**
  * The time range within which a Scheduled Delivery fulfillment order should be delivered. This is only available in the JP marketplace.
  * @export
  * @interface DeliveryWindow
  */
 export interface DeliveryWindow {
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof DeliveryWindow
      */
     startDate: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof DeliveryWindow
      */
     endDate: string;
 }
+/**
+ * The destination for the delivery offer.
+ * @export
+ * @interface Destination
+ */
+export interface Destination {
+    /**
+     * 
+     * @type {VariablePrecisionAddress}
+     * @memberof Destination
+     */
+    deliveryAddress?: VariablePrecisionAddress;
+    /**
+     * An IP Address.
+     * @type {string}
+     * @memberof Destination
+     */
+    ipAddress?: string;
+}
+/**
+ * The preferred location to leave packages at the destination address.
+ * @export
+ * @interface DropOffLocation
+ */
+export interface DropOffLocation {
+    /**
+     * Specifies the preferred location to leave the package at the destination address.
+     * @type {string}
+     * @memberof DropOffLocation
+     */
+    type: DropOffLocationTypeEnum | 'FRONT_DOOR' | 'DELIVERY_BOX' | 'GAS_METER_BOX' | 'BICYCLE_BASKET' | 'GARAGE' | 'RECEPTIONIST' | 'FALLBACK_NEIGHBOR_DELIVERY' | 'DO_NOT_LEAVE_UNATTENDED';
+    /**
+     * Additional information about the drop-off location that can vary depending on the type of drop-off location specified in the `type` field. If the `type` is set to `FALLBACK_NEIGHBOR_DELIVERY`, the `attributes` object should include the exact keys `neighborName` and `houseNumber` to provide the name and house number of the designated neighbor.
+     * @type {{ [key: string]: string; }}
+     * @memberof DropOffLocation
+     */
+    attributes?: { [key: string]: string; };
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum DropOffLocationTypeEnum {
+    FrontDoor = 'FRONT_DOOR',
+    DeliveryBox = 'DELIVERY_BOX',
+    GasMeterBox = 'GAS_METER_BOX',
+    BicycleBasket = 'BICYCLE_BASKET',
+    Garage = 'GARAGE',
+    Receptionist = 'RECEPTIONIST',
+    FallbackNeighborDelivery = 'FALLBACK_NEIGHBOR_DELIVERY',
+    DoNotLeaveUnattended = 'DO_NOT_LEAVE_UNATTENDED'
+}
+
 /**
  * The event code for the delivery event.
  * @export
@@ -686,7 +897,7 @@ export interface FulfillmentOrder {
      */
     displayableOrderId: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentOrder
      */
@@ -734,7 +945,7 @@ export interface FulfillmentOrder {
      */
     codSettings?: CODSettings;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentOrder
      */
@@ -746,7 +957,7 @@ export interface FulfillmentOrder {
      */
     fulfillmentOrderStatus: FulfillmentOrderStatus | 'New' | 'Received' | 'Planning' | 'Processing' | 'Cancelled' | 'Complete' | 'CompletePartialled' | 'Unfulfillable' | 'Invalid';
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentOrder
      */
@@ -825,13 +1036,13 @@ export interface FulfillmentOrderItem {
      */
     unfulfillableQuantity: number;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentOrderItem
      */
     estimatedShipDate?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentOrderItem
      */
@@ -938,7 +1149,7 @@ export interface FulfillmentPreview {
      */
     unfulfillablePreviewItems?: Array<UnfulfillablePreviewItem>;
     /**
-     * 
+     * String list
      * @type {Array<string>}
      * @memberof FulfillmentPreview
      */
@@ -1010,25 +1221,25 @@ export enum FulfillmentPreviewItemShippingWeightCalculationMethodEnum {
  */
 export interface FulfillmentPreviewShipment {
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentPreviewShipment
      */
     earliestShipDate?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentPreviewShipment
      */
     latestShipDate?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentPreviewShipment
      */
     earliestArrivalDate?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentPreviewShipment
      */
@@ -1081,13 +1292,13 @@ export interface FulfillmentShipment {
      */
     fulfillmentShipmentStatus: FulfillmentShipmentFulfillmentShipmentStatusEnum | 'PENDING' | 'SHIPPED' | 'CANCELLED_BY_FULFILLER' | 'CANCELLED_BY_SELLER';
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentShipment
      */
     shippingDate?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentShipment
      */
@@ -1159,6 +1370,12 @@ export interface FulfillmentShipmentItem {
      * @memberof FulfillmentShipmentItem
      */
     serialNumber?: string;
+    /**
+     * String list
+     * @type {Array<string>}
+     * @memberof FulfillmentShipmentItem
+     */
+    manufacturerLotCodes?: Array<string>;
 }
 /**
  * Package information for a shipment in a fulfillment order.
@@ -1185,11 +1402,106 @@ export interface FulfillmentShipmentPackage {
      */
     trackingNumber?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof FulfillmentShipmentPackage
      */
     estimatedArrivalDate?: string;
+    /**
+     * 
+     * @type {LockerDetails}
+     * @memberof FulfillmentShipmentPackage
+     */
+    lockerDetails?: LockerDetails;
+}
+/**
+ * The product details for the delivery offer.
+ * @export
+ * @interface GetDeliveryOffersProduct
+ */
+export interface GetDeliveryOffersProduct {
+    /**
+     * 
+     * @type {ProductIdentifier}
+     * @memberof GetDeliveryOffersProduct
+     */
+    productIdentifier: ProductIdentifier;
+    /**
+     * 
+     * @type {Amount}
+     * @memberof GetDeliveryOffersProduct
+     */
+    amount?: Amount;
+}
+/**
+ * The request body schema for the getDeliveryOffers operation.
+ * @export
+ * @interface GetDeliveryOffersRequest
+ */
+export interface GetDeliveryOffersRequest {
+    /**
+     * 
+     * @type {GetDeliveryOffersProduct}
+     * @memberof GetDeliveryOffersRequest
+     */
+    product: GetDeliveryOffersProduct;
+    /**
+     * 
+     * @type {GetDeliveryOffersTerms}
+     * @memberof GetDeliveryOffersRequest
+     */
+    terms: GetDeliveryOffersTerms;
+}
+/**
+ * The response schema for the getDeliveryOffers operation.
+ * @export
+ * @interface GetDeliveryOffersResponse
+ */
+export interface GetDeliveryOffersResponse {
+    /**
+     * 
+     * @type {GetDeliveryOffersResult}
+     * @memberof GetDeliveryOffersResponse
+     */
+    payload?: GetDeliveryOffersResult;
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof GetDeliveryOffersResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * A list of delivery offers, including offer expiration, earliest and latest date and time range, and the delivery offer policy.
+ * @export
+ * @interface GetDeliveryOffersResult
+ */
+export interface GetDeliveryOffersResult {
+    /**
+     * An array of delivery offer information.
+     * @type {Array<DeliveryOffer>}
+     * @memberof GetDeliveryOffersResult
+     */
+    deliveryOffers?: Array<DeliveryOffer>;
+}
+/**
+ * The delivery terms for the delivery offer.
+ * @export
+ * @interface GetDeliveryOffersTerms
+ */
+export interface GetDeliveryOffersTerms {
+    /**
+     * 
+     * @type {Origin}
+     * @memberof GetDeliveryOffersTerms
+     */
+    origin: Origin;
+    /**
+     * 
+     * @type {Destination}
+     * @memberof GetDeliveryOffersTerms
+     */
+    destination: Destination;
 }
 /**
  * The breakdown of eligibility inventory by feature.
@@ -1349,7 +1661,7 @@ export interface GetFulfillmentOrderResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * The request for the getFulfillmentOrder operation.
  * @export
  * @interface GetFulfillmentOrderResult
  */
@@ -1447,7 +1759,7 @@ export interface GetFulfillmentPreviewRequest {
      */
     items: Array<GetFulfillmentPreviewItem>;
     /**
-     * 
+     * ShippingSpeedCategory List
      * @type {Array<ShippingSpeedCategory>}
      * @memberof GetFulfillmentPreviewRequest
      */
@@ -1598,7 +1910,7 @@ export interface ListAllFulfillmentOrdersResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * The request for the listAllFulfillmentOrders operation.
  * @export
  * @interface ListAllFulfillmentOrdersResult
  */
@@ -1636,7 +1948,7 @@ export interface ListReturnReasonCodesResponse {
     errors?: Array<Error>;
 }
 /**
- * 
+ * The request for the listReturnReasonCodes operation.
  * @export
  * @interface ListReturnReasonCodesResult
  */
@@ -1647,6 +1959,25 @@ export interface ListReturnReasonCodesResult {
      * @memberof ListReturnReasonCodesResult
      */
     reasonCodeDetails?: Array<ReasonCodeDetails>;
+}
+/**
+ * The locker details, if provided can be used to access locker delivery box.
+ * @export
+ * @interface LockerDetails
+ */
+export interface LockerDetails {
+    /**
+     * Indicates the locker number
+     * @type {string}
+     * @memberof LockerDetails
+     */
+    lockerNumber?: string;
+    /**
+     * Indicates the locker access code
+     * @type {string}
+     * @memberof LockerDetails
+     */
+    lockerAccessCode?: string;
 }
 /**
  * Error response returned when the request is unsuccessful.
@@ -1693,7 +2024,20 @@ export interface Money {
     value: string;
 }
 /**
- * 
+ * The origin for the delivery offer.
+ * @export
+ * @interface Origin
+ */
+export interface Origin {
+    /**
+     * The two digit country code the items should ship from. In ISO 3166-1 alpha-2 format.
+     * @type {string}
+     * @memberof Origin
+     */
+    countryCode: string;
+}
+/**
+ * Tracking details of package
  * @export
  * @interface PackageTrackingDetails
  */
@@ -1735,13 +2079,13 @@ export interface PackageTrackingDetails {
      */
     carrierURL?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof PackageTrackingDetails
      */
     shipDate?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof PackageTrackingDetails
      */
@@ -1802,11 +2146,24 @@ export interface PaymentInformation {
      */
     paymentMode: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof PaymentInformation
      */
     paymentDate: string;
+}
+/**
+ * Product identifier input that locates a product for MCF.
+ * @export
+ * @interface ProductIdentifier
+ */
+export interface ProductIdentifier {
+    /**
+     * The merchant SKU for the product.
+     * @type {string}
+     * @memberof ProductIdentifier
+     */
+    merchantSku: string;
 }
 /**
  * A return reason code, a description, and an optional description translation.
@@ -1919,7 +2276,7 @@ export interface ReturnItem {
      */
     status: FulfillmentReturnItemStatus | 'New' | 'Processed';
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof ReturnItem
      */
@@ -2045,7 +2402,7 @@ export interface TrackingAddress {
  */
 export interface TrackingEvent {
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof TrackingEvent
      */
@@ -2094,7 +2451,7 @@ export interface UnfulfillablePreviewItem {
      */
     sellerFulfillmentOrderItemId: string;
     /**
-     * 
+     * String list
      * @type {Array<string>}
      * @memberof UnfulfillablePreviewItem
      */
@@ -2186,7 +2543,7 @@ export interface UpdateFulfillmentOrderRequest {
      */
     displayableOrderId?: string;
     /**
-     * 
+     * Date timestamp
      * @type {string}
      * @memberof UpdateFulfillmentOrderRequest
      */
@@ -2258,6 +2615,61 @@ export interface UpdateFulfillmentOrderResponse {
      * @memberof UpdateFulfillmentOrderResponse
      */
     errors?: Array<Error>;
+}
+/**
+ * A physical address with varying degrees of precision. A more precise address can provide more accurate results than country code and postal code alone.
+ * @export
+ * @interface VariablePrecisionAddress
+ */
+export interface VariablePrecisionAddress {
+    /**
+     * The first line of the address.
+     * @type {string}
+     * @memberof VariablePrecisionAddress
+     */
+    addressLine1?: string;
+    /**
+     * Additional address information, if required.
+     * @type {string}
+     * @memberof VariablePrecisionAddress
+     */
+    addressLine2?: string;
+    /**
+     * Additional address information, if required.
+     * @type {string}
+     * @memberof VariablePrecisionAddress
+     */
+    addressLine3?: string;
+    /**
+     * The city where the person, business, or institution is located. This property should not be used in Japan.
+     * @type {string}
+     * @memberof VariablePrecisionAddress
+     */
+    city?: string;
+    /**
+     * The district or county where the person, business, or institution is located.
+     * @type {string}
+     * @memberof VariablePrecisionAddress
+     */
+    districtOrCounty?: string;
+    /**
+     * The state or region where the person, business or institution is located.
+     * @type {string}
+     * @memberof VariablePrecisionAddress
+     */
+    stateOrRegion?: string;
+    /**
+     * The postal code of the address.
+     * @type {string}
+     * @memberof VariablePrecisionAddress
+     */
+    postalCode: string;
+    /**
+     * The two digit country code. In ISO 3166-1 alpha-2 format.
+     * @type {string}
+     * @memberof VariablePrecisionAddress
+     */
+    countryCode: string;
 }
 /**
  * The weight.
@@ -2332,7 +2744,7 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * Requests that Amazon ship items from the seller\'s inventory in Amazon\'s fulfillment network to a destination address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
-         * @param {CreateFulfillmentOrderRequest} body 
+         * @param {CreateFulfillmentOrderRequest} body CreateFulfillmentOrderRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2368,7 +2780,7 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
         /**
          * Creates a fulfillment return.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerFulfillmentOrderId An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct &#x60;SellerFulfillmentOrderId&#x60; value based on the buyer\&#39;s request to return items.
-         * @param {CreateFulfillmentReturnRequest} body 
+         * @param {CreateFulfillmentReturnRequest} body CreateFulfillmentReturnRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2405,14 +2817,50 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
             };
         },
         /**
+         * Returns delivery options that include an estimated delivery date and offer expiration, based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetDeliveryOffersRequest} body GetDeliveryOffersRequest parameter
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deliveryOffers: async (body: GetDeliveryOffersRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('deliveryOffers', 'body', body)
+            const localVarPath = `/fba/outbound/2020-07-01/deliveryOffers`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
          * @param {string} marketplaceId The marketplace for which to return a list of the inventory that is eligible for the specified feature.
          * @param {string} featureName The name of the feature for which to return a list of eligible inventory.
          * @param {string} [nextToken] A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+         * @param {string} [queryStartDate] A date that you can use to select inventory that has been updated since a specified date. An update is defined as any change in feature-enabled inventory availability. The date must be in the format yyyy-MM-ddTHH:mm:ss.sssZ
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatureInventory: async (marketplaceId: string, featureName: string, nextToken?: string, options: any = {}): Promise<RequestArgs> => {
+        getFeatureInventory: async (marketplaceId: string, featureName: string, nextToken?: string, queryStartDate?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceId' is not null or undefined
             assertParamExists('getFeatureInventory', 'marketplaceId', marketplaceId)
             // verify required parameter 'featureName' is not null or undefined
@@ -2436,6 +2884,12 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
 
             if (nextToken !== undefined) {
                 localVarQueryParameter['nextToken'] = nextToken;
+            }
+
+            if (queryStartDate !== undefined) {
+                localVarQueryParameter['queryStartDate'] = (queryStartDate as any instanceof Date) ?
+                    (queryStartDate as any).toISOString() :
+                    queryStartDate;
             }
 
 
@@ -2564,7 +3018,7 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * Returns a list of fulfillment order previews based on shipping criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetFulfillmentPreviewRequest} body 
+         * @param {GetFulfillmentPreviewRequest} body GetFulfillmentPreviewRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2728,7 +3182,7 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
         /**
          * Requests that Amazon update the status of an order in the sandbox testing environment. This is a sandbox-only operation and must be directed to a sandbox endpoint. Refer to [Fulfillment Outbound Dynamic Sandbox Guide](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-dynamic-sandbox-guide) and [Selling Partner API sandbox](https://developer-docs.amazon.com/sp-api/docs/the-selling-partner-api-sandbox) for more information.
          * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
-         * @param {SubmitFulfillmentOrderStatusUpdateRequest} body 
+         * @param {SubmitFulfillmentOrderStatusUpdateRequest} body The identifier assigned to the item by the seller when the fulfillment order was created.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2767,7 +3221,7 @@ export const FbaOutboundApiAxiosParamCreator = function (configuration?: Configu
         /**
          * Updates and/or requests shipment for a fulfillment order with an order hold on it.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
-         * @param {UpdateFulfillmentOrderRequest} body 
+         * @param {UpdateFulfillmentOrderRequest} body UpdateFulfillmentOrderRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2825,7 +3279,7 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
         },
         /**
          * Requests that Amazon ship items from the seller\'s inventory in Amazon\'s fulfillment network to a destination address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
-         * @param {CreateFulfillmentOrderRequest} body 
+         * @param {CreateFulfillmentOrderRequest} body CreateFulfillmentOrderRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2836,7 +3290,7 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
         /**
          * Creates a fulfillment return.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerFulfillmentOrderId An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct &#x60;SellerFulfillmentOrderId&#x60; value based on the buyer\&#39;s request to return items.
-         * @param {CreateFulfillmentReturnRequest} body 
+         * @param {CreateFulfillmentReturnRequest} body CreateFulfillmentReturnRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2845,15 +3299,26 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Returns delivery options that include an estimated delivery date and offer expiration, based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetDeliveryOffersRequest} body GetDeliveryOffersRequest parameter
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deliveryOffers(body: GetDeliveryOffersRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDeliveryOffersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deliveryOffers(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
          * @param {string} marketplaceId The marketplace for which to return a list of the inventory that is eligible for the specified feature.
          * @param {string} featureName The name of the feature for which to return a list of eligible inventory.
          * @param {string} [nextToken] A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+         * @param {string} [queryStartDate] A date that you can use to select inventory that has been updated since a specified date. An update is defined as any change in feature-enabled inventory availability. The date must be in the format yyyy-MM-ddTHH:mm:ss.sssZ
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeatureInventoryResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeatureInventory(marketplaceId, featureName, nextToken, options);
+        async getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, queryStartDate?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFeatureInventoryResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getFeatureInventory(marketplaceId, featureName, nextToken, queryStartDate, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2890,7 +3355,7 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
         },
         /**
          * Returns a list of fulfillment order previews based on shipping criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetFulfillmentPreviewRequest} body 
+         * @param {GetFulfillmentPreviewRequest} body GetFulfillmentPreviewRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2935,7 +3400,7 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
         /**
          * Requests that Amazon update the status of an order in the sandbox testing environment. This is a sandbox-only operation and must be directed to a sandbox endpoint. Refer to [Fulfillment Outbound Dynamic Sandbox Guide](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-dynamic-sandbox-guide) and [Selling Partner API sandbox](https://developer-docs.amazon.com/sp-api/docs/the-selling-partner-api-sandbox) for more information.
          * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
-         * @param {SubmitFulfillmentOrderStatusUpdateRequest} body 
+         * @param {SubmitFulfillmentOrderStatusUpdateRequest} body The identifier assigned to the item by the seller when the fulfillment order was created.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2946,7 +3411,7 @@ export const FbaOutboundApiFp = function(configuration?: Configuration) {
         /**
          * Updates and/or requests shipment for a fulfillment order with an order hold on it.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
-         * @param {UpdateFulfillmentOrderRequest} body 
+         * @param {UpdateFulfillmentOrderRequest} body UpdateFulfillmentOrderRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2975,7 +3440,7 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * Requests that Amazon ship items from the seller\'s inventory in Amazon\'s fulfillment network to a destination address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)
-         * @param {CreateFulfillmentOrderRequest} body 
+         * @param {CreateFulfillmentOrderRequest} body CreateFulfillmentOrderRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2985,7 +3450,7 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
         /**
          * Creates a fulfillment return.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerFulfillmentOrderId An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct &#x60;SellerFulfillmentOrderId&#x60; value based on the buyer\&#39;s request to return items.
-         * @param {CreateFulfillmentReturnRequest} body 
+         * @param {CreateFulfillmentReturnRequest} body CreateFulfillmentReturnRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2993,15 +3458,25 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
             return localVarFp.createFulfillmentReturn(sellerFulfillmentOrderId, body, options).then((request) => request(axios, basePath));
         },
         /**
+         * Returns delivery options that include an estimated delivery date and offer expiration, based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetDeliveryOffersRequest} body GetDeliveryOffersRequest parameter
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deliveryOffers(body: GetDeliveryOffersRequest, options?: any): AxiosPromise<GetDeliveryOffersResponse> {
+            return localVarFp.deliveryOffers(body, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
          * @param {string} marketplaceId The marketplace for which to return a list of the inventory that is eligible for the specified feature.
          * @param {string} featureName The name of the feature for which to return a list of eligible inventory.
          * @param {string} [nextToken] A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+         * @param {string} [queryStartDate] A date that you can use to select inventory that has been updated since a specified date. An update is defined as any change in feature-enabled inventory availability. The date must be in the format yyyy-MM-ddTHH:mm:ss.sssZ
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, options?: any): AxiosPromise<GetFeatureInventoryResponse> {
-            return localVarFp.getFeatureInventory(marketplaceId, featureName, nextToken, options).then((request) => request(axios, basePath));
+        getFeatureInventory(marketplaceId: string, featureName: string, nextToken?: string, queryStartDate?: string, options?: any): AxiosPromise<GetFeatureInventoryResponse> {
+            return localVarFp.getFeatureInventory(marketplaceId, featureName, nextToken, queryStartDate, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the number of items with the sellerSKU you specify that can have orders fulfilled using the specified feature. Note that if the sellerSKU isn\'t eligible, the response will contain an empty skuInfo object. The parameters for this operation may contain special characters that require URL encoding. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
@@ -3034,7 +3509,7 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * Returns a list of fulfillment order previews based on shipping criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetFulfillmentPreviewRequest} body 
+         * @param {GetFulfillmentPreviewRequest} body GetFulfillmentPreviewRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3075,7 +3550,7 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
         /**
          * Requests that Amazon update the status of an order in the sandbox testing environment. This is a sandbox-only operation and must be directed to a sandbox endpoint. Refer to [Fulfillment Outbound Dynamic Sandbox Guide](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-dynamic-sandbox-guide) and [Selling Partner API sandbox](https://developer-docs.amazon.com/sp-api/docs/the-selling-partner-api-sandbox) for more information.
          * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
-         * @param {SubmitFulfillmentOrderStatusUpdateRequest} body 
+         * @param {SubmitFulfillmentOrderStatusUpdateRequest} body The identifier assigned to the item by the seller when the fulfillment order was created.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3085,7 +3560,7 @@ export const FbaOutboundApiFactory = function (configuration?: Configuration, ba
         /**
          * Updates and/or requests shipment for a fulfillment order with an order hold on it.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerFulfillmentOrderId The identifier assigned to the item by the seller when the fulfillment order was created.
-         * @param {UpdateFulfillmentOrderRequest} body 
+         * @param {UpdateFulfillmentOrderRequest} body UpdateFulfillmentOrderRequest parameter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3116,7 +3591,7 @@ export interface FbaOutboundApiCancelFulfillmentOrderRequest {
  */
 export interface FbaOutboundApiCreateFulfillmentOrderRequest {
     /**
-     * 
+     * CreateFulfillmentOrderRequest parameter
      * @type {CreateFulfillmentOrderRequest}
      * @memberof FbaOutboundApiCreateFulfillmentOrder
      */
@@ -3137,11 +3612,25 @@ export interface FbaOutboundApiCreateFulfillmentReturnRequest {
     readonly sellerFulfillmentOrderId: string
 
     /**
-     * 
+     * CreateFulfillmentReturnRequest parameter
      * @type {CreateFulfillmentReturnRequest}
      * @memberof FbaOutboundApiCreateFulfillmentReturn
      */
     readonly body: CreateFulfillmentReturnRequest
+}
+
+/**
+ * Request parameters for deliveryOffers operation in FbaOutboundApi.
+ * @export
+ * @interface FbaOutboundApiDeliveryOffersRequest
+ */
+export interface FbaOutboundApiDeliveryOffersRequest {
+    /**
+     * GetDeliveryOffersRequest parameter
+     * @type {GetDeliveryOffersRequest}
+     * @memberof FbaOutboundApiDeliveryOffers
+     */
+    readonly body: GetDeliveryOffersRequest
 }
 
 /**
@@ -3170,6 +3659,13 @@ export interface FbaOutboundApiGetFeatureInventoryRequest {
      * @memberof FbaOutboundApiGetFeatureInventory
      */
     readonly nextToken?: string
+
+    /**
+     * A date that you can use to select inventory that has been updated since a specified date. An update is defined as any change in feature-enabled inventory availability. The date must be in the format yyyy-MM-ddTHH:mm:ss.sssZ
+     * @type {string}
+     * @memberof FbaOutboundApiGetFeatureInventory
+     */
+    readonly queryStartDate?: string
 }
 
 /**
@@ -3235,7 +3731,7 @@ export interface FbaOutboundApiGetFulfillmentOrderRequest {
  */
 export interface FbaOutboundApiGetFulfillmentPreviewRequest {
     /**
-     * 
+     * GetFulfillmentPreviewRequest parameter
      * @type {GetFulfillmentPreviewRequest}
      * @memberof FbaOutboundApiGetFulfillmentPreview
      */
@@ -3326,7 +3822,7 @@ export interface FbaOutboundApiSubmitFulfillmentOrderStatusUpdateRequest {
     readonly sellerFulfillmentOrderId: string
 
     /**
-     * 
+     * The identifier assigned to the item by the seller when the fulfillment order was created.
      * @type {SubmitFulfillmentOrderStatusUpdateRequest}
      * @memberof FbaOutboundApiSubmitFulfillmentOrderStatusUpdate
      */
@@ -3347,7 +3843,7 @@ export interface FbaOutboundApiUpdateFulfillmentOrderRequest {
     readonly sellerFulfillmentOrderId: string
 
     /**
-     * 
+     * UpdateFulfillmentOrderRequest parameter
      * @type {UpdateFulfillmentOrderRequest}
      * @memberof FbaOutboundApiUpdateFulfillmentOrder
      */
@@ -3395,6 +3891,17 @@ export class FbaOutboundApi extends BaseAPI {
     }
 
     /**
+     * Returns delivery options that include an estimated delivery date and offer expiration, based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {FbaOutboundApiDeliveryOffersRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FbaOutboundApi
+     */
+    public deliveryOffers(requestParameters: FbaOutboundApiDeliveryOffersRequest, options?: any) {
+        return FbaOutboundApiFp(this.configuration).deliveryOffers(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api)..
      * @param {FbaOutboundApiGetFeatureInventoryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3402,7 +3909,7 @@ export class FbaOutboundApi extends BaseAPI {
      * @memberof FbaOutboundApi
      */
     public getFeatureInventory(requestParameters: FbaOutboundApiGetFeatureInventoryRequest, options?: any) {
-        return FbaOutboundApiFp(this.configuration).getFeatureInventory(requestParameters.marketplaceId, requestParameters.featureName, requestParameters.nextToken, options).then((request) => request(this.axios, this.basePath));
+        return FbaOutboundApiFp(this.configuration).getFeatureInventory(requestParameters.marketplaceId, requestParameters.featureName, requestParameters.nextToken, requestParameters.queryStartDate, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

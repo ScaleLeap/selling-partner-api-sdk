@@ -95,7 +95,7 @@ export interface Address {
     phone?: string;
 }
 /**
- * 
+ * A container for shipping and packing items.
  * @export
  * @interface Container
  */
@@ -209,7 +209,7 @@ export interface CreateShippingLabelsRequest {
     containers?: Array<Container>;
 }
 /**
- * 
+ * Represents a customer invoice associated with a purchase order.
  * @export
  * @interface CustomerInvoice
  */
@@ -228,7 +228,7 @@ export interface CustomerInvoice {
     content: string;
 }
 /**
- * 
+ * Represents a list of customer invoices, potentially paginated.
  * @export
  * @interface CustomerInvoiceList
  */
@@ -240,7 +240,7 @@ export interface CustomerInvoiceList {
      */
     pagination?: Pagination;
     /**
-     * 
+     * Represents a customer invoice within the `CustomerInvoiceList`.
      * @type {Array<CustomerInvoice>}
      * @memberof CustomerInvoiceList
      */
@@ -294,7 +294,7 @@ export enum DimensionsUnitOfMeasureEnum {
  */
 export interface ErrorList {
     /**
-     * 
+     * An array of error objects that represents individual errors encountered during the request.
      * @type {Array<Error>}
      * @memberof ErrorList
      */
@@ -413,7 +413,7 @@ export interface ModelError {
     details?: string;
 }
 /**
- * 
+ * Represents an item packed into a container for shipping.
  * @export
  * @interface PackedItem
  */
@@ -496,14 +496,14 @@ export interface PackingSlipList {
      */
     pagination?: Pagination;
     /**
-     * 
+     * An array of packing slip objects.
      * @type {Array<PackingSlip>}
      * @memberof PackingSlipList
      */
     packingSlips?: Array<PackingSlip>;
 }
 /**
- * 
+ * The pagination elements required to retrieve the remaining data.
  * @export
  * @interface Pagination
  */
@@ -516,7 +516,7 @@ export interface Pagination {
     nextToken?: string;
 }
 /**
- * 
+ * Name, address, and tax details for a party.
  * @export
  * @interface PartyIdentification
  */
@@ -541,7 +541,7 @@ export interface PartyIdentification {
     taxRegistrationDetails?: Array<TaxRegistrationDetails>;
 }
 /**
- * 
+ * Represents the confirmation details of a shipment. Includes the purchase order number and other shipment details.
  * @export
  * @interface ShipmentConfirmation
  */
@@ -656,7 +656,7 @@ export interface ShipmentSchedule {
     apptWindowEndDateTime?: string;
 }
 /**
- * 
+ * Represents a shipment status update.
  * @export
  * @interface ShipmentStatusUpdate
  */
@@ -687,7 +687,7 @@ export interface ShipmentStatusUpdate {
     statusUpdateDetails: StatusUpdateDetails;
 }
 /**
- * 
+ * Shipping label information for an order. Includes the purchase order number, selling party, ship from party, label format, and package details.
  * @export
  * @interface ShippingLabel
  */
@@ -734,7 +734,7 @@ export enum ShippingLabelLabelFormatEnum {
 }
 
 /**
- * 
+ * Response payload with the shipping labels list.
  * @export
  * @interface ShippingLabelList
  */
@@ -746,14 +746,14 @@ export interface ShippingLabelList {
      */
     pagination?: Pagination;
     /**
-     * 
+     * An array that contains the details of the generated shipping labels.
      * @type {Array<ShippingLabel>}
      * @memberof ShippingLabelList
      */
     shippingLabels?: Array<ShippingLabel>;
 }
 /**
- * 
+ * Represents the request payload to create a shipping label. Contains the purchase order number, selling party, ship from party, and a list of containers or packages in the shipment.
  * @export
  * @interface ShippingLabelRequest
  */
@@ -796,13 +796,13 @@ export interface StatusUpdateDetails {
      */
     trackingNumber: string;
     /**
-     * Indicates the shipment status code of the package that provides transportation information for Amazon tracking systems and ultimately for the final customer. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
+     * The shipment status code for the package that provides transportation information for Amazon tracking systems and the final customer. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
      * @type {string}
      * @memberof StatusUpdateDetails
      */
     statusCode: string;
     /**
-     * Provides a reason code for the status of the package that will provide additional information about the transportation status. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
+     * Provides a reason code for the package status that provides additional information about the transportation status. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
      * @type {string}
      * @memberof StatusUpdateDetails
      */
@@ -827,39 +827,39 @@ export interface StatusUpdateDetails {
     shipmentSchedule?: ShipmentSchedule;
 }
 /**
- * 
+ * The `submitShipmentConfirmations` request schema.
  * @export
  * @interface SubmitShipmentConfirmationsRequest
  */
 export interface SubmitShipmentConfirmationsRequest {
     /**
-     * 
+     * An array of `ShipmentConfirmation` objects, each represents confirmation details for a specific shipment.
      * @type {Array<ShipmentConfirmation>}
      * @memberof SubmitShipmentConfirmationsRequest
      */
     shipmentConfirmations?: Array<ShipmentConfirmation>;
 }
 /**
- * 
+ * The `submitShipmentStatusUpdates` request schema.
  * @export
  * @interface SubmitShipmentStatusUpdatesRequest
  */
 export interface SubmitShipmentStatusUpdatesRequest {
     /**
-     * 
+     * Contains a list of one or more `ShipmentStatusUpdate` objects, each represents a status update of a specific shipment.
      * @type {Array<ShipmentStatusUpdate>}
      * @memberof SubmitShipmentStatusUpdatesRequest
      */
     shipmentStatusUpdates?: Array<ShipmentStatusUpdate>;
 }
 /**
- * 
+ * The request schema for the `submitShippingLabelRequest` operation.
  * @export
  * @interface SubmitShippingLabelsRequest
  */
 export interface SubmitShippingLabelsRequest {
     /**
-     * 
+     * An array of shipping label requests you want to process.
      * @type {Array<ShippingLabelRequest>}
      * @memberof SubmitShippingLabelsRequest
      */
@@ -907,7 +907,7 @@ export enum TaxRegistrationDetailsTaxRegistrationTypeEnum {
 }
 
 /**
- * 
+ * Response that contains the transaction ID.
  * @export
  * @interface TransactionReference
  */
@@ -1328,7 +1328,7 @@ export const VendorShippingApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShipmentConfirmationsRequest} body 
+         * @param {SubmitShipmentConfirmationsRequest} body Request body containing the shipment confirmations data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1363,7 +1363,7 @@ export const VendorShippingApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * This operation is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API submits a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShipmentStatusUpdatesRequest} body 
+         * @param {SubmitShipmentStatusUpdatesRequest} body Request body that contains the shipment status update data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1433,7 +1433,7 @@ export const VendorShippingApiFp = function(configuration?: Configuration) {
         },
         /**
          * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShipmentConfirmationsRequest} body 
+         * @param {SubmitShipmentConfirmationsRequest} body Request body containing the shipment confirmations data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1443,7 +1443,7 @@ export const VendorShippingApiFp = function(configuration?: Configuration) {
         },
         /**
          * This operation is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API submits a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShipmentStatusUpdatesRequest} body 
+         * @param {SubmitShipmentStatusUpdatesRequest} body Request body that contains the shipment status update data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1486,7 +1486,7 @@ export const VendorShippingApiFactory = function (configuration?: Configuration,
         },
         /**
          * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShipmentConfirmationsRequest} body 
+         * @param {SubmitShipmentConfirmationsRequest} body Request body containing the shipment confirmations data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1495,7 +1495,7 @@ export const VendorShippingApiFactory = function (configuration?: Configuration,
         },
         /**
          * This operation is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API submits a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShipmentStatusUpdatesRequest} body 
+         * @param {SubmitShipmentStatusUpdatesRequest} body Request body that contains the shipment status update data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1575,7 +1575,7 @@ export interface VendorShippingApiGetPackingSlipsRequest {
  */
 export interface VendorShippingApiSubmitShipmentConfirmationsRequest {
     /**
-     * 
+     * Request body containing the shipment confirmations data.
      * @type {SubmitShipmentConfirmationsRequest}
      * @memberof VendorShippingApiSubmitShipmentConfirmations
      */
@@ -1589,7 +1589,7 @@ export interface VendorShippingApiSubmitShipmentConfirmationsRequest {
  */
 export interface VendorShippingApiSubmitShipmentStatusUpdatesRequest {
     /**
-     * 
+     * Request body that contains the shipment status update data.
      * @type {SubmitShipmentStatusUpdatesRequest}
      * @memberof VendorShippingApiSubmitShipmentStatusUpdates
      */
@@ -1658,7 +1658,7 @@ export const VendorShippingLabelsApiAxiosParamCreator = function (configuration?
         /**
          * Creates shipping labels for a purchase order and returns the labels.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping labels. It should be the same purchaseOrderNumber as received in the order.
-         * @param {CreateShippingLabelsRequest} body 
+         * @param {CreateShippingLabelsRequest} body The request payload that contains parameters for creating shipping labels.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1696,7 +1696,7 @@ export const VendorShippingLabelsApiAxiosParamCreator = function (configuration?
         },
         /**
          * Returns a shipping label for the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
+         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. Should be the same &#x60;purchaseOrderNumber&#x60; as received in the order.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1796,7 +1796,7 @@ export const VendorShippingLabelsApiAxiosParamCreator = function (configuration?
         },
         /**
          * Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShippingLabelsRequest} body 
+         * @param {SubmitShippingLabelsRequest} body Request body that contains the shipping labels data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1842,7 +1842,7 @@ export const VendorShippingLabelsApiFp = function(configuration?: Configuration)
         /**
          * Creates shipping labels for a purchase order and returns the labels.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping labels. It should be the same purchaseOrderNumber as received in the order.
-         * @param {CreateShippingLabelsRequest} body 
+         * @param {CreateShippingLabelsRequest} body The request payload that contains parameters for creating shipping labels.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1852,7 +1852,7 @@ export const VendorShippingLabelsApiFp = function(configuration?: Configuration)
         },
         /**
          * Returns a shipping label for the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
+         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. Should be the same &#x60;purchaseOrderNumber&#x60; as received in the order.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1877,7 +1877,7 @@ export const VendorShippingLabelsApiFp = function(configuration?: Configuration)
         },
         /**
          * Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShippingLabelsRequest} body 
+         * @param {SubmitShippingLabelsRequest} body Request body that contains the shipping labels data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1898,7 +1898,7 @@ export const VendorShippingLabelsApiFactory = function (configuration?: Configur
         /**
          * Creates shipping labels for a purchase order and returns the labels.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping labels. It should be the same purchaseOrderNumber as received in the order.
-         * @param {CreateShippingLabelsRequest} body 
+         * @param {CreateShippingLabelsRequest} body The request payload that contains parameters for creating shipping labels.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1907,7 +1907,7 @@ export const VendorShippingLabelsApiFactory = function (configuration?: Configur
         },
         /**
          * Returns a shipping label for the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
+         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. Should be the same &#x60;purchaseOrderNumber&#x60; as received in the order.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1930,7 +1930,7 @@ export const VendorShippingLabelsApiFactory = function (configuration?: Configur
         },
         /**
          * Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitShippingLabelsRequest} body 
+         * @param {SubmitShippingLabelsRequest} body Request body that contains the shipping labels data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1954,7 +1954,7 @@ export interface VendorShippingLabelsApiCreateShippingLabelsRequest {
     readonly purchaseOrderNumber: string
 
     /**
-     * 
+     * The request payload that contains parameters for creating shipping labels.
      * @type {CreateShippingLabelsRequest}
      * @memberof VendorShippingLabelsApiCreateShippingLabels
      */
@@ -1968,7 +1968,7 @@ export interface VendorShippingLabelsApiCreateShippingLabelsRequest {
  */
 export interface VendorShippingLabelsApiGetShippingLabelRequest {
     /**
-     * The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
+     * The purchase order number for which you want to return the shipping label. Should be the same &#x60;purchaseOrderNumber&#x60; as received in the order.
      * @type {string}
      * @memberof VendorShippingLabelsApiGetShippingLabel
      */
@@ -2031,7 +2031,7 @@ export interface VendorShippingLabelsApiGetShippingLabelsRequest {
  */
 export interface VendorShippingLabelsApiSubmitShippingLabelRequestRequest {
     /**
-     * 
+     * Request body that contains the shipping labels data.
      * @type {SubmitShippingLabelsRequest}
      * @memberof VendorShippingLabelsApiSubmitShippingLabelRequest
      */
