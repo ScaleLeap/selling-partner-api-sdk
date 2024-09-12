@@ -1,4 +1,7 @@
-import { APIConfigurationParameters, ReportsApiClient } from '../../src'
+import {
+  APIConfigurationParameters,
+  ReportsApiClientV20210630 as ReportsApiClient,
+} from '../../src'
 import { SellersApiClient } from '../../src/api-clients/sellers-api-client'
 import { generateAPIConfigurations, getTokens, TokenResponse } from '../authentication'
 
@@ -39,7 +42,7 @@ describe(`${SellersApiClient.name}`, () => {
         reportTypes: ['GET_MERCHANT_LISTINGS_ALL_DATA'],
       })
 
-      expect(reports.payload).toBeInstanceOf(Array)
+      expect(reports.reports).toBeInstanceOf(Array)
     })
   })
 })
