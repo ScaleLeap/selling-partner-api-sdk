@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v7.0.0...v8.0.0) (2024-09-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v1.7.0 ([#1066](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1066)) ([ab10adb](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/ab10adbc755bfd15ef0c2dee3b3c56953258b06e))
+* **deps:** update dependency axios to v1.7.1 ([#1067](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1067)) ([75c3417](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/75c341735bbeeacfa0e1ad675f3b8483aec77324))
+* **deps:** update dependency axios to v1.7.2 ([#1070](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1070)) ([71e0a5a](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/71e0a5af0b9c2ab81f0e15ce991c50ac19e06fba))
+* **deps:** update dependency axios to v1.7.7 ([#1105](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1105)) ([67ee3bc](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/67ee3bcbcbf192bc2d1b182a194969a4740ae003))
+
+
+### Features
+
+* Update API models ([#1072](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1072)) ([f029e04](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/f029e0423aea8ead758c64bcff53ff2669c74eb2))
+* Update API models ([#1111](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1111)) ([9c6decd](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/9c6decdc23074dc1bbb02659a5c9092eef5fb20a))
+* update order api v0 ([#1051](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1051)) ([ac536be](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/ac536be91c5fcf5f6141f030bb32e79f57721e39))
+
+
+### BREAKING CHANGES
+
+* ** 
+Updated the IsBuyerRequestedCancel, IsGift and NumberOfItems object
+types from boolean/integer to string.
+
+Co-authored-by: nguyentoanit <19872073+nguyentoanit@users.noreply.github.com>
+
 # [7.0.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v6.13.8...v7.0.0) (2024-04-03)
 
 
