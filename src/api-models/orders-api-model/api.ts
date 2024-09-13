@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Orders
- * The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools. The Orders API supports orders that are two years old or less. Orders more than two years old will not show in the API response.  **Note:** The Orders API supports orders from 2016 and after for the JP, AU, and SG marketplaces.
+ * Use the Orders Selling Partner API to programmatically retrieve order information. With this API, you can develop fast, flexible, and custom applications to manage order synchronization, perform order research, and create demand-based decision support tools.   _Note:_ For the JP, AU, and SG marketplaces, the Orders API supports orders from 2016 onward. For all other marketplaces, the Orders API supports orders for the last two years (orders older than this don\'t show up in the response).
  *
  * The version of the OpenAPI document: v0
  * 
@@ -100,7 +100,7 @@ export interface Address {
      */
     CountryCode?: string;
     /**
-     * The phone number of the buyer.  **Note**:  1. This attribute is only available for shipping address. 2. The buyer `Phone` number is suppressed in some cases, including but not limited to  a. `Phone` is suppressed for all Fulfillment by Amazon (FBA) orders. b. `Phone` is suppressed for the shipped MFN(Fulfilled by the seller) order when current date is past Latest Delivery Date.
+     * The phone number of the buyer.  **Note**:  1. This attribute is only available for shipping address. 2. In some cases, the buyer phone number is suppressed:  a. Phone is suppressed for all `AFN` (fulfilled by Amazon) orders. b. Phone is suppressed for the shipped `MFN` (fulfilled by seller) order when the current date is past the Latest Delivery Date.
      * @type {string}
      * @memberof Address
      */
@@ -129,7 +129,7 @@ export enum AddressAddressTypeEnum {
 }
 
 /**
- * The container of extended address fields. For example, street name, street number. Only available with Brazil shipping addresses as of now.
+ * The container for address extended fields (such as `street name` and `street number`). Currently only available with Brazil shipping addresses.
  * @export
  * @interface AddressExtendedFields
  */
@@ -141,7 +141,7 @@ export interface AddressExtendedFields {
      */
     StreetName?: string;
     /**
-     * The house number/building number/property number in the street.
+     * The house, building, or property number associated with the location\'s street address.
      * @type {string}
      * @memberof AddressExtendedFields
      */
@@ -153,14 +153,14 @@ export interface AddressExtendedFields {
      */
     Complement?: string;
     /**
-     * The neighborhood. It\'s smaller than a region and an integral part of an address. It is used in some countries like Brazil.
+     * The neighborhood. This value is only used in some countries (such as Brazil).
      * @type {string}
      * @memberof AddressExtendedFields
      */
     Neighborhood?: string;
 }
 /**
- * An item associated with an order item. For example, a tire installation service purchased with tires.
+ * An item that is associated with an order item. For example, a tire installation service that is purchased with tires.
  * @export
  * @interface AssociatedItem
  */
@@ -259,7 +259,7 @@ export enum BusinessHoursDayOfWeekEnum {
  */
 export interface BuyerCustomizedInfoDetail {
     /**
-     * The location of a zip file containing Amazon Custom data.
+     * The location of a ZIP file containing Amazon Custom data.
      * @type {string}
      * @memberof BuyerCustomizedInfoDetail
      */
@@ -296,7 +296,7 @@ export interface BuyerInfo {
      */
     BuyerTaxInfo?: BuyerTaxInfo;
     /**
-     * The purchase order (PO) number entered by the buyer at checkout. Returned only for orders where the buyer entered a PO number at checkout.
+     * The purchase order (PO) number entered by the buyer at checkout. Only returned for orders where the buyer entered a PO number at checkout.
      * @type {string}
      * @memberof BuyerInfo
      */
@@ -397,13 +397,13 @@ export interface ConfirmShipmentErrorResponse {
  */
 export interface ConfirmShipmentOrderItem {
     /**
-     * The unique identifier of the order item.
+     * The order item\'s unique identifier.
      * @type {string}
      * @memberof ConfirmShipmentOrderItem
      */
     orderItemId: string;
     /**
-     * The quantity of the item.
+     * The item\'s quantity.
      * @type {number}
      * @memberof ConfirmShipmentOrderItem
      */
@@ -428,7 +428,7 @@ export interface ConfirmShipmentRequest {
      */
     packageDetail: PackageDetail;
     /**
-     * The cod collection method, support in JP only. 
+     * The COD collection method (only supported in the JP marketplace).
      * @type {string}
      * @memberof ConfirmShipmentRequest
      */
@@ -490,7 +490,7 @@ export interface DeliveryPreferences {
     AddressInstructions?: string;
 }
 /**
- * The status of the Amazon Easy Ship order. This property is included only for Amazon Easy Ship orders.
+ * The status of the Amazon Easy Ship order. This property is only included for Amazon Easy Ship orders.
  * @export
  * @enum {string}
  */
@@ -552,17 +552,173 @@ export interface ExceptionDates {
     OpenIntervals?: Array<OpenInterval>;
 }
 /**
- * Contains the instructions about the fulfillment like where should it be fulfilled from.
+ * Contains the instructions about the fulfillment, such as the location from where you want the order filled.
  * @export
  * @interface FulfillmentInstruction
  */
 export interface FulfillmentInstruction {
     /**
-     * Denotes the recommended `sourceId` where the order should be fulfilled from.
+     * The `sourceId` of the location from where you want the order fulfilled.
      * @type {string}
      * @memberof FulfillmentInstruction
      */
     FulfillmentSupplySourceId?: string;
+}
+/**
+ * Contains all fulfillment plans for the order
+ * @export
+ * @interface FulfillmentInstructions
+ */
+export interface FulfillmentInstructions {
+    /**
+     * List of all fulfillment plans for the given order id
+     * @type {Array<FulfillmentPlan>}
+     * @memberof FulfillmentInstructions
+     */
+    FulfillmentPlans?: Array<FulfillmentPlan>;
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof FulfillmentInstructions
+     */
+    AmazonOrderId: string;
+}
+/**
+ * Represents a location from which the plan is to be fulfilled.
+ * @export
+ * @interface FulfillmentLocation
+ */
+export interface FulfillmentLocation {
+    /**
+     * The fulfillment location identifier.
+     * @type {string}
+     * @memberof FulfillmentLocation
+     */
+    SupplySourceId?: string;
+}
+/**
+ * A collection of order items that are to be fulfilled from the same location with the same shipping, pickup, and service instructions.
+ * @export
+ * @interface FulfillmentPlan
+ */
+export interface FulfillmentPlan {
+    /**
+     * Unique identifier for a fulfillment plan.
+     * @type {string}
+     * @memberof FulfillmentPlan
+     */
+    FulfillmentPlanId: string;
+    /**
+     * Time when the fulfillment plan was created in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+     * @type {string}
+     * @memberof FulfillmentPlan
+     */
+    CreationDate: string;
+    /**
+     * Type of fulfillment
+     * @type {string}
+     * @memberof FulfillmentPlan
+     */
+    FulfillmentType: FulfillmentPlanFulfillmentTypeEnum | 'INSTORE_PICKUP' | 'SERVICE' | 'SHIP';
+    /**
+     * The fulfillment plan status.
+     * @type {string}
+     * @memberof FulfillmentPlan
+     */
+    FulfillmentPlanStatus: FulfillmentPlanFulfillmentPlanStatusEnum | 'ACTIVE' | 'ABORTED' | 'COMPLETED' | 'PARTIALLY_FULFILLED';
+    /**
+     * The time when the fulfillment plan\'s status was last updated in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+     * @type {string}
+     * @memberof FulfillmentPlan
+     */
+    LastStatusUpdateDate: string;
+    /**
+     * 
+     * @type {FulfillmentLocation}
+     * @memberof FulfillmentPlan
+     */
+    FulfillmentLocation?: FulfillmentLocation;
+    /**
+     * 
+     * @type {ShippingInstructions}
+     * @memberof FulfillmentPlan
+     */
+    ShippingInstructions?: ShippingInstructions;
+    /**
+     * The details of the order items that are included in the fulfillment plan.
+     * @type {Array<FulfillmentPlanItem>}
+     * @memberof FulfillmentPlan
+     */
+    FulfillmentPlanItems: Array<FulfillmentPlanItem>;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum FulfillmentPlanFulfillmentTypeEnum {
+    InstorePickup = 'INSTORE_PICKUP',
+    Service = 'SERVICE',
+    Ship = 'SHIP'
+}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum FulfillmentPlanFulfillmentPlanStatusEnum {
+    Active = 'ACTIVE',
+    Aborted = 'ABORTED',
+    Completed = 'COMPLETED',
+    PartiallyFulfilled = 'PARTIALLY_FULFILLED'
+}
+
+/**
+ * Details the importance of the constraint present on the item.
+ * @export
+ * @enum {string}
+ */
+export enum FulfillmentPlanConstraintType {
+    Mandatory = 'MANDATORY',
+    Recommended = 'RECOMMENDED'
+}
+
+/**
+ * The order items associated with this fulfillment plan.
+ * @export
+ * @interface FulfillmentPlanItem
+ */
+export interface FulfillmentPlanItem {
+    /**
+     * An Amazon-defined associated order item\'s order item identifier.
+     * @type {string}
+     * @memberof FulfillmentPlanItem
+     */
+    OrderItemId: string;
+    /**
+     * 
+     * @type {Measurement}
+     * @memberof FulfillmentPlanItem
+     */
+    Measurement: Measurement;
+}
+/**
+ * Delivery constraints applicable to this order.
+ * @export
+ * @interface FulfillmentPlanShippingConstraints
+ */
+export interface FulfillmentPlanShippingConstraints {
+    /**
+     * 
+     * @type {FulfillmentPlanConstraintType}
+     * @memberof FulfillmentPlanShippingConstraints
+     */
+    PalletDelivery?: FulfillmentPlanConstraintType | 'MANDATORY' | 'RECOMMENDED';
+    /**
+     * 
+     * @type {FulfillmentPlanConstraintType}
+     * @memberof FulfillmentPlanShippingConstraints
+     */
+    SignatureConfirmation?: FulfillmentPlanConstraintType | 'MANDATORY' | 'RECOMMENDED';
 }
 /**
  * The response schema for the `getOrderAddress` operation.
@@ -599,6 +755,25 @@ export interface GetOrderBuyerInfoResponse {
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
      * @memberof GetOrderBuyerInfoResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * The response schema for the `getOrderFulfillmentInstructions` operation.
+ * @export
+ * @interface GetOrderFulfillmentInstructionsResponse
+ */
+export interface GetOrderFulfillmentInstructionsResponse {
+    /**
+     * 
+     * @type {FulfillmentInstructions}
+     * @memberof GetOrderFulfillmentInstructionsResponse
+     */
+    payload?: FulfillmentInstructions;
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof GetOrderFulfillmentInstructionsResponse
      */
     errors?: Array<Error>;
 }
@@ -722,7 +897,7 @@ export interface ItemBuyerInfo {
      */
     GiftWrapTax?: Money;
     /**
-     * A gift message provided by the buyer.  **Note**: This attribute is only available for MFN (Fulfilled by the seller) orders.
+     * A gift message provided by the buyer.  **Note**: This attribute is only available for MFN (fulfilled by seller) orders.
      * @type {string}
      * @memberof ItemBuyerInfo
      */
@@ -754,13 +929,13 @@ export interface MarketplaceTaxInfo {
  */
 export interface Measurement {
     /**
-     * The unit of measure for this measurement.
+     * The unit of measure.
      * @type {string}
      * @memberof Measurement
      */
     Unit: MeasurementUnitEnum | 'OUNCES' | 'POUNDS' | 'KILOGRAMS' | 'GRAMS' | 'MILLIGRAMS' | 'INCHES' | 'FEET' | 'METERS' | 'CENTIMETERS' | 'MILLIMETERS' | 'SQUARE_METERS' | 'SQUARE_CENTIMETERS' | 'SQUARE_FEET' | 'SQUARE_INCHES' | 'GALLONS' | 'PINTS' | 'QUARTS' | 'FLUID_OUNCES' | 'LITERS' | 'CUBIC_METERS' | 'CUBIC_FEET' | 'CUBIC_INCHES' | 'CUBIC_CENTIMETERS' | 'COUNT';
     /**
-     * The value of the measurement.
+     * The measurement value.
      * @type {number}
      * @memberof Measurement
      */
@@ -905,7 +1080,7 @@ export interface Order {
      */
     PurchaseDate: string;
     /**
-     * The date when the order was last updated.  **Note**: `LastUpdateDate` is returned with an incorrect date for orders that were last updated before 2009-04-01.
+     * The date when the order was last updated.  __Note__: `LastUpdateDate` is returned with an incorrect date for orders that were last updated before 2009-04-01.
      * @type {string}
      * @memberof Order
      */
@@ -917,25 +1092,25 @@ export interface Order {
      */
     OrderStatus: OrderOrderStatusEnum | 'Pending' | 'Unshipped' | 'PartiallyShipped' | 'Shipped' | 'Canceled' | 'Unfulfillable' | 'InvoiceUnconfirmed' | 'PendingAvailability';
     /**
-     * Whether the order was fulfilled by Amazon (AFN) or by the seller (MFN).
+     * Whether the order was fulfilled by Amazon (`AFN`) or by the seller (`MFN`).
      * @type {string}
      * @memberof Order
      */
     FulfillmentChannel?: OrderFulfillmentChannelEnum | 'MFN' | 'AFN';
     /**
-     * The sales channel of the first item in the order.
+     * The sales channel for the first item in the order.
      * @type {string}
      * @memberof Order
      */
     SalesChannel?: string;
     /**
-     * The order channel of the first item in the order.
+     * The order channel for the first item in the order.
      * @type {string}
      * @memberof Order
      */
     OrderChannel?: string;
     /**
-     * The shipment service level of the order.
+     * The order\'s shipment service level.
      * @type {string}
      * @memberof Order
      */
@@ -965,7 +1140,7 @@ export interface Order {
      */
     PaymentExecutionDetail?: Array<PaymentExecutionDetailItem>;
     /**
-     * The payment method for the order. This property is limited to Cash On Delivery (COD) and Convenience Store (CVS) payment methods. Unless you need the specific COD payment information provided by the `PaymentExecutionDetailItem` object, we recommend using the `PaymentMethodDetails` property to get payment method information.
+     * The payment method for the order. This property is limited to COD and CVS payment methods. Unless you need the specific COD payment information provided by the `PaymentExecutionDetailItem` object, we recommend using the `PaymentMethodDetails` property to get payment method information.
      * @type {string}
      * @memberof Order
      */
@@ -983,7 +1158,7 @@ export interface Order {
      */
     MarketplaceId?: string;
     /**
-     * The shipment service level category of the order.  **Possible values**: `Expedited`, `FreeEconomy`, `NextDay`, `Priority`, `SameDay`, `SecondDay`, `Scheduled`, `Standard`.
+     * The shipment service level category for the order.  **Possible values**: `Expedited`, `FreeEconomy`, `NextDay`, `Priority`, `SameDay`, `SecondDay`, `Scheduled`, and `Standard`.
      * @type {string}
      * @memberof Order
      */
@@ -1001,31 +1176,31 @@ export interface Order {
      */
     CbaDisplayableShippingLabel?: string;
     /**
-     * The type of the order.
+     * The order\'s type.
      * @type {string}
      * @memberof Order
      */
     OrderType?: OrderOrderTypeEnum | 'StandardOrder' | 'LongLeadTimeOrder' | 'Preorder' | 'BackOrder' | 'SourcingOnDemandOrder';
     /**
-     * The start of the time period within which you have committed to ship the order. In <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date time format. Returned only for seller-fulfilled orders.  **Note**: `EarliestShipDate` might not be returned for orders placed before February 1, 2013.
+     * The start of the time period within which you have committed to ship the order. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. Only returned for seller-fulfilled orders.  __Note__: `EarliestShipDate` might not be returned for orders placed before February 1, 2013.
      * @type {string}
      * @memberof Order
      */
     EarliestShipDate?: string;
     /**
-     * The end of the time period within which you have committed to ship the order. In <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date time format. Returned only for seller-fulfilled orders.  **Note**: `LatestShipDate` might not be returned for orders placed before February 1, 2013.
+     * The end of the time period within which you have committed to ship the order. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. Only returned for seller-fulfilled orders.  __Note__: `LatestShipDate` might not be returned for orders placed before February 1, 2013.
      * @type {string}
      * @memberof Order
      */
     LatestShipDate?: string;
     /**
-     * The start of the time period within which you have committed to fulfill the order. In <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date time format. Returned only for seller-fulfilled orders.
+     * The start of the time period within which you have committed to fulfill the order. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. Only returned for seller-fulfilled orders.
      * @type {string}
      * @memberof Order
      */
     EarliestDeliveryDate?: string;
     /**
-     * The end of the time period within which you have committed to fulfill the order. In <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date time format. Returned only for seller-fulfilled orders that do not have a `PendingAvailability`, Pending, or Canceled status.
+     * The end of the time period within which you have committed to fulfill the order. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. Only returned for seller-fulfilled orders that do not have a `PendingAvailability`, `Pending`, or `Canceled` status.
      * @type {string}
      * @memberof Order
      */
@@ -1043,19 +1218,19 @@ export interface Order {
      */
     IsPrime?: boolean;
     /**
-     * When true, the order has a Premium Shipping Service Level Agreement. For more information about Premium Shipping orders, see \"Premium Shipping Options\" in the Seller Central Help for your marketplace.
+     * When true, the order has a Premium Shipping Service Level Agreement. For more information about Premium Shipping orders, refer to \"Premium Shipping Options\" in the Seller Central Help for your marketplace.
      * @type {boolean}
      * @memberof Order
      */
     IsPremiumOrder?: boolean;
     /**
-     * When true, the order is a GlobalExpress order.
+     * When true, the order is a `GlobalExpress` order.
      * @type {boolean}
      * @memberof Order
      */
     IsGlobalExpressEnabled?: boolean;
     /**
-     * The order ID value for the order that is being replaced. Returned only if `IsReplacementOrder` = true.
+     * The order ID value for the order that is being replaced. Returned only if IsReplacementOrder = true.
      * @type {string}
      * @memberof Order
      */
@@ -1067,13 +1242,13 @@ export interface Order {
      */
     IsReplacementOrder?: boolean;
     /**
-     * Indicates the date by which the seller must respond to the buyer with an estimated ship date. Returned only for Sourcing on Demand orders.
+     * Indicates the date by which the seller must respond to the buyer with an estimated ship date. Only returned for Sourcing on Demand orders.
      * @type {string}
      * @memberof Order
      */
     PromiseResponseDueDate?: string;
     /**
-     * When true, the estimated ship date is specified for the order. Returned only for Sourcing on Demand orders.
+     * When true, the estimated ship date is set for the order. Only returned for Sourcing on Demand orders.
      * @type {boolean}
      * @memberof Order
      */
@@ -1234,7 +1409,7 @@ export interface OrderAddress {
      */
     AmazonOrderId: string;
     /**
-     * The company name of the contact buyer. For Invoice By Amazon (IBA) orders, the buyer company should be Amazon entities.
+     * The company name of the contact buyer. For IBA orders, the buyer company must be Amazon entities.
      * @type {string}
      * @memberof OrderAddress
      */
@@ -1289,7 +1464,7 @@ export interface OrderBuyerInfo {
      */
     BuyerTaxInfo?: BuyerTaxInfo;
     /**
-     * The purchase order (PO) number entered by the buyer at checkout. Returned only for orders where the buyer entered a PO number at checkout.
+     * The purchase order (PO) number entered by the buyer at checkout. Only returned for orders where the buyer entered a PO number at checkout.
      * @type {string}
      * @memberof OrderBuyerInfo
      */
@@ -1302,13 +1477,13 @@ export interface OrderBuyerInfo {
  */
 export interface OrderItem {
     /**
-     * The Amazon Standard Identification Number (ASIN) of the item.
+     * The item\'s Amazon Standard Identification Number (ASIN).
      * @type {string}
      * @memberof OrderItem
      */
     ASIN: string;
     /**
-     * The seller stock keeping unit (SKU) of the item.
+     * The item\'s seller stock keeping unit (SKU).
      * @type {string}
      * @memberof OrderItem
      */
@@ -1326,7 +1501,7 @@ export interface OrderItem {
      */
     AssociatedItems?: Array<AssociatedItem>;
     /**
-     * The name of the item.
+     * The item\'s name.
      * @type {string}
      * @memberof OrderItem
      */
@@ -1422,43 +1597,43 @@ export interface OrderItem {
      */
     CODFeeDiscount?: Money;
     /**
-     * Indicates whether the item is a gift.  **Possible values**: `true`, `false`.
+     * Indicates whether the item is a gift.  **Possible values**: `true` and `false`.
      * @type {string}
      * @memberof OrderItem
      */
     IsGift?: string;
     /**
-     * The condition of the item as described by the seller.
+     * The condition of the item, as described by the seller.
      * @type {string}
      * @memberof OrderItem
      */
     ConditionNote?: string;
     /**
-     * The condition of the item.  **Possible values**: `New`, `Used`, `Collectible`, `Refurbished`, `Preorder`, `Club`.
+     * The condition of the item.  **Possible values**: `New`, `Used`, `Collectible`, `Refurbished`, `Preorder`, and `Club`.
      * @type {string}
      * @memberof OrderItem
      */
     ConditionId?: string;
     /**
-     * The subcondition of the item.  **Possible values**: `New`, `Mint`, `Very Good`, `Good`, `Acceptable`, `Poor`, `Club`, `OEM`, `Warranty`, `Refurbished Warranty`, `Refurbished`, `Open Box`, `Any`, `Other`.
+     * The subcondition of the item.  **Possible values**: `New`, `Mint`, `Very Good`, `Good`, `Acceptable`, `Poor`, `Club`, `OEM`, `Warranty`, `Refurbished Warranty`, `Refurbished`, `Open Box`, `Any`, and `Other`.
      * @type {string}
      * @memberof OrderItem
      */
     ConditionSubtypeId?: string;
     /**
-     * The start date of the scheduled delivery window in the time zone of the order destination. In <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date time format.
+     * The start date of the scheduled delivery window in the time zone for the order destination. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
      * @type {string}
      * @memberof OrderItem
      */
     ScheduledDeliveryStartDate?: string;
     /**
-     * The end date of the scheduled delivery window in the time zone of the order destination. In <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date time format.
+     * The end date of the scheduled delivery window in the time zone for the order destination. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
      * @type {string}
      * @memberof OrderItem
      */
     ScheduledDeliveryEndDate?: string;
     /**
-     * Indicates that the selling price is a special price that is available only for Amazon Business orders. For more information about the Amazon Business Seller Program, refer to [Amazon Business](https://business.amazon.com).   **Possible values**: `BusinessPrice` - A special price that is available only for Amazon Business orders.
+     * Indicates that the selling price is a special price that is only available for Amazon Business orders. For more information about the Amazon Business Seller Program, refer to the [Amazon Business website](https://www.amazon.com/b2b/info/amazon-business).   **Possible values**: `BusinessPrice`
      * @type {string}
      * @memberof OrderItem
      */
@@ -1470,19 +1645,19 @@ export interface OrderItem {
      */
     TaxCollection?: TaxCollection;
     /**
-     * When true, the product type for this item has a serial number.  Returned only for Amazon Easy Ship orders.
+     * When true, the product type for this item has a serial number.   Only returned for Amazon Easy Ship orders.
      * @type {boolean}
      * @memberof OrderItem
      */
     SerialNumberRequired?: boolean;
     /**
-     * When true, the ASIN is enrolled in Transparency and the Transparency serial number that needs to be submitted can be determined by the following:  **1D or 2D Barcode:** This has a **T** logo. Submit either the 29-character alpha-numeric identifier beginning with **AZ** or **ZA**, or the 38-character Serialized Global Trade Item Number (SGTIN). **2D Barcode SN:** Submit the 7- to 20-character serial number barcode, which likely has the prefix **SN**. The serial number will be applied to the same side of the packaging as the GTIN (UPC/EAN/ISBN) barcode. **QR code SN:** Submit the URL that the QR code generates.
+     * When true, the ASIN is enrolled in Transparency. The Transparency serial number that you must submit is determined by:  **1D or 2D Barcode:** This has a **T** logo. Submit either the 29-character alpha-numeric identifier beginning with **AZ** or **ZA**, or the 38-character Serialized Global Trade Item Number (SGTIN). **2D Barcode SN:** Submit the 7- to 20-character serial number barcode, which likely has the prefix **SN**. The serial number is applied to the same side of the packaging as the GTIN (UPC/EAN/ISBN) barcode. **QR code SN:** Submit the URL that the QR code generates.
      * @type {boolean}
      * @memberof OrderItem
      */
     IsTransparency?: boolean;
     /**
-     * The IOSS number for the marketplace. Sellers shipping to the European Union (EU) from outside of the EU must provide this IOSS number to their carrier when Amazon has collected the VAT on the sale.
+     * The IOSS number of the marketplace. Sellers shipping to the EU from outside the EU must provide this IOSS number to their carrier when Amazon has collected the VAT on the sale.
      * @type {string}
      * @memberof OrderItem
      */
@@ -1577,7 +1752,7 @@ export interface OrderItemBuyerInfo {
      */
     GiftWrapTax?: Money;
     /**
-     * A gift message provided by the buyer.  **Note**: This attribute is only available for MFN (Fulfilled by the seller) orders.
+     * A gift message provided by the buyer.  **Note**: This attribute is only available for MFN (fulfilled by seller) orders.
      * @type {string}
      * @memberof OrderItemBuyerInfo
      */
@@ -1689,13 +1864,13 @@ export interface OrdersList {
      */
     NextToken?: string;
     /**
-     * A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. All dates must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> format.
+     * Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. All dates must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
      * @type {string}
      * @memberof OrdersList
      */
     LastUpdatedBefore?: string;
     /**
-     * A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> format.
+     * Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
      * @type {string}
      * @memberof OrdersList
      */
@@ -1725,13 +1900,13 @@ export interface PackageDetail {
      */
     packageReferenceId: string;
     /**
-     * Identifies the carrier that will deliver the package. This field is required for all marketplaces. For the acceptable `CarrierCode` value, refer to the list of <a href=\'https://images-na.ssl-images-amazon.com/images/G/01/rainier/help/xsd/release_1_9/amzn-base._TTH_.xsd\'>CarrierCode</a>.
+     * Identifies the carrier that will deliver the package. This field is required for all marketplaces. For more information, refer to the [`CarrierCode` announcement](https://developer-docs.amazon.com/sp-api/changelog/carriercode-value-required-in-shipment-confirmations-for-br-mx-ca-sg-au-in-jp-marketplaces).
      * @type {string}
      * @memberof PackageDetail
      */
     carrierCode: string;
     /**
-     * Carrier Name that will deliver the package. Required when carrierCode is \"Others\" 
+     * Carrier Name that will deliver the package. Required when `carrierCode` is \"Others\" 
      * @type {string}
      * @memberof PackageDetail
      */
@@ -1755,7 +1930,7 @@ export interface PackageDetail {
      */
     shipDate: string;
     /**
-     * The unique identifier of the supply source.
+     * The unique identifier for the supply source.
      * @type {string}
      * @memberof PackageDetail
      */
@@ -1780,7 +1955,7 @@ export interface PaymentExecutionDetailItem {
      */
     Payment: Money;
     /**
-     * A sub-payment method for a COD order.  **Possible values**: * `COD`: Cash On Delivery. * `GC`: Gift Card. * `PointsAccount`: Amazon Points. * `Invoice`: Invoice.
+     * A sub-payment method for a COD order.  **Possible values**: * `COD`: Cash on delivery  * `GC`: Gift card  * `PointsAccount`: Amazon Points * `Invoice`: Invoice
      * @type {string}
      * @memberof PaymentExecutionDetailItem
      */
@@ -1818,11 +1993,60 @@ export interface PreferredDeliveryTime {
      */
     BusinessHours?: Array<BusinessHours>;
     /**
-     * Dates when the business is closed in the next 30 days.
+     * Dates when the business is closed during the next 30 days.
      * @type {Array<ExceptionDates>}
      * @memberof PreferredDeliveryTime
      */
     ExceptionDates?: Array<ExceptionDates>;
+}
+/**
+ * Information about the prescription that is used to verify a regulated product. This must be provided once per order and reflect the seller’s own records. Only approved orders can have prescriptions.
+ * @export
+ * @interface PrescriptionDetail
+ */
+export interface PrescriptionDetail {
+    /**
+     * The identifier for the prescription used to verify the regulated product.
+     * @type {string}
+     * @memberof PrescriptionDetail
+     */
+    prescriptionId: string;
+    /**
+     * The expiration date of the prescription used to verify the regulated product, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
+     * @type {string}
+     * @memberof PrescriptionDetail
+     */
+    expirationDate: string;
+    /**
+     * The number of units in each fill as provided in the prescription.
+     * @type {number}
+     * @memberof PrescriptionDetail
+     */
+    writtenQuantity: number;
+    /**
+     * The total number of refills written in the original prescription used to verify the regulated product. If a prescription originally had no refills, this value must be 0.
+     * @type {number}
+     * @memberof PrescriptionDetail
+     */
+    totalRefillsAuthorized: number;
+    /**
+     * The number of refills remaining for the prescription used to verify the regulated product. If a prescription originally had 10 total refills, this value must be `10` for the first order, `9` for the second order, and `0` for the eleventh order. If a prescription originally had no refills, this value must be 0.
+     * @type {number}
+     * @memberof PrescriptionDetail
+     */
+    refillsRemaining: number;
+    /**
+     * The identifier for the clinic which provided the prescription used to verify the regulated product.
+     * @type {string}
+     * @memberof PrescriptionDetail
+     */
+    clinicId: string;
+    /**
+     * The instructions for the prescription as provided by the approver of the regulated product.
+     * @type {string}
+     * @memberof PrescriptionDetail
+     */
+    usageInstructions: string;
 }
 /**
  * Product information on the number of items.
@@ -1857,13 +2081,13 @@ export interface RegulatedInformation {
  */
 export interface RegulatedInformationField {
     /**
-     * The unique identifier for the field.
+     * The unique identifier of the field.
      * @type {string}
      * @memberof RegulatedInformationField
      */
     FieldId: string;
     /**
-     * The name for the field.
+     * The name of the field.
      * @type {string}
      * @memberof RegulatedInformationField
      */
@@ -1875,7 +2099,7 @@ export interface RegulatedInformationField {
      */
     FieldType: RegulatedInformationFieldFieldTypeEnum | 'Text' | 'FileAttachment';
     /**
-     * The content of the field as collected in regulatory form. Note that `FileAttachment` type fields will contain a URL to download the attachment here.
+     * The content of the field as collected in regulatory form. Note that `FileAttachment` type fields contain a URL where you can download the attachment.
      * @type {string}
      * @memberof RegulatedInformationField
      */
@@ -1892,7 +2116,7 @@ export enum RegulatedInformationFieldFieldTypeEnum {
 }
 
 /**
- * The verification status of the order along with associated approval or rejection metadata.
+ * The verification status of the order, along with associated approval or rejection metadata.
  * @export
  * @interface RegulatedOrderVerificationStatus
  */
@@ -1922,7 +2146,7 @@ export interface RegulatedOrderVerificationStatus {
      */
     RejectionReason?: RejectionReason;
     /**
-     * The date the order was reviewed. In <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date time format.
+     * The date the order was reviewed. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
      * @type {string}
      * @memberof RegulatedOrderVerificationStatus
      */
@@ -1933,9 +2157,15 @@ export interface RegulatedOrderVerificationStatus {
      * @memberof RegulatedOrderVerificationStatus
      */
     ExternalReviewerId?: string;
+    /**
+     * A list of valid verification details that may be provided and the criteria required for when the verification detail can be provided.
+     * @type {Array<ValidVerificationDetail>}
+     * @memberof RegulatedOrderVerificationStatus
+     */
+    ValidVerificationDetails?: Array<ValidVerificationDetail>;
 }
 /**
- * The reason for rejecting the order\'s regulated information. Not present if the order isn\'t rejected.
+ * The reason for rejecting the order\'s regulated information. This is only present if the order is rejected.
  * @export
  * @interface RejectionReason
  */
@@ -1976,6 +2206,49 @@ export interface ShippingConstraints {
      * @memberof ShippingConstraints
      */
     PalletDelivery?: ConstraintType | 'MANDATORY';
+    /**
+     * 
+     * @type {ConstraintType}
+     * @memberof ShippingConstraints
+     */
+    SignatureConfirmation?: ConstraintType | 'MANDATORY';
+    /**
+     * 
+     * @type {ConstraintType}
+     * @memberof ShippingConstraints
+     */
+    RecipientIdentityVerification?: ConstraintType | 'MANDATORY';
+    /**
+     * 
+     * @type {ConstraintType}
+     * @memberof ShippingConstraints
+     */
+    RecipientAgeVerification?: ConstraintType | 'MANDATORY';
+}
+/**
+ * The shipping-related information of a delivery.
+ * @export
+ * @interface ShippingInstructions
+ */
+export interface ShippingInstructions {
+    /**
+     * The name of the carrier that delivers the package.
+     * @type {string}
+     * @memberof ShippingInstructions
+     */
+    CarrierCode?: string;
+    /**
+     * The ship method that is used for the order.
+     * @type {string}
+     * @memberof ShippingInstructions
+     */
+    ShippingMethod?: string;
+    /**
+     * 
+     * @type {FulfillmentPlanShippingConstraints}
+     * @memberof ShippingInstructions
+     */
+    ShippingConstraints?: FulfillmentPlanShippingConstraints;
 }
 /**
  * Substitution options for an order item.
@@ -1984,7 +2257,7 @@ export interface ShippingConstraints {
  */
 export interface SubstitutionOption {
     /**
-     * The Amazon Standard Identification Number (ASIN) of the item.
+     * The item\'s Amazon Standard Identification Number (ASIN).
      * @type {string}
      * @memberof SubstitutionOption
      */
@@ -1996,13 +2269,13 @@ export interface SubstitutionOption {
      */
     QuantityOrdered?: number;
     /**
-     * The seller stock keeping unit (SKU) of the item.
+     * The item\'s seller stock keeping unit (SKU).
      * @type {string}
      * @memberof SubstitutionOption
      */
     SellerSKU?: string;
     /**
-     * The title of the item.
+     * The item\'s title.
      * @type {string}
      * @memberof SubstitutionOption
      */
@@ -2045,7 +2318,7 @@ export enum SubstitutionPreferencesSubstitutionTypeEnum {
 }
 
 /**
- * The tax classification for the order.
+ * The tax classification of the order.
  * @export
  * @interface TaxClassification
  */
@@ -2173,19 +2446,57 @@ export interface UpdateVerificationStatusRequestBody {
      * @type {VerificationStatus}
      * @memberof UpdateVerificationStatusRequestBody
      */
-    status: VerificationStatus | 'Pending' | 'Approved' | 'Rejected' | 'Expired' | 'Cancelled';
+    status?: VerificationStatus | 'Pending' | 'Approved' | 'Rejected' | 'Expired' | 'Cancelled';
     /**
-     * The identifier for the order\'s regulated information reviewer.
+     * The identifier of the order\'s regulated information reviewer.
      * @type {string}
      * @memberof UpdateVerificationStatusRequestBody
      */
     externalReviewerId: string;
     /**
-     * The unique identifier for the rejection reason used for rejecting the order\'s regulated information. Only required if the new status is rejected.
+     * The unique identifier of the rejection reason used for rejecting the order\'s regulated information. Only required if the new status is rejected.
      * @type {string}
      * @memberof UpdateVerificationStatusRequestBody
      */
     rejectionReasonId?: string;
+    /**
+     * 
+     * @type {VerificationDetails}
+     * @memberof UpdateVerificationStatusRequestBody
+     */
+    verificationDetails?: VerificationDetails;
+}
+/**
+ * The types of verification details that may be provided for the order and the criteria required for when the type of verification detail can be provided. The types of verification details allowed depend on the type of regulated product and will not change order to order.
+ * @export
+ * @interface ValidVerificationDetail
+ */
+export interface ValidVerificationDetail {
+    /**
+     * A supported type of verification detail. The type indicates which verification detail could be shared while updating the regulated order. Valid value: `prescriptionDetail`.
+     * @type {string}
+     * @memberof ValidVerificationDetail
+     */
+    VerificationDetailType: string;
+    /**
+     * A list of valid verification statuses where the associated verification detail type may be provided. For example, if the value of this field is [\"Approved\"], calls to provide the associated verification detail will fail for orders with a `VerificationStatus` of `Pending`, `Rejected`, `Expired`, or `Cancelled`.
+     * @type {Array<VerificationStatus>}
+     * @memberof ValidVerificationDetail
+     */
+    ValidVerificationStatuses: Array<(VerificationStatus | 'Pending' | 'Approved' | 'Rejected' | 'Expired' | 'Cancelled')>;
+}
+/**
+ * Additional information related to the verification of a regulated order.
+ * @export
+ * @interface VerificationDetails
+ */
+export interface VerificationDetails {
+    /**
+     * 
+     * @type {PrescriptionDetail}
+     * @memberof VerificationDetails
+     */
+    prescriptionDetail?: PrescriptionDetail;
 }
 /**
  * The verification status of the order.
@@ -2208,9 +2519,9 @@ export enum VerificationStatus {
 export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {ConfirmShipmentRequest} payload The request body of the &#x60;confirmShipment&#x60; operation.
+         * @param {ConfirmShipmentRequest} payload Request body of &#x60;confirmShipment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2247,7 +2558,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2280,7 +2591,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns the shipping address for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the shipping address for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2313,7 +2624,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns buyer information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns buyer information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2346,7 +2657,40 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  **Note**: When an order is in the Pending state (the order has been placed but payment has not been authorized), the `getOrderItems` operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the `Unshipped`, `Partially Shipped`, or `Shipped` state, the `getOrderItems` operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the fulfillment instructions for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderFulfillmentInstructions: async (orderId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orderId' is not null or undefined
+            assertParamExists('getOrderFulfillmentInstructions', 'orderId', orderId)
+            const localVarPath = `/orders/v0/orders/{orderId}/fulfillmentInstructions`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  __Note__: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -2384,7 +2728,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns buyer information for the order items in the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns buyer information for the order items in the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -2422,7 +2766,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns regulated information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns regulated information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2455,29 +2799,29 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} marketplaceIds A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;MarketplaceId&#x60; values.
-         * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. You could specify &#x60;CreatedBefore&#x60; but not provide &#x60;LastUpdatedAfter&#x60; or &#x60;LastUpdatedBefore&#x60; when &#x60;CreatedAfter&#x60; is specified.
-         * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is specified. But if specified, &#x60;CreatedBefore&#x60; should be equal to or after the &#x60;CreatedAfter&#x60; date and at least 2 minutes before the current time.
-         * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is specified. But if specified, &#x60;LastUpdatedBefore&#x60; should be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least 2 minutes before current time.
-         * @param {string} [lastUpdatedBefore] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: LastUpdatedBefore is optional when LastUpdatedAfter is set. But if specified, LastUpdatedBefore should be equal to or after the LastUpdatedAfter date and at least 2 minutes before current time.
+         * Returns orders that are created or updated during the specified time period. If you want to return specific types of orders, you can apply filters to your request. `NextToken` doesn\'t affect any filters that you include in your request; it only impacts the pagination for the filtered orders response.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
+         * @param {Array<string>} marketplaceIds A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values.
+         * @param {string} [createdAfter] Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set.
+         * @param {string} [createdBefore] Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time.
+         * @param {string} [lastUpdatedAfter] Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set.
+         * @param {string} [lastUpdatedBefore] Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time.
          * @param {Array<string>} [orderStatuses] A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.)
-         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (Fulfillment by Amazon); &#x60;MFN&#x60; (Fulfilled by the seller).
-         * @param {Array<string>} [paymentMethods] A list of payment method values. Used to select orders paid using the specified payment methods.  **Possible values**: &#x60;COD&#x60; (Cash on delivery); &#x60;CVS&#x60; (Convenience store payment); &#x60;Other&#x60; (Any payment method other than &#x60;COD&#x60; or &#x60;CVS&#x60;).
+         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller).
+         * @param {Array<string>} [paymentMethods] A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS).
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
-         * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
+         * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified.
          * @param {number} [maxResultsPerPage] A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100.
          * @param {Array<string>} [easyShipShipmentStatuses] A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.)
          * @param {Array<string>} [electronicInvoiceStatuses] A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.)
          * @param {string} [nextToken] A string token returned in the response of your previous request.
-         * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
-         * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
+         * @param {Array<string>} [amazonOrderIds] A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {string} [actualFulfillmentSupplySourceId] The &#x60;sourceId&#x60; of the location from where you want the order fulfilled.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
-         * @param {string} [earliestDeliveryDateBefore] A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [earliestDeliveryDateAfter] A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [latestDeliveryDateBefore] A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [latestDeliveryDateAfter] A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
+         * @param {string} [earliestDeliveryDateBefore] Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [earliestDeliveryDateAfter] Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [latestDeliveryDateBefore] Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [latestDeliveryDateAfter] Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2596,7 +2940,7 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {UpdateVerificationStatusRequest} payload The request body for the &#x60;updateVerificationStatus&#x60; operation.
          * @param {*} [options] Override http request option.
@@ -2645,9 +2989,9 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = OrdersV0ApiAxiosParamCreator(configuration)
     return {
         /**
-         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {ConfirmShipmentRequest} payload The request body of the &#x60;confirmShipment&#x60; operation.
+         * @param {ConfirmShipmentRequest} payload Request body of &#x60;confirmShipment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2656,7 +3000,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2666,7 +3010,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the shipping address for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the shipping address for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2676,7 +3020,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns buyer information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns buyer information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2686,7 +3030,17 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  **Note**: When an order is in the Pending state (the order has been placed but payment has not been authorized), the `getOrderItems` operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the `Unshipped`, `Partially Shipped`, or `Shipped` state, the `getOrderItems` operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the fulfillment instructions for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getOrderFulfillmentInstructions(orderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderFulfillmentInstructionsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderFulfillmentInstructions(orderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  __Note__: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -2697,7 +3051,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns buyer information for the order items in the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns buyer information for the order items in the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -2708,7 +3062,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns regulated information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns regulated information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2718,29 +3072,29 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} marketplaceIds A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;MarketplaceId&#x60; values.
-         * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. You could specify &#x60;CreatedBefore&#x60; but not provide &#x60;LastUpdatedAfter&#x60; or &#x60;LastUpdatedBefore&#x60; when &#x60;CreatedAfter&#x60; is specified.
-         * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is specified. But if specified, &#x60;CreatedBefore&#x60; should be equal to or after the &#x60;CreatedAfter&#x60; date and at least 2 minutes before the current time.
-         * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is specified. But if specified, &#x60;LastUpdatedBefore&#x60; should be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least 2 minutes before current time.
-         * @param {string} [lastUpdatedBefore] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: LastUpdatedBefore is optional when LastUpdatedAfter is set. But if specified, LastUpdatedBefore should be equal to or after the LastUpdatedAfter date and at least 2 minutes before current time.
+         * Returns orders that are created or updated during the specified time period. If you want to return specific types of orders, you can apply filters to your request. `NextToken` doesn\'t affect any filters that you include in your request; it only impacts the pagination for the filtered orders response.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
+         * @param {Array<string>} marketplaceIds A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values.
+         * @param {string} [createdAfter] Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set.
+         * @param {string} [createdBefore] Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time.
+         * @param {string} [lastUpdatedAfter] Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set.
+         * @param {string} [lastUpdatedBefore] Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time.
          * @param {Array<string>} [orderStatuses] A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.)
-         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (Fulfillment by Amazon); &#x60;MFN&#x60; (Fulfilled by the seller).
-         * @param {Array<string>} [paymentMethods] A list of payment method values. Used to select orders paid using the specified payment methods.  **Possible values**: &#x60;COD&#x60; (Cash on delivery); &#x60;CVS&#x60; (Convenience store payment); &#x60;Other&#x60; (Any payment method other than &#x60;COD&#x60; or &#x60;CVS&#x60;).
+         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller).
+         * @param {Array<string>} [paymentMethods] A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS).
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
-         * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
+         * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified.
          * @param {number} [maxResultsPerPage] A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100.
          * @param {Array<string>} [easyShipShipmentStatuses] A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.)
          * @param {Array<string>} [electronicInvoiceStatuses] A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.)
          * @param {string} [nextToken] A string token returned in the response of your previous request.
-         * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
-         * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
+         * @param {Array<string>} [amazonOrderIds] A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {string} [actualFulfillmentSupplySourceId] The &#x60;sourceId&#x60; of the location from where you want the order fulfilled.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
-         * @param {string} [earliestDeliveryDateBefore] A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [earliestDeliveryDateAfter] A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [latestDeliveryDateBefore] A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [latestDeliveryDateAfter] A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
+         * @param {string} [earliestDeliveryDateBefore] Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [earliestDeliveryDateAfter] Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [latestDeliveryDateBefore] Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [latestDeliveryDateAfter] Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2749,7 +3103,7 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {UpdateVerificationStatusRequest} payload The request body for the &#x60;updateVerificationStatus&#x60; operation.
          * @param {*} [options] Override http request option.
@@ -2770,9 +3124,9 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = OrdersV0ApiFp(configuration)
     return {
         /**
-         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {ConfirmShipmentRequest} payload The request body of the &#x60;confirmShipment&#x60; operation.
+         * @param {ConfirmShipmentRequest} payload Request body of &#x60;confirmShipment&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2780,7 +3134,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.confirmShipment(orderId, payload, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2789,7 +3143,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrder(orderId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the shipping address for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the shipping address for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2798,7 +3152,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderAddress(orderId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns buyer information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns buyer information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2807,7 +3161,16 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderBuyerInfo(orderId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  **Note**: When an order is in the Pending state (the order has been placed but payment has not been authorized), the `getOrderItems` operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the `Unshipped`, `Partially Shipped`, or `Shipped` state, the `getOrderItems` operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the fulfillment instructions for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderFulfillmentInstructions(orderId: string, options?: any): AxiosPromise<GetOrderFulfillmentInstructionsResponse> {
+            return localVarFp.getOrderFulfillmentInstructions(orderId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  __Note__: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -2817,7 +3180,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderItems(orderId, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns buyer information for the order items in the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns buyer information for the order items in the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
          * @param {*} [options] Override http request option.
@@ -2827,7 +3190,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderItemsBuyerInfo(orderId, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns regulated information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns regulated information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2836,29 +3199,29 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrderRegulatedInfo(orderId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {Array<string>} marketplaceIds A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;MarketplaceId&#x60; values.
-         * @param {string} [createdAfter] A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. You could specify &#x60;CreatedBefore&#x60; but not provide &#x60;LastUpdatedAfter&#x60; or &#x60;LastUpdatedBefore&#x60; when &#x60;CreatedAfter&#x60; is specified.
-         * @param {string} [createdBefore] A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is specified. But if specified, &#x60;CreatedBefore&#x60; should be equal to or after the &#x60;CreatedAfter&#x60; date and at least 2 minutes before the current time.
-         * @param {string} [lastUpdatedAfter] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is specified. But if specified, &#x60;LastUpdatedBefore&#x60; should be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least 2 minutes before current time.
-         * @param {string} [lastUpdatedBefore] A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: LastUpdatedBefore is optional when LastUpdatedAfter is set. But if specified, LastUpdatedBefore should be equal to or after the LastUpdatedAfter date and at least 2 minutes before current time.
+         * Returns orders that are created or updated during the specified time period. If you want to return specific types of orders, you can apply filters to your request. `NextToken` doesn\'t affect any filters that you include in your request; it only impacts the pagination for the filtered orders response.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
+         * @param {Array<string>} marketplaceIds A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values.
+         * @param {string} [createdAfter] Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set.
+         * @param {string} [createdBefore] Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time.
+         * @param {string} [lastUpdatedAfter] Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set.
+         * @param {string} [lastUpdatedBefore] Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time.
          * @param {Array<string>} [orderStatuses] A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.)
-         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (Fulfillment by Amazon); &#x60;MFN&#x60; (Fulfilled by the seller).
-         * @param {Array<string>} [paymentMethods] A list of payment method values. Used to select orders paid using the specified payment methods.  **Possible values**: &#x60;COD&#x60; (Cash on delivery); &#x60;CVS&#x60; (Convenience store payment); &#x60;Other&#x60; (Any payment method other than &#x60;COD&#x60; or &#x60;CVS&#x60;).
+         * @param {Array<string>} [fulfillmentChannels] A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller).
+         * @param {Array<string>} [paymentMethods] A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS).
          * @param {string} [buyerEmail] The email address of a buyer. Used to select orders that contain the specified email address.
-         * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
+         * @param {string} [sellerOrderId] An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified.
          * @param {number} [maxResultsPerPage] A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100.
          * @param {Array<string>} [easyShipShipmentStatuses] A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.)
          * @param {Array<string>} [electronicInvoiceStatuses] A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.)
          * @param {string} [nextToken] A string token returned in the response of your previous request.
-         * @param {Array<string>} [amazonOrderIds] A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
-         * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
+         * @param {Array<string>} [amazonOrderIds] A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
+         * @param {string} [actualFulfillmentSupplySourceId] The &#x60;sourceId&#x60; of the location from where you want the order fulfilled.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
-         * @param {string} [earliestDeliveryDateBefore] A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [earliestDeliveryDateAfter] A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [latestDeliveryDateBefore] A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
-         * @param {string} [latestDeliveryDateAfter] A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
+         * @param {string} [earliestDeliveryDateBefore] Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [earliestDeliveryDateAfter] Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [latestDeliveryDateBefore] Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
+         * @param {string} [latestDeliveryDateAfter] Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2866,7 +3229,7 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, earliestDeliveryDateBefore, earliestDeliveryDateAfter, latestDeliveryDateBefore, latestDeliveryDateAfter, options).then((request) => request(axios, basePath));
         },
         /**
-         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {UpdateVerificationStatusRequest} payload The request body for the &#x60;updateVerificationStatus&#x60; operation.
          * @param {*} [options] Override http request option.
@@ -2892,7 +3255,7 @@ export interface OrdersV0ApiConfirmShipmentRequest {
     readonly orderId: string
 
     /**
-     * The request body of the &#x60;confirmShipment&#x60; operation.
+     * Request body of &#x60;confirmShipment&#x60;.
      * @type {ConfirmShipmentRequest}
      * @memberof OrdersV0ApiConfirmShipment
      */
@@ -2937,6 +3300,20 @@ export interface OrdersV0ApiGetOrderBuyerInfoRequest {
      * An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
      * @type {string}
      * @memberof OrdersV0ApiGetOrderBuyerInfo
+     */
+    readonly orderId: string
+}
+
+/**
+ * Request parameters for getOrderFulfillmentInstructions operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiGetOrderFulfillmentInstructionsRequest
+ */
+export interface OrdersV0ApiGetOrderFulfillmentInstructionsRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiGetOrderFulfillmentInstructions
      */
     readonly orderId: string
 }
@@ -3004,35 +3381,35 @@ export interface OrdersV0ApiGetOrderRegulatedInfoRequest {
  */
 export interface OrdersV0ApiGetOrdersRequest {
     /**
-     * A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;MarketplaceId&#x60; values.
+     * A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values.
      * @type {Array<string>}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly marketplaceIds: Array<string>
 
     /**
-     * A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. You could specify &#x60;CreatedBefore&#x60; but not provide &#x60;LastUpdatedAfter&#x60; or &#x60;LastUpdatedBefore&#x60; when &#x60;CreatedAfter&#x60; is specified.
+     * Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly createdAfter?: string
 
     /**
-     * A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is specified. But if specified, &#x60;CreatedBefore&#x60; should be equal to or after the &#x60;CreatedAfter&#x60; date and at least 2 minutes before the current time.
+     * Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly createdBefore?: string
 
     /**
-     * A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is specified. But if specified, &#x60;LastUpdatedBefore&#x60; should be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least 2 minutes before current time.
+     * Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly lastUpdatedAfter?: string
 
     /**
-     * A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.  **Note**: LastUpdatedBefore is optional when LastUpdatedAfter is set. But if specified, LastUpdatedBefore should be equal to or after the LastUpdatedAfter date and at least 2 minutes before current time.
+     * Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
@@ -3046,14 +3423,14 @@ export interface OrdersV0ApiGetOrdersRequest {
     readonly orderStatuses?: Array<string>
 
     /**
-     * A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (Fulfillment by Amazon); &#x60;MFN&#x60; (Fulfilled by the seller).
+     * A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller).
      * @type {Array<string>}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly fulfillmentChannels?: Array<string>
 
     /**
-     * A list of payment method values. Used to select orders paid using the specified payment methods.  **Possible values**: &#x60;COD&#x60; (Cash on delivery); &#x60;CVS&#x60; (Convenience store payment); &#x60;Other&#x60; (Any payment method other than &#x60;COD&#x60; or &#x60;CVS&#x60;).
+     * A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS).
      * @type {Array<string>}
      * @memberof OrdersV0ApiGetOrders
      */
@@ -3067,7 +3444,7 @@ export interface OrdersV0ApiGetOrdersRequest {
     readonly buyerEmail?: string
 
     /**
-     * An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
+     * An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
@@ -3102,14 +3479,14 @@ export interface OrdersV0ApiGetOrdersRequest {
     readonly nextToken?: string
 
     /**
-     * A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
+     * A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
      * @type {Array<string>}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly amazonOrderIds?: Array<string>
 
     /**
-     * Denotes the recommended sourceId where the order should be fulfilled from.
+     * The &#x60;sourceId&#x60; of the location from where you want the order fulfilled.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
@@ -3130,28 +3507,28 @@ export interface OrdersV0ApiGetOrdersRequest {
     readonly storeChainStoreId?: string
 
     /**
-     * A date used for selecting orders with a earliest delivery date before (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
+     * Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly earliestDeliveryDateBefore?: string
 
     /**
-     * A date used for selecting orders with a earliest delivery date after (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
+     * Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly earliestDeliveryDateAfter?: string
 
     /**
-     * A date used for selecting orders with a latest delivery date before (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
+     * Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
     readonly latestDeliveryDateBefore?: string
 
     /**
-     * A date used for selecting orders with a latest delivery date after (or at) a specified time. The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
+     * Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
      * @type {string}
      * @memberof OrdersV0ApiGetOrders
      */
@@ -3187,7 +3564,7 @@ export interface OrdersV0ApiUpdateVerificationStatusRequest {
  */
 export class OrdersV0Api extends BaseAPI {
     /**
-     * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiConfirmShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3198,7 +3575,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiGetOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3209,7 +3586,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns the shipping address for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns the shipping address for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiGetOrderAddressRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3220,7 +3597,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns buyer information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns buyer information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiGetOrderBuyerInfoRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3231,7 +3608,18 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  **Note**: When an order is in the Pending state (the order has been placed but payment has not been authorized), the `getOrderItems` operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the `Unshipped`, `Partially Shipped`, or `Shipped` state, the `getOrderItems` operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns the fulfillment instructions for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {OrdersV0ApiGetOrderFulfillmentInstructionsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrdersV0Api
+     */
+    public getOrderFulfillmentInstructions(requestParameters: OrdersV0ApiGetOrderFulfillmentInstructionsRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).getOrderFulfillmentInstructions(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  __Note__: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiGetOrderItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3242,7 +3630,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns buyer information for the order items in the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns buyer information for the order items in the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiGetOrderItemsBuyerInfoRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3253,7 +3641,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns regulated information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns regulated information for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiGetOrderRegulatedInfoRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3264,7 +3652,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns orders that are created or updated during the specified time period. If you want to return specific types of orders, you can apply filters to your request. `NextToken` doesn\'t affect any filters that you include in your request; it only impacts the pagination for the filtered orders response.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
      * @param {OrdersV0ApiGetOrdersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3275,7 +3663,7 @@ export class OrdersV0Api extends BaseAPI {
     }
 
     /**
-     * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiUpdateVerificationStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3294,7 +3682,7 @@ export class OrdersV0Api extends BaseAPI {
 export const ShipmentApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Update the shipment status for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Update the shipment status for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {UpdateShipmentStatusRequest} payload The request body for the &#x60;updateShipmentStatus&#x60; operation.
          * @param {*} [options] Override http request option.
@@ -3343,7 +3731,7 @@ export const ShipmentApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ShipmentApiAxiosParamCreator(configuration)
     return {
         /**
-         * Update the shipment status for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Update the shipment status for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {UpdateShipmentStatusRequest} payload The request body for the &#x60;updateShipmentStatus&#x60; operation.
          * @param {*} [options] Override http request option.
@@ -3364,7 +3752,7 @@ export const ShipmentApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = ShipmentApiFp(configuration)
     return {
         /**
-         * Update the shipment status for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Update the shipment status for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {UpdateShipmentStatusRequest} payload The request body for the &#x60;updateShipmentStatus&#x60; operation.
          * @param {*} [options] Override http request option.
@@ -3405,7 +3793,7 @@ export interface ShipmentApiUpdateShipmentStatusRequest {
  */
 export class ShipmentApi extends BaseAPI {
     /**
-     * Update the shipment status for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Update the shipment status for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ShipmentApiUpdateShipmentStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

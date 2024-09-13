@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Sellers
- * The Selling Partner API for Sellers lets you retrieve information on behalf of sellers about their seller account, such as the marketplaces they participate in. Along with listing the marketplaces that a seller can sell in, the API also provides additional information about the marketplace such as the default language and the default currency. The API also provides seller-specific information such as whether the seller has suspended listings in that marketplace.
+ * The [Selling Partner API for Sellers](https://developer-docs.amazon.com/sp-api/docs/sellers-api-v1-reference) (Sellers API) provides essential information about seller accounts, such as:  - The marketplaces a seller can list in - The default language and currency of a marketplace - Whether the seller has suspended listings  Refer to the [Sellers API reference](https://developer-docs.amazon.com/sp-api/docs/sellers-api-v1-reference) for details about this API\'s operations, data types, and schemas.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -22,7 +22,153 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
- * The response schema for the getMarketplaceParticipations operation.
+ * The response schema for the `getAccount` operation.
+ * @export
+ * @interface Account
+ */
+export interface Account {
+    /**
+     * A list of details of the marketplaces where the seller account is active.
+     * @type {Array<MarketplaceLevelAttributes>}
+     * @memberof Account
+     */
+    marketplaceLevelAttributes: Array<MarketplaceLevelAttributes>;
+    /**
+     * The type of business registered for the seller account.
+     * @type {string}
+     * @memberof Account
+     */
+    businessType: AccountBusinessTypeEnum | 'CHARITY' | 'CRAFTSMAN' | 'NATURAL_PERSON_COMPANY' | 'PUBLIC_LISTED' | 'PRIVATE_LIMITED' | 'SOLE_PROPRIETORSHIP' | 'STATE_OWNED' | 'INDIVIDUAL';
+    /**
+     * 
+     * @type {Business}
+     * @memberof Account
+     */
+    business?: Business;
+    /**
+     * 
+     * @type {PrimaryContact}
+     * @memberof Account
+     */
+    primaryContact?: PrimaryContact;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum AccountBusinessTypeEnum {
+    Charity = 'CHARITY',
+    Craftsman = 'CRAFTSMAN',
+    NaturalPersonCompany = 'NATURAL_PERSON_COMPANY',
+    PublicListed = 'PUBLIC_LISTED',
+    PrivateLimited = 'PRIVATE_LIMITED',
+    SoleProprietorship = 'SOLE_PROPRIETORSHIP',
+    StateOwned = 'STATE_OWNED',
+    Individual = 'INDIVIDUAL'
+}
+
+/**
+ * Represents an address
+ * @export
+ * @interface Address
+ */
+export interface Address {
+    /**
+     * Street address information.
+     * @type {string}
+     * @memberof Address
+     */
+    addressLine1: string;
+    /**
+     * Additional street address information.
+     * @type {string}
+     * @memberof Address
+     */
+    addressLine2?: string;
+    /**
+     * The country code in two-character ISO 3166-1 alpha-2 format.
+     * @type {string}
+     * @memberof Address
+     */
+    countryCode: string;
+    /**
+     * The state or province code.
+     * @type {string}
+     * @memberof Address
+     */
+    stateOrProvinceCode?: string;
+    /**
+     * The city.
+     * @type {string}
+     * @memberof Address
+     */
+    city?: string;
+    /**
+     * The postal code.
+     * @type {string}
+     * @memberof Address
+     */
+    postalCode?: string;
+}
+/**
+ * Information about the seller\'s business. Certain fields may be omitted depending on the seller\'s `businessType`.
+ * @export
+ * @interface Business
+ */
+export interface Business {
+    /**
+     * The registered business name.
+     * @type {string}
+     * @memberof Business
+     */
+    name: string;
+    /**
+     * 
+     * @type {Address}
+     * @memberof Business
+     */
+    registeredBusinessAddress: Address;
+    /**
+     * The seller\'s company registration number, if applicable. This field will be absent for individual sellers and sole proprietorships.
+     * @type {string}
+     * @memberof Business
+     */
+    companyRegistrationNumber?: string;
+    /**
+     * The seller\'s company tax identification number, if applicable. This field will be present for certain business types only, such as sole proprietorships.
+     * @type {string}
+     * @memberof Business
+     */
+    companyTaxIdentificationNumber?: string;
+    /**
+     * The non-Latin script version of the registered business name, if applicable.
+     * @type {string}
+     * @memberof Business
+     */
+    nonLatinName?: string;
+}
+/**
+ * The response schema for the `getAccount` operation.
+ * @export
+ * @interface GetAccountResponse
+ */
+export interface GetAccountResponse {
+    /**
+     * 
+     * @type {Account}
+     * @memberof GetAccountResponse
+     */
+    payload?: Account;
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof GetAccountResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * The response schema for the `getMarketplaceParticipations` operation.
  * @export
  * @interface GetMarketplaceParticipationsResponse
  */
@@ -41,7 +187,7 @@ export interface GetMarketplaceParticipationsResponse {
     errors?: Array<Error>;
 }
 /**
- * Detailed information about an Amazon market where a seller can list items for sale and customers can view and purchase items.
+ * Information about an Amazon marketplace where a seller can list items and customers can view and purchase items.
  * @export
  * @interface Marketplace
  */
@@ -53,7 +199,7 @@ export interface Marketplace {
      */
     id: string;
     /**
-     * Marketplace name.
+     * The marketplace name.
      * @type {string}
      * @memberof Marketplace
      */
@@ -84,6 +230,55 @@ export interface Marketplace {
     domainName: string;
 }
 /**
+ * Attributes that define the seller\'s presence and status within a specific marketplace. These attributes include the marketplace details, store name, listing status, and the selling plan the seller is subscribed to.
+ * @export
+ * @interface MarketplaceLevelAttributes
+ */
+export interface MarketplaceLevelAttributes {
+    /**
+     * 
+     * @type {Marketplace}
+     * @memberof MarketplaceLevelAttributes
+     */
+    marketplace: Marketplace;
+    /**
+     * The name of the seller\'s store as displayed in the marketplace.
+     * @type {string}
+     * @memberof MarketplaceLevelAttributes
+     */
+    storeName: string;
+    /**
+     * The current status of the seller\'s listings.
+     * @type {string}
+     * @memberof MarketplaceLevelAttributes
+     */
+    listingStatus: MarketplaceLevelAttributesListingStatusEnum | 'ACTIVE' | 'INACTIVE';
+    /**
+     * The selling plan details.
+     * @type {string}
+     * @memberof MarketplaceLevelAttributes
+     */
+    sellingPlan: MarketplaceLevelAttributesSellingPlanEnum | 'PROFESSIONAL' | 'INDIVIDUAL';
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum MarketplaceLevelAttributesListingStatusEnum {
+    Active = 'ACTIVE',
+    Inactive = 'INACTIVE'
+}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum MarketplaceLevelAttributesSellingPlanEnum {
+    Professional = 'PROFESSIONAL',
+    Individual = 'INDIVIDUAL'
+}
+
+/**
  * 
  * @export
  * @interface MarketplaceParticipation
@@ -109,7 +304,7 @@ export interface MarketplaceParticipation {
  */
 export interface ModelError {
     /**
-     * An error code that identifies the type of error that occured.
+     * An error code that identifies the type of error that occurred.
      * @type {string}
      * @memberof ModelError
      */
@@ -121,30 +316,55 @@ export interface ModelError {
      */
     message: string;
     /**
-     * Additional details that can help the caller understand or fix the issue.
+     * Additional details that can help you understand or fix the issue.
      * @type {string}
      * @memberof ModelError
      */
     details?: string;
 }
 /**
- * Detailed information that is specific to a seller in a Marketplace.
+ * Information that is specific to a seller in a marketplace.
  * @export
  * @interface Participation
  */
 export interface Participation {
     /**
-     * 
+     * If `true`, the seller participates in the marketplace. Otherwise `false`.
      * @type {boolean}
      * @memberof Participation
      */
     isParticipating: boolean;
     /**
-     * Specifies if the seller has suspended listings. True if the seller Listing Status is set to Inactive, otherwise False.
+     * Specifies if the seller has suspended listings. `true` if the seller Listing Status is set to Inactive, otherwise `false`.
      * @type {boolean}
      * @memberof Participation
      */
     hasSuspendedListings: boolean;
+}
+/**
+ * Information about the seller\'s primary contact.
+ * @export
+ * @interface PrimaryContact
+ */
+export interface PrimaryContact {
+    /**
+     * The full name of the seller\'s primary contact.
+     * @type {string}
+     * @memberof PrimaryContact
+     */
+    name: string;
+    /**
+     * 
+     * @type {Address}
+     * @memberof PrimaryContact
+     */
+    address: Address;
+    /**
+     * The non-Latin script version of the primary contact\'s name, if applicable.
+     * @type {string}
+     * @memberof PrimaryContact
+     */
+    nonLatinName?: string;
 }
 
 /**
@@ -154,7 +374,36 @@ export interface Participation {
 export const SellersApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns a list of marketplaces that the seller submitting the request can sell in and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns information about a seller account and its marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAccount: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sellers/v1/account`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns a list of marketplaces where the seller can list items and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -193,7 +442,16 @@ export const SellersApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = SellersApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns a list of marketplaces that the seller submitting the request can sell in and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns information about a seller account and its marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAccount(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAccountResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAccount(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Returns a list of marketplaces where the seller can list items and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -212,7 +470,15 @@ export const SellersApiFactory = function (configuration?: Configuration, basePa
     const localVarFp = SellersApiFp(configuration)
     return {
         /**
-         * Returns a list of marketplaces that the seller submitting the request can sell in and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns information about a seller account and its marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAccount(options?: any): AxiosPromise<GetAccountResponse> {
+            return localVarFp.getAccount(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Returns a list of marketplaces where the seller can list items and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -230,7 +496,17 @@ export const SellersApiFactory = function (configuration?: Configuration, basePa
  */
 export class SellersApi extends BaseAPI {
     /**
-     * Returns a list of marketplaces that the seller submitting the request can sell in and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns information about a seller account and its marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SellersApi
+     */
+    public getAccount(options?: any) {
+        return SellersApiFp(this.configuration).getAccount(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Returns a list of marketplaces where the seller can list items and information about the seller\'s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.016 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SellersApi

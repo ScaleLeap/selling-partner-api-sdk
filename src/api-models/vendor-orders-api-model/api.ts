@@ -22,13 +22,13 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
- * Details of the item quantity ordered
+ * Details of item quantity ordered
  * @export
  * @interface AcknowledgementStatusDetails
  */
 export interface AcknowledgementStatusDetails {
     /**
-     * The date when the line item was confirmed by the vendor. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date when the line item was confirmed by vendor. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof AcknowledgementStatusDetails
      */
@@ -101,7 +101,7 @@ export interface Address {
      */
     stateOrRegion?: string;
     /**
-     * The postal code of that address. It contains a series of letters or digits or both, sometimes including spaces or punctuation.
+     * The postal code of that address. It conatins a series of letters or digits or both, sometimes including spaces or punctuation.
      * @type {string}
      * @memberof Address
      */
@@ -120,7 +120,7 @@ export interface Address {
     phone?: string;
 }
 /**
- * The response schema for the `getPurchaseOrder` operation.
+ * The response schema for the getPurchaseOrder operation.
  * @export
  * @interface GetPurchaseOrderResponse
  */
@@ -139,7 +139,7 @@ export interface GetPurchaseOrderResponse {
     errors?: Array<Error>;
 }
 /**
- * The response schema for the `getPurchaseOrders` operation.
+ * The response schema for the getPurchaseOrders operation.
  * @export
  * @interface GetPurchaseOrdersResponse
  */
@@ -158,7 +158,7 @@ export interface GetPurchaseOrdersResponse {
     errors?: Array<Error>;
 }
 /**
- * The response schema for the `getPurchaseOrdersStatus` operation.
+ * The response schema for the getPurchaseOrdersStatus operation.
  * @export
  * @interface GetPurchaseOrdersStatusResponse
  */
@@ -195,13 +195,13 @@ export interface ImportDetails {
      */
     internationalCommercialTerms?: ImportDetailsInternationalCommercialTermsEnum | 'ExWorks' | 'FreeCarrier' | 'FreeOnBoard' | 'FreeAlongSideShip' | 'CarriagePaidTo' | 'CostAndFreight' | 'CarriageAndInsurancePaidTo' | 'CostInsuranceAndFreight' | 'DeliveredAtTerminal' | 'DeliveredAtPlace' | 'DeliverDutyPaid';
     /**
-     * The port where goods on an import purchase order must be delivered by the vendor. This should only be specified when the `internationalCommercialTerms` is `FOB`.
+     * The port where goods on an import purchase order must be delivered by the vendor. This should only be specified when the internationalCommercialTerms is FOB.
      * @type {string}
      * @memberof ImportDetails
      */
     portOfDelivery?: string;
     /**
-     * Types and numbers of container(s) for import purchase orders. Can be a comma-separated list if the shipment has multiple containers. HC signifies a high-capacity container. Free-text field, limited to 64 characters. The format will be a comma-delimited list containing values of the type: `$NUMBER_OF_CONTAINERS_OF_THIS_TYPE-$CONTAINER_TYPE`. The list of values for the container type is: `40\'`(40-foot container), `40\'HC` (40-foot high-capacity container), `45\'`, `45\'HC`, `30\'`, `30\'HC`, `20\'`, `20\'HC`.
+     * Types and numbers of container(s) for import purchase orders. Can be a comma-separated list if the shipment has multiple containers. HC signifies a high-capacity container. Free-text field, limited to 64 characters. The format will be a comma-delimited list containing values of the type: $NUMBER_OF_CONTAINERS_OF_THIS_TYPE-$CONTAINER_TYPE. The list of values for the container type is: 40\'(40-foot container), 40\'HC (40-foot high-capacity container), 45\', 45\'HC, 30\', 30\'HC, 20\', 20\'HC.
      * @type {string}
      * @memberof ImportDetails
      */
@@ -305,7 +305,7 @@ export interface ModelError {
     details?: string;
 }
 /**
- * An amount of money, including units in the form of currency.
+ * An amount of money. Includes the currency code and an optional unit of measure for items priced by weight.
  * @export
  * @interface Money
  */
@@ -322,9 +322,27 @@ export interface Money {
      * @memberof Money
      */
     amount?: string;
+    /**
+     * The unit of measure for prices of items sold by weight. If this field is absent, the item is sold by eaches.
+     * @type {string}
+     * @memberof Money
+     */
+    unitOfMeasure?: MoneyUnitOfMeasureEnum | 'POUNDS' | 'OUNCES' | 'GRAMS' | 'KILOGRAMS';
 }
+
 /**
- * Represents an order placed by Amazon, including the purchase order number, current state, and order details.
+    * @export
+    * @enum {string}
+    */
+export enum MoneyUnitOfMeasureEnum {
+    Pounds = 'POUNDS',
+    Ounces = 'OUNCES',
+    Grams = 'GRAMS',
+    Kilograms = 'KILOGRAMS'
+}
+
+/**
+ * 
  * @export
  * @interface Order
  */
@@ -360,7 +378,7 @@ export enum OrderPurchaseOrderStateEnum {
 }
 
 /**
- * Represents an acknowledgement for an order, including the purchase order number, selling party details, acknowledgement date, and a list of acknowledged items.
+ * 
  * @export
  * @interface OrderAcknowledgement
  */
@@ -378,7 +396,7 @@ export interface OrderAcknowledgement {
      */
     sellingParty: PartyIdentification;
     /**
-     * The date and time when the purchase order is acknowledged, in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date and time when the purchase order is acknowledged, in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderAcknowledgement
      */
@@ -452,19 +470,19 @@ export interface OrderAcknowledgementItem {
  */
 export interface OrderDetails {
     /**
-     * The date the purchase order was placed. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date the purchase order was placed. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderDetails
      */
     purchaseOrderDate: string;
     /**
-     * The date when purchase order was last changed by Amazon after the order was placed. This date will be greater than \'purchaseOrderDate\'. This means the PO data was changed on that date and vendors are required to fulfill the updated PO. The PO changes can be related to Item Quantity, Ship to Location, Ship Window etc. This field will not be present in orders that have not changed after creation. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date when purchase order was last changed by Amazon after the order was placed. This date will be greater than \'purchaseOrderDate\'. This means the PO data was changed on that date and vendors are required to fulfill the  updated PO. The PO changes can be related to Item Quantity, Ship to Location, Ship Window etc. This field will not be present in orders that have not changed after creation. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderDetails
      */
     purchaseOrderChangedDate?: string;
     /**
-     * The date when current purchase order state was changed. Current purchase order state is available in the field \'purchaseOrderState\'. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date when current purchase order state was changed. Current purchase order state is available in the field \'purchaseOrderState\'. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderDetails
      */
@@ -518,13 +536,13 @@ export interface OrderDetails {
      */
     billToParty?: PartyIdentification;
     /**
-     * Defines a date time interval according to <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a>. Interval is separated by double hyphen (--).
+     * Defines a date time interval according to ISO8601. Interval is separated by double hyphen (--).
      * @type {string}
      * @memberof OrderDetails
      */
     shipWindow?: string;
     /**
-     * Defines a date time interval according to <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a>. Interval is separated by double hyphen (--).
+     * Defines a date time interval according to ISO8601. Interval is separated by double hyphen (--).
      * @type {string}
      * @memberof OrderDetails
      */
@@ -559,7 +577,7 @@ export enum OrderDetailsPaymentMethodEnum {
 }
 
 /**
- * Represents an individual item in an order, including item details, quantities, pricing, and backorder information.
+ * 
  * @export
  * @interface OrderItem
  */
@@ -608,7 +626,7 @@ export interface OrderItem {
     listPrice?: Money;
 }
 /**
- * Represents the acknowledgement details for an individual order item, including the acknowledgement code, acknowledged quantity, scheduled ship and delivery dates, and rejection reason (if applicable).
+ * 
  * @export
  * @interface OrderItemAcknowledgement
  */
@@ -626,13 +644,13 @@ export interface OrderItemAcknowledgement {
      */
     acknowledgedQuantity: ItemQuantity;
     /**
-     * Estimated ship date per line item. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * Estimated ship date per line item. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderItemAcknowledgement
      */
     scheduledShipDate?: string;
     /**
-     * Estimated delivery date per line item. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * Estimated delivery date per line item. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderItemAcknowledgement
      */
@@ -665,7 +683,7 @@ export enum OrderItemAcknowledgementRejectionReasonEnum {
 }
 
 /**
- * Represents the current status of an order item, including acknowledgement and receiving details.
+ * 
  * @export
  * @interface OrderItemStatus
  */
@@ -800,7 +818,7 @@ export interface OrderItemStatusReceivingStatus {
      */
     receivedQuantity?: ItemQuantity;
     /**
-     * The date when the most recent item was received at the buyer\'s warehouse. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date when the most recent item was received at the buyer\'s warehouse. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderItemStatusReceivingStatus
      */
@@ -818,7 +836,7 @@ export enum OrderItemStatusReceivingStatusReceiveStatusEnum {
 }
 
 /**
- * A list of orders returned as response.
+ * 
  * @export
  * @interface OrderList
  */
@@ -830,14 +848,14 @@ export interface OrderList {
      */
     pagination?: Pagination;
     /**
-     * Represents an individual order within the `OrderList`.
+     * 
      * @type {Array<Order>}
      * @memberof OrderList
      */
     orders?: Array<Order>;
 }
 /**
- * A list of order statuses.
+ * 
  * @export
  * @interface OrderListStatus
  */
@@ -849,7 +867,7 @@ export interface OrderListStatus {
      */
     pagination?: Pagination;
     /**
-     * Represents an order status within the `OrderListStatus`.
+     * 
      * @type {Array<OrderStatus>}
      * @memberof OrderListStatus
      */
@@ -874,13 +892,13 @@ export interface OrderStatus {
      */
     purchaseOrderStatus: OrderStatusPurchaseOrderStatusEnum | 'OPEN' | 'CLOSED';
     /**
-     * The date the purchase order was placed. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date the purchase order was placed. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderStatus
      */
     purchaseOrderDate: string;
     /**
-     * The date when the purchase order was last updated. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date when the purchase order was last updated. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderStatus
      */
@@ -915,13 +933,13 @@ export enum OrderStatusPurchaseOrderStatusEnum {
 }
 
 /**
- * Details of the item quantity ordered.
+ * Details of item quantity ordered
  * @export
  * @interface OrderedQuantityDetails
  */
 export interface OrderedQuantityDetails {
     /**
-     * The date when the line item quantity was updated by the buyer. Must be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format.
+     * The date when the line item quantity was updated by buyer. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof OrderedQuantityDetails
      */
@@ -940,20 +958,20 @@ export interface OrderedQuantityDetails {
     cancelledQuantity?: ItemQuantity;
 }
 /**
- * The pagination elements required to retrieve the remaining data.
+ * 
  * @export
  * @interface Pagination
  */
 export interface Pagination {
     /**
-     * A generated string used to pass information to your next request. If `NextToken` is returned, pass the value of `NextToken` to the next request. If `NextToken` is not returned, there are no more purchase order items to return.
+     * A generated string used to pass information to your next request. If NextToken is returned, pass the value of NextToken to the next request. If NextToken is not returned, there are no more purchase order items to return.
      * @type {string}
      * @memberof Pagination
      */
     nextToken?: string;
 }
 /**
- * Name, address and tax details of a party.
+ * 
  * @export
  * @interface PartyIdentification
  */
@@ -978,20 +996,20 @@ export interface PartyIdentification {
     taxInfo?: TaxRegistrationDetails;
 }
 /**
- * The request schema for the `submitAcknowledgment` operation.
+ * The request schema for the submitAcknowledgment operation.
  * @export
  * @interface SubmitAcknowledgementRequest
  */
 export interface SubmitAcknowledgementRequest {
     /**
-     * An array of order acknowledgements to be submitted.
+     * 
      * @type {Array<OrderAcknowledgement>}
      * @memberof SubmitAcknowledgementRequest
      */
     acknowledgements?: Array<OrderAcknowledgement>;
 }
 /**
- * The response schema for the `submitAcknowledgement` operation
+ * The response schema for the submitAcknowledgement operation
  * @export
  * @interface SubmitAcknowledgementResponse
  */
@@ -1022,7 +1040,7 @@ export interface TaxRegistrationDetails {
      */
     taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum | 'VAT' | 'GST';
     /**
-     * Tax registration number for the entity. For example, `VAT ID`.
+     * Tax registration number for the entity. For example, VAT ID.
      * @type {string}
      * @memberof TaxRegistrationDetails
      */
@@ -1039,7 +1057,7 @@ export enum TaxRegistrationDetailsTaxRegistrationTypeEnum {
 }
 
 /**
- * Response containing the transaction ID.
+ * 
  * @export
  * @interface TransactionId
  */
@@ -1059,7 +1077,7 @@ export interface TransactionId {
 export const VendorOrdersApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns a purchase order based on the `purchaseOrderNumber` value that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a purchase order based on the `purchaseOrderNumber` value that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber The purchase order identifier for the order that you want. Formatting Notes: 8-character alpha-numeric code.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1092,17 +1110,17 @@ export const VendorOrdersApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {number} [limit] The limit to the number of records returned. Default value is 100 records.
-         * @param {string} [createdAfter] Purchase orders that became available after this time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [createdBefore] Purchase orders that became available before this time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+         * @param {string} [createdAfter] Purchase orders that became available after this time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [createdBefore] Purchase orders that became available before this time will be included in the result. Must be in ISO-8601 date/time format.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort in ascending or descending order by purchase order creation date.
          * @param {string} [nextToken] Used for pagination when there is more purchase orders than the specified result size limit. The token value is returned in the previous API call
-         * @param {boolean} [includeDetails] When &#x60;true&#x60;, returns purchase orders with complete details. Otherwise, only purchase order numbers are returned. Default value is &#x60;true&#x60;.
-         * @param {string} [changedAfter] Purchase orders that changed after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [changedBefore] Purchase orders that changed before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {'Cancelled'} [poItemState] Current state of the purchase order item. If this value is &#x60;Cancelled&#x60;, this API will return purchase orders which have one or more items cancelled by Amazon with updated item quantity as zero.
-         * @param {boolean} [isPOChanged] When &#x60;true&#x60;, returns purchase orders which were modified after the order was placed. Vendors are required to pull the changed purchase order and fulfill the updated purchase order and not the original one. Default value is &#x60;false&#x60;.
+         * @param {boolean} [includeDetails] When true, returns purchase orders with complete details. Otherwise, only purchase order numbers are returned. Default value is true.
+         * @param {string} [changedAfter] Purchase orders that changed after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [changedBefore] Purchase orders that changed before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {'Cancelled'} [poItemState] Current state of the purchase order item. If this value is Cancelled, this API will return purchase orders which have one or more items cancelled by Amazon with updated item quantity as zero.
+         * @param {boolean} [isPOChanged] When true, returns purchase orders which were modified after the order was placed. Vendors are required to pull the changed purchase order and fulfill the updated purchase order and not the original one. Default value is false.
          * @param {'New' | 'Acknowledged' | 'Closed'} [purchaseOrderState] Filters purchase orders based on the purchase order state.
          * @param {string} [orderingVendorCode] Filters purchase orders based on the specified ordering vendor code. This value should be same as \&#39;sellingParty.partyId\&#39; in the purchase order. If not included in the filter, all purchase orders for all of the vendor codes that exist in the vendor group used to authorize the API client application are returned.
          * @param {*} [options] Override http request option.
@@ -1189,14 +1207,14 @@ export const VendorOrdersApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {number} [limit] The limit to the number of records returned. Default value is 100 records.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort in ascending or descending order by purchase order creation date.
          * @param {string} [nextToken] Used for pagination when there are more purchase orders than the specified result size limit.
-         * @param {string} [createdAfter] Purchase orders that became available after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [createdBefore] Purchase orders that became available before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [updatedAfter] Purchase orders for which the last purchase order update happened after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+         * @param {string} [createdAfter] Purchase orders that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [createdBefore] Purchase orders that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [updatedAfter] Purchase orders for which the last purchase order update happened after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
          * @param {string} [purchaseOrderNumber] Provides purchase order status for the specified purchase order number.
          * @param {'OPEN' | 'CLOSED'} [purchaseOrderStatus] Filters purchase orders based on the specified purchase order status. If not included in filter, this will return purchase orders for all statuses.
          * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on their item confirmation status. If the item confirmation status is not included in the filter, purchase orders for all confirmation statuses are included.
@@ -1291,8 +1309,8 @@ export const VendorOrdersApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
-         * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body Submits acknowledgements for one or more purchase orders from a vendor.
+         * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {SubmitAcknowledgementRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1336,7 +1354,7 @@ export const VendorOrdersApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = VendorOrdersApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns a purchase order based on the `purchaseOrderNumber` value that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a purchase order based on the `purchaseOrderNumber` value that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber The purchase order identifier for the order that you want. Formatting Notes: 8-character alpha-numeric code.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1346,17 +1364,17 @@ export const VendorOrdersApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {number} [limit] The limit to the number of records returned. Default value is 100 records.
-         * @param {string} [createdAfter] Purchase orders that became available after this time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [createdBefore] Purchase orders that became available before this time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+         * @param {string} [createdAfter] Purchase orders that became available after this time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [createdBefore] Purchase orders that became available before this time will be included in the result. Must be in ISO-8601 date/time format.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort in ascending or descending order by purchase order creation date.
          * @param {string} [nextToken] Used for pagination when there is more purchase orders than the specified result size limit. The token value is returned in the previous API call
-         * @param {boolean} [includeDetails] When &#x60;true&#x60;, returns purchase orders with complete details. Otherwise, only purchase order numbers are returned. Default value is &#x60;true&#x60;.
-         * @param {string} [changedAfter] Purchase orders that changed after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [changedBefore] Purchase orders that changed before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {'Cancelled'} [poItemState] Current state of the purchase order item. If this value is &#x60;Cancelled&#x60;, this API will return purchase orders which have one or more items cancelled by Amazon with updated item quantity as zero.
-         * @param {boolean} [isPOChanged] When &#x60;true&#x60;, returns purchase orders which were modified after the order was placed. Vendors are required to pull the changed purchase order and fulfill the updated purchase order and not the original one. Default value is &#x60;false&#x60;.
+         * @param {boolean} [includeDetails] When true, returns purchase orders with complete details. Otherwise, only purchase order numbers are returned. Default value is true.
+         * @param {string} [changedAfter] Purchase orders that changed after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [changedBefore] Purchase orders that changed before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {'Cancelled'} [poItemState] Current state of the purchase order item. If this value is Cancelled, this API will return purchase orders which have one or more items cancelled by Amazon with updated item quantity as zero.
+         * @param {boolean} [isPOChanged] When true, returns purchase orders which were modified after the order was placed. Vendors are required to pull the changed purchase order and fulfill the updated purchase order and not the original one. Default value is false.
          * @param {'New' | 'Acknowledged' | 'Closed'} [purchaseOrderState] Filters purchase orders based on the purchase order state.
          * @param {string} [orderingVendorCode] Filters purchase orders based on the specified ordering vendor code. This value should be same as \&#39;sellingParty.partyId\&#39; in the purchase order. If not included in the filter, all purchase orders for all of the vendor codes that exist in the vendor group used to authorize the API client application are returned.
          * @param {*} [options] Override http request option.
@@ -1367,14 +1385,14 @@ export const VendorOrdersApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {number} [limit] The limit to the number of records returned. Default value is 100 records.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort in ascending or descending order by purchase order creation date.
          * @param {string} [nextToken] Used for pagination when there are more purchase orders than the specified result size limit.
-         * @param {string} [createdAfter] Purchase orders that became available after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [createdBefore] Purchase orders that became available before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [updatedAfter] Purchase orders for which the last purchase order update happened after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+         * @param {string} [createdAfter] Purchase orders that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [createdBefore] Purchase orders that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [updatedAfter] Purchase orders for which the last purchase order update happened after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
          * @param {string} [purchaseOrderNumber] Provides purchase order status for the specified purchase order number.
          * @param {'OPEN' | 'CLOSED'} [purchaseOrderStatus] Filters purchase orders based on the specified purchase order status. If not included in filter, this will return purchase orders for all statuses.
          * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on their item confirmation status. If the item confirmation status is not included in the filter, purchase orders for all confirmation statuses are included.
@@ -1389,8 +1407,8 @@ export const VendorOrdersApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body Submits acknowledgements for one or more purchase orders from a vendor.
+         * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {SubmitAcknowledgementRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1409,7 +1427,7 @@ export const VendorOrdersApiFactory = function (configuration?: Configuration, b
     const localVarFp = VendorOrdersApiFp(configuration)
     return {
         /**
-         * Returns a purchase order based on the `purchaseOrderNumber` value that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a purchase order based on the `purchaseOrderNumber` value that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber The purchase order identifier for the order that you want. Formatting Notes: 8-character alpha-numeric code.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1418,17 +1436,17 @@ export const VendorOrdersApiFactory = function (configuration?: Configuration, b
             return localVarFp.getPurchaseOrder(purchaseOrderNumber, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {number} [limit] The limit to the number of records returned. Default value is 100 records.
-         * @param {string} [createdAfter] Purchase orders that became available after this time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [createdBefore] Purchase orders that became available before this time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+         * @param {string} [createdAfter] Purchase orders that became available after this time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [createdBefore] Purchase orders that became available before this time will be included in the result. Must be in ISO-8601 date/time format.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort in ascending or descending order by purchase order creation date.
          * @param {string} [nextToken] Used for pagination when there is more purchase orders than the specified result size limit. The token value is returned in the previous API call
-         * @param {boolean} [includeDetails] When &#x60;true&#x60;, returns purchase orders with complete details. Otherwise, only purchase order numbers are returned. Default value is &#x60;true&#x60;.
-         * @param {string} [changedAfter] Purchase orders that changed after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [changedBefore] Purchase orders that changed before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {'Cancelled'} [poItemState] Current state of the purchase order item. If this value is &#x60;Cancelled&#x60;, this API will return purchase orders which have one or more items cancelled by Amazon with updated item quantity as zero.
-         * @param {boolean} [isPOChanged] When &#x60;true&#x60;, returns purchase orders which were modified after the order was placed. Vendors are required to pull the changed purchase order and fulfill the updated purchase order and not the original one. Default value is &#x60;false&#x60;.
+         * @param {boolean} [includeDetails] When true, returns purchase orders with complete details. Otherwise, only purchase order numbers are returned. Default value is true.
+         * @param {string} [changedAfter] Purchase orders that changed after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [changedBefore] Purchase orders that changed before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {'Cancelled'} [poItemState] Current state of the purchase order item. If this value is Cancelled, this API will return purchase orders which have one or more items cancelled by Amazon with updated item quantity as zero.
+         * @param {boolean} [isPOChanged] When true, returns purchase orders which were modified after the order was placed. Vendors are required to pull the changed purchase order and fulfill the updated purchase order and not the original one. Default value is false.
          * @param {'New' | 'Acknowledged' | 'Closed'} [purchaseOrderState] Filters purchase orders based on the purchase order state.
          * @param {string} [orderingVendorCode] Filters purchase orders based on the specified ordering vendor code. This value should be same as \&#39;sellingParty.partyId\&#39; in the purchase order. If not included in the filter, all purchase orders for all of the vendor codes that exist in the vendor group used to authorize the API client application are returned.
          * @param {*} [options] Override http request option.
@@ -1438,14 +1456,14 @@ export const VendorOrdersApiFactory = function (configuration?: Configuration, b
             return localVarFp.getPurchaseOrders(limit, createdAfter, createdBefore, sortOrder, nextToken, includeDetails, changedAfter, changedBefore, poItemState, isPOChanged, purchaseOrderState, orderingVendorCode, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {number} [limit] The limit to the number of records returned. Default value is 100 records.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort in ascending or descending order by purchase order creation date.
          * @param {string} [nextToken] Used for pagination when there are more purchase orders than the specified result size limit.
-         * @param {string} [createdAfter] Purchase orders that became available after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [createdBefore] Purchase orders that became available before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [updatedAfter] Purchase orders for which the last purchase order update happened after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+         * @param {string} [createdAfter] Purchase orders that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [createdBefore] Purchase orders that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [updatedAfter] Purchase orders for which the last purchase order update happened after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [updatedBefore] Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
          * @param {string} [purchaseOrderNumber] Provides purchase order status for the specified purchase order number.
          * @param {'OPEN' | 'CLOSED'} [purchaseOrderStatus] Filters purchase orders based on the specified purchase order status. If not included in filter, this will return purchase orders for all statuses.
          * @param {'ACCEPTED' | 'PARTIALLY_ACCEPTED' | 'REJECTED' | 'UNCONFIRMED'} [itemConfirmationStatus] Filters purchase orders based on their item confirmation status. If the item confirmation status is not included in the filter, purchase orders for all confirmation statuses are included.
@@ -1459,8 +1477,8 @@ export const VendorOrdersApiFactory = function (configuration?: Configuration, b
             return localVarFp.getPurchaseOrdersStatus(limit, sortOrder, nextToken, createdAfter, createdBefore, updatedAfter, updatedBefore, purchaseOrderNumber, purchaseOrderStatus, itemConfirmationStatus, itemReceiveStatus, orderingVendorCode, shipToPartyId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body Submits acknowledgements for one or more purchase orders from a vendor.
+         * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {SubmitAcknowledgementRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1498,14 +1516,14 @@ export interface VendorOrdersApiGetPurchaseOrdersRequest {
     readonly limit?: number
 
     /**
-     * Purchase orders that became available after this time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Purchase orders that became available after this time will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorOrdersApiGetPurchaseOrders
      */
     readonly createdAfter?: string
 
     /**
-     * Purchase orders that became available before this time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Purchase orders that became available before this time will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorOrdersApiGetPurchaseOrders
      */
@@ -1526,35 +1544,35 @@ export interface VendorOrdersApiGetPurchaseOrdersRequest {
     readonly nextToken?: string
 
     /**
-     * When &#x60;true&#x60;, returns purchase orders with complete details. Otherwise, only purchase order numbers are returned. Default value is &#x60;true&#x60;.
+     * When true, returns purchase orders with complete details. Otherwise, only purchase order numbers are returned. Default value is true.
      * @type {boolean}
      * @memberof VendorOrdersApiGetPurchaseOrders
      */
     readonly includeDetails?: boolean
 
     /**
-     * Purchase orders that changed after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Purchase orders that changed after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorOrdersApiGetPurchaseOrders
      */
     readonly changedAfter?: string
 
     /**
-     * Purchase orders that changed before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Purchase orders that changed before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorOrdersApiGetPurchaseOrders
      */
     readonly changedBefore?: string
 
     /**
-     * Current state of the purchase order item. If this value is &#x60;Cancelled&#x60;, this API will return purchase orders which have one or more items cancelled by Amazon with updated item quantity as zero.
+     * Current state of the purchase order item. If this value is Cancelled, this API will return purchase orders which have one or more items cancelled by Amazon with updated item quantity as zero.
      * @type {'Cancelled'}
      * @memberof VendorOrdersApiGetPurchaseOrders
      */
     readonly poItemState?: 'Cancelled'
 
     /**
-     * When &#x60;true&#x60;, returns purchase orders which were modified after the order was placed. Vendors are required to pull the changed purchase order and fulfill the updated purchase order and not the original one. Default value is &#x60;false&#x60;.
+     * When true, returns purchase orders which were modified after the order was placed. Vendors are required to pull the changed purchase order and fulfill the updated purchase order and not the original one. Default value is false.
      * @type {boolean}
      * @memberof VendorOrdersApiGetPurchaseOrders
      */
@@ -1603,28 +1621,28 @@ export interface VendorOrdersApiGetPurchaseOrdersStatusRequest {
     readonly nextToken?: string
 
     /**
-     * Purchase orders that became available after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Purchase orders that became available after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorOrdersApiGetPurchaseOrdersStatus
      */
     readonly createdAfter?: string
 
     /**
-     * Purchase orders that became available before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Purchase orders that became available before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorOrdersApiGetPurchaseOrdersStatus
      */
     readonly createdBefore?: string
 
     /**
-     * Purchase orders for which the last purchase order update happened after this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Purchase orders for which the last purchase order update happened after this timestamp will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorOrdersApiGetPurchaseOrdersStatus
      */
     readonly updatedAfter?: string
 
     /**
-     * Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorOrdersApiGetPurchaseOrdersStatus
      */
@@ -1680,7 +1698,7 @@ export interface VendorOrdersApiGetPurchaseOrdersStatusRequest {
  */
 export interface VendorOrdersApiSubmitAcknowledgementRequest {
     /**
-     * Submits acknowledgements for one or more purchase orders from a vendor.
+     * 
      * @type {SubmitAcknowledgementRequest}
      * @memberof VendorOrdersApiSubmitAcknowledgement
      */
@@ -1695,7 +1713,7 @@ export interface VendorOrdersApiSubmitAcknowledgementRequest {
  */
 export class VendorOrdersApi extends BaseAPI {
     /**
-     * Returns a purchase order based on the `purchaseOrderNumber` value that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a purchase order based on the `purchaseOrderNumber` value that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorOrdersApiGetPurchaseOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1706,7 +1724,7 @@ export class VendorOrdersApi extends BaseAPI {
     }
 
     /**
-     * Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a list of purchase orders created or changed during the time frame that you specify. You define the time frame using the `createdAfter`, `createdBefore`, `changedAfter` and `changedBefore` parameters. The date range to search must not be more than 7 days. You can choose to get only the purchase order numbers by setting `includeDetails` to false. You can then use the `getPurchaseOrder` operation to receive details for a specific purchase order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorOrdersApiGetPurchaseOrdersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1717,7 +1735,7 @@ export class VendorOrdersApi extends BaseAPI {
     }
 
     /**
-     * Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns purchase order statuses based on the filters that you specify. Date range to search must not be more than 7 days. You can return a list of purchase order statuses using the available filters, or a single purchase order status by providing the purchase order number.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorOrdersApiGetPurchaseOrdersStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1728,7 +1746,7 @@ export class VendorOrdersApi extends BaseAPI {
     }
 
     /**
-     * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorOrdersApiSubmitAcknowledgementRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
