@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Finances
- * The Selling Partner API for Finances helps you obtain financial information relevant to a seller\'s business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
+ * The Selling Partner API for Finances provides financial information that is relevant to a seller\'s business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range. 
  *
  * The version of the OpenAPI document: v0
  * 
@@ -28,13 +28,13 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
  */
 export interface AdhocDisbursementEvent {
     /**
-     * Indicates the type of transaction.  Example: \"Disbursed to Amazon Gift Card balance\"
+     * The type of transaction. For example, \"Disbursed to Amazon Gift Card balance\".
      * @type {string}
      * @memberof AdhocDisbursementEvent
      */
     TransactionType?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof AdhocDisbursementEvent
      */
@@ -59,13 +59,13 @@ export interface AdhocDisbursementEvent {
  */
 export interface AdjustmentEvent {
     /**
-     * The type of adjustment.  Possible values:  * FBAInventoryReimbursement - An FBA inventory reimbursement to a seller\'s account. This occurs if a seller\'s inventory is damaged.  * ReserveEvent - A reserve event that is generated at the time of a settlement period closing. This occurs when some money from a seller\'s account is held back.  * PostageBilling - The amount paid by a seller for shipping labels.  * PostageRefund - The reimbursement of shipping labels purchased for orders that were canceled or refunded.  * LostOrDamagedReimbursement - An Amazon Easy Ship reimbursement to a seller\'s account for a package that we lost or damaged.  * CanceledButPickedUpReimbursement - An Amazon Easy Ship reimbursement to a seller\'s account. This occurs when a package is picked up and the order is subsequently canceled. This value is used only in the India marketplace.  * ReimbursementClawback - An Amazon Easy Ship reimbursement clawback from a seller\'s account. This occurs when a prior reimbursement is reversed. This value is used only in the India marketplace.  * SellerRewards - An award credited to a seller\'s account for their participation in an offer in the Seller Rewards program. Applies only to the India marketplace.
+     * The type of adjustment.  Possible values:  * `FBAInventoryReimbursement`: An FBA inventory reimbursement to a seller\'s account. This occurs if a seller\'s inventory is damaged. * `ReserveEvent`: A reserve event that is generated at the time a settlement period closes. This occurs when some money from a seller\'s account is held back. * `PostageBilling`: The amount paid by a seller for shipping labels. * `PostageRefund`: The reimbursement of shipping labels purchased for orders that were canceled or refunded. * `LostOrDamagedReimbursement`: An Amazon Easy Ship reimbursement to a seller\'s account for a package that we lost or damaged. * `CanceledButPickedUpReimbursement`: An Amazon Easy Ship reimbursement to a seller\'s account. This occurs when a package is picked up and the order is subsequently canceled. This value is used only in the India marketplace. * `ReimbursementClawback`: An Amazon Easy Ship reimbursement clawback from a seller\'s account. This occurs when a prior reimbursement is reversed. This value is used only in the India marketplace. * `SellerRewards`: An award credited to a seller\'s account for their participation in an offer in the Seller Rewards program. Applies only to the India marketplace.
      * @type {string}
      * @memberof AdjustmentEvent
      */
     AdjustmentType?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof AdjustmentEvent
      */
@@ -90,7 +90,7 @@ export interface AdjustmentEvent {
  */
 export interface AdjustmentItem {
     /**
-     * Represents the number of units in the seller\'s inventory when the AdustmentType is FBAInventoryReimbursement.
+     * Represents the number of units in the seller\'s inventory when the `AdjustmentType` is `FBAInventoryReimbursement`.
      * @type {string}
      * @memberof AdjustmentItem
      */
@@ -145,19 +145,19 @@ export interface AffordabilityExpenseEvent {
      */
     AmazonOrderId?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof AffordabilityExpenseEvent
      */
     PostedDate?: string;
     /**
-     * An encrypted, Amazon-defined marketplace identifier.
+     * The Amazon-defined marketplace identifier.
      * @type {string}
      * @memberof AffordabilityExpenseEvent
      */
     MarketplaceId?: string;
     /**
-     * Indicates the type of transaction.   Possible values:  * Charge - For an affordability promotion expense.  * Refund - For an affordability promotion expense reversal.
+     * The type of transaction.   Possible values:  * `Charge`: an affordability promotion expense. * `Refund`: an affordability promotion expense reversal.
      * @type {string}
      * @memberof AffordabilityExpenseEvent
      */
@@ -200,13 +200,13 @@ export interface AffordabilityExpenseEvent {
  */
 export interface CapacityReservationBillingEvent {
     /**
-     * Indicates the type of transaction. For example, FBA Inventory Fee
+     * The transaction type. For example, FBA Inventory Fee.
      * @type {string}
      * @memberof CapacityReservationBillingEvent
      */
     TransactionType?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof CapacityReservationBillingEvent
      */
@@ -225,7 +225,7 @@ export interface CapacityReservationBillingEvent {
     TransactionAmount?: Currency;
 }
 /**
- * A charge on the seller\'s account.  Possible values:  * Principal - The selling price of the order item, equal to the selling price of the item multiplied by the quantity ordered.  * Tax - The tax collected by the seller on the Principal.  * MarketplaceFacilitatorTax-Principal - The tax withheld on the Principal.  * MarketplaceFacilitatorTax-Shipping - The tax withheld on the ShippingCharge.  * MarketplaceFacilitatorTax-Giftwrap - The tax withheld on the Giftwrap charge.  * MarketplaceFacilitatorTax-Other - The tax withheld on other miscellaneous charges.  * Discount - The promotional discount for an order item.  * TaxDiscount - The tax amount deducted for promotional rebates.  * CODItemCharge - The COD charge for an order item.  * CODItemTaxCharge - The tax collected by the seller on a CODItemCharge.  * CODOrderCharge - The COD charge for an order.  * CODOrderTaxCharge - The tax collected by the seller on a CODOrderCharge.  * CODShippingCharge - Shipping charges for a COD order.  * CODShippingTaxCharge - The tax collected by the seller on a CODShippingCharge.  * ShippingCharge - The shipping charge.  * ShippingTax - The tax collected by the seller on a ShippingCharge.  * Goodwill - The amount given to a buyer as a gesture of goodwill or to compensate for pain and suffering in the buying experience.  * Giftwrap - The gift wrap charge.  * GiftwrapTax - The tax collected by the seller on a Giftwrap charge.  * RestockingFee - The charge applied to the buyer when returning a product in certain categories.  * ReturnShipping - The amount given to the buyer to compensate for shipping the item back in the event we are at fault.  * PointsFee - The value of Amazon Points deducted from the refund if the buyer does not have enough Amazon Points to cover the deduction.  * GenericDeduction - A generic bad debt deduction.  * FreeReplacementReturnShipping - The compensation for return shipping when a buyer receives the wrong item, requests a free replacement, and returns the incorrect item.  * PaymentMethodFee - The fee collected for certain payment methods in certain marketplaces.  * ExportCharge - The export duty that is charged when an item is shipped to an international destination as part of the Amazon Global program.  * SAFE-TReimbursement - The SAFE-T claim amount for the item.  * TCS-CGST - Tax Collected at Source (TCS) for Central Goods and Services Tax (CGST).  * TCS-SGST - Tax Collected at Source for State Goods and Services Tax (SGST).  * TCS-IGST - Tax Collected at Source for Integrated Goods and Services Tax (IGST).  * TCS-UTGST - Tax Collected at Source for Union Territories Goods and Services Tax (UTGST).
+ * A charge on the seller\'s account.  Possible values:  * `Principal`: The selling price of the order item, which is equal to the selling price of the item multiplied by the quantity ordered.  * `Tax`: The tax on the principal that is collected by the seller.  * `MarketplaceFacilitatorTax-Principal`: The tax that is withheld on the principal.  * `MarketplaceFacilitatorTax-Shipping`: The tax that is withheld on the `ShippingCharge`.  * `MarketplaceFacilitatorTax-Giftwrap`: The tax that is withheld on the Giftwrap charge.  * `MarketplaceFacilitatorTax-Other`: The tax that is withheld on other miscellaneous charges.  * `Discount`: The promotional discount for an order item.  * `TaxDiscount`: The tax that is deducted for promotional rebates.  * `CODItemCharge`: The COD charge for an order item.  * `CODItemTaxCharge`: The tax that is collected by the seller on a `CODItemCharge`.  * `CODOrderCharge`: The COD charge for an order.  * `CODOrderTaxCharge`: The tax that is collected by the seller on a `CODOrderCharge`.  * `CODShippingCharge`: Shipping charges for a COD order.  * `CODShippingTaxCharge`: The tax that is collected by the seller on a `CODShippingCharge`.  * `ShippingCharge`: The shipping charge.  * `ShippingTax`: The tax that is collected by the seller on a `ShippingCharge`.  * `Goodwill`: The amount of money that is given to a buyer as a gesture of goodwill or to compensate for pain and suffering in the buying experience.  * `Giftwrap`: The gift wrap charge.  * `GiftwrapTax`: The tax that is collected by the seller on a gift wrap charge.  * `RestockingFee`: The charge that is applied to the buyer when returning a product in certain categories.  * `ReturnShipping`: The amount of money that is given to the buyer to compensate for shipping the item back if we are at fault.  * `PointsFee`: The value of Amazon Points deducted from the refund if the buyer does not have enough Amazon Points to cover the deduction.  * `GenericDeduction`: A generic bad debt deduction.  * `FreeReplacementReturnShipping`: The compensation for return shipping when a buyer receives the wrong item, requests a free replacement, and returns the incorrect item.  * `PaymentMethodFee`: The fee that is collected for certain payment methods in certain marketplaces.  * `ExportCharge`: The export duty that is charged when an item is shipped to an international destination as part of the Amazon Global program.  * `SAFE-TReimbursement`: The SAFE-T claim amount for the item.  * `TCS-CGST`: Tax Collected at Source (TCS) for Central Goods and Services Tax (CGST).  * `TCS-SGST`: Tax Collected at Source for State Goods and Services Tax (SGST).  * `TCS-IGST`: Tax Collected at Source for Integrated Goods and Services Tax (IGST).  * `TCS-UTGST`: Tax Collected at Source for Union Territories Goods and Services Tax (UTGST).
  * @export
  * @interface ChargeComponent
  */
@@ -275,19 +275,19 @@ export interface ChargeInstrument {
  */
 export interface ChargeRefundEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof ChargeRefundEvent
      */
     PostedDate?: string;
     /**
-     * The reason given for a charge refund.  Example: `SubscriptionFeeCorrection`
+     * The reason given for a charge refund. For example, `SubscriptionFeeCorrection`.
      * @type {string}
      * @memberof ChargeRefundEvent
      */
     ReasonCode?: string;
     /**
-     * A description of the Reason Code.   Example: `SubscriptionFeeCorrection`
+     * A description of the Reason Code. For example, `SubscriptionFeeCorrection`.
      * @type {string}
      * @memberof ChargeRefundEvent
      */
@@ -325,7 +325,7 @@ export interface ChargeRefundTransaction {
  */
 export interface CouponPaymentEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof CouponPaymentEvent
      */
@@ -386,7 +386,7 @@ export interface Currency {
      */
     CurrencyCode?: string;
     /**
-     * 
+     * A signed decimal number.
      * @type {number}
      * @memberof Currency
      */
@@ -399,7 +399,7 @@ export interface Currency {
  */
 export interface DebtRecoveryEvent {
     /**
-     * The debt recovery type.  Possible values:  * DebtPayment  * DebtPaymentFailure  *DebtAdjustment
+     * The debt recovery type.  Possible values:  * `DebtPayment` * `DebtPaymentFailure` * `DebtAdjustment`
      * @type {string}
      * @memberof DebtRecoveryEvent
      */
@@ -448,13 +448,13 @@ export interface DebtRecoveryItem {
      */
     OriginalAmount?: Currency;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof DebtRecoveryItem
      */
     GroupBeginDate?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof DebtRecoveryItem
      */
@@ -467,7 +467,7 @@ export interface DebtRecoveryItem {
  */
 export interface DirectPayment {
     /**
-     * The type of payment.  Possible values:  * StoredValueCardRevenue - The amount that is deducted from the seller\'s account because the seller received money through a stored value card.  * StoredValueCardRefund - The amount that Amazon returns to the seller if the order that is bought using a stored value card is refunded.  * PrivateLabelCreditCardRevenue - The amount that is deducted from the seller\'s account because the seller received money through a private label credit card offered by Amazon.  * PrivateLabelCreditCardRefund - The amount that Amazon returns to the seller if the order that is bought using a private label credit card offered by Amazon is refunded.  * CollectOnDeliveryRevenue - The COD amount that the seller collected directly from the buyer.  * CollectOnDeliveryRefund - The amount that Amazon refunds to the buyer if an order paid for by COD is refunded.
+     * The type of payment.  Possible values:  * `StoredValueCardRevenue` - The amount that is deducted from the seller\'s account because the seller received money through a stored value card.  * `StoredValueCardRefund` - The amount that Amazon returns to the seller if the order that is purchased using a stored value card is refunded.  * `PrivateLabelCreditCardRevenue` - The amount that is deducted from the seller\'s account because the seller received money through a private label credit card offered by Amazon.  * `PrivateLabelCreditCardRefund` - The amount that Amazon returns to the seller if the order that is purchased using a private label credit card offered by Amazon is refunded.  * `CollectOnDeliveryRevenue` - The COD amount that the seller collected directly from the buyer.  * `CollectOnDeliveryRefund` - The amount that Amazon refunds to the buyer if an order paid for by COD is refunded.
      * @type {string}
      * @memberof DirectPayment
      */
@@ -486,7 +486,7 @@ export interface DirectPayment {
  */
 export interface FBALiquidationEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof FBALiquidationEvent
      */
@@ -517,7 +517,7 @@ export interface FBALiquidationEvent {
  */
 export interface FailedAdhocDisbursementEvent {
     /**
-     * The type of fund transfer.   Example \"Refund\"
+     * The type of fund transfer. For example, `Refund`.
      * @type {string}
      * @memberof FailedAdhocDisbursementEvent
      */
@@ -535,13 +535,13 @@ export interface FailedAdhocDisbursementEvent {
      */
     DisbursementId?: string;
     /**
-     * The type of payment for disbursement.   Example `CREDIT_CARD`
+     * The type of payment for disbursement. For example, `CREDIT_CARD`.
      * @type {string}
      * @memberof FailedAdhocDisbursementEvent
      */
     PaymentDisbursementType?: string;
     /**
-     * The status of the failed `AdhocDisbursement`.   Example `HARD_DECLINED`
+     * The status of the failed `AdhocDisbursement`. For example, `HARD_DECLINED`.
      * @type {string}
      * @memberof FailedAdhocDisbursementEvent
      */
@@ -553,7 +553,7 @@ export interface FailedAdhocDisbursementEvent {
      */
     TransferAmount?: Currency;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof FailedAdhocDisbursementEvent
      */
@@ -591,7 +591,7 @@ export interface FinancialEventGroup {
      */
     FinancialEventGroupId?: string;
     /**
-     * The processing status of the financial event group indicates whether the balance of the financial event group is settled.  Possible values:  * Open  * Closed
+     * The processing status of the financial event group indicates whether the balance of the financial event group is settled.  Possible values:  * `Open` * `Closed`
      * @type {string}
      * @memberof FinancialEventGroup
      */
@@ -615,7 +615,7 @@ export interface FinancialEventGroup {
      */
     ConvertedTotal?: Currency;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof FinancialEventGroup
      */
@@ -639,20 +639,20 @@ export interface FinancialEventGroup {
      */
     BeginningBalance?: Currency;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof FinancialEventGroup
      */
     FinancialEventGroupStart?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof FinancialEventGroup
      */
     FinancialEventGroupEnd?: string;
 }
 /**
- * Contains all information related to a financial event.
+ * All the information that is related to a financial event.
  * @export
  * @interface FinancialEvents
  */
@@ -694,13 +694,13 @@ export interface FinancialEvents {
      */
     PayWithAmazonEventList?: Array<PayWithAmazonEvent>;
     /**
-     * A list of information about solution provider credits.
+     * A list of `SolutionProviderCreditEvent`.
      * @type {Array<SolutionProviderCreditEvent>}
      * @memberof FinancialEvents
      */
     ServiceProviderCreditEventList?: Array<SolutionProviderCreditEvent>;
     /**
-     * A list of information about Retrocharge or RetrochargeReversal events.
+     * A list of information about `Retrocharge` or `RetrochargeReversal` events.
      * @type {Array<RetrochargeEvent>}
      * @memberof FinancialEvents
      */
@@ -748,7 +748,7 @@ export interface FinancialEvents {
      */
     AdjustmentEventList?: Array<AdjustmentEvent>;
     /**
-     * A list of SAFETReimbursementEvents.
+     * A list of `SAFETReimbursementEvent`.
      * @type {Array<SAFETReimbursementEvent>}
      * @memberof FinancialEvents
      */
@@ -802,7 +802,7 @@ export interface FinancialEvents {
      */
     RemovalShipmentEventList?: Array<RemovalShipmentEvent>;
     /**
-     * A comma-delimited list of Removal shipmentAdjustment details for FBA inventory.
+     * A comma-delimited list of `RemovalShipmentAdjustment` details for FBA inventory.
      * @type {Array<RemovalShipmentAdjustmentEvent>}
      * @memberof FinancialEvents
      */
@@ -826,7 +826,7 @@ export interface FinancialEvents {
      */
     AdhocDisbursementEventList?: Array<AdhocDisbursementEvent>;
     /**
-     * A list of `TaxWithholding` events.
+     * A list of tax withholding events.
      * @type {Array<TaxWithholdingEvent>}
      * @memberof FinancialEvents
      */
@@ -838,7 +838,7 @@ export interface FinancialEvents {
      */
     ChargeRefundEventList?: Array<ChargeRefundEvent>;
     /**
-     * A list of `FailedAdhocDisbursementEvent`s.
+     * A list of `FailedAdhocDisbursementEvent`.
      * @type {Array<FailedAdhocDisbursementEvent>}
      * @memberof FinancialEvents
      */
@@ -875,7 +875,7 @@ export interface ImagingServicesFeeEvent {
      */
     ASIN?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof ImagingServicesFeeEvent
      */
@@ -888,7 +888,7 @@ export interface ImagingServicesFeeEvent {
     FeeList?: Array<FeeComponent>;
 }
 /**
- * The payload for the listFinancialEventGroups operation.
+ * The payload for the `listFinancialEventGroups` operation.
  * @export
  * @interface ListFinancialEventGroupsPayload
  */
@@ -907,7 +907,7 @@ export interface ListFinancialEventGroupsPayload {
     FinancialEventGroupList?: Array<FinancialEventGroup>;
 }
 /**
- * The response schema for the listFinancialEventGroups operation.
+ * The response schema for the `listFinancialEventGroups` operation.
  * @export
  * @interface ListFinancialEventGroupsResponse
  */
@@ -926,7 +926,7 @@ export interface ListFinancialEventGroupsResponse {
     errors?: Array<Error>;
 }
 /**
- * The payload for the listFinancialEvents operation.
+ * The payload for the `listFinancialEvents` operation.
  * @export
  * @interface ListFinancialEventsPayload
  */
@@ -945,7 +945,7 @@ export interface ListFinancialEventsPayload {
     FinancialEvents?: FinancialEvents;
 }
 /**
- * The response schema for the listFinancialEvents operation.
+ * The response schema for the `listFinancialEvents` operation.
  * @export
  * @interface ListFinancialEventsResponse
  */
@@ -976,7 +976,7 @@ export interface LoanServicingEvent {
      */
     LoanAmount?: Currency;
     /**
-     * The type of event.  Possible values:  * LoanAdvance  * LoanPayment  * LoanRefund
+     * The type of event.  Possible values:  * `LoanAdvance`  * `LoanPayment`  * `LoanRefund`
      * @type {string}
      * @memberof LoanServicingEvent
      */
@@ -1014,13 +1014,13 @@ export interface ModelError {
  */
 export interface NetworkComminglingTransactionEvent {
     /**
-     * The type of network item swap.  Possible values:  * NetCo - A Fulfillment by Amazon inventory pooling transaction. Available only in the India marketplace.  * ComminglingVAT - A commingling VAT transaction. Available only in the UK, Spain, France, Germany, and Italy marketplaces.
+     * The type of network item swap.  Possible values:  * `NetCo`: A Fulfillment by Amazon inventory pooling transaction. Available only in the India marketplace.  * `ComminglingVAT`: A commingling VAT transaction. Available only in the Spain, UK, France, Germany, and Italy marketplaces.
      * @type {string}
      * @memberof NetworkComminglingTransactionEvent
      */
     TransactionType?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof NetworkComminglingTransactionEvent
      */
@@ -1075,7 +1075,7 @@ export interface PayWithAmazonEvent {
      */
     SellerOrderId?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
@@ -1105,7 +1105,7 @@ export interface PayWithAmazonEvent {
      */
     FeeList?: Array<FeeComponent>;
     /**
-     * The type of payment.  Possible values:  * Sales
+     * The type of payment.  Possible values:  * `Sales`
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
@@ -1117,13 +1117,13 @@ export interface PayWithAmazonEvent {
      */
     AmountDescription?: string;
     /**
-     * The fulfillment channel.  Possible values:  * AFN - Amazon Fulfillment Network (Fulfillment by Amazon)  * MFN - Merchant Fulfillment Network (self-fulfilled)
+     * The fulfillment channel.  Possible values:  * `AFN`: Amazon Fulfillment Network (Fulfillment by Amazon)  * `MFN`: Merchant Fulfillment Network (self-fulfilled)
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
     FulfillmentChannel?: string;
     /**
-     * The store name where the event occurred.
+     * The name of the store where the event occurred.
      * @type {string}
      * @memberof PayWithAmazonEvent
      */
@@ -1136,19 +1136,19 @@ export interface PayWithAmazonEvent {
  */
 export interface ProductAdsPaymentEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof ProductAdsPaymentEvent
      */
     postedDate?: string;
     /**
-     * Indicates if the transaction is for a charge or a refund.  Possible values:  * charge - Charge  * refund - Refund
+     * Indicates if the transaction is for a charge or a refund.  Possible values:  * `charge`  * `refund`
      * @type {string}
      * @memberof ProductAdsPaymentEvent
      */
     transactionType?: string;
     /**
-     * Identifier for the invoice that the transaction appears in.
+     * The identifier for the invoice that includes the transaction.
      * @type {string}
      * @memberof ProductAdsPaymentEvent
      */
@@ -1204,7 +1204,7 @@ export interface Promotion {
  */
 export interface RemovalShipmentAdjustmentEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof RemovalShipmentAdjustmentEvent
      */
@@ -1228,13 +1228,13 @@ export interface RemovalShipmentAdjustmentEvent {
      */
     OrderId?: string;
     /**
-     * The type of removal order.  Possible values:  * WHOLESALE_LIQUIDATION.
+     * The type of removal order.  Possible values:  * `WHOLESALE_LIQUIDATION`.
      * @type {string}
      * @memberof RemovalShipmentAdjustmentEvent
      */
     TransactionType?: string;
     /**
-     * A comma-delimited list of Removal shipmentItemAdjustment details for FBA inventory.
+     * A comma-delimited list of `RemovalShipmentItemAdjustment` details for FBA inventory.
      * @type {Array<RemovalShipmentItemAdjustment>}
      * @memberof RemovalShipmentAdjustmentEvent
      */
@@ -1247,13 +1247,13 @@ export interface RemovalShipmentAdjustmentEvent {
  */
 export interface RemovalShipmentEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof RemovalShipmentEvent
      */
     PostedDate?: string;
     /**
-     * The merchant removal orderId.
+     * The merchant removal `orderId`.
      * @type {string}
      * @memberof RemovalShipmentEvent
      */
@@ -1265,13 +1265,19 @@ export interface RemovalShipmentEvent {
      */
     OrderId?: string;
     /**
-     * The type of removal order.  Possible values:  * WHOLESALE_LIQUIDATION
+     * The type of removal order.  Possible values:  * `WHOLESALE_LIQUIDATION`
      * @type {string}
      * @memberof RemovalShipmentEvent
      */
     TransactionType?: string;
     /**
-     * A list of information about removal shipment items.
+     * The name of the store where the event occurred.
+     * @type {string}
+     * @memberof RemovalShipmentEvent
+     */
+    StoreName?: string;
+    /**
+     * A list of `RemovalShipmentItem`.
      * @type {Array<RemovalShipmentItem>}
      * @memberof RemovalShipmentEvent
      */
@@ -1290,7 +1296,7 @@ export interface RemovalShipmentItem {
      */
     RemovalShipmentItemId?: string;
     /**
-     * The tax collection model applied to the item.  Possible values:  * MarketplaceFacilitator - Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller.  * Standard - Tax is paid to the seller and not remitted to the taxing authority by Amazon.
+     * The tax collection model that is applied to the item.  Possible values:  * `MarketplaceFacilitator`: Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller. * `Standard`: Tax is paid to the seller and not remitted to the taxing authority by Amazon.
      * @type {string}
      * @memberof RemovalShipmentItem
      */
@@ -1345,7 +1351,7 @@ export interface RemovalShipmentItemAdjustment {
      */
     RemovalShipmentItemId?: string;
     /**
-     * The tax collection model applied to the item.  Possible values:  * MarketplaceFacilitator - Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller.  * Standard - Tax is paid to the seller and not remitted to the taxing authority by Amazon.
+     * The tax collection model that is applied to the item.  Possible values:  * `MarketplaceFacilitator`: Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller. * `Standard`: Tax is paid to the seller and not remitted to the taxing authority by Amazon.
      * @type {string}
      * @memberof RemovalShipmentItemAdjustment
      */
@@ -1357,7 +1363,7 @@ export interface RemovalShipmentItemAdjustment {
      */
     FulfillmentNetworkSKU?: string;
     /**
-     * Adjusted quantity of removal shipmentItemAdjustment items.
+     * Adjusted quantity of `RemovalShipmentItemAdjustment` items.
      * @type {number}
      * @memberof RemovalShipmentItemAdjustment
      */
@@ -1394,19 +1400,19 @@ export interface RentalTransactionEvent {
      */
     AmazonOrderId?: string;
     /**
-     * The type of rental event.  Possible values:  * RentalCustomerPayment-Buyout - Transaction type that represents when the customer wants to buy out a rented item.  * RentalCustomerPayment-Extension - Transaction type that represents when the customer wants to extend the rental period.  * RentalCustomerRefund-Buyout - Transaction type that represents when the customer requests a refund for the buyout of the rented item.  * RentalCustomerRefund-Extension - Transaction type that represents when the customer requests a refund over the extension on the rented item.  * RentalHandlingFee - Transaction type that represents the fee that Amazon charges sellers who rent through Amazon.  * RentalChargeFailureReimbursement - Transaction type that represents when Amazon sends money to the seller to compensate for a failed charge.  * RentalLostItemReimbursement - Transaction type that represents when Amazon sends money to the seller to compensate for a lost item.
+     * The type of rental event.  Possible values:  * `RentalCustomerPayment-Buyout`: A transaction type that represents when the customer wants to buy out a rented item.  * `RentalCustomerPayment-Extension`: A transaction type that represents when the customer wants to extend the rental period.  * `RentalCustomerRefund-Buyout`: A transaction type that represents when the customer requests a refund for the buyout of the rented item.  * `RentalCustomerRefund-Extension`: A transaction type that represents when the customer requests a refund over the extension on the rented item.  * `RentalHandlingFee`: A transaction type that represents the fee that Amazon charges sellers who rent through Amazon.  * `RentalChargeFailureReimbursement`: A transaction type that represents when Amazon sends money to the seller to compensate for a failed charge.  * `RentalLostItemReimbursement`: A transaction type that represents when Amazon sends money to the seller to compensate for a lost item.
      * @type {string}
      * @memberof RentalTransactionEvent
      */
     RentalEventType?: string;
     /**
-     * The number of days that the buyer extended an already rented item. This value is only returned for RentalCustomerPayment-Extension and RentalCustomerRefund-Extension events.
+     * The number of days that the buyer extended an already rented item. This value is only returned for `RentalCustomerPayment-Extension` and `RentalCustomerRefund-Extension` events.
      * @type {number}
      * @memberof RentalTransactionEvent
      */
     ExtensionLength?: number;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof RentalTransactionEvent
      */
@@ -1455,7 +1461,7 @@ export interface RentalTransactionEvent {
  */
 export interface RetrochargeEvent {
     /**
-     * The type of event.  Possible values:  * Retrocharge  * RetrochargeReversal
+     * The type of event.  Possible values:  * `Retrocharge`  * `RetrochargeReversal`
      * @type {string}
      * @memberof RetrochargeEvent
      */
@@ -1467,7 +1473,7 @@ export interface RetrochargeEvent {
      */
     AmazonOrderId?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof RetrochargeEvent
      */
@@ -1504,7 +1510,7 @@ export interface RetrochargeEvent {
  */
 export interface SAFETReimbursementEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof SAFETReimbursementEvent
      */
@@ -1528,7 +1534,7 @@ export interface SAFETReimbursementEvent {
      */
     ReasonCode?: string;
     /**
-     * A list of SAFETReimbursementItems.
+     * A list of `SAFETReimbursementItem`.
      * @type {Array<SAFETReimbursementItem>}
      * @memberof SAFETReimbursementEvent
      */
@@ -1566,7 +1572,7 @@ export interface SAFETReimbursementItem {
  */
 export interface SellerDealPaymentEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof SellerDealPaymentEvent
      */
@@ -1584,13 +1590,13 @@ export interface SellerDealPaymentEvent {
      */
     dealDescription?: string;
     /**
-     * The type of event: SellerDealComplete.
+     * The type of event: `SellerDealComplete`.
      * @type {string}
      * @memberof SellerDealPaymentEvent
      */
     eventType?: string;
     /**
-     * The type of fee: RunLightningDealFee.
+     * The type of fee: `RunLightningDealFee`.
      * @type {string}
      * @memberof SellerDealPaymentEvent
      */
@@ -1621,7 +1627,7 @@ export interface SellerDealPaymentEvent {
  */
 export interface SellerReviewEnrollmentPaymentEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof SellerReviewEnrollmentPaymentEvent
      */
@@ -1705,6 +1711,12 @@ export interface ServiceFeeEvent {
      * @memberof ServiceFeeEvent
      */
     ASIN?: string;
+    /**
+     * The name of the store where the event occurred.
+     * @type {string}
+     * @memberof ServiceFeeEvent
+     */
+    StoreName?: string;
 }
 /**
  * A shipment, refund, guarantee claim, or chargeback.
@@ -1730,6 +1742,12 @@ export interface ShipmentEvent {
      * @memberof ShipmentEvent
      */
     MarketplaceName?: string;
+    /**
+     * The name of the store where the event occurred.
+     * @type {string}
+     * @memberof ShipmentEvent
+     */
+    StoreName?: string;
     /**
      * A list of charge information on the seller\'s account.
      * @type {Array<ChargeComponent>}
@@ -1773,7 +1791,7 @@ export interface ShipmentEvent {
      */
     DirectPaymentList?: Array<DirectPayment>;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof ShipmentEvent
      */
@@ -1937,7 +1955,7 @@ export interface SolutionProviderCreditEvent {
      */
     TransactionAmount?: Currency;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof SolutionProviderCreditEvent
      */
@@ -1950,7 +1968,7 @@ export interface SolutionProviderCreditEvent {
  */
 export interface TDSReimbursementEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof TDSReimbursementEvent
      */
@@ -1975,7 +1993,7 @@ export interface TDSReimbursementEvent {
  */
 export interface TaxWithheldComponent {
     /**
-     * The tax collection model applied to the item.  Possible values:  * MarketplaceFacilitator - Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller.  * Standard - Tax is paid to the seller and not remitted to the taxing authority by Amazon.
+     * The tax collection model applied to the item.  Possible values:  * `MarketplaceFacilitator`: Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller. * `Standard`: Tax is paid to the seller and not remitted to the taxing authority by Amazon.
      * @type {string}
      * @memberof TaxWithheldComponent
      */
@@ -1988,13 +2006,13 @@ export interface TaxWithheldComponent {
     TaxesWithheld?: Array<ChargeComponent>;
 }
 /**
- * A TaxWithholding event on seller\'s account.
+ * A tax withholding event on a seller\'s account.
  * @export
  * @interface TaxWithholdingEvent
  */
 export interface TaxWithholdingEvent {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof TaxWithholdingEvent
      */
@@ -2019,19 +2037,19 @@ export interface TaxWithholdingEvent {
     TaxWithholdingPeriod?: TaxWithholdingPeriod;
 }
 /**
- * Period which taxwithholding on seller\'s account is calculated.
+ * The period during which tax withholding on a seller\'s account is calculated.
  * @export
  * @interface TaxWithholdingPeriod
  */
 export interface TaxWithholdingPeriod {
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof TaxWithholdingPeriod
      */
     StartDate?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof TaxWithholdingPeriod
      */
@@ -2056,7 +2074,7 @@ export interface TrialShipmentEvent {
      */
     FinancialEventGroupId?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof TrialShipmentEvent
      */
@@ -2081,13 +2099,13 @@ export interface TrialShipmentEvent {
  */
 export interface ValueAddedServiceChargeEvent {
     /**
-     * Indicates the type of transaction.  Example: \'Other Support Service fees\'
+     * The transaction type. For example, \'Other Support Service fees\'
      * @type {string}
      * @memberof ValueAddedServiceChargeEvent
      */
     TransactionType?: string;
     /**
-     * 
+     * A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
      * @type {string}
      * @memberof ValueAddedServiceChargeEvent
      */
@@ -2113,11 +2131,11 @@ export interface ValueAddedServiceChargeEvent {
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns financial event groups for a given date range. It may take up to 48 hours for orders to appear in your financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
-         * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * Returns financial event groups for a given date range. Orders from the last 48 hours might not be included in financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
+         * @param {number} [maxResultsPerPage] The maximum number of results per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [financialEventGroupStartedBefore] A date that selects financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be after &#x60;FinancialEventGroupStartedAfter&#x60; and more than two minutes before the time of request. If &#x60;FinancialEventGroupStartedAfter&#x60; and &#x60;FinancialEventGroupStartedBefore&#x60; are more than 180 days apart, no financial event groups are returned.
+         * @param {string} [financialEventGroupStartedAfter] A date that selects financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be more than two minutes before you submit the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2166,11 +2184,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Returns financial events for the specified data range. It may take up to 48 hours for orders to appear in your financial events. **Note:** in `ListFinancialEvents`, deferred events don\'t show up in responses until in they are released.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
-         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * Returns financial events for the specified data range. Orders from the last 48 hours might not be included in financial events.  **Note:** in `ListFinancialEvents`, deferred events don\'t show up in responses until in they are released.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [postedAfter] The response includes financial events posted after (or on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request.
+         * @param {string} [postedBefore] The response includes financial events posted before (but not on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.  The date-time must be later than &#x60;PostedAfter&#x60; and more than two minutes before the request was submitted. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, the response is empty. If you include the &#x60;PostedBefore&#x60; parameter in your request, you must also specify the &#x60;PostedAfter&#x60; parameter.  **Default:** Two minutes before the time of the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2219,12 +2237,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Returns all financial events for the specified financial event group. It may take up to 48 hours for orders to appear in your financial events.  **Note:** This operation will only retrieve group\'s data for the past two years. If a request is submitted for data spanning more than two years, an empty response is returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns all financial events for the specified financial event group. Orders from the last 48 hours might not be included in financial events.  **Note:** This operation only retrieves a group\'s data for the past two years. A request for data spanning more than two years produces an empty response.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
          * @param {string} eventGroupId The identifier of the financial event group to which the events belong.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
-         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [postedAfter] The response includes financial events posted after (or on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request.
+         * @param {string} [postedBefore] The response includes financial events posted before (but not on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.  The date-time must be later than &#x60;PostedAfter&#x60; and more than two minutes before the requestd was submitted. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, the response is empty. If you include the &#x60;PostedBefore&#x60; parameter in your request, you must also specify the &#x60;PostedAfter&#x60; parameter.  **Default:** Two minutes before the time of the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2276,10 +2294,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Returns all financial events for the specified order. It may take up to 48 hours for orders to appear in your financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns all financial events for the specified order. Orders from the last 48 hours might not be included in financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2329,11 +2347,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns financial event groups for a given date range. It may take up to 48 hours for orders to appear in your financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
-         * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * Returns financial event groups for a given date range. Orders from the last 48 hours might not be included in financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
+         * @param {number} [maxResultsPerPage] The maximum number of results per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [financialEventGroupStartedBefore] A date that selects financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be after &#x60;FinancialEventGroupStartedAfter&#x60; and more than two minutes before the time of request. If &#x60;FinancialEventGroupStartedAfter&#x60; and &#x60;FinancialEventGroupStartedBefore&#x60; are more than 180 days apart, no financial event groups are returned.
+         * @param {string} [financialEventGroupStartedAfter] A date that selects financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be more than two minutes before you submit the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2342,11 +2360,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns financial events for the specified data range. It may take up to 48 hours for orders to appear in your financial events. **Note:** in `ListFinancialEvents`, deferred events don\'t show up in responses until in they are released.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
-         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * Returns financial events for the specified data range. Orders from the last 48 hours might not be included in financial events.  **Note:** in `ListFinancialEvents`, deferred events don\'t show up in responses until in they are released.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [postedAfter] The response includes financial events posted after (or on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request.
+         * @param {string} [postedBefore] The response includes financial events posted before (but not on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.  The date-time must be later than &#x60;PostedAfter&#x60; and more than two minutes before the request was submitted. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, the response is empty. If you include the &#x60;PostedBefore&#x60; parameter in your request, you must also specify the &#x60;PostedAfter&#x60; parameter.  **Default:** Two minutes before the time of the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2355,12 +2373,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns all financial events for the specified financial event group. It may take up to 48 hours for orders to appear in your financial events.  **Note:** This operation will only retrieve group\'s data for the past two years. If a request is submitted for data spanning more than two years, an empty response is returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns all financial events for the specified financial event group. Orders from the last 48 hours might not be included in financial events.  **Note:** This operation only retrieves a group\'s data for the past two years. A request for data spanning more than two years produces an empty response.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
          * @param {string} eventGroupId The identifier of the financial event group to which the events belong.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
-         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [postedAfter] The response includes financial events posted after (or on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request.
+         * @param {string} [postedBefore] The response includes financial events posted before (but not on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.  The date-time must be later than &#x60;PostedAfter&#x60; and more than two minutes before the requestd was submitted. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, the response is empty. If you include the &#x60;PostedBefore&#x60; parameter in your request, you must also specify the &#x60;PostedAfter&#x60; parameter.  **Default:** Two minutes before the time of the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2369,10 +2387,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns all financial events for the specified order. It may take up to 48 hours for orders to appear in your financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns all financial events for the specified order. Orders from the last 48 hours might not be included in financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2391,11 +2409,11 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     const localVarFp = DefaultApiFp(configuration)
     return {
         /**
-         * Returns financial event groups for a given date range. It may take up to 48 hours for orders to appear in your financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [financialEventGroupStartedBefore] A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
-         * @param {string} [financialEventGroupStartedAfter] A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * Returns financial event groups for a given date range. Orders from the last 48 hours might not be included in financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
+         * @param {number} [maxResultsPerPage] The maximum number of results per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [financialEventGroupStartedBefore] A date that selects financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be after &#x60;FinancialEventGroupStartedAfter&#x60; and more than two minutes before the time of request. If &#x60;FinancialEventGroupStartedAfter&#x60; and &#x60;FinancialEventGroupStartedBefore&#x60; are more than 180 days apart, no financial event groups are returned.
+         * @param {string} [financialEventGroupStartedAfter] A date that selects financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be more than two minutes before you submit the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2403,11 +2421,11 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.listFinancialEventGroups(maxResultsPerPage, financialEventGroupStartedBefore, financialEventGroupStartedAfter, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns financial events for the specified data range. It may take up to 48 hours for orders to appear in your financial events. **Note:** in `ListFinancialEvents`, deferred events don\'t show up in responses until in they are released.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
-         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * Returns financial events for the specified data range. Orders from the last 48 hours might not be included in financial events.  **Note:** in `ListFinancialEvents`, deferred events don\'t show up in responses until in they are released.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [postedAfter] The response includes financial events posted after (or on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request.
+         * @param {string} [postedBefore] The response includes financial events posted before (but not on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.  The date-time must be later than &#x60;PostedAfter&#x60; and more than two minutes before the request was submitted. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, the response is empty. If you include the &#x60;PostedBefore&#x60; parameter in your request, you must also specify the &#x60;PostedAfter&#x60; parameter.  **Default:** Two minutes before the time of the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2415,12 +2433,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.listFinancialEvents(maxResultsPerPage, postedAfter, postedBefore, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns all financial events for the specified financial event group. It may take up to 48 hours for orders to appear in your financial events.  **Note:** This operation will only retrieve group\'s data for the past two years. If a request is submitted for data spanning more than two years, an empty response is returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns all financial events for the specified financial event group. Orders from the last 48 hours might not be included in financial events.  **Note:** This operation only retrieves a group\'s data for the past two years. A request for data spanning more than two years produces an empty response.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
          * @param {string} eventGroupId The identifier of the financial event group to which the events belong.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [postedAfter] A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
-         * @param {string} [postedBefore] A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [postedAfter] The response includes financial events posted after (or on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request.
+         * @param {string} [postedBefore] The response includes financial events posted before (but not on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.  The date-time must be later than &#x60;PostedAfter&#x60; and more than two minutes before the requestd was submitted. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, the response is empty. If you include the &#x60;PostedBefore&#x60; parameter in your request, you must also specify the &#x60;PostedAfter&#x60; parameter.  **Default:** Two minutes before the time of the request.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2428,10 +2446,10 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.listFinancialEventsByGroupId(eventGroupId, maxResultsPerPage, postedAfter, postedBefore, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns all financial events for the specified order. It may take up to 48 hours for orders to appear in your financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns all financial events for the specified order. Orders from the last 48 hours might not be included in financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
-         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {number} [maxResultsPerPage] The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
+         * @param {string} [nextToken] The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2448,28 +2466,28 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  */
 export interface DefaultApiListFinancialEventGroupsRequest {
     /**
-     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
+     * The maximum number of results per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
      * @type {number}
      * @memberof DefaultApiListFinancialEventGroups
      */
     readonly maxResultsPerPage?: number
 
     /**
-     * A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
+     * A date that selects financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be after &#x60;FinancialEventGroupStartedAfter&#x60; and more than two minutes before the time of request. If &#x60;FinancialEventGroupStartedAfter&#x60; and &#x60;FinancialEventGroupStartedBefore&#x60; are more than 180 days apart, no financial event groups are returned.
      * @type {string}
      * @memberof DefaultApiListFinancialEventGroups
      */
     readonly financialEventGroupStartedBefore?: string
 
     /**
-     * A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted.
+     * A date that selects financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be more than two minutes before you submit the request.
      * @type {string}
      * @memberof DefaultApiListFinancialEventGroups
      */
     readonly financialEventGroupStartedAfter?: string
 
     /**
-     * A string token returned in the response of your previous request.
+     * The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
      * @type {string}
      * @memberof DefaultApiListFinancialEventGroups
      */
@@ -2483,28 +2501,28 @@ export interface DefaultApiListFinancialEventGroupsRequest {
  */
 export interface DefaultApiListFinancialEventsRequest {
     /**
-     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
+     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
      * @type {number}
      * @memberof DefaultApiListFinancialEvents
      */
     readonly maxResultsPerPage?: number
 
     /**
-     * A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
+     * The response includes financial events posted after (or on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request.
      * @type {string}
      * @memberof DefaultApiListFinancialEvents
      */
     readonly postedAfter?: string
 
     /**
-     * A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
+     * The response includes financial events posted before (but not on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.  The date-time must be later than &#x60;PostedAfter&#x60; and more than two minutes before the request was submitted. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, the response is empty. If you include the &#x60;PostedBefore&#x60; parameter in your request, you must also specify the &#x60;PostedAfter&#x60; parameter.  **Default:** Two minutes before the time of the request.
      * @type {string}
      * @memberof DefaultApiListFinancialEvents
      */
     readonly postedBefore?: string
 
     /**
-     * A string token returned in the response of your previous request.
+     * The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
      * @type {string}
      * @memberof DefaultApiListFinancialEvents
      */
@@ -2525,28 +2543,28 @@ export interface DefaultApiListFinancialEventsByGroupIdRequest {
     readonly eventGroupId: string
 
     /**
-     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
+     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
      * @type {number}
      * @memberof DefaultApiListFinancialEventsByGroupId
      */
     readonly maxResultsPerPage?: number
 
     /**
-     * A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
+     * The response includes financial events posted after (or on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request.
      * @type {string}
      * @memberof DefaultApiListFinancialEventsByGroupId
      */
     readonly postedAfter?: string
 
     /**
-     * A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes.
+     * The response includes financial events posted before (but not on) this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.  The date-time must be later than &#x60;PostedAfter&#x60; and more than two minutes before the requestd was submitted. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, the response is empty. If you include the &#x60;PostedBefore&#x60; parameter in your request, you must also specify the &#x60;PostedAfter&#x60; parameter.  **Default:** Two minutes before the time of the request.
      * @type {string}
      * @memberof DefaultApiListFinancialEventsByGroupId
      */
     readonly postedBefore?: string
 
     /**
-     * A string token returned in the response of your previous request.
+     * The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
      * @type {string}
      * @memberof DefaultApiListFinancialEventsByGroupId
      */
@@ -2567,14 +2585,14 @@ export interface DefaultApiListFinancialEventsByOrderIdRequest {
     readonly orderId: string
 
     /**
-     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with \&#39;InvalidInput\&#39;.
+     * The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the response is &#x60;InvalidInput&#x60;.
      * @type {number}
      * @memberof DefaultApiListFinancialEventsByOrderId
      */
     readonly maxResultsPerPage?: number
 
     /**
-     * A string token returned in the response of your previous request.
+     * The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
      * @type {string}
      * @memberof DefaultApiListFinancialEventsByOrderId
      */
@@ -2589,7 +2607,7 @@ export interface DefaultApiListFinancialEventsByOrderIdRequest {
  */
 export class DefaultApi extends BaseAPI {
     /**
-     * Returns financial event groups for a given date range. It may take up to 48 hours for orders to appear in your financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns financial event groups for a given date range. Orders from the last 48 hours might not be included in financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
      * @param {DefaultApiListFinancialEventGroupsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2600,7 +2618,7 @@ export class DefaultApi extends BaseAPI {
     }
 
     /**
-     * Returns financial events for the specified data range. It may take up to 48 hours for orders to appear in your financial events. **Note:** in `ListFinancialEvents`, deferred events don\'t show up in responses until in they are released.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns financial events for the specified data range. Orders from the last 48 hours might not be included in financial events.  **Note:** in `ListFinancialEvents`, deferred events don\'t show up in responses until in they are released.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
      * @param {DefaultApiListFinancialEventsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2611,7 +2629,7 @@ export class DefaultApi extends BaseAPI {
     }
 
     /**
-     * Returns all financial events for the specified financial event group. It may take up to 48 hours for orders to appear in your financial events.  **Note:** This operation will only retrieve group\'s data for the past two years. If a request is submitted for data spanning more than two years, an empty response is returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns all financial events for the specified financial event group. Orders from the last 48 hours might not be included in financial events.  **Note:** This operation only retrieves a group\'s data for the past two years. A request for data spanning more than two years produces an empty response.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
      * @param {DefaultApiListFinancialEventsByGroupIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2622,7 +2640,7 @@ export class DefaultApi extends BaseAPI {
     }
 
     /**
-     * Returns all financial events for the specified order. It may take up to 48 hours for orders to appear in your financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns all financial events for the specified order. Orders from the last 48 hours might not be included in financial events.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits).
      * @param {DefaultApiListFinancialEventsByOrderIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

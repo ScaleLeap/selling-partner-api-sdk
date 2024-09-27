@@ -160,6 +160,19 @@ export interface AddressExtendedFields {
     Neighborhood?: string;
 }
 /**
+ * Contains the list of programs that are associated with an item.  Possible programs are:  - **Subscribe and Save**: Offers recurring, scheduled deliveries to Amazon customers and Amazon Business customers for their frequently ordered products.
+ * @export
+ * @interface AmazonPrograms
+ */
+export interface AmazonPrograms {
+    /**
+     * A list of the programs that are associated with the specified order item.  **Possible values**: `SUBSCRIBE_AND_SAVE`
+     * @type {Array<string>}
+     * @memberof AmazonPrograms
+     */
+    Programs: Array<string>;
+}
+/**
  * An item that is associated with an order item. For example, a tire installation service that is purchased with tires.
  * @export
  * @interface AssociatedItem
@@ -565,162 +578,6 @@ export interface FulfillmentInstruction {
     FulfillmentSupplySourceId?: string;
 }
 /**
- * Contains all fulfillment plans for the order
- * @export
- * @interface FulfillmentInstructions
- */
-export interface FulfillmentInstructions {
-    /**
-     * List of all fulfillment plans for the given order id
-     * @type {Array<FulfillmentPlan>}
-     * @memberof FulfillmentInstructions
-     */
-    FulfillmentPlans?: Array<FulfillmentPlan>;
-    /**
-     * An Amazon-defined order identifier, in 3-7-7 format.
-     * @type {string}
-     * @memberof FulfillmentInstructions
-     */
-    AmazonOrderId: string;
-}
-/**
- * Represents a location from which the plan is to be fulfilled.
- * @export
- * @interface FulfillmentLocation
- */
-export interface FulfillmentLocation {
-    /**
-     * The fulfillment location identifier.
-     * @type {string}
-     * @memberof FulfillmentLocation
-     */
-    SupplySourceId?: string;
-}
-/**
- * A collection of order items that are to be fulfilled from the same location with the same shipping, pickup, and service instructions.
- * @export
- * @interface FulfillmentPlan
- */
-export interface FulfillmentPlan {
-    /**
-     * Unique identifier for a fulfillment plan.
-     * @type {string}
-     * @memberof FulfillmentPlan
-     */
-    FulfillmentPlanId: string;
-    /**
-     * Time when the fulfillment plan was created in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
-     * @type {string}
-     * @memberof FulfillmentPlan
-     */
-    CreationDate: string;
-    /**
-     * Type of fulfillment
-     * @type {string}
-     * @memberof FulfillmentPlan
-     */
-    FulfillmentType: FulfillmentPlanFulfillmentTypeEnum | 'INSTORE_PICKUP' | 'SERVICE' | 'SHIP';
-    /**
-     * The fulfillment plan status.
-     * @type {string}
-     * @memberof FulfillmentPlan
-     */
-    FulfillmentPlanStatus: FulfillmentPlanFulfillmentPlanStatusEnum | 'ACTIVE' | 'ABORTED' | 'COMPLETED' | 'PARTIALLY_FULFILLED';
-    /**
-     * The time when the fulfillment plan\'s status was last updated in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.
-     * @type {string}
-     * @memberof FulfillmentPlan
-     */
-    LastStatusUpdateDate: string;
-    /**
-     * 
-     * @type {FulfillmentLocation}
-     * @memberof FulfillmentPlan
-     */
-    FulfillmentLocation?: FulfillmentLocation;
-    /**
-     * 
-     * @type {ShippingInstructions}
-     * @memberof FulfillmentPlan
-     */
-    ShippingInstructions?: ShippingInstructions;
-    /**
-     * The details of the order items that are included in the fulfillment plan.
-     * @type {Array<FulfillmentPlanItem>}
-     * @memberof FulfillmentPlan
-     */
-    FulfillmentPlanItems: Array<FulfillmentPlanItem>;
-}
-
-/**
-    * @export
-    * @enum {string}
-    */
-export enum FulfillmentPlanFulfillmentTypeEnum {
-    InstorePickup = 'INSTORE_PICKUP',
-    Service = 'SERVICE',
-    Ship = 'SHIP'
-}
-/**
-    * @export
-    * @enum {string}
-    */
-export enum FulfillmentPlanFulfillmentPlanStatusEnum {
-    Active = 'ACTIVE',
-    Aborted = 'ABORTED',
-    Completed = 'COMPLETED',
-    PartiallyFulfilled = 'PARTIALLY_FULFILLED'
-}
-
-/**
- * Details the importance of the constraint present on the item.
- * @export
- * @enum {string}
- */
-export enum FulfillmentPlanConstraintType {
-    Mandatory = 'MANDATORY',
-    Recommended = 'RECOMMENDED'
-}
-
-/**
- * The order items associated with this fulfillment plan.
- * @export
- * @interface FulfillmentPlanItem
- */
-export interface FulfillmentPlanItem {
-    /**
-     * An Amazon-defined associated order item\'s order item identifier.
-     * @type {string}
-     * @memberof FulfillmentPlanItem
-     */
-    OrderItemId: string;
-    /**
-     * 
-     * @type {Measurement}
-     * @memberof FulfillmentPlanItem
-     */
-    Measurement: Measurement;
-}
-/**
- * Delivery constraints applicable to this order.
- * @export
- * @interface FulfillmentPlanShippingConstraints
- */
-export interface FulfillmentPlanShippingConstraints {
-    /**
-     * 
-     * @type {FulfillmentPlanConstraintType}
-     * @memberof FulfillmentPlanShippingConstraints
-     */
-    PalletDelivery?: FulfillmentPlanConstraintType | 'MANDATORY' | 'RECOMMENDED';
-    /**
-     * 
-     * @type {FulfillmentPlanConstraintType}
-     * @memberof FulfillmentPlanShippingConstraints
-     */
-    SignatureConfirmation?: FulfillmentPlanConstraintType | 'MANDATORY' | 'RECOMMENDED';
-}
-/**
  * The response schema for the `getOrderAddress` operation.
  * @export
  * @interface GetOrderAddressResponse
@@ -755,25 +612,6 @@ export interface GetOrderBuyerInfoResponse {
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
      * @memberof GetOrderBuyerInfoResponse
-     */
-    errors?: Array<Error>;
-}
-/**
- * The response schema for the `getOrderFulfillmentInstructions` operation.
- * @export
- * @interface GetOrderFulfillmentInstructionsResponse
- */
-export interface GetOrderFulfillmentInstructionsResponse {
-    /**
-     * 
-     * @type {FulfillmentInstructions}
-     * @memberof GetOrderFulfillmentInstructionsResponse
-     */
-    payload?: FulfillmentInstructions;
-    /**
-     * A list of error responses returned when a request is unsuccessful.
-     * @type {Array<Error>}
-     * @memberof GetOrderFulfillmentInstructionsResponse
      */
     errors?: Array<Error>;
 }
@@ -1710,6 +1548,12 @@ export interface OrderItem {
      * @memberof OrderItem
      */
     ShippingConstraints?: ShippingConstraints;
+    /**
+     * 
+     * @type {AmazonPrograms}
+     * @memberof OrderItem
+     */
+    AmazonPrograms?: AmazonPrograms;
 }
 
 /**
@@ -2226,31 +2070,6 @@ export interface ShippingConstraints {
     RecipientAgeVerification?: ConstraintType | 'MANDATORY';
 }
 /**
- * The shipping-related information of a delivery.
- * @export
- * @interface ShippingInstructions
- */
-export interface ShippingInstructions {
-    /**
-     * The name of the carrier that delivers the package.
-     * @type {string}
-     * @memberof ShippingInstructions
-     */
-    CarrierCode?: string;
-    /**
-     * The ship method that is used for the order.
-     * @type {string}
-     * @memberof ShippingInstructions
-     */
-    ShippingMethod?: string;
-    /**
-     * 
-     * @type {FulfillmentPlanShippingConstraints}
-     * @memberof ShippingInstructions
-     */
-    ShippingConstraints?: FulfillmentPlanShippingConstraints;
-}
-/**
  * Substitution options for an order item.
  * @export
  * @interface SubstitutionOption
@@ -2657,39 +2476,6 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Returns the fulfillment instructions for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOrderFulfillmentInstructions: async (orderId: string, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'orderId' is not null or undefined
-            assertParamExists('getOrderFulfillmentInstructions', 'orderId', orderId)
-            const localVarPath = `/orders/v0/orders/{orderId}/fulfillmentInstructions`
-                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  __Note__: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
@@ -3030,16 +2816,6 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the fulfillment instructions for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getOrderFulfillmentInstructions(orderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderFulfillmentInstructionsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderFulfillmentInstructions(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
          * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  __Note__: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
          * @param {string} [nextToken] A string token returned in the response of your previous request.
@@ -3159,15 +2935,6 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          */
         getOrderBuyerInfo(orderId: string, options?: any): AxiosPromise<GetOrderBuyerInfoResponse> {
             return localVarFp.getOrderBuyerInfo(orderId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Returns the fulfillment instructions for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOrderFulfillmentInstructions(orderId: string, options?: any): AxiosPromise<GetOrderFulfillmentInstructionsResponse> {
-            return localVarFp.getOrderFulfillmentInstructions(orderId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns detailed order item information for the order that you specify. If `NextToken` is provided, it\'s used to retrieve the next page of order items.  __Note__: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
@@ -3300,20 +3067,6 @@ export interface OrdersV0ApiGetOrderBuyerInfoRequest {
      * An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format.
      * @type {string}
      * @memberof OrdersV0ApiGetOrderBuyerInfo
-     */
-    readonly orderId: string
-}
-
-/**
- * Request parameters for getOrderFulfillmentInstructions operation in OrdersV0Api.
- * @export
- * @interface OrdersV0ApiGetOrderFulfillmentInstructionsRequest
- */
-export interface OrdersV0ApiGetOrderFulfillmentInstructionsRequest {
-    /**
-     * An Amazon-defined order identifier, in 3-7-7 format.
-     * @type {string}
-     * @memberof OrdersV0ApiGetOrderFulfillmentInstructions
      */
     readonly orderId: string
 }
@@ -3605,17 +3358,6 @@ export class OrdersV0Api extends BaseAPI {
      */
     public getOrderBuyerInfo(requestParameters: OrdersV0ApiGetOrderBuyerInfoRequest, options?: any) {
         return OrdersV0ApiFp(this.configuration).getOrderBuyerInfo(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Returns the fulfillment instructions for the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-     * @param {OrdersV0ApiGetOrderFulfillmentInstructionsRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof OrdersV0Api
-     */
-    public getOrderFulfillmentInstructions(requestParameters: OrdersV0ApiGetOrderFulfillmentInstructionsRequest, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrderFulfillmentInstructions(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
