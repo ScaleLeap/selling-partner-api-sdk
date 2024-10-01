@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.2.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v8.1.0...v8.2.0) (2024-10-01)
+
+
+### Features
+
+* adds application integrations api client ([#1125](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1125)) ([51758f9](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/51758f9a4255d036d3f68a5e726bc9e3b5c8dad4))
+
 # [8.1.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v8.0.0...v8.1.0) (2024-09-27)
 
 
