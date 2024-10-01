@@ -1,5 +1,6 @@
 export * from './amazon-warehousing-and-distribution-client'
 export * from './aplus-content-api-client'
+export * from './application-integrations-api-client'
 export * from './application-management-api-client'
 export * from './catalog-items-api-client'
 export * from './catalog-items-api-client-v20201201'
