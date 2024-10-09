@@ -90,7 +90,7 @@
     "ts-node-dev": "2.0.0",
     "tsconfigs": "4.0.2",
     "typedoc": "0.26.8",
-    "typescript": "5.6.2"
+    "typescript": "5.6.3"
   },
   "keywords": [
     "amazon mws",
