@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.3.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v8.2.0...v8.3.0) (2024-10-15)
+
+
+### Features
+
+* get preparation details for a list of MSKUs ([#1134](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1134)) ([b91c11d](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/b91c11d420e793c9f943af3bb5eac8d599b38414))
+
 # [8.2.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v8.1.0...v8.2.0) (2024-10-01)
 
 
