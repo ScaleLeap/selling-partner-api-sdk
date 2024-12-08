@@ -1,9 +1,9 @@
-import { Configuration, VendorShippingApi } from '../api-models/vendor-shipments-api-model'
+import { Configuration, VendorShipmentsApi } from '../api-models/vendor-shipments-api-model'
 import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class VendorShipmentsApiClient extends VendorShippingApi {
+export class VendorShipmentsApiClient extends VendorShipmentsApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 

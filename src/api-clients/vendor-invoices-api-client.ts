@@ -1,9 +1,9 @@
-import { Configuration, VendorPaymentsApi } from '../api-models/vendor-invoices-api-model'
+import { Configuration, VendorInvoicesApi } from '../api-models/vendor-invoices-api-model'
 import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class VendorInvoicesApiClient extends VendorPaymentsApi {
+export class VendorInvoicesApiClient extends VendorInvoicesApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 
