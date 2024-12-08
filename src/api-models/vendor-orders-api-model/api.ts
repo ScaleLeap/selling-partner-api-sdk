@@ -342,7 +342,7 @@ export enum MoneyUnitOfMeasureEnum {
 }
 
 /**
- * 
+ * Represents an order placed by Amazon, including the purchase order number, current state, and order details.
  * @export
  * @interface Order
  */
@@ -378,7 +378,7 @@ export enum OrderPurchaseOrderStateEnum {
 }
 
 /**
- * 
+ * Represents an acknowledgement for an order, including the purchase order number, selling party details, acknowledgement date, and a list of acknowledged items.
  * @export
  * @interface OrderAcknowledgement
  */
@@ -577,7 +577,7 @@ export enum OrderDetailsPaymentMethodEnum {
 }
 
 /**
- * 
+ * Represents an individual item in an order, including item details, quantities, pricing, and backorder information.
  * @export
  * @interface OrderItem
  */
@@ -626,7 +626,7 @@ export interface OrderItem {
     listPrice?: Money;
 }
 /**
- * 
+ * Represents the acknowledgement details for an individual order item, including the acknowledgement code, acknowledged quantity, scheduled ship and delivery dates, and rejection reason (if applicable).
  * @export
  * @interface OrderItemAcknowledgement
  */
@@ -683,7 +683,7 @@ export enum OrderItemAcknowledgementRejectionReasonEnum {
 }
 
 /**
- * 
+ * Represents the current status of an order item, including acknowledgement and receiving details.
  * @export
  * @interface OrderItemStatus
  */
@@ -836,7 +836,7 @@ export enum OrderItemStatusReceivingStatusReceiveStatusEnum {
 }
 
 /**
- * 
+ * A list of orders returned as response.
  * @export
  * @interface OrderList
  */
@@ -848,14 +848,14 @@ export interface OrderList {
      */
     pagination?: Pagination;
     /**
-     * 
+     * Represents an individual order within the OrderList.
      * @type {Array<Order>}
      * @memberof OrderList
      */
     orders?: Array<Order>;
 }
 /**
- * 
+ * A list of order statuses.
  * @export
  * @interface OrderListStatus
  */
@@ -867,7 +867,7 @@ export interface OrderListStatus {
      */
     pagination?: Pagination;
     /**
-     * 
+     * Represents an order status within the OrderListStatus.
      * @type {Array<OrderStatus>}
      * @memberof OrderListStatus
      */
@@ -933,7 +933,7 @@ export enum OrderStatusPurchaseOrderStatusEnum {
 }
 
 /**
- * Details of item quantity ordered
+ * Details of item quantity ordered.
  * @export
  * @interface OrderedQuantityDetails
  */
@@ -958,7 +958,7 @@ export interface OrderedQuantityDetails {
     cancelledQuantity?: ItemQuantity;
 }
 /**
- * 
+ * The pagination elements required to retrieve the remaining data.
  * @export
  * @interface Pagination
  */
@@ -971,7 +971,7 @@ export interface Pagination {
     nextToken?: string;
 }
 /**
- * 
+ * Name, address and tax details of a party.
  * @export
  * @interface PartyIdentification
  */
@@ -1002,7 +1002,7 @@ export interface PartyIdentification {
  */
 export interface SubmitAcknowledgementRequest {
     /**
-     * 
+     * An array of order acknowledgements to be submitted.
      * @type {Array<OrderAcknowledgement>}
      * @memberof SubmitAcknowledgementRequest
      */
@@ -1057,7 +1057,7 @@ export enum TaxRegistrationDetailsTaxRegistrationTypeEnum {
 }
 
 /**
- * 
+ * Response containing the transaction ID.
  * @export
  * @interface TransactionId
  */
@@ -1310,7 +1310,7 @@ export const VendorOrdersApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body Submits acknowledgements for one or more purchase orders from a vendor.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1408,7 +1408,7 @@ export const VendorOrdersApiFp = function(configuration?: Configuration) {
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body Submits acknowledgements for one or more purchase orders from a vendor.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1478,7 +1478,7 @@ export const VendorOrdersApiFactory = function (configuration?: Configuration, b
         },
         /**
          * Submits acknowledgements for one or more purchase orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {SubmitAcknowledgementRequest} body 
+         * @param {SubmitAcknowledgementRequest} body Submits acknowledgements for one or more purchase orders from a vendor.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1698,7 +1698,7 @@ export interface VendorOrdersApiGetPurchaseOrdersStatusRequest {
  */
 export interface VendorOrdersApiSubmitAcknowledgementRequest {
     /**
-     * 
+     * Submits acknowledgements for one or more purchase orders from a vendor.
      * @type {SubmitAcknowledgementRequest}
      * @memberof VendorOrdersApiSubmitAcknowledgement
      */
