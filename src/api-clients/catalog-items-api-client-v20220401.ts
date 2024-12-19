@@ -1,9 +1,9 @@
-import { CatalogApi, Configuration } from '../api-models/catalog-items-api-model-v20220401'
+import { CatalogItemsApi, Configuration } from '../api-models/catalog-items-api-model-v20220401'
 import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class CatalogItemsApiClientV20220401 extends CatalogApi {
+export class CatalogItemsApiClientV20220401 extends CatalogItemsApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 

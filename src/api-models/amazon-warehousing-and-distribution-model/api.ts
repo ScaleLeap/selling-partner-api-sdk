@@ -219,6 +219,230 @@ export interface ErrorList {
     errors: Array<Error>;
 }
 /**
+ * The expiration details of the inventory. This object will only appear if the details parameter in the request is set to `SHOW`.
+ * @export
+ * @interface ExpirationDetails
+ */
+export interface ExpirationDetails {
+    /**
+     * The expiration date of the SKU.
+     * @type {string}
+     * @memberof ExpirationDetails
+     */
+    expiration?: string;
+    /**
+     * The quantity that is present in AWD.
+     * @type {number}
+     * @memberof ExpirationDetails
+     */
+    onhandQuantity?: number;
+}
+/**
+ * The label format type extension.
+ * @export
+ * @enum {string}
+ */
+export enum FormatType {
+    Pdf = 'PDF'
+}
+
+/**
+ * Represents the eligibility status of the inbound packages.
+ * @export
+ * @interface InboundEligibility
+ */
+export interface InboundEligibility {
+    /**
+     * If there are order level eligibility issues, then this list will contain those error codes and descriptions.
+     * @type {Array<OrderIneligibilityReason>}
+     * @memberof InboundEligibility
+     */
+    ineligibilityReasons?: Array<OrderIneligibilityReason>;
+    /**
+     * Details on SKU eligibility for each inbound package.
+     * @type {Array<SkuEligibility>}
+     * @memberof InboundEligibility
+     */
+    packagesToInbound: Array<SkuEligibility>;
+    /**
+     * Timestamp when the eligibility check is performed.
+     * @type {string}
+     * @memberof InboundEligibility
+     */
+    previewedAt: string;
+    /**
+     * 
+     * @type {InboundEligibilityStatus}
+     * @memberof InboundEligibility
+     */
+    status: InboundEligibilityStatus | 'ELIGIBLE' | 'INELIGIBLE';
+}
+/**
+ * Enum denoting the package inbound eligibility.
+ * @export
+ * @enum {string}
+ */
+export enum InboundEligibilityStatus {
+    Eligible = 'ELIGIBLE',
+    Ineligible = 'INELIGIBLE'
+}
+
+/**
+ * Represents an AWD inbound order.
+ * @export
+ * @interface InboundOrder
+ */
+export interface InboundOrder {
+    /**
+     * List of inbound shipments part of this order.
+     * @type {Array<InboundShipment>}
+     * @memberof InboundOrder
+     */
+    channelPlacedInboundShipments: Array<InboundShipment>;
+    /**
+     * Date when this order was created.
+     * @type {string}
+     * @memberof InboundOrder
+     */
+    createdAt: string;
+    /**
+     * Reference ID that can be used to correlate the order with partner resources.
+     * @type {string}
+     * @memberof InboundOrder
+     */
+    externalReferenceId?: string;
+    /**
+     * Inbound order ID.
+     * @type {string}
+     * @memberof InboundOrder
+     */
+    orderId: string;
+    /**
+     * 
+     * @type {InboundStatus}
+     * @memberof InboundOrder
+     */
+    orderStatus: InboundStatus | 'DRAFT' | 'VALIDATING' | 'CONFIRMED' | 'CLOSED' | 'EXPIRED' | 'CANCELLED';
+    /**
+     * Inbound order version.
+     * @type {string}
+     * @memberof InboundOrder
+     */
+    orderVersion: string;
+    /**
+     * 
+     * @type {Address}
+     * @memberof InboundOrder
+     */
+    originAddress: Address;
+    /**
+     * List of packages to be inbounded.
+     * @type {Array<DistributionPackageQuantity>}
+     * @memberof InboundOrder
+     */
+    packagesToInbound: Array<DistributionPackageQuantity>;
+    /**
+     * 
+     * @type {InboundPreferences}
+     * @memberof InboundOrder
+     */
+    preferences?: InboundPreferences;
+    /**
+     * Date by which this order will be shipped.
+     * @type {string}
+     * @memberof InboundOrder
+     */
+    shipBy?: string;
+    /**
+     * Date when this order was last updated.
+     * @type {string}
+     * @memberof InboundOrder
+     */
+    updatedAt?: string;
+}
+/**
+ * Payload for creating an inbound order.
+ * @export
+ * @interface InboundOrderCreationData
+ */
+export interface InboundOrderCreationData {
+    /**
+     * Reference ID that can be used to correlate the order with partner resources.
+     * @type {string}
+     * @memberof InboundOrderCreationData
+     */
+    externalReferenceId?: string;
+    /**
+     * 
+     * @type {Address}
+     * @memberof InboundOrderCreationData
+     */
+    originAddress: Address;
+    /**
+     * List of packages to be inbounded.
+     * @type {Array<DistributionPackageQuantity>}
+     * @memberof InboundOrderCreationData
+     */
+    packagesToInbound: Array<DistributionPackageQuantity>;
+    /**
+     * 
+     * @type {InboundPreferences}
+     * @memberof InboundOrderCreationData
+     */
+    preferences?: InboundPreferences;
+    /**
+     * Estimated date by when goods have to be picked up.
+     * @type {string}
+     * @memberof InboundOrderCreationData
+     */
+    shipBy?: string;
+}
+/**
+ * A response that contains the reference identifiers for the newly created or updated inbound order. Consists of an order ID and version.
+ * @export
+ * @interface InboundOrderReference
+ */
+export interface InboundOrderReference {
+    /**
+     * Order ID of the inbound order.
+     * @type {string}
+     * @memberof InboundOrderReference
+     */
+    orderId: string;
+    /**
+     * Order version of the inbound order.
+     * @type {string}
+     * @memberof InboundOrderReference
+     */
+    orderVersion: string;
+}
+/**
+ * Represents the packages to inbound.
+ * @export
+ * @interface InboundPackages
+ */
+export interface InboundPackages {
+    /**
+     * List of packages to be inbounded.
+     * @type {Array<DistributionPackageQuantity>}
+     * @memberof InboundPackages
+     */
+    packagesToInbound: Array<DistributionPackageQuantity>;
+}
+/**
+ * Preferences that can be passed in context of an inbound order
+ * @export
+ * @interface InboundPreferences
+ */
+export interface InboundPreferences {
+    /**
+     * Pass a preferred region so that the inbound order can be shipped to an AWD warehouse located in that region. This doesn\'t guarantee the order to be assigned in the specified destination region as it depends on warehouse capacity availability. AWD currently supports following region IDs: [us-west, us-east]
+     * @type {string}
+     * @memberof InboundPreferences
+     */
+    destinationRegion?: string;
+}
+/**
  * Represents an AWD inbound shipment.
  * @export
  * @interface InboundShipment
@@ -290,6 +514,12 @@ export interface InboundShipment {
      * @memberof InboundShipment
      */
     shipmentSkuQuantities?: Array<SkuQuantity>;
+    /**
+     * Assigned region where the order will be shipped. This can differ from what was passed as preference. AWD currently supports following region IDs: [us-west, us-east]
+     * @type {string}
+     * @memberof InboundShipment
+     */
+    destinationRegion?: string;
     /**
      * 
      * @type {InboundShipmentStatus}
@@ -374,6 +604,20 @@ export interface InboundShipmentSummary {
     updatedAt?: string;
 }
 /**
+ * The supported statuses for an inbound order.
+ * @export
+ * @enum {string}
+ */
+export enum InboundStatus {
+    Draft = 'DRAFT',
+    Validating = 'VALIDATING',
+    Confirmed = 'CONFIRMED',
+    Closed = 'CLOSED',
+    Expired = 'EXPIRED',
+    Cancelled = 'CANCELLED'
+}
+
+/**
  * Additional inventory details. This object is only displayed if the details parameter in the request is set to `SHOW`.
  * @export
  * @interface InventoryDetails
@@ -415,7 +659,7 @@ export interface InventoryListing {
      */
     inventory: Array<InventorySummary>;
     /**
-     * Token to retrieve the next set of paginated results.
+     * A token that is used to retrieve the next page of results. The response includes `nextToken` when the number of results exceeds the specified `maxResults` value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until `nextToken` is null. Note that this operation can return empty pages.
      * @type {string}
      * @memberof InventoryListing
      */
@@ -446,6 +690,12 @@ export interface InventoryQuantity {
  * @interface InventorySummary
  */
 export interface InventorySummary {
+    /**
+     * The expiration details of the inventory. This object will only appear if the `details` parameter in the request is set to `SHOW`.
+     * @type {Array<ExpirationDetails>}
+     * @memberof InventorySummary
+     */
+    expirationDetails?: Array<ExpirationDetails>;
     /**
      * 
      * @type {InventoryDetails}
@@ -480,6 +730,28 @@ export enum InventoryUnitOfMeasurement {
     ProductUnits = 'PRODUCT_UNITS',
     Cases = 'CASES',
     Pallets = 'PALLETS'
+}
+
+/**
+ * The entity that labels the products.
+ * @export
+ * @enum {string}
+ */
+export enum LabelOwner {
+    Amazon = 'AMAZON',
+    Self = 'SELF'
+}
+
+/**
+ * The status of your label.
+ * @export
+ * @enum {string}
+ */
+export enum LabelStatus {
+    Generating = 'GENERATING',
+    Generated = 'GENERATED',
+    GenerationFailed = 'GENERATION_FAILED',
+    NotReady = 'NOT_READY'
 }
 
 /**
@@ -532,6 +804,330 @@ export interface ModelError {
      */
     message: string;
 }
+/**
+ * Consists of the order preference and corresponding preference value.
+ * @export
+ * @interface OrderAttribute
+ */
+export interface OrderAttribute {
+    /**
+     * 
+     * @type {OrderPreference}
+     * @memberof OrderAttribute
+     */
+    orderPreference: OrderPreference | 'PARTIAL_ORDER';
+    /**
+     * 
+     * @type {OrderPreferenceValue}
+     * @memberof OrderAttribute
+     */
+    orderPreferenceValue: OrderPreferenceValue | 'SET' | 'UNSET';
+}
+/**
+ * Represents one ineligibility reason for the order (there can be multiple reasons).
+ * @export
+ * @interface OrderIneligibilityReason
+ */
+export interface OrderIneligibilityReason {
+    /**
+     * Code for the order ineligibility.
+     * @type {string}
+     * @memberof OrderIneligibilityReason
+     */
+    code: string;
+    /**
+     * Description detailing the ineligibility reason of the order.
+     * @type {string}
+     * @memberof OrderIneligibilityReason
+     */
+    description: string;
+}
+/**
+ * Supported preferences for the distribution order.
+ * @export
+ * @enum {string}
+ */
+export enum OrderPreference {
+    PartialOrder = 'PARTIAL_ORDER'
+}
+
+/**
+ * Value for the order preference.
+ * @export
+ * @enum {string}
+ */
+export enum OrderPreferenceValue {
+    Set = 'SET',
+    Unset = 'UNSET'
+}
+
+/**
+ * Execution errors associated with the outbound order. This field will be populated if the order failed validation.
+ * @export
+ * @interface OutboundExecutionError
+ */
+export interface OutboundExecutionError {
+    /**
+     * Failure code details for the error.
+     * @type {string}
+     * @memberof OutboundExecutionError
+     */
+    failureCode: string;
+    /**
+     * Failure reasons for the error.
+     * @type {Array<string>}
+     * @memberof OutboundExecutionError
+     */
+    failureReasons: Array<string>;
+    /**
+     * MSKU associated with the error.
+     * @type {string}
+     * @memberof OutboundExecutionError
+     */
+    sku?: string;
+}
+/**
+ * A list of paginated outbound orders filtered by the attributes passed in the request.
+ * @export
+ * @interface OutboundListing
+ */
+export interface OutboundListing {
+    /**
+     * TA token that is used to retrieve the next page of results. The response includes `nextToken` when the number of results exceeds the specified `maxResults` value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until `nextToken` is null. Note that this operation can return empty pages.
+     * @type {string}
+     * @memberof OutboundListing
+     */
+    nextToken?: string;
+    /**
+     * List of outbound orders.
+     * @type {Array<OutboundOrder>}
+     * @memberof OutboundListing
+     */
+    outboundOrders?: Array<OutboundOrder>;
+}
+/**
+ * Represents an AWD outbound order.
+ * @export
+ * @interface OutboundOrder
+ */
+export interface OutboundOrder {
+    /**
+     * Date on which this outbound order was confirmed.
+     * @type {string}
+     * @memberof OutboundOrder
+     */
+    confirmedOn?: string;
+    /**
+     * Date on which this outbound order was created.
+     * @type {string}
+     * @memberof OutboundOrder
+     */
+    createdAt?: string;
+    /**
+     * List of packages that are eligible for outbound.
+     * @type {Array<DistributionPackageQuantity>}
+     * @memberof OutboundOrder
+     */
+    eligiblePackagesToOutbound?: Array<DistributionPackageQuantity>;
+    /**
+     * List of product units that are eligible for outbound.
+     * @type {Array<ProductQuantity>}
+     * @memberof OutboundOrder
+     */
+    eligibleProductsToOutbound?: Array<ProductQuantity>;
+    /**
+     * Execution errors associated with the outbound order. This field will be populated if the order failed validation.
+     * @type {Array<OutboundExecutionError>}
+     * @memberof OutboundOrder
+     */
+    executionErrors?: Array<OutboundExecutionError>;
+    /**
+     * Order ID for the outbound order.
+     * @type {string}
+     * @memberof OutboundOrder
+     */
+    orderId: string;
+    /**
+     * Order preferences for this outbound order.
+     * @type {Array<OrderAttribute>}
+     * @memberof OutboundOrder
+     */
+    orderPreferences?: Array<OrderAttribute>;
+    /**
+     * 
+     * @type {OutboundStatus}
+     * @memberof OutboundOrder
+     */
+    orderStatus: OutboundStatus | 'CONFIRMED' | 'DRAFT' | 'ELIGIBLE' | 'EXECUTING' | 'FAILURE' | 'INELIGIBLE' | 'INVENTORY_OUTBOUND' | 'SUCCESS' | 'VALIDATING';
+    /**
+     * List of outbound shipments that are part of this order.
+     * @type {Array<OutboundShipment>}
+     * @memberof OutboundOrder
+     */
+    outboundShipments: Array<OutboundShipment>;
+    /**
+     * List of packages to be outbound.
+     * @type {Array<DistributionPackageQuantity>}
+     * @memberof OutboundOrder
+     */
+    packagesToOutbound?: Array<DistributionPackageQuantity>;
+    /**
+     * List of product units to be outbound.
+     * @type {Array<ProductQuantity>}
+     * @memberof OutboundOrder
+     */
+    productsToOutbound?: Array<ProductQuantity>;
+    /**
+     * Outbound packages that are shipped after the execution has completed post confirmation.
+     * @type {Array<DistributionPackageQuantity>}
+     * @memberof OutboundOrder
+     */
+    shippedOutboundPackages?: Array<DistributionPackageQuantity>;
+    /**
+     * Outbound product units that are shipped after the execution has completed post confirmation.
+     * @type {Array<ProductQuantity>}
+     * @memberof OutboundOrder
+     */
+    shippedOutboundProducts?: Array<ProductQuantity>;
+    /**
+     * Date on which this outbound order was last updated.
+     * @type {string}
+     * @memberof OutboundOrder
+     */
+    updatedAt?: string;
+}
+/**
+ * Payload for creating an outbound order.
+ * @export
+ * @interface OutboundOrderCreationData
+ */
+export interface OutboundOrderCreationData {
+    /**
+     * Order preferences for the outbound order.
+     * @type {Array<OrderAttribute>}
+     * @memberof OutboundOrderCreationData
+     */
+    orderPreferences?: Array<OrderAttribute>;
+    /**
+     * List of packages to be outbound.
+     * @type {Array<DistributionPackageQuantity>}
+     * @memberof OutboundOrderCreationData
+     */
+    packagesToOutbound?: Array<DistributionPackageQuantity>;
+    /**
+     * List of product units to be outbound.
+     * @type {Array<ProductQuantity>}
+     * @memberof OutboundOrderCreationData
+     */
+    productsToOutbound?: Array<ProductQuantity>;
+}
+/**
+ * A response that contains the reference identifier for the newly created or updated outbound order. This includes an order ID.
+ * @export
+ * @interface OutboundOrderReference
+ */
+export interface OutboundOrderReference {
+    /**
+     * outbound order ID.
+     * @type {string}
+     * @memberof OutboundOrderReference
+     */
+    orderId: string;
+}
+/**
+ * Represents an AWD outbound shipment.
+ * @export
+ * @interface OutboundShipment
+ */
+export interface OutboundShipment {
+    /**
+     * Timestamp when the shipment was created.
+     * @type {string}
+     * @memberof OutboundShipment
+     */
+    createdAt?: string;
+    /**
+     * 
+     * @type {Address}
+     * @memberof OutboundShipment
+     */
+    destinationAddress: Address;
+    /**
+     * Outbound order ID this outbound shipment belongs to.
+     * @type {string}
+     * @memberof OutboundShipment
+     */
+    orderId: string;
+    /**
+     * 
+     * @type {Address}
+     * @memberof OutboundShipment
+     */
+    originAddress: Address;
+    /**
+     * Specific distribution packages that are included in the context of this shipment.
+     * @type {Array<DistributionPackageQuantity>}
+     * @memberof OutboundShipment
+     */
+    shipmentPackageQuantities?: Array<DistributionPackageQuantity>;
+    /**
+     * Unique shipment ID.
+     * @type {string}
+     * @memberof OutboundShipment
+     */
+    shipmentId: string;
+    /**
+     * Specific product units that are included in the context of this shipment.
+     * @type {Array<ProductQuantity>}
+     * @memberof OutboundShipment
+     */
+    shipmentProductQuantities?: Array<ProductQuantity>;
+    /**
+     * 
+     * @type {OutboundShipmentStatus}
+     * @memberof OutboundShipment
+     */
+    shipmentStatus: OutboundShipmentStatus | 'CREATED' | 'IN_TRANSIT' | 'DELIVERED' | 'RECEIVING' | 'RECEIVED' | 'CLOSED' | 'CANCELLED' | 'FAILED';
+    /**
+     * Timestamp when the shipment was updated.
+     * @type {string}
+     * @memberof OutboundShipment
+     */
+    updatedAt?: string;
+}
+/**
+ * Possible shipment statuses for outbound shipments.
+ * @export
+ * @enum {string}
+ */
+export enum OutboundShipmentStatus {
+    Created = 'CREATED',
+    InTransit = 'IN_TRANSIT',
+    Delivered = 'DELIVERED',
+    Receiving = 'RECEIVING',
+    Received = 'RECEIVED',
+    Closed = 'CLOSED',
+    Cancelled = 'CANCELLED',
+    Failed = 'FAILED'
+}
+
+/**
+ * Statuses supported for an outbound order.
+ * @export
+ * @enum {string}
+ */
+export enum OutboundStatus {
+    Confirmed = 'CONFIRMED',
+    Draft = 'DRAFT',
+    Eligible = 'ELIGIBLE',
+    Executing = 'EXECUTING',
+    Failure = 'FAILURE',
+    Ineligible = 'INELIGIBLE',
+    InventoryOutbound = 'INVENTORY_OUTBOUND',
+    Success = 'SUCCESS',
+    Validating = 'VALIDATING'
+}
+
 /**
  * Dimensions of the package.
  * @export
@@ -602,6 +1198,77 @@ export interface PackageWeight {
     weight: number;
 }
 /**
+ * Label page type.
+ * @export
+ * @enum {string}
+ */
+export enum PageType {
+    ThermalNonpcp = 'THERMAL_NONPCP',
+    PlainPaper = 'PLAIN_PAPER',
+    Letter6 = 'LETTER_6'
+}
+
+/**
+ * The preparation details for a product. This contains the prep category, prep owner, and label owner. Prep instructions are generated based on the specified category.
+ * @export
+ * @interface PrepDetails
+ */
+export interface PrepDetails {
+    /**
+     * 
+     * @type {LabelOwner}
+     * @memberof PrepDetails
+     */
+    labelOwner?: LabelOwner | 'AMAZON' | 'SELF';
+    /**
+     * The preparation category for shipping an item to Amazon\'s fulfillment network.
+     * @type {string}
+     * @memberof PrepDetails
+     */
+    prepCategory?: string;
+    /**
+     * Information that pertains to the preparation of inbound products. This is generated based on the specified category.
+     * @type {Array<PrepInstruction>}
+     * @memberof PrepDetails
+     */
+    prepInstructions?: Array<PrepInstruction>;
+    /**
+     * 
+     * @type {PrepOwner}
+     * @memberof PrepDetails
+     */
+    prepOwner?: PrepOwner | 'AMAZON' | 'SELF';
+}
+/**
+ * Information pertaining to the preparation of inbound products.
+ * @export
+ * @interface PrepInstruction
+ */
+export interface PrepInstruction {
+    /**
+     * 
+     * @type {PrepOwner}
+     * @memberof PrepInstruction
+     */
+    prepOwner?: PrepOwner | 'AMAZON' | 'SELF';
+    /**
+     * The type of preparation to be done. For more information about preparing items, refer to [Prep guidance](https://sellercentral.amazon.com/help/hub/reference/external/GF4G7547KSLDX2KC) on Seller Central.
+     * @type {string}
+     * @memberof PrepInstruction
+     */
+    prepType?: string;
+}
+/**
+ * The owner of the preparations, if special preparations are required.
+ * @export
+ * @enum {string}
+ */
+export enum PrepOwner {
+    Amazon = 'AMAZON',
+    Self = 'SELF'
+}
+
+/**
  * Product instance attribute that is not described at the SKU level in the catalog.
  * @export
  * @interface ProductAttribute
@@ -644,6 +1311,37 @@ export interface ProductQuantity {
      * @memberof ProductQuantity
      */
     sku: string;
+    /**
+     * The expiration date for the SKU. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     * @type {string}
+     * @memberof ProductQuantity
+     */
+    expiration?: string;
+    /**
+     * 
+     * @type {PrepDetails}
+     * @memberof ProductQuantity
+     */
+    prepDetails?: PrepDetails;
+}
+/**
+ * Shipment labels.
+ * @export
+ * @interface ShipmentLabels
+ */
+export interface ShipmentLabels {
+    /**
+     * URL to download generated labels.
+     * @type {string}
+     * @memberof ShipmentLabels
+     */
+    labelDownloadURL?: string;
+    /**
+     * 
+     * @type {LabelStatus}
+     * @memberof ShipmentLabels
+     */
+    labelStatus: LabelStatus | 'GENERATING' | 'GENERATED' | 'GENERATION_FAILED' | 'NOT_READY';
 }
 /**
  * A list of inbound shipment summaries filtered by the attributes specified in the request.
@@ -652,7 +1350,7 @@ export interface ProductQuantity {
  */
 export interface ShipmentListing {
     /**
-     * Token to retrieve the next set of paginated results.
+     * A token that is used to retrieve the next page of results. The response includes `nextToken` when the number of results exceeds the specified `maxResults` value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until `nextToken` is null. Note that this operation can return empty pages.
      * @type {string}
      * @memberof ShipmentListing
      */
@@ -674,6 +1372,50 @@ export enum ShipmentSortableField {
     CreatedAt = 'CREATED_AT'
 }
 
+/**
+ * Represents eligibility of one SKU.
+ * @export
+ * @interface SkuEligibility
+ */
+export interface SkuEligibility {
+    /**
+     * If not eligible, these are list of error codes and descriptions.
+     * @type {Array<SkuIneligibilityReason>}
+     * @memberof SkuEligibility
+     */
+    ineligibilityReasons?: Array<SkuIneligibilityReason>;
+    /**
+     * 
+     * @type {DistributionPackageQuantity}
+     * @memberof SkuEligibility
+     */
+    packageQuantity: DistributionPackageQuantity;
+    /**
+     * 
+     * @type {InboundEligibilityStatus}
+     * @memberof SkuEligibility
+     */
+    status: InboundEligibilityStatus | 'ELIGIBLE' | 'INELIGIBLE';
+}
+/**
+ * Represents the ineligibility reason for one SKU.
+ * @export
+ * @interface SkuIneligibilityReason
+ */
+export interface SkuIneligibilityReason {
+    /**
+     * Code for the SKU ineligibility.
+     * @type {string}
+     * @memberof SkuIneligibilityReason
+     */
+    code: string;
+    /**
+     * Detailed description of the SKU ineligibility.
+     * @type {string}
+     * @memberof SkuIneligibilityReason
+     */
+    description: string;
+}
 /**
  * Enum to specify if returned shipment should include SKU quantity details
  * @export
@@ -719,6 +1461,44 @@ export enum SortOrder {
     Descending = 'DESCENDING'
 }
 
+/**
+ * Tracking details for the shipment. If using SPD transportation, this can be for each case. If not using SPD transportation, this is a single tracking entry for the entire shipment.
+ * @export
+ * @interface TrackingDetails
+ */
+export interface TrackingDetails {
+    /**
+     * 
+     * @type {CarrierCode}
+     * @memberof TrackingDetails
+     */
+    carrierCode?: CarrierCode;
+    /**
+     * Timestamp denoting when the shipment will be shipped Date should be in ISO 8601 format as defined by date-time.
+     * @type {string}
+     * @memberof TrackingDetails
+     */
+    shipBy: string;
+    /**
+     * The identifier that is received from transportation to uniquely identify a booking.
+     * @type {string}
+     * @memberof TrackingDetails
+     */
+    bookingId?: string;
+}
+/**
+ * Transportation details for the shipment.
+ * @export
+ * @interface TransportationDetails
+ */
+export interface TransportationDetails {
+    /**
+     * Tracking details for the shipment. If using SPD transportation, this can be for each case. If not using SPD transportation, this is a single tracking entry for the entire shipment.
+     * @type {Array<TrackingDetails>}
+     * @memberof TransportationDetails
+     */
+    trackingDetails: Array<TrackingDetails>;
+}
 /**
  * Unit of measurement for the package volume.
  * @export
@@ -793,7 +1573,7 @@ export const AwdApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {string} [updatedAfter] List the inbound shipments that were updated after a certain time (inclusive). The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
          * @param {string} [updatedBefore] List the inbound shipments that were updated before a certain time (inclusive). The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
          * @param {number} [maxResults] Maximum number of results to return.
-         * @param {string} [nextToken] Token to retrieve the next set of paginated results.
+         * @param {string} [nextToken] A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;maxResults&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -858,7 +1638,7 @@ export const AwdApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {string} [sku] Filter by seller or merchant SKU for the item.
          * @param {'ASCENDING' | 'DESCENDING'} [sortOrder] Sort the response in &#x60;ASCENDING&#x60; or &#x60;DESCENDING&#x60; order.
          * @param {'SHOW' | 'HIDE'} [details] Set to &#x60;SHOW&#x60; to return summaries with additional inventory details. Defaults to &#x60;HIDE,&#x60; which returns only inventory summary totals.
-         * @param {string} [nextToken] Token to retrieve the next set of paginated results.
+         * @param {string} [nextToken] A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;maxResults&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {number} [maxResults] Maximum number of results to return.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -936,7 +1716,7 @@ export const AwdApiFp = function(configuration?: Configuration) {
          * @param {string} [updatedAfter] List the inbound shipments that were updated after a certain time (inclusive). The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
          * @param {string} [updatedBefore] List the inbound shipments that were updated before a certain time (inclusive). The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
          * @param {number} [maxResults] Maximum number of results to return.
-         * @param {string} [nextToken] Token to retrieve the next set of paginated results.
+         * @param {string} [nextToken] A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;maxResults&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -949,7 +1729,7 @@ export const AwdApiFp = function(configuration?: Configuration) {
          * @param {string} [sku] Filter by seller or merchant SKU for the item.
          * @param {'ASCENDING' | 'DESCENDING'} [sortOrder] Sort the response in &#x60;ASCENDING&#x60; or &#x60;DESCENDING&#x60; order.
          * @param {'SHOW' | 'HIDE'} [details] Set to &#x60;SHOW&#x60; to return summaries with additional inventory details. Defaults to &#x60;HIDE,&#x60; which returns only inventory summary totals.
-         * @param {string} [nextToken] Token to retrieve the next set of paginated results.
+         * @param {string} [nextToken] A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;maxResults&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {number} [maxResults] Maximum number of results to return.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -986,7 +1766,7 @@ export const AwdApiFactory = function (configuration?: Configuration, basePath?:
          * @param {string} [updatedAfter] List the inbound shipments that were updated after a certain time (inclusive). The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
          * @param {string} [updatedBefore] List the inbound shipments that were updated before a certain time (inclusive). The date must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; format.
          * @param {number} [maxResults] Maximum number of results to return.
-         * @param {string} [nextToken] Token to retrieve the next set of paginated results.
+         * @param {string} [nextToken] A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;maxResults&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -998,7 +1778,7 @@ export const AwdApiFactory = function (configuration?: Configuration, basePath?:
          * @param {string} [sku] Filter by seller or merchant SKU for the item.
          * @param {'ASCENDING' | 'DESCENDING'} [sortOrder] Sort the response in &#x60;ASCENDING&#x60; or &#x60;DESCENDING&#x60; order.
          * @param {'SHOW' | 'HIDE'} [details] Set to &#x60;SHOW&#x60; to return summaries with additional inventory details. Defaults to &#x60;HIDE,&#x60; which returns only inventory summary totals.
-         * @param {string} [nextToken] Token to retrieve the next set of paginated results.
+         * @param {string} [nextToken] A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;maxResults&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
          * @param {number} [maxResults] Maximum number of results to return.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1079,7 +1859,7 @@ export interface AwdApiListInboundShipmentsRequest {
     readonly maxResults?: number
 
     /**
-     * Token to retrieve the next set of paginated results.
+     * A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;maxResults&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
      * @type {string}
      * @memberof AwdApiListInboundShipments
      */
@@ -1114,7 +1894,7 @@ export interface AwdApiListInventoryRequest {
     readonly details?: 'SHOW' | 'HIDE'
 
     /**
-     * Token to retrieve the next set of paginated results.
+     * A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;maxResults&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages.
      * @type {string}
      * @memberof AwdApiListInventory
      */

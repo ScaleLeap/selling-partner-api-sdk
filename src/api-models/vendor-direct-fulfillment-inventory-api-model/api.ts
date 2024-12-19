@@ -34,7 +34,7 @@ export interface InventoryUpdate {
      */
     sellingParty: PartyIdentification;
     /**
-     * When `true`, this request contains a full feed. When `false`, this request contains a partial feed. When sending a full feed, you must send information about all items in the warehouse. Any items not in the full feed are updated as not available. When sending a partial feed, only include the items that need an inventory update. The status of other items will remain unchanged.
+     * When true, this request contains a full feed. Otherwise, this request contains a partial feed. When sending a full feed, you must send information about all items in the warehouse. Any items not in the full feed are updated as not available. When sending a partial feed, only include the items that need an update to inventory. The status of other items will remain unchanged.
      * @type {boolean}
      * @memberof InventoryUpdate
      */
@@ -53,13 +53,13 @@ export interface InventoryUpdate {
  */
 export interface ItemDetails {
     /**
-     * The buyer-selected product identification for the item. Either `buyerProductIdentifier` or `vendorProductIdentifier` must be submitted.
+     * The buyer selected product identification of the item. Either buyerProductIdentifier or vendorProductIdentifier should be submitted.
      * @type {string}
      * @memberof ItemDetails
      */
     buyerProductIdentifier?: string;
     /**
-     * The vendor selected product identification for the item. Either `buyerProductIdentifier` or `vendorProductIdentifier` must be submitted.
+     * The vendor selected product identification of the item. Either buyerProductIdentifier or vendorProductIdentifier should be submitted.
      * @type {string}
      * @memberof ItemDetails
      */
@@ -71,14 +71,14 @@ export interface ItemDetails {
      */
     availableQuantity: ItemQuantity;
     /**
-     * When `true`, the item is permanently unavailable.
+     * When true, the item is permanently unavailable.
      * @type {boolean}
      * @memberof ItemDetails
      */
     isObsolete?: boolean;
 }
 /**
- * Details about item quantity.
+ * Details of item quantity.
  * @export
  * @interface ItemQuantity
  */
@@ -122,7 +122,7 @@ export interface ModelError {
     details?: string;
 }
 /**
- * Name, address and tax details for a group.
+ * Name, address and tax details of a party.
  * @export
  * @interface PartyIdentification
  */
@@ -135,7 +135,7 @@ export interface PartyIdentification {
     partyId: string;
 }
 /**
- * The request body for the `submitInventoryUpdate` operation.
+ * The request body for the submitInventoryUpdate operation.
  * @export
  * @interface SubmitInventoryUpdateRequest
  */
@@ -148,7 +148,7 @@ export interface SubmitInventoryUpdateRequest {
     inventory?: InventoryUpdate;
 }
 /**
- * The response schema for the `submitInventoryUpdate` operation.
+ * The response schema for the submitInventoryUpdate operation.
  * @export
  * @interface SubmitInventoryUpdateResponse
  */
@@ -167,7 +167,7 @@ export interface SubmitInventoryUpdateResponse {
     errors?: Array<Error>;
 }
 /**
- * A response that contains the transaction ID.
+ * Response containing the transaction ID.
  * @export
  * @interface TransactionReference
  */
@@ -187,9 +187,9 @@ export interface TransactionReference {
 export const UpdateInventoryApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the *SP-API*](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} warehouseId Identifier for the warehouse for which to update inventory.
-         * @param {SubmitInventoryUpdateRequest} body The request body that contains the inventory update data to submit.
+         * @param {SubmitInventoryUpdateRequest} body The request body containing the inventory update data to submit.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -236,9 +236,9 @@ export const UpdateInventoryApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UpdateInventoryApiAxiosParamCreator(configuration)
     return {
         /**
-         * Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the *SP-API*](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} warehouseId Identifier for the warehouse for which to update inventory.
-         * @param {SubmitInventoryUpdateRequest} body The request body that contains the inventory update data to submit.
+         * @param {SubmitInventoryUpdateRequest} body The request body containing the inventory update data to submit.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -257,9 +257,9 @@ export const UpdateInventoryApiFactory = function (configuration?: Configuration
     const localVarFp = UpdateInventoryApiFp(configuration)
     return {
         /**
-         * Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the *SP-API*](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} warehouseId Identifier for the warehouse for which to update inventory.
-         * @param {SubmitInventoryUpdateRequest} body The request body that contains the inventory update data to submit.
+         * @param {SubmitInventoryUpdateRequest} body The request body containing the inventory update data to submit.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -283,7 +283,7 @@ export interface UpdateInventoryApiSubmitInventoryUpdateRequest {
     readonly warehouseId: string
 
     /**
-     * The request body that contains the inventory update data to submit.
+     * The request body containing the inventory update data to submit.
      * @type {SubmitInventoryUpdateRequest}
      * @memberof UpdateInventoryApiSubmitInventoryUpdate
      */
@@ -298,7 +298,7 @@ export interface UpdateInventoryApiSubmitInventoryUpdateRequest {
  */
 export class UpdateInventoryApi extends BaseAPI {
     /**
-     * Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the *SP-API*](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {UpdateInventoryApiSubmitInventoryUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

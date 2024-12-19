@@ -1,5 +1,6 @@
 import {
   Configuration,
+  CreateContainerLabelApi,
   CustomerInvoicesApi,
   VendorShippingApi,
   VendorShippingLabelsApi,
@@ -8,7 +9,7 @@ import { ApiClientHelpers, applyMixins } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class VendorDirectFulfillmentShippingApiClientV20211228 extends CustomerInvoicesApi {
+export class VendorDirectFulfillmentShippingApiClientV20211228 extends CreateContainerLabelApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 
@@ -19,10 +20,12 @@ export class VendorDirectFulfillmentShippingApiClientV20211228 extends CustomerI
 }
 
 export interface VendorDirectFulfillmentShippingApiClientV20211228
-  extends CustomerInvoicesApi,
+  extends CreateContainerLabelApi,
+    CustomerInvoicesApi,
     VendorShippingApi,
     VendorShippingLabelsApi {}
 applyMixins(VendorDirectFulfillmentShippingApiClientV20211228, [
+  CreateContainerLabelApi,
   CustomerInvoicesApi,
   VendorShippingApi,
   VendorShippingLabelsApi,
