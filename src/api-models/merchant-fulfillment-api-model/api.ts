@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Selling Partner API for Merchant Fulfillment
- * The Selling Partner API for Merchant Fulfillment helps you build applications that let sellers purchase shipping for non-Prime and Prime orders using Amazon’s Buy Shipping Services.
+ * With the Selling Partner API for Merchant Fulfillment, you can build applications that sellers can use to purchase shipping for non-Prime and Prime orders using Amazon\'s Buy Shipping Services.
  *
  * The version of the OpenAPI document: v0
  * 
@@ -169,7 +169,7 @@ export interface Address {
      */
     City: string;
     /**
-     * The state or province code. **Note.** Required in the Canada, US, and UK marketplaces. Also required for shipments originating from China.
+     * The state or province code. This is a required field in Canada, US, and UK marketplaces, and for shipments that originate in China.
      * @type {string}
      * @memberof Address
      */
@@ -181,7 +181,7 @@ export interface Address {
      */
     PostalCode: string;
     /**
-     * The country code. A two-character country code, in ISO 3166-1 alpha-2 format.
+     * The two-letter country code in [ISO 3166-1 alpha-2](https://www.iban.com/country-codes) format.
      * @type {string}
      * @memberof Address
      */
@@ -251,7 +251,7 @@ export interface AvailableShippingServiceOptions {
     AvailableDeliveryExperienceOptions: Array<AvailableDeliveryExperienceOption>;
 }
 /**
- * Benefits that are included and excluded for each shipping offer. Benefits represents services provided by Amazon (eg. CLAIMS_PROTECTED, etc.) when sellers purchase shipping through Amazon. Benefit details will be made available for any shipment placed on or after January 1st 2024 00:00 UTC
+ * Benefits that are included and excluded for each shipping offer. Benefits represents services provided by Amazon (for example, `CLAIMS_PROTECTED`) when sellers purchase shipping through Amazon. Benefit details are made available for any shipment placed on or after January 1st 2024 00:00 UTC.
  * @export
  * @interface Benefits
  */
@@ -263,7 +263,7 @@ export interface Benefits {
      */
     IncludedBenefits?: Array<string>;
     /**
-     * A list of excluded benefit. Refer to the ExcludeBenefit object for further documentation.
+     * A list of excluded benefits. Refer to the `ExcludeBenefit` object for further documentation.
      * @type {Array<ExcludedBenefit>}
      * @memberof Benefits
      */
@@ -400,7 +400,7 @@ export interface CurrencyAmount {
     Amount: number;
 }
 /**
- * Details related to any dangerous goods/items that are being shipped.
+ * Details related to any dangerous goods or items that are shipped.
  * @export
  * @interface DangerousGoodsDetails
  */
@@ -412,7 +412,7 @@ export interface DangerousGoodsDetails {
      */
     UnitedNationsRegulatoryId?: string;
     /**
-     * The specific regulatory class  of the item being shipped.
+     * The specific regulatory class of the shipped item.
      * @type {string}
      * @memberof DangerousGoodsDetails
      */
@@ -486,19 +486,19 @@ export enum DeliveryExperienceType {
 }
 
 /**
- * Object representing an excluded benefit that is excluded for a shipping offer or rate.
+ * An object representing an excluded benefit that is excluded for a shipping offer or rate.
  * @export
  * @interface ExcludedBenefit
  */
 export interface ExcludedBenefit {
     /**
-     * Benefit that is being excluded from a shipment.
+     * A benefit that is being excluded from a shipment.
      * @type {string}
      * @memberof ExcludedBenefit
      */
     Benefit?: string;
     /**
-     * List of reasons (eg. LATE_DELIVERY_RISK, etc.) indicating why a benefit is excluded for a shipping offer.
+     * List of reasons why a benefit is excluded for a shipping offer (for example, `LATE_DELIVERY_RISK`).
      * @type {Array<string>}
      * @memberof ExcludedBenefit
      */
@@ -511,7 +511,7 @@ export interface ExcludedBenefit {
  */
 export interface FileContents {
     /**
-     * Data for printing labels, in the form of a Base64-encoded, GZip-compressed string.
+     * Data for printing labels encoded into a Base64, GZip-compressed string.
      * @type {string}
      * @memberof FileContents
      */
@@ -523,7 +523,7 @@ export interface FileContents {
      */
     FileType: FileType | 'application/pdf' | 'application/zpl' | 'image/png';
     /**
-     * An MD5 hash to validate the PDF document data, in the form of a Base64-encoded string.
+     * An MD5 hash to validate the PDF document data, in the form of a Base64 string.
      * @type {string}
      * @memberof FileContents
      */
@@ -585,7 +585,7 @@ export interface GetAdditionalSellerInputsResponse {
     errors?: Array<Error>;
 }
 /**
- * The payload for the getAdditionalSellerInputs operation.
+ * The payload for the `getAdditionalSellerInputs` operation.
  * @export
  * @interface GetAdditionalSellerInputsResult
  */
@@ -642,7 +642,7 @@ export interface GetEligibleShipmentServicesResponse {
     errors?: Array<Error>;
 }
 /**
- * The payload for the getEligibleShipmentServices operation.
+ * The payload for the `getEligibleShipmentServices` operation.
  * @export
  * @interface GetEligibleShipmentServicesResult
  */
@@ -654,7 +654,7 @@ export interface GetEligibleShipmentServicesResult {
      */
     ShippingServiceList: Array<ShippingService>;
     /**
-     * List of services that were for some reason unavailable for this request
+     * List of services that are for some reason unavailable for this request
      * @type {Array<RejectedShippingService>}
      * @memberof GetEligibleShipmentServicesResult
      */
@@ -798,7 +798,7 @@ export interface ItemLevelFields {
  */
 export interface Label {
     /**
-     * Custom text to print on the label.  Note: Custom text is only included on labels that are in ZPL format (ZPL203). FedEx does not support CustomTextForLabel.
+     * Custom text to print on the label. Note: Custom text is only included on labels that are in ZPL format (ZPL203). FedEx does not support `CustomTextForLabel`.
      * @type {string}
      * @memberof Label
      */
@@ -835,7 +835,7 @@ export interface Label {
  */
 export interface LabelCustomization {
     /**
-     * Custom text to print on the label.  Note: Custom text is only included on labels that are in ZPL format (ZPL203). FedEx does not support CustomTextForLabel.
+     * Custom text to print on the label. Note: Custom text is only included on labels that are in ZPL format (ZPL203). FedEx does not support `CustomTextForLabel`.
      * @type {string}
      * @memberof LabelCustomization
      */
@@ -937,7 +937,7 @@ export interface Length {
     unit?: UnitOfLength | 'inches' | 'centimeters';
 }
 /**
- * Liquid Volume.
+ * Liquid volume.
  * @export
  * @interface LiquidVolume
  */
@@ -977,7 +977,7 @@ export enum LiquidVolumeUnitEnum {
  */
 export interface ModelError {
     /**
-     * An error code that identifies the type of error that occured.
+     * An error code that identifies the type of error that occurred.
      * @type {string}
      * @memberof ModelError
      */
@@ -1002,19 +1002,19 @@ export interface ModelError {
  */
 export interface PackageDimensions {
     /**
-     * Number representing the given package dimension.
+     * A number that represents the given package dimension.
      * @type {number}
      * @memberof PackageDimensions
      */
     Length?: number;
     /**
-     * Number representing the given package dimension.
+     * A number that represents the given package dimension.
      * @type {number}
      * @memberof PackageDimensions
      */
     Width?: number;
     /**
-     * Number representing the given package dimension.
+     * A number that represents the given package dimension.
      * @type {number}
      * @memberof PackageDimensions
      */
@@ -1033,7 +1033,7 @@ export interface PackageDimensions {
     PredefinedPackageDimensions?: PredefinedPackageDimensions | 'FedEx_Box_10kg' | 'FedEx_Box_25kg' | 'FedEx_Box_Extra_Large_1' | 'FedEx_Box_Extra_Large_2' | 'FedEx_Box_Large_1' | 'FedEx_Box_Large_2' | 'FedEx_Box_Medium_1' | 'FedEx_Box_Medium_2' | 'FedEx_Box_Small_1' | 'FedEx_Box_Small_2' | 'FedEx_Envelope' | 'FedEx_Padded_Pak' | 'FedEx_Pak_1' | 'FedEx_Pak_2' | 'FedEx_Tube' | 'FedEx_XL_Pak' | 'UPS_Box_10kg' | 'UPS_Box_25kg' | 'UPS_Express_Box' | 'UPS_Express_Box_Large' | 'UPS_Express_Box_Medium' | 'UPS_Express_Box_Small' | 'UPS_Express_Envelope' | 'UPS_Express_Hard_Pak' | 'UPS_Express_Legal_Envelope' | 'UPS_Express_Pak' | 'UPS_Express_Tube' | 'UPS_Laboratory_Pak' | 'UPS_Pad_Pak' | 'UPS_Pallet' | 'USPS_Card' | 'USPS_Flat' | 'USPS_FlatRateCardboardEnvelope' | 'USPS_FlatRateEnvelope' | 'USPS_FlatRateGiftCardEnvelope' | 'USPS_FlatRateLegalEnvelope' | 'USPS_FlatRatePaddedEnvelope' | 'USPS_FlatRateWindowEnvelope' | 'USPS_LargeFlatRateBoardGameBox' | 'USPS_LargeFlatRateBox' | 'USPS_Letter' | 'USPS_MediumFlatRateBox1' | 'USPS_MediumFlatRateBox2' | 'USPS_RegionalRateBoxA1' | 'USPS_RegionalRateBoxA2' | 'USPS_RegionalRateBoxB1' | 'USPS_RegionalRateBoxB2' | 'USPS_RegionalRateBoxC' | 'USPS_SmallFlatRateBox' | 'USPS_SmallFlatRateEnvelope';
 }
 /**
- * An enumeration of predefined parcel tokens. If you specify a PredefinedPackageDimensions token, you are not obligated to use a branded package from a carrier. For example, if you specify the FedEx_Box_10kg token, you do not have to use that particular package from FedEx. You are only obligated to use a box that matches the dimensions specified by the token.  Note: Please note that carriers can have restrictions on the type of package allowed for certain ship methods. Check the carrier website for all details. Example: Flat rate pricing is available when materials are sent by USPS in a USPS-produced Flat Rate Envelope or Box.
+ * An enumeration of predefined parcel tokens. If you specify a `PredefinedPackageDimensions` token, you are not obligated to use a branded package from a carrier. For example, if you specify the `FedEx_Box_10kg` token, you do not have to use that particular package from FedEx. You are only obligated to use a box that matches the dimensions specified by the token. Note: Carriers can have restrictions on the type of package allowed for certain ship methods. Check the carrier website for details. Example: Flat rate pricing is available when materials are sent by USPS in a USPS-produced Flat Rate envelope or box.
  * @export
  * @enum {string}
  */
@@ -1097,13 +1097,13 @@ export enum PredefinedPackageDimensions {
  */
 export interface RejectedShippingService {
     /**
-     * The rejected shipping carrier name. e.g. USPS
+     * The rejected shipping carrier name. For example, USPS.
      * @type {string}
      * @memberof RejectedShippingService
      */
     CarrierName: string;
     /**
-     * The rejected shipping service localized name. e.g. FedEx Standard Overnight
+     * The rejected shipping service localized name. For example, FedEx Standard Overnight.
      * @type {string}
      * @memberof RejectedShippingService
      */
@@ -1115,7 +1115,7 @@ export interface RejectedShippingService {
      */
     ShippingServiceId: string;
     /**
-     * A reason code meant to be consumed programatically. e.g. CARRIER_CANNOT_SHIP_TO_POBOX
+     * A reason code meant to be consumed programatically. For example, `CARRIER_CANNOT_SHIP_TO_POBOX`.
      * @type {string}
      * @memberof RejectedShippingService
      */
@@ -1177,7 +1177,7 @@ export interface SellerInputDefinition {
     RestrictedSetValues?: Array<string>;
 }
 /**
- * The details of a shipment, including the shipment status.
+ * The details of a shipment. Includes the shipment status.
  * @export
  * @interface Shipment
  */
@@ -1201,7 +1201,7 @@ export interface Shipment {
      */
     SellerOrderId?: string;
     /**
-     * The list of items to be included in a shipment.
+     * The list of items you want to include in a shipment.
      * @type {Array<Item>}
      * @memberof Shipment
      */
@@ -1292,7 +1292,7 @@ export interface ShipmentRequestDetails {
      */
     SellerOrderId?: string;
     /**
-     * The list of items to be included in a shipment.
+     * The list of items you want to include in a shipment.
      * @type {Array<Item>}
      * @memberof ShipmentRequestDetails
      */
@@ -1493,7 +1493,7 @@ export interface ShippingServiceOptions {
      */
     DeclaredValue?: CurrencyAmount;
     /**
-     * When true, the carrier will pick up the package.  Note: Scheduled carrier pickup is available only using Dynamex (US), DPD (UK), and Royal Mail (UK).
+     * When true, the carrier will pick up the package. Note: Scheduled carrier pickup is available only using Dynamex (US), DPD (UK), and Royal Mail (UK).
      * @type {boolean}
      * @memberof ShippingServiceOptions
      */
@@ -1593,7 +1593,7 @@ export interface Weight {
 export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment to cancel.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1626,8 +1626,8 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
             };
         },
         /**
-         * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateShipmentRequest} body Request schema for CreateShipment operation.
+         * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {CreateShipmentRequest} body The request schema for the &#x60;CreateShipment&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1661,8 +1661,8 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
             };
         },
         /**
-         * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetAdditionalSellerInputsRequest} body Request schema for GetAdditionalSellerInputs operation.
+         * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetAdditionalSellerInputsRequest} body The request schema for the &#x60;GetAdditionalSellerInputs&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1696,8 +1696,8 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
             };
         },
         /**
-         * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetEligibleShipmentServicesRequest} body Request schema for GetEligibleShipmentServices operation.
+         * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 6 | 12 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetEligibleShipmentServicesRequest} body The request schema for the &#x60;GetEligibleShipmentServices&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1731,7 +1731,7 @@ export const MerchantFulfillmentApiAxiosParamCreator = function (configuration?:
             };
         },
         /**
-         * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1774,7 +1774,7 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
     const localVarAxiosParamCreator = MerchantFulfillmentApiAxiosParamCreator(configuration)
     return {
         /**
-         * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment to cancel.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1784,8 +1784,8 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateShipmentRequest} body Request schema for CreateShipment operation.
+         * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {CreateShipmentRequest} body The request schema for the &#x60;CreateShipment&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1794,8 +1794,8 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetAdditionalSellerInputsRequest} body Request schema for GetAdditionalSellerInputs operation.
+         * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetAdditionalSellerInputsRequest} body The request schema for the &#x60;GetAdditionalSellerInputs&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1804,8 +1804,8 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetEligibleShipmentServicesRequest} body Request schema for GetEligibleShipmentServices operation.
+         * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 6 | 12 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetEligibleShipmentServicesRequest} body The request schema for the &#x60;GetEligibleShipmentServices&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1814,7 +1814,7 @@ export const MerchantFulfillmentApiFp = function(configuration?: Configuration) 
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1834,7 +1834,7 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
     const localVarFp = MerchantFulfillmentApiFp(configuration)
     return {
         /**
-         * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment to cancel.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1843,8 +1843,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
             return localVarFp.cancelShipment(shipmentId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {CreateShipmentRequest} body Request schema for CreateShipment operation.
+         * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {CreateShipmentRequest} body The request schema for the &#x60;CreateShipment&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1852,8 +1852,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
             return localVarFp.createShipment(body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetAdditionalSellerInputsRequest} body Request schema for GetAdditionalSellerInputs operation.
+         * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetAdditionalSellerInputsRequest} body The request schema for the &#x60;GetAdditionalSellerInputs&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1861,8 +1861,8 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
             return localVarFp.getAdditionalSellerInputs(body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {GetEligibleShipmentServicesRequest} body Request schema for GetEligibleShipmentServices operation.
+         * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 6 | 12 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {GetEligibleShipmentServicesRequest} body The request schema for the &#x60;GetEligibleShipmentServices&#x60; operation.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1870,7 +1870,7 @@ export const MerchantFulfillmentApiFactory = function (configuration?: Configura
             return localVarFp.getEligibleShipmentServices(body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} shipmentId The Amazon-defined shipment identifier for the shipment.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1902,7 +1902,7 @@ export interface MerchantFulfillmentApiCancelShipmentRequest {
  */
 export interface MerchantFulfillmentApiCreateShipmentRequest {
     /**
-     * Request schema for CreateShipment operation.
+     * The request schema for the &#x60;CreateShipment&#x60; operation.
      * @type {CreateShipmentRequest}
      * @memberof MerchantFulfillmentApiCreateShipment
      */
@@ -1916,7 +1916,7 @@ export interface MerchantFulfillmentApiCreateShipmentRequest {
  */
 export interface MerchantFulfillmentApiGetAdditionalSellerInputsRequest {
     /**
-     * Request schema for GetAdditionalSellerInputs operation.
+     * The request schema for the &#x60;GetAdditionalSellerInputs&#x60; operation.
      * @type {GetAdditionalSellerInputsRequest}
      * @memberof MerchantFulfillmentApiGetAdditionalSellerInputs
      */
@@ -1930,7 +1930,7 @@ export interface MerchantFulfillmentApiGetAdditionalSellerInputsRequest {
  */
 export interface MerchantFulfillmentApiGetEligibleShipmentServicesRequest {
     /**
-     * Request schema for GetEligibleShipmentServices operation.
+     * The request schema for the &#x60;GetEligibleShipmentServices&#x60; operation.
      * @type {GetEligibleShipmentServicesRequest}
      * @memberof MerchantFulfillmentApiGetEligibleShipmentServices
      */
@@ -1959,7 +1959,7 @@ export interface MerchantFulfillmentApiGetShipmentRequest {
  */
 export class MerchantFulfillmentApi extends BaseAPI {
     /**
-     * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {MerchantFulfillmentApiCancelShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1970,7 +1970,7 @@ export class MerchantFulfillmentApi extends BaseAPI {
     }
 
     /**
-     * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 2 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {MerchantFulfillmentApiCreateShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1981,7 +1981,7 @@ export class MerchantFulfillmentApi extends BaseAPI {
     }
 
     /**
-     * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {MerchantFulfillmentApiGetAdditionalSellerInputsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1992,7 +1992,7 @@ export class MerchantFulfillmentApi extends BaseAPI {
     }
 
     /**
-     * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 6 | 12 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {MerchantFulfillmentApiGetEligibleShipmentServicesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2003,7 +2003,7 @@ export class MerchantFulfillmentApi extends BaseAPI {
     }
 
     /**
-     * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the SP-API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {MerchantFulfillmentApiGetShipmentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

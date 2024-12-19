@@ -114,7 +114,7 @@ export interface GetSellingPartnerMetricsRequest {
      * @type {Array<Metric>}
      * @memberof GetSellingPartnerMetricsRequest
      */
-    metrics?: Array<(Metric | 'SHIPPED_SUBSCRIPTION_UNITS' | 'TOTAL_SUBSCRIPTIONS_REVENUE' | 'ACTIVE_SUBSCRIPTIONS' | 'NOT_DELIVERED_DUE_TO_OOS' | 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REVENUE' | 'LOST_REVENUE_DUE_TO_OOS' | 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REORDERS' | 'COUPONS_REVENUE_PENETRATION')>;
+    metrics?: Array<(Metric | 'SHIPPED_SUBSCRIPTION_UNITS' | 'TOTAL_SUBSCRIPTIONS_REVENUE' | 'ACTIVE_SUBSCRIPTIONS' | 'NOT_DELIVERED_DUE_TO_OOS' | 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REVENUE' | 'LOST_REVENUE_DUE_TO_OOS' | 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REORDERS' | 'COUPONS_REVENUE_PENETRATION' | 'REVENUE_BY_DELIVERIES' | 'SUBSCRIBER_RETENTION' | 'REVENUE_PENETRATION_BY_SELLER_FUNDING' | 'SHARE_OF_COUPON_SUBSCRIPTIONS')>;
     /**
      * 
      * @type {TimePeriodType}
@@ -154,65 +154,125 @@ export interface GetSellingPartnerMetricsResponse {
  */
 export interface GetSellingPartnerMetricsResponseMetric {
     /**
-     * The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     notDeliveredDueToOOS?: number;
     /**
-     * The revenue generated from subscriptions over a period of time. Applicable for both the `PERFORMANCE` and `FORECAST` `timePeriodType`.
+     * The revenue generated from subscriptions over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     totalSubscriptionsRevenue?: number;
     /**
-     * The number of units shipped to the subscribers over a period of time. Applicable for both the `PERFORMANCE` and `FORECAST` `timePeriodType`.
+     * The number of units shipped to the subscribers over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     shippedSubscriptionUnits?: number;
     /**
-     * The number of active subscriptions present at the end of the period. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The number of active subscriptions present at the end of the period. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     activeSubscriptions?: number;
     /**
-     * The average revenue per subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The average revenue per subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     subscriberAverageRevenue?: number;
     /**
-     * The average revenue per non-subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The average revenue per non-subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     nonSubscriberAverageRevenue?: number;
     /**
-     * The revenue that would have been generated had there not been out of stock. Applicable only for the PERFORMANCE timePeriodType.
+     * The revenue that would have been generated had there not been out of stock. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     lostRevenueDueToOOS?: number;
     /**
-     * The average reorders per subscriber of the program over a period of 12 months. Applicable only for the PERFORMANCE timePeriodType.
+     * The average reorders per subscriber of the program over a period of 12 months. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     subscriberAverageReorders?: number;
     /**
-     * The average reorders per non-subscriber of the program over a period of past 12 months. Applicable only for the PERFORMANCE timePeriodType.
+     * The average reorders per non-subscriber of the program over a period of past 12 months. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     nonSubscriberAverageReorders?: number;
     /**
-     * The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable only for the PERFORMANCE timePeriodType.
+     * The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof GetSellingPartnerMetricsResponseMetric
      */
     couponsRevenuePenetration?: number;
+    /**
+     * The subscription revenue generated from subscriptions with over two deliveries over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    revenueFromSubscriptionsWithMultipleDeliveries?: number;
+    /**
+     * The subscription revenue generated from active subscriptions with one delivery over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    revenueFromActiveSubscriptionsWithSingleDelivery?: number;
+    /**
+     * The subscription revenue generated from subscriptions which are cancelled after one delivery over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    revenueFromCancelledSubscriptionsAfterSingleDelivery?: number;
+    /**
+     * The percentage of subscriptions retained after 30 days of subscription creation. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    subscriberRetentionFor30Days?: number;
+    /**
+     * The percentage of subscriptions retained after 90 days of subscription creation. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    subscriberRetentionFor90Days?: number;
+    /**
+     * The percentage of subscription revenue generated by offers with 0% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    revenuePenetrationFor0PercentSellerFunding?: number;
+    /**
+     * [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 5% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    revenuePenetrationFor5PercentSellerFunding?: number;
+    /**
+     * [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 10% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    revenuePenetrationFor10PercentSellerFunding?: number;
+    /**
+     * [Applicable only for vendors] The percentage of subscription revenue generated by offers with 5% or above seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    revenuePenetrationFor5PlusPercentSellerFunding?: number;
+    /**
+     * The percentage of new subscriptions acquired through coupons. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof GetSellingPartnerMetricsResponseMetric
+     */
+    shareOfCouponSubscriptions?: number;
     /**
      * 
      * @type {TimeInterval}
@@ -364,79 +424,85 @@ export interface ListOfferMetricsResponseOffer {
      */
     asin?: string;
     /**
-     * The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     notDeliveredDueToOOS?: number;
     /**
-     * The revenue generated from subscriptions over a period of time. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The revenue generated from subscriptions over a period of time. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     totalSubscriptionsRevenue?: number;
     /**
-     * The number of units shipped to the subscribers over a period of time. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The number of units shipped to the subscribers over a period of time. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     shippedSubscriptionUnits?: number;
     /**
-     * The number of active subscriptions present at the end of the period. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The number of active subscriptions present at the end of the period. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     activeSubscriptions?: number;
     /**
-     * The percentage of total program revenue out of total product revenue. Applicable only for the `PERFORMANCE` `timePeriodType`.
+     * The percentage of total program revenue out of total product revenue. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     revenuePenetration?: number;
     /**
-     * The revenue that would have been generated had there not been out of stock. Applicable only for the PERFORMANCE timePeriodType.
+     * The revenue that would have been generated had there not been out of stock. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     lostRevenueDueToOOS?: number;
     /**
-     * The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable only for the PERFORMANCE timePeriodType.
+     * The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable to PERFORMANCE timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     couponsRevenuePenetration?: number;
     /**
-     * The forecasted total subscription revenue for the next 30 days. Applicable only for the `FORECAST` `timePeriodType`.
+     * The percentage of new subscriptions acquired through coupons. Applicable to PERFORMANCE timePeriodType.
+     * @type {number}
+     * @memberof ListOfferMetricsResponseOffer
+     */
+    shareOfCouponSubscriptions?: number;
+    /**
+     * The forecasted total subscription revenue for the next 30 days. Applicable to FORECAST timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next30DayTotalSubscriptionsRevenue?: number;
     /**
-     * The forecasted total subscription revenue for the next 60 days. Applicable only for the `FORECAST` `timePeriodType`.
+     * The forecasted total subscription revenue for the next 60 days. Applicable to FORECAST timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next60DayTotalSubscriptionsRevenue?: number;
     /**
-     * The forecasted total subscription revenue for the next 90 days. Applicable only for the `FORECAST` `timePeriodType`.
+     * The forecasted total subscription revenue for the next 90 days. Applicable to FORECAST timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next90DayTotalSubscriptionsRevenue?: number;
     /**
-     * The forecasted shipped subscription units for the next 30 days. Applicable only for the `FORECAST` `timePeriodType`.
+     * The forecasted shipped subscription units for the next 30 days. Applicable to FORECAST timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next30DayShippedSubscriptionUnits?: number;
     /**
-     * The forecasted shipped subscription units for the next 60 days. Applicable only for the `FORECAST` `timePeriodType`.
+     * The forecasted shipped subscription units for the next 60 days. Applicable to FORECAST timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
     next60DayShippedSubscriptionUnits?: number;
     /**
-     * The forecasted shipped subscription units for the next 90 days. Applicable only for the `FORECAST` `timePeriodType`.
+     * The forecasted shipped subscription units for the next 90 days. Applicable to FORECAST timePeriodType.
      * @type {number}
      * @memberof ListOfferMetricsResponseOffer
      */
@@ -677,7 +743,11 @@ export enum Metric {
     SubscriberNonSubscriberAverageRevenue = 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REVENUE',
     LostRevenueDueToOos = 'LOST_REVENUE_DUE_TO_OOS',
     SubscriberNonSubscriberAverageReorders = 'SUBSCRIBER_NON_SUBSCRIBER_AVERAGE_REORDERS',
-    CouponsRevenuePenetration = 'COUPONS_REVENUE_PENETRATION'
+    CouponsRevenuePenetration = 'COUPONS_REVENUE_PENETRATION',
+    RevenueByDeliveries = 'REVENUE_BY_DELIVERIES',
+    SubscriberRetention = 'SUBSCRIBER_RETENTION',
+    RevenuePenetrationBySellerFunding = 'REVENUE_PENETRATION_BY_SELLER_FUNDING',
+    ShareOfCouponSubscriptions = 'SHARE_OF_COUPON_SUBSCRIPTIONS'
 }
 
 /**

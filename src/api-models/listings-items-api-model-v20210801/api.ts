@@ -236,6 +236,18 @@ export interface Item {
      * @memberof Item
      */
     procurement?: Array<ItemProcurement>;
+    /**
+     * Relationships for a listing item, by marketplace (for example, variations).
+     * @type {Array<ItemRelationshipsByMarketplace>}
+     * @memberof Item
+     */
+    relationships?: Array<ItemRelationshipsByMarketplace>;
+    /**
+     * Product types for a listing item, by marketplace.
+     * @type {Array<ItemProductTypeByMarketplace>}
+     * @memberof Item
+     */
+    productTypes?: Array<ItemProductTypeByMarketplace>;
 }
 /**
  * Identity attributes associated with the item in the Amazon catalog for the indicated Amazon marketplace.
@@ -342,6 +354,85 @@ export interface ItemProcurement {
     costPrice: Money;
 }
 /**
+ * Product types that are associated with the listing item for the specified marketplace.
+ * @export
+ * @interface ItemProductTypeByMarketplace
+ */
+export interface ItemProductTypeByMarketplace {
+    /**
+     * Amazon marketplace identifier.
+     * @type {string}
+     * @memberof ItemProductTypeByMarketplace
+     */
+    marketplaceId: string;
+    /**
+     * The name of the product type that is submitted by the Selling Partner.
+     * @type {string}
+     * @memberof ItemProductTypeByMarketplace
+     */
+    productType: string;
+}
+/**
+ * the relationship details for a listing item.
+ * @export
+ * @interface ItemRelationship
+ */
+export interface ItemRelationship {
+    /**
+     * Identifiers (SKUs) of the related items that are children of this listing item.
+     * @type {Array<string>}
+     * @memberof ItemRelationship
+     */
+    childSkus?: Array<string>;
+    /**
+     * Identifiers (SKUs) of the related items that are parents of this listing item.
+     * @type {Array<string>}
+     * @memberof ItemRelationship
+     */
+    parentSkus?: Array<string>;
+    /**
+     * 
+     * @type {ItemVariationTheme}
+     * @memberof ItemRelationship
+     */
+    variationTheme?: ItemVariationTheme;
+    /**
+     * The type of relationship.
+     * @type {string}
+     * @memberof ItemRelationship
+     */
+    type: ItemRelationshipTypeEnum | 'VARIATION' | 'PACKAGE_HIERARCHY';
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ItemRelationshipTypeEnum {
+    Variation = 'VARIATION',
+    PackageHierarchy = 'PACKAGE_HIERARCHY'
+}
+
+/**
+ * Relationship details for the listing item in the specified marketplace.
+ * @export
+ * @interface ItemRelationshipsByMarketplace
+ */
+export interface ItemRelationshipsByMarketplace {
+    /**
+     * Amazon marketplace identifier.
+     * @type {string}
+     * @memberof ItemRelationshipsByMarketplace
+     */
+    marketplaceId: string;
+    /**
+     * Relationships for the listing item.
+     * @type {Array<ItemRelationship>}
+     * @memberof ItemRelationshipsByMarketplace
+     */
+    relationships: Array<ItemRelationship>;
+}
+/**
  * Selling partner listings items and search related metadata.
  * @export
  * @interface ItemSearchResults
@@ -383,7 +474,7 @@ export interface ItemSummaryByMarketplace {
      * @type {string}
      * @memberof ItemSummaryByMarketplace
      */
-    asin: string;
+    asin?: string;
     /**
      * The Amazon product type of the listings item.
      * @type {string}
@@ -413,7 +504,7 @@ export interface ItemSummaryByMarketplace {
      * @type {string}
      * @memberof ItemSummaryByMarketplace
      */
-    itemName: string;
+    itemName?: string;
     /**
      * The date the listings item was created in ISO 8601 format.
      * @type {string}
@@ -462,6 +553,25 @@ export enum ItemSummaryByMarketplaceStatusEnum {
     Discoverable = 'DISCOVERABLE'
 }
 
+/**
+ * A variation theme that indicates the combination of listing item attributes that define the variation family.
+ * @export
+ * @interface ItemVariationTheme
+ */
+export interface ItemVariationTheme {
+    /**
+     * The names of the listing item attributes that are associated with the variation theme.
+     * @type {Array<string>}
+     * @memberof ItemVariationTheme
+     */
+    attributes: Array<string>;
+    /**
+     * The variation theme that indicates the combination of listing item attributes that define the variation family.
+     * @type {string}
+     * @memberof ItemVariationTheme
+     */
+    theme: string;
+}
 /**
  * The request body schema for the `patchListingsItem` operation.
  * @export
@@ -739,11 +849,11 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
          * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getListingsItem: async (sellerId: string, sku: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>, options: any = {}): Promise<RequestArgs> => {
+        getListingsItem: async (sellerId: string, sku: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerId' is not null or undefined
             assertParamExists('getListingsItem', 'sellerId', sellerId)
             // verify required parameter 'sku' is not null or undefined
@@ -788,7 +898,7 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
@@ -918,19 +1028,30 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Search for and return list of listings items and respective details for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Search for and return a list of selling partner listings items and their respective details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers to search for listings items by.   **Note**:  1. Required when &#x60;identifiersType&#x60; is provided.
-         * @param {'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] Type of product identifiers to search for listings items by.   **Note**:  1. Required when &#x60;identifiers&#x60; is provided.
-         * @param {number} [pageSize] Number of results to be returned per page.
-         * @param {string} [pageToken] A token to fetch a certain page when there are multiple pages worth of results.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: summaries.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {string} [issueLocale] A locale that is used to localize issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. When a localization is not available in the specified locale, localized messages default to \&quot;en_US\&quot;.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>} [includedData] A comma-delimited list of datasets that you want to include in the response. Default: &#x60;summaries&#x60;.
+         * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers that you can use to search for listings items.   **Note**:  1. This is required when you specify &#x60;identifiersType&#x60;. 2. You cannot use \&#39;identifiers\&#39; if you specify &#x60;variationParentSku&#x60; or &#x60;packageHierarchySku&#x60;.
+         * @param {'ASIN' | 'EAN' | 'FNSKU' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] A type of product identifiers that you can use to search for listings items.   **Note**:  This is required when &#x60;identifiers&#x60; is provided.
+         * @param {string} [variationParentSku] Filters results to include listing items that are variation children of the specified SKU.   **Note**: You cannot use &#x60;variationParentSku&#x60; if you include &#x60;identifiers&#x60; or &#x60;packageHierarchySku&#x60; in your request.
+         * @param {string} [packageHierarchySku] Filter results to include listing items that contain or are contained by the specified SKU.   **Note**: You cannot use &#x60;packageHierarchySku&#x60; if you include &#x60;identifiers&#x60; or &#x60;variationParentSku&#x60; in your request.
+         * @param {string} [createdAfter] A date-time that is used to filter listing items. The response includes listings items that were created at or after this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [createdBefore] A date-time that is used to filter listing items. The response includes listings items that were created at or before this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [lastUpdatedAfter] A date-time that is used to filter listing items. The response includes listings items that were last updated at or after this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [lastUpdatedBefore] A date-time that is used to filter listing items. The response includes listings items that were last updated at or before this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {Array<'WARNING' | 'ERROR'>} [withIssueSeverity] Filter results to include only listing items that have issues that match one or more of the specified severity levels.
+         * @param {Array<'BUYABLE' | 'DISCOVERABLE'>} [withStatus] Filter results to include only listing items that have the specified status.
+         * @param {Array<'BUYABLE' | 'DISCOVERABLE'>} [withoutStatus] Filter results to include only listing items that don\&#39;t contain the specified statuses.
+         * @param {'sku' | 'createdDate' | 'lastUpdatedDate'} [sortBy] An attribute by which to sort the returned listing items.
+         * @param {'ASC' | 'DESC'} [sortOrder] The order in which to sort the result items.
+         * @param {number} [pageSize] The number of results that you want to include on each page.
+         * @param {string} [pageToken] A token that you can use to fetch a specific page when there are multiple pages of results.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchListingsItems: async (sellerId: string, marketplaceIds: Array<string>, identifiers?: Array<string>, identifiersType?: 'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC', pageSize?: number, pageToken?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>, issueLocale?: string, options: any = {}): Promise<RequestArgs> => {
+        searchListingsItems: async (sellerId: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>, identifiers?: Array<string>, identifiersType?: 'ASIN' | 'EAN' | 'FNSKU' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC', variationParentSku?: string, packageHierarchySku?: string, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, withIssueSeverity?: Array<'WARNING' | 'ERROR'>, withStatus?: Array<'BUYABLE' | 'DISCOVERABLE'>, withoutStatus?: Array<'BUYABLE' | 'DISCOVERABLE'>, sortBy?: 'sku' | 'createdDate' | 'lastUpdatedDate', sortOrder?: 'ASC' | 'DESC', pageSize?: number, pageToken?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'sellerId' is not null or undefined
             assertParamExists('searchListingsItems', 'sellerId', sellerId)
             // verify required parameter 'marketplaceIds' is not null or undefined
@@ -952,6 +1073,14 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['marketplaceIds'] = marketplaceIds.join(COLLECTION_FORMATS.csv);
             }
 
+            if (issueLocale !== undefined) {
+                localVarQueryParameter['issueLocale'] = issueLocale;
+            }
+
+            if (includedData) {
+                localVarQueryParameter['includedData'] = includedData.join(COLLECTION_FORMATS.csv);
+            }
+
             if (identifiers) {
                 localVarQueryParameter['identifiers'] = identifiers.join(COLLECTION_FORMATS.csv);
             }
@@ -960,20 +1089,64 @@ export const ListingsApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['identifiersType'] = identifiersType;
             }
 
+            if (variationParentSku !== undefined) {
+                localVarQueryParameter['variationParentSku'] = variationParentSku;
+            }
+
+            if (packageHierarchySku !== undefined) {
+                localVarQueryParameter['packageHierarchySku'] = packageHierarchySku;
+            }
+
+            if (createdAfter !== undefined) {
+                localVarQueryParameter['createdAfter'] = (createdAfter as any instanceof Date) ?
+                    (createdAfter as any).toISOString() :
+                    createdAfter;
+            }
+
+            if (createdBefore !== undefined) {
+                localVarQueryParameter['createdBefore'] = (createdBefore as any instanceof Date) ?
+                    (createdBefore as any).toISOString() :
+                    createdBefore;
+            }
+
+            if (lastUpdatedAfter !== undefined) {
+                localVarQueryParameter['lastUpdatedAfter'] = (lastUpdatedAfter as any instanceof Date) ?
+                    (lastUpdatedAfter as any).toISOString() :
+                    lastUpdatedAfter;
+            }
+
+            if (lastUpdatedBefore !== undefined) {
+                localVarQueryParameter['lastUpdatedBefore'] = (lastUpdatedBefore as any instanceof Date) ?
+                    (lastUpdatedBefore as any).toISOString() :
+                    lastUpdatedBefore;
+            }
+
+            if (withIssueSeverity) {
+                localVarQueryParameter['withIssueSeverity'] = withIssueSeverity.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (withStatus) {
+                localVarQueryParameter['withStatus'] = withStatus.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (withoutStatus) {
+                localVarQueryParameter['withoutStatus'] = withoutStatus.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (sortBy !== undefined) {
+                localVarQueryParameter['sortBy'] = sortBy;
+            }
+
+            if (sortOrder !== undefined) {
+                localVarQueryParameter['sortOrder'] = sortOrder;
+            }
+
             if (pageSize !== undefined) {
                 localVarQueryParameter['pageSize'] = pageSize;
             }
 
             if (pageToken !== undefined) {
                 localVarQueryParameter['pageToken'] = pageToken;
-            }
-
-            if (includedData) {
-                localVarQueryParameter['includedData'] = includedData.join(COLLECTION_FORMATS.csv);
-            }
-
-            if (issueLocale !== undefined) {
-                localVarQueryParameter['issueLocale'] = issueLocale;
             }
 
 
@@ -1016,16 +1189,16 @@ export const ListingsApiFp = function(configuration?: Configuration) {
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
          * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
+        async getListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getListingsItem(sellerId, sku, marketplaceIds, issueLocale, includedData, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
@@ -1057,20 +1230,31 @@ export const ListingsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Search for and return list of listings items and respective details for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Search for and return a list of selling partner listings items and their respective details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers to search for listings items by.   **Note**:  1. Required when &#x60;identifiersType&#x60; is provided.
-         * @param {'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] Type of product identifiers to search for listings items by.   **Note**:  1. Required when &#x60;identifiers&#x60; is provided.
-         * @param {number} [pageSize] Number of results to be returned per page.
-         * @param {string} [pageToken] A token to fetch a certain page when there are multiple pages worth of results.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: summaries.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {string} [issueLocale] A locale that is used to localize issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. When a localization is not available in the specified locale, localized messages default to \&quot;en_US\&quot;.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>} [includedData] A comma-delimited list of datasets that you want to include in the response. Default: &#x60;summaries&#x60;.
+         * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers that you can use to search for listings items.   **Note**:  1. This is required when you specify &#x60;identifiersType&#x60;. 2. You cannot use \&#39;identifiers\&#39; if you specify &#x60;variationParentSku&#x60; or &#x60;packageHierarchySku&#x60;.
+         * @param {'ASIN' | 'EAN' | 'FNSKU' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] A type of product identifiers that you can use to search for listings items.   **Note**:  This is required when &#x60;identifiers&#x60; is provided.
+         * @param {string} [variationParentSku] Filters results to include listing items that are variation children of the specified SKU.   **Note**: You cannot use &#x60;variationParentSku&#x60; if you include &#x60;identifiers&#x60; or &#x60;packageHierarchySku&#x60; in your request.
+         * @param {string} [packageHierarchySku] Filter results to include listing items that contain or are contained by the specified SKU.   **Note**: You cannot use &#x60;packageHierarchySku&#x60; if you include &#x60;identifiers&#x60; or &#x60;variationParentSku&#x60; in your request.
+         * @param {string} [createdAfter] A date-time that is used to filter listing items. The response includes listings items that were created at or after this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [createdBefore] A date-time that is used to filter listing items. The response includes listings items that were created at or before this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [lastUpdatedAfter] A date-time that is used to filter listing items. The response includes listings items that were last updated at or after this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [lastUpdatedBefore] A date-time that is used to filter listing items. The response includes listings items that were last updated at or before this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {Array<'WARNING' | 'ERROR'>} [withIssueSeverity] Filter results to include only listing items that have issues that match one or more of the specified severity levels.
+         * @param {Array<'BUYABLE' | 'DISCOVERABLE'>} [withStatus] Filter results to include only listing items that have the specified status.
+         * @param {Array<'BUYABLE' | 'DISCOVERABLE'>} [withoutStatus] Filter results to include only listing items that don\&#39;t contain the specified statuses.
+         * @param {'sku' | 'createdDate' | 'lastUpdatedDate'} [sortBy] An attribute by which to sort the returned listing items.
+         * @param {'ASC' | 'DESC'} [sortOrder] The order in which to sort the result items.
+         * @param {number} [pageSize] The number of results that you want to include on each page.
+         * @param {string} [pageToken] A token that you can use to fetch a specific page when there are multiple pages of results.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async searchListingsItems(sellerId: string, marketplaceIds: Array<string>, identifiers?: Array<string>, identifiersType?: 'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC', pageSize?: number, pageToken?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>, issueLocale?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ItemSearchResults>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.searchListingsItems(sellerId, marketplaceIds, identifiers, identifiersType, pageSize, pageToken, includedData, issueLocale, options);
+        async searchListingsItems(sellerId: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>, identifiers?: Array<string>, identifiersType?: 'ASIN' | 'EAN' | 'FNSKU' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC', variationParentSku?: string, packageHierarchySku?: string, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, withIssueSeverity?: Array<'WARNING' | 'ERROR'>, withStatus?: Array<'BUYABLE' | 'DISCOVERABLE'>, withoutStatus?: Array<'BUYABLE' | 'DISCOVERABLE'>, sortBy?: 'sku' | 'createdDate' | 'lastUpdatedDate', sortOrder?: 'ASC' | 'DESC', pageSize?: number, pageToken?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ItemSearchResults>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchListingsItems(sellerId, marketplaceIds, issueLocale, includedData, identifiers, identifiersType, variationParentSku, packageHierarchySku, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, withIssueSeverity, withStatus, withoutStatus, sortBy, sortOrder, pageSize, pageToken, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1101,15 +1285,15 @@ export const ListingsApiFactory = function (configuration?: Configuration, baseP
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
          * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>} [includedData] A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>, options?: any): AxiosPromise<Item> {
+        getListingsItem(sellerId: string, sku: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>, options?: any): AxiosPromise<Item> {
             return localVarFp.getListingsItem(sellerId, sku, marketplaceIds, issueLocale, includedData, options).then((request) => request(axios, basePath));
         },
         /**
-         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {string} sku A selling partner provided identifier for an Amazon listing.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
@@ -1139,20 +1323,31 @@ export const ListingsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.putListingsItem(sellerId, sku, marketplaceIds, body, includedData, mode, issueLocale, options).then((request) => request(axios, basePath));
         },
         /**
-         * Search for and return list of listings items and respective details for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * Search for and return a list of selling partner listings items and their respective details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} sellerId A selling partner identifier, such as a merchant account or vendor code.
          * @param {Array<string>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
-         * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers to search for listings items by.   **Note**:  1. Required when &#x60;identifiersType&#x60; is provided.
-         * @param {'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] Type of product identifiers to search for listings items by.   **Note**:  1. Required when &#x60;identifiers&#x60; is provided.
-         * @param {number} [pageSize] Number of results to be returned per page.
-         * @param {string} [pageToken] A token to fetch a certain page when there are multiple pages worth of results.
-         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>} [includedData] A comma-delimited list of data sets to include in the response. Default: summaries.
-         * @param {string} [issueLocale] A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
+         * @param {string} [issueLocale] A locale that is used to localize issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. When a localization is not available in the specified locale, localized messages default to \&quot;en_US\&quot;.
+         * @param {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>} [includedData] A comma-delimited list of datasets that you want to include in the response. Default: &#x60;summaries&#x60;.
+         * @param {Array<string>} [identifiers] A comma-delimited list of product identifiers that you can use to search for listings items.   **Note**:  1. This is required when you specify &#x60;identifiersType&#x60;. 2. You cannot use \&#39;identifiers\&#39; if you specify &#x60;variationParentSku&#x60; or &#x60;packageHierarchySku&#x60;.
+         * @param {'ASIN' | 'EAN' | 'FNSKU' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'} [identifiersType] A type of product identifiers that you can use to search for listings items.   **Note**:  This is required when &#x60;identifiers&#x60; is provided.
+         * @param {string} [variationParentSku] Filters results to include listing items that are variation children of the specified SKU.   **Note**: You cannot use &#x60;variationParentSku&#x60; if you include &#x60;identifiers&#x60; or &#x60;packageHierarchySku&#x60; in your request.
+         * @param {string} [packageHierarchySku] Filter results to include listing items that contain or are contained by the specified SKU.   **Note**: You cannot use &#x60;packageHierarchySku&#x60; if you include &#x60;identifiers&#x60; or &#x60;variationParentSku&#x60; in your request.
+         * @param {string} [createdAfter] A date-time that is used to filter listing items. The response includes listings items that were created at or after this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [createdBefore] A date-time that is used to filter listing items. The response includes listings items that were created at or before this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [lastUpdatedAfter] A date-time that is used to filter listing items. The response includes listings items that were last updated at or after this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {string} [lastUpdatedBefore] A date-time that is used to filter listing items. The response includes listings items that were last updated at or before this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+         * @param {Array<'WARNING' | 'ERROR'>} [withIssueSeverity] Filter results to include only listing items that have issues that match one or more of the specified severity levels.
+         * @param {Array<'BUYABLE' | 'DISCOVERABLE'>} [withStatus] Filter results to include only listing items that have the specified status.
+         * @param {Array<'BUYABLE' | 'DISCOVERABLE'>} [withoutStatus] Filter results to include only listing items that don\&#39;t contain the specified statuses.
+         * @param {'sku' | 'createdDate' | 'lastUpdatedDate'} [sortBy] An attribute by which to sort the returned listing items.
+         * @param {'ASC' | 'DESC'} [sortOrder] The order in which to sort the result items.
+         * @param {number} [pageSize] The number of results that you want to include on each page.
+         * @param {string} [pageToken] A token that you can use to fetch a specific page when there are multiple pages of results.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchListingsItems(sellerId: string, marketplaceIds: Array<string>, identifiers?: Array<string>, identifiersType?: 'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC', pageSize?: number, pageToken?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>, issueLocale?: string, options?: any): AxiosPromise<ItemSearchResults> {
-            return localVarFp.searchListingsItems(sellerId, marketplaceIds, identifiers, identifiersType, pageSize, pageToken, includedData, issueLocale, options).then((request) => request(axios, basePath));
+        searchListingsItems(sellerId: string, marketplaceIds: Array<string>, issueLocale?: string, includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>, identifiers?: Array<string>, identifiersType?: 'ASIN' | 'EAN' | 'FNSKU' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC', variationParentSku?: string, packageHierarchySku?: string, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, withIssueSeverity?: Array<'WARNING' | 'ERROR'>, withStatus?: Array<'BUYABLE' | 'DISCOVERABLE'>, withoutStatus?: Array<'BUYABLE' | 'DISCOVERABLE'>, sortBy?: 'sku' | 'createdDate' | 'lastUpdatedDate', sortOrder?: 'ASC' | 'DESC', pageSize?: number, pageToken?: string, options?: any): AxiosPromise<ItemSearchResults> {
+            return localVarFp.searchListingsItems(sellerId, marketplaceIds, issueLocale, includedData, identifiers, identifiersType, variationParentSku, packageHierarchySku, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, withIssueSeverity, withStatus, withoutStatus, sortBy, sortOrder, pageSize, pageToken, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1228,10 +1423,10 @@ export interface ListingsApiGetListingsItemRequest {
 
     /**
      * A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
-     * @type {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>}
+     * @type {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>}
      * @memberof ListingsApiGetListingsItem
      */
-    readonly includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>
+    readonly includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>
 }
 
 /**
@@ -1367,46 +1562,123 @@ export interface ListingsApiSearchListingsItemsRequest {
     readonly marketplaceIds: Array<string>
 
     /**
-     * A comma-delimited list of product identifiers to search for listings items by.   **Note**:  1. Required when &#x60;identifiersType&#x60; is provided.
+     * A locale that is used to localize issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. When a localization is not available in the specified locale, localized messages default to \&quot;en_US\&quot;.
+     * @type {string}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly issueLocale?: string
+
+    /**
+     * A comma-delimited list of datasets that you want to include in the response. Default: &#x60;summaries&#x60;.
+     * @type {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement' | 'relationships' | 'productTypes'>
+
+    /**
+     * A comma-delimited list of product identifiers that you can use to search for listings items.   **Note**:  1. This is required when you specify &#x60;identifiersType&#x60;. 2. You cannot use \&#39;identifiers\&#39; if you specify &#x60;variationParentSku&#x60; or &#x60;packageHierarchySku&#x60;.
      * @type {Array<string>}
      * @memberof ListingsApiSearchListingsItems
      */
     readonly identifiers?: Array<string>
 
     /**
-     * Type of product identifiers to search for listings items by.   **Note**:  1. Required when &#x60;identifiers&#x60; is provided.
-     * @type {'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'}
+     * A type of product identifiers that you can use to search for listings items.   **Note**:  This is required when &#x60;identifiers&#x60; is provided.
+     * @type {'ASIN' | 'EAN' | 'FNSKU' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'}
      * @memberof ListingsApiSearchListingsItems
      */
-    readonly identifiersType?: 'ASIN' | 'EAN' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'
+    readonly identifiersType?: 'ASIN' | 'EAN' | 'FNSKU' | 'GTIN' | 'ISBN' | 'JAN' | 'MINSAN' | 'SKU' | 'UPC'
 
     /**
-     * Number of results to be returned per page.
+     * Filters results to include listing items that are variation children of the specified SKU.   **Note**: You cannot use &#x60;variationParentSku&#x60; if you include &#x60;identifiers&#x60; or &#x60;packageHierarchySku&#x60; in your request.
+     * @type {string}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly variationParentSku?: string
+
+    /**
+     * Filter results to include listing items that contain or are contained by the specified SKU.   **Note**: You cannot use &#x60;packageHierarchySku&#x60; if you include &#x60;identifiers&#x60; or &#x60;variationParentSku&#x60; in your request.
+     * @type {string}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly packageHierarchySku?: string
+
+    /**
+     * A date-time that is used to filter listing items. The response includes listings items that were created at or after this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     * @type {string}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly createdAfter?: string
+
+    /**
+     * A date-time that is used to filter listing items. The response includes listings items that were created at or before this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     * @type {string}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly createdBefore?: string
+
+    /**
+     * A date-time that is used to filter listing items. The response includes listings items that were last updated at or after this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     * @type {string}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly lastUpdatedAfter?: string
+
+    /**
+     * A date-time that is used to filter listing items. The response includes listings items that were last updated at or before this time. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     * @type {string}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly lastUpdatedBefore?: string
+
+    /**
+     * Filter results to include only listing items that have issues that match one or more of the specified severity levels.
+     * @type {Array<'WARNING' | 'ERROR'>}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly withIssueSeverity?: Array<'WARNING' | 'ERROR'>
+
+    /**
+     * Filter results to include only listing items that have the specified status.
+     * @type {Array<'BUYABLE' | 'DISCOVERABLE'>}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly withStatus?: Array<'BUYABLE' | 'DISCOVERABLE'>
+
+    /**
+     * Filter results to include only listing items that don\&#39;t contain the specified statuses.
+     * @type {Array<'BUYABLE' | 'DISCOVERABLE'>}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly withoutStatus?: Array<'BUYABLE' | 'DISCOVERABLE'>
+
+    /**
+     * An attribute by which to sort the returned listing items.
+     * @type {'sku' | 'createdDate' | 'lastUpdatedDate'}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly sortBy?: 'sku' | 'createdDate' | 'lastUpdatedDate'
+
+    /**
+     * The order in which to sort the result items.
+     * @type {'ASC' | 'DESC'}
+     * @memberof ListingsApiSearchListingsItems
+     */
+    readonly sortOrder?: 'ASC' | 'DESC'
+
+    /**
+     * The number of results that you want to include on each page.
      * @type {number}
      * @memberof ListingsApiSearchListingsItems
      */
     readonly pageSize?: number
 
     /**
-     * A token to fetch a certain page when there are multiple pages worth of results.
+     * A token that you can use to fetch a specific page when there are multiple pages of results.
      * @type {string}
      * @memberof ListingsApiSearchListingsItems
      */
     readonly pageToken?: string
-
-    /**
-     * A comma-delimited list of data sets to include in the response. Default: summaries.
-     * @type {Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>}
-     * @memberof ListingsApiSearchListingsItems
-     */
-    readonly includedData?: Array<'summaries' | 'attributes' | 'issues' | 'offers' | 'fulfillmentAvailability' | 'procurement'>
-
-    /**
-     * A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. Localized messages default to \&quot;en_US\&quot; when a localization is not available in the specified locale.
-     * @type {string}
-     * @memberof ListingsApiSearchListingsItems
-     */
-    readonly issueLocale?: string
 }
 
 /**
@@ -1439,7 +1711,7 @@ export class ListingsApi extends BaseAPI {
     }
 
     /**
-     * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
      * @param {ListingsApiPatchListingsItemRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1461,14 +1733,14 @@ export class ListingsApi extends BaseAPI {
     }
 
     /**
-     * Search for and return list of listings items and respective details for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * Search for and return a list of selling partner listings items and their respective details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {ListingsApiSearchListingsItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ListingsApi
      */
     public searchListingsItems(requestParameters: ListingsApiSearchListingsItemsRequest, options?: any) {
-        return ListingsApiFp(this.configuration).searchListingsItems(requestParameters.sellerId, requestParameters.marketplaceIds, requestParameters.identifiers, requestParameters.identifiersType, requestParameters.pageSize, requestParameters.pageToken, requestParameters.includedData, requestParameters.issueLocale, options).then((request) => request(this.axios, this.basePath));
+        return ListingsApiFp(this.configuration).searchListingsItems(requestParameters.sellerId, requestParameters.marketplaceIds, requestParameters.issueLocale, requestParameters.includedData, requestParameters.identifiers, requestParameters.identifiersType, requestParameters.variationParentSku, requestParameters.packageHierarchySku, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.withIssueSeverity, requestParameters.withStatus, requestParameters.withoutStatus, requestParameters.sortBy, requestParameters.sortOrder, requestParameters.pageSize, requestParameters.pageToken, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
