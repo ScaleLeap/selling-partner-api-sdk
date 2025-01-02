@@ -196,7 +196,7 @@ export interface CustomerInvoice {
      */
     purchaseOrderNumber: string;
     /**
-     * The `Base64encoded` customer invoice.
+     * The Base64encoded customer invoice.
      * @type {string}
      * @memberof CustomerInvoice
      */
@@ -215,7 +215,7 @@ export interface CustomerInvoiceList {
      */
     pagination?: Pagination;
     /**
-     * Represents a customer invoice within the `CustomerInvoiceList`.
+     * Represents a customer invoice within the CustomerInvoiceList.
      * @type {Array<CustomerInvoice>}
      * @memberof CustomerInvoiceList
      */
@@ -263,7 +263,7 @@ export enum DimensionsUnitOfMeasureEnum {
 }
 
 /**
- * The response schema for the `getCustomerInvoice` operation.
+ * The response schema for the getCustomerInvoice operation.
  * @export
  * @interface GetCustomerInvoiceResponse
  */
@@ -282,7 +282,7 @@ export interface GetCustomerInvoiceResponse {
     errors?: Array<Error>;
 }
 /**
- * The response schema for the `getCustomerInvoices` operation.
+ * The response schema for the getCustomerInvoices operation.
  * @export
  * @interface GetCustomerInvoicesResponse
  */
@@ -301,7 +301,7 @@ export interface GetCustomerInvoicesResponse {
     errors?: Array<Error>;
 }
 /**
- * Response payload with the list of packing slips.
+ * Response payload with the list of Packing Slips.
  * @export
  * @interface GetPackingSlipListResponse
  */
@@ -339,7 +339,7 @@ export interface GetPackingSlipResponse {
     errors?: Array<Error>;
 }
 /**
- * The response schema for the `getShippingLabels` operation.
+ * The response schema for the getShippingLabels operation.
  * @export
  * @interface GetShippingLabelListResponse
  */
@@ -358,7 +358,7 @@ export interface GetShippingLabelListResponse {
     errors?: Array<Error>;
 }
 /**
- * The response schema for the `getShippingLabel` operation.
+ * The response schema for the getShippingLabel operation.
  * @export
  * @interface GetShippingLabelResponse
  */
@@ -389,7 +389,7 @@ export interface Item {
      */
     itemSequenceNumber: number;
     /**
-     * Buyer\'s Standard Identification Number (ASIN) of an item. Either `buyerProductIdentifier` or `vendorProductIdentifier` is required.
+     * Buyer\'s Standard Identification Number (ASIN) of an item. Either buyerProductIdentifier or vendorProductIdentifier is required.
      * @type {string}
      * @memberof Item
      */
@@ -445,7 +445,7 @@ export interface LabelData {
      */
     trackingNumber?: string;
     /**
-     * Ship method to be used for shipping the order. Amazon defines ship method codes indicating shipping carrier and shipment service level. Ship method codes are case and format sensitive. The same ship method code should returned on the shipment confirmation. Note that the ship method codes are vendor specific and will be provided to each vendor during the implementation.
+     * Ship method to be used for shipping the order. Amazon defines Ship Method Codes indicating shipping carrier and shipment service level. Ship Method Codes are case and format sensitive. The same ship method code should returned on the shipment confirmation. Note that the Ship Method Codes are vendor specific and will be provided to each vendor during the implementation.
      * @type {string}
      * @memberof LabelData
      */
@@ -501,7 +501,7 @@ export interface PackedItem {
      */
     itemSequenceNumber: number;
     /**
-     * Buyer\'s Standard Identification Number (ASIN) of an item. Either `buyerProductIdentifier` or `vendorProductIdentifier` is required.
+     * Buyer\'s Standard Identification Number (ASIN) of an item. Either buyerProductIdentifier or vendorProductIdentifier is required.
      * @type {string}
      * @memberof PackedItem
      */
@@ -579,7 +579,7 @@ export interface PackingSlipList {
  */
 export interface Pagination {
     /**
-     * A generated string used to pass information to your next request. If `NextToken` is returned, pass the value of `NextToken` to the next request. If `NextToken` is not returned, there are no more order items to return.
+     * A generated string used to pass information to your next request. If NextToken is returned, pass the value of NextToken to the next request. If NextToken is not returned, there are no more order items to return.
      * @type {string}
      * @memberof Pagination
      */
@@ -835,25 +835,25 @@ export interface ShippingLabelRequest {
  */
 export interface StatusUpdateDetails {
     /**
-     * This is required to be provided for every package and should match with the `trackingNumber` sent for the shipment confirmation.
+     * This is required to be provided for every package and should match with the trackingNumber sent for the shipment confirmation.
      * @type {string}
      * @memberof StatusUpdateDetails
      */
     trackingNumber: string;
     /**
-     * Indicates the shipment status code for the package that provides transportation information for Amazon tracking systems and ultimately for the final customer. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
+     * Indicates the shipment status code of the package that provides transportation information for Amazon tracking systems and ultimately for the final customer. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
      * @type {string}
      * @memberof StatusUpdateDetails
      */
     statusCode: string;
     /**
-     * Provides a reason code for the status for the package that will provide additional information about the transportation status. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
+     * Provides a reason code for the status of the package that will provide additional information about the transportation status. For more information, refer to the [Additional Fields Explanation](https://developer-docs.amazon.com/sp-api/docs/vendor-direct-fulfillment-shipping-api-use-case-guide#additional-fields-explanation).
      * @type {string}
      * @memberof StatusUpdateDetails
      */
     reasonCode: string;
     /**
-     * The date and time when the shipment status was updated. This field is expected to be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format, with UTC time zone or UTC offset. For example, `2020-07-16T23:00:00Z` or `2020-07-16T23:00:00+01:00`.
+     * The date and time when the shipment status was updated. This field is expected to be in ISO-8601 date/time format, with UTC time zone or UTC offset. For example, 2020-07-16T23:00:00Z or 2020-07-16T23:00:00+01:00.
      * @type {string}
      * @memberof StatusUpdateDetails
      */
@@ -878,39 +878,39 @@ export interface StatusUpdateDetails {
  */
 export interface StatusUpdateDetailsShipmentSchedule {
     /**
-     * Date on which the shipment is expected to reach the customer delivery location. This field is expected to be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format, with UTC time zone or UTC offset. For example, `2020-07-16T23:00:00Z` or `2020-07-16T23:00:00+01:00`.
+     * Date on which the shipment is expected to reach the customer delivery location. This field is expected to be in ISO-8601 date/time format, with UTC time zone or UTC offset. For example, 2020-07-16T23:00:00Z or 2020-07-16T23:00:00+01:00.
      * @type {string}
      * @memberof StatusUpdateDetailsShipmentSchedule
      */
     estimatedDeliveryDateTime?: string;
     /**
-     * This field indicates the date and time at the start of the appointment window scheduled to deliver the shipment. This field is expected to be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format, with UTC time zone or UTC offset. For example, `2020-07-16T23:00:00Z` or `2020-07-16T23:00:00+01:00`.
+     * This field indicates the date and time at the start of the appointment window scheduled to deliver the shipment. This field is expected to be in ISO-8601 date/time format, with UTC time zone or UTC offset. For example, 2020-07-16T23:00:00Z or 2020-07-16T23:00:00+01:00.
      * @type {string}
      * @memberof StatusUpdateDetailsShipmentSchedule
      */
     apptWindowStartDateTime?: string;
     /**
-     * This field indicates the date and time at the end of the appointment window scheduled to deliver the shipment. This field is expected to be in <a href=\'https://developer-docs.amazon.com/sp-api/docs/iso-8601\'>ISO 8601</a> date/time format, with UTC time zone or UTC offset. For example, `2020-07-16T23:00:00Z` or `2020-07-16T23:00:00+01:00`.
+     * This field indicates the date and time at the end of the appointment window scheduled to deliver the shipment. This field is expected to be in ISO-8601 date/time format, with UTC time zone or UTC offset. For example, 2020-07-16T23:00:00Z or 2020-07-16T23:00:00+01:00.
      * @type {string}
      * @memberof StatusUpdateDetailsShipmentSchedule
      */
     apptWindowEndDateTime?: string;
 }
 /**
- * The request schema for the `submitShipmentConfirmations` operation.
+ * The request schema for the submitShipmentConfirmations operation.
  * @export
  * @interface SubmitShipmentConfirmationsRequest
  */
 export interface SubmitShipmentConfirmationsRequest {
     /**
-     * Array of `ShipmentConfirmation` objects, each representing confirmation details for a specific shipment.
+     * Array of ShipmentConfirmation objects, each representing confirmation details for a specific shipment.
      * @type {Array<ShipmentConfirmation>}
      * @memberof SubmitShipmentConfirmationsRequest
      */
     shipmentConfirmations?: Array<ShipmentConfirmation>;
 }
 /**
- * The response schema for the `submitShipmentConfirmations` operation.
+ * The response schema for the submitShipmentConfirmations operation.
  * @export
  * @interface SubmitShipmentConfirmationsResponse
  */
@@ -929,20 +929,20 @@ export interface SubmitShipmentConfirmationsResponse {
     errors?: Array<Error>;
 }
 /**
- * Represents the request payload for submitting updates to the status of shipments, containing an array of one or more `ShipmentStatusUpdate` objects.
+ * Represents the request payload for submitting updates to the status of shipments, containing an array of one or more ShipmentStatusUpdate objects.
  * @export
  * @interface SubmitShipmentStatusUpdatesRequest
  */
 export interface SubmitShipmentStatusUpdatesRequest {
     /**
-     * Contains a list of one or more `ShipmentStatusUpdate` objects, each representing an update to the status of a specific shipment.
+     * Contains a list of one or more ShipmentStatusUpdate objects, each representing an update to the status of a specific shipment.
      * @type {Array<ShipmentStatusUpdate>}
      * @memberof SubmitShipmentStatusUpdatesRequest
      */
     shipmentStatusUpdates?: Array<ShipmentStatusUpdate>;
 }
 /**
- * The response schema for the `submitShipmentStatusUpdates` operation.
+ * The response schema for the submitShipmentStatusUpdates operation.
  * @export
  * @interface SubmitShipmentStatusUpdatesResponse
  */
@@ -961,7 +961,7 @@ export interface SubmitShipmentStatusUpdatesResponse {
     errors?: Array<Error>;
 }
 /**
- * The request schema for the `submitShippingLabelRequest` operation.
+ * The request schema for the submitShippingLabelRequest operation.
  * @export
  * @interface SubmitShippingLabelsRequest
  */
@@ -974,7 +974,7 @@ export interface SubmitShippingLabelsRequest {
     shippingLabelRequests?: Array<ShippingLabelRequest>;
 }
 /**
- * The response schema for the `submitShippingLabelRequest` operation.
+ * The response schema for the submitShippingLabelRequest operation.
  * @export
  * @interface SubmitShippingLabelsResponse
  */
@@ -1083,7 +1083,7 @@ export enum WeightUnitOfMeasureEnum {
 export const CustomerInvoicesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns a customer invoice based on the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a customer invoice based on the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber Purchase order number of the shipment for which to return the invoice.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1116,10 +1116,10 @@ export const CustomerInvoicesApiAxiosParamCreator = function (configuration?: Co
             };
         },
         /**
-         * Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must be no more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Orders that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Orders that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified, the result will contain orders for all warehouses.
+         * Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must be no more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Orders that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Orders that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by order creation date.
          * @param {string} [nextToken] Used for pagination when there are more orders than the specified result size limit. The token value is returned in the previous API call.
@@ -1193,7 +1193,7 @@ export const CustomerInvoicesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = CustomerInvoicesApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns a customer invoice based on the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a customer invoice based on the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber Purchase order number of the shipment for which to return the invoice.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1203,10 +1203,10 @@ export const CustomerInvoicesApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must be no more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Orders that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Orders that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified, the result will contain orders for all warehouses.
+         * Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must be no more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Orders that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Orders that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by order creation date.
          * @param {string} [nextToken] Used for pagination when there are more orders than the specified result size limit. The token value is returned in the previous API call.
@@ -1228,7 +1228,7 @@ export const CustomerInvoicesApiFactory = function (configuration?: Configuratio
     const localVarFp = CustomerInvoicesApiFp(configuration)
     return {
         /**
-         * Returns a customer invoice based on the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Returns a customer invoice based on the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} purchaseOrderNumber Purchase order number of the shipment for which to return the invoice.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1237,10 +1237,10 @@ export const CustomerInvoicesApiFactory = function (configuration?: Configuratio
             return localVarFp.getCustomerInvoice(purchaseOrderNumber, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must be no more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Orders that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Orders that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified, the result will contain orders for all warehouses.
+         * Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must be no more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Orders that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Orders that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by order creation date.
          * @param {string} [nextToken] Used for pagination when there are more orders than the specified result size limit. The token value is returned in the previous API call.
@@ -1274,21 +1274,21 @@ export interface CustomerInvoicesApiGetCustomerInvoiceRequest {
  */
 export interface CustomerInvoicesApiGetCustomerInvoicesRequest {
     /**
-     * Orders that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Orders that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof CustomerInvoicesApiGetCustomerInvoices
      */
     readonly createdAfter: string
 
     /**
-     * Orders that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Orders that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof CustomerInvoicesApiGetCustomerInvoices
      */
     readonly createdBefore: string
 
     /**
-     * The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified, the result will contain orders for all warehouses.
+     * The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
      * @type {string}
      * @memberof CustomerInvoicesApiGetCustomerInvoices
      */
@@ -1324,7 +1324,7 @@ export interface CustomerInvoicesApiGetCustomerInvoicesRequest {
  */
 export class CustomerInvoicesApi extends BaseAPI {
     /**
-     * Returns a customer invoice based on the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a customer invoice based on the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {CustomerInvoicesApiGetCustomerInvoiceRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1335,7 +1335,7 @@ export class CustomerInvoicesApi extends BaseAPI {
     }
 
     /**
-     * Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must be no more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a list of customer invoices created during a time frame that you specify. You define the  time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must be no more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {CustomerInvoicesApiGetCustomerInvoicesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1354,8 +1354,8 @@ export class CustomerInvoicesApi extends BaseAPI {
 export const VendorShippingApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns a packing slip based on the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The &#x60;purchaseOrderNumber&#x60; for the packing slip you want.
+         * Returns a packing slip based on the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} purchaseOrderNumber The purchaseOrderNumber for the packing slip you want.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1387,10 +1387,10 @@ export const VendorShippingApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Packing slips that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Packing slips that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified the result will contain orders for all warehouses.
+         * Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Packing slips that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Packing slips that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by packing slip creation date.
          * @param {string} [nextToken] Used for pagination when there are more packing slips than the specified result size limit. The token value is returned in the previous API call.
@@ -1454,7 +1454,7 @@ export const VendorShippingApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShipmentConfirmationsRequest} body Request body containing the shipment confirmations data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1489,7 +1489,7 @@ export const VendorShippingApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShipmentStatusUpdatesRequest} body Request body containing the shipment status update data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1534,8 +1534,8 @@ export const VendorShippingApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = VendorShippingApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns a packing slip based on the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The &#x60;purchaseOrderNumber&#x60; for the packing slip you want.
+         * Returns a packing slip based on the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} purchaseOrderNumber The purchaseOrderNumber for the packing slip you want.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1544,10 +1544,10 @@ export const VendorShippingApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Packing slips that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Packing slips that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified the result will contain orders for all warehouses.
+         * Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Packing slips that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Packing slips that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by packing slip creation date.
          * @param {string} [nextToken] Used for pagination when there are more packing slips than the specified result size limit. The token value is returned in the previous API call.
@@ -1559,7 +1559,7 @@ export const VendorShippingApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShipmentConfirmationsRequest} body Request body containing the shipment confirmations data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1569,7 +1569,7 @@ export const VendorShippingApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShipmentStatusUpdatesRequest} body Request body containing the shipment status update data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1589,8 +1589,8 @@ export const VendorShippingApiFactory = function (configuration?: Configuration,
     const localVarFp = VendorShippingApiFp(configuration)
     return {
         /**
-         * Returns a packing slip based on the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The &#x60;purchaseOrderNumber&#x60; for the packing slip you want.
+         * Returns a packing slip based on the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} purchaseOrderNumber The purchaseOrderNumber for the packing slip you want.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1598,10 +1598,10 @@ export const VendorShippingApiFactory = function (configuration?: Configuration,
             return localVarFp.getPackingSlip(purchaseOrderNumber, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Packing slips that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Packing slips that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified the result will contain orders for all warehouses.
+         * Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Packing slips that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Packing slips that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by packing slip creation date.
          * @param {string} [nextToken] Used for pagination when there are more packing slips than the specified result size limit. The token value is returned in the previous API call.
@@ -1612,7 +1612,7 @@ export const VendorShippingApiFactory = function (configuration?: Configuration,
             return localVarFp.getPackingSlips(createdAfter, createdBefore, shipFromPartyId, limit, sortOrder, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShipmentConfirmationsRequest} body Request body containing the shipment confirmations data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1621,7 +1621,7 @@ export const VendorShippingApiFactory = function (configuration?: Configuration,
             return localVarFp.submitShipmentConfirmations(body, options).then((request) => request(axios, basePath));
         },
         /**
-         * This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShipmentStatusUpdatesRequest} body Request body containing the shipment status update data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1639,7 +1639,7 @@ export const VendorShippingApiFactory = function (configuration?: Configuration,
  */
 export interface VendorShippingApiGetPackingSlipRequest {
     /**
-     * The &#x60;purchaseOrderNumber&#x60; for the packing slip you want.
+     * The purchaseOrderNumber for the packing slip you want.
      * @type {string}
      * @memberof VendorShippingApiGetPackingSlip
      */
@@ -1653,21 +1653,21 @@ export interface VendorShippingApiGetPackingSlipRequest {
  */
 export interface VendorShippingApiGetPackingSlipsRequest {
     /**
-     * Packing slips that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Packing slips that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorShippingApiGetPackingSlips
      */
     readonly createdAfter: string
 
     /**
-     * Packing slips that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Packing slips that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorShippingApiGetPackingSlips
      */
     readonly createdBefore: string
 
     /**
-     * The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified the result will contain orders for all warehouses.
+     * The vendor warehouseId for order fulfillment. If not specified the result will contain orders for all warehouses.
      * @type {string}
      * @memberof VendorShippingApiGetPackingSlips
      */
@@ -1731,7 +1731,7 @@ export interface VendorShippingApiSubmitShipmentStatusUpdatesRequest {
  */
 export class VendorShippingApi extends BaseAPI {
     /**
-     * Returns a packing slip based on the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a packing slip based on the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorShippingApiGetPackingSlipRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1742,7 +1742,7 @@ export class VendorShippingApi extends BaseAPI {
     }
 
     /**
-     * Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorShippingApiGetPackingSlipsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1753,7 +1753,7 @@ export class VendorShippingApi extends BaseAPI {
     }
 
     /**
-     * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Submits one or more shipment confirmations for vendor orders.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorShippingApiSubmitShipmentConfirmationsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1764,7 +1764,7 @@ export class VendorShippingApi extends BaseAPI {
     }
 
     /**
-     * This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorShippingApiSubmitShipmentStatusUpdatesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1783,8 +1783,8 @@ export class VendorShippingApi extends BaseAPI {
 export const VendorShippingLabelsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Returns a shipping label for the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same &#x60;purchaseOrderNumber&#x60; as received in the order.
+         * Returns a shipping label for the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1816,10 +1816,10 @@ export const VendorShippingLabelsApiAxiosParamCreator = function (configuration?
             };
         },
         /**
-         * Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Shipping labels that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Shipping labels that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified, the result will contain orders for all warehouses.
+         * Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Shipping labels that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Shipping labels that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by order creation date.
          * @param {string} [nextToken] Used for pagination when there are more ship labels than the specified result size limit. The token value is returned in the previous API call.
@@ -1883,7 +1883,7 @@ export const VendorShippingLabelsApiAxiosParamCreator = function (configuration?
             };
         },
         /**
-         * Creates a shipping label for a purchase order and returns a `transactionId` for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShippingLabelsRequest} body Request body containing one or more shipping labels data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1928,8 +1928,8 @@ export const VendorShippingLabelsApiFp = function(configuration?: Configuration)
     const localVarAxiosParamCreator = VendorShippingLabelsApiAxiosParamCreator(configuration)
     return {
         /**
-         * Returns a shipping label for the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same &#x60;purchaseOrderNumber&#x60; as received in the order.
+         * Returns a shipping label for the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1938,10 +1938,10 @@ export const VendorShippingLabelsApiFp = function(configuration?: Configuration)
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Shipping labels that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Shipping labels that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified, the result will contain orders for all warehouses.
+         * Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Shipping labels that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Shipping labels that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by order creation date.
          * @param {string} [nextToken] Used for pagination when there are more ship labels than the specified result size limit. The token value is returned in the previous API call.
@@ -1953,7 +1953,7 @@ export const VendorShippingLabelsApiFp = function(configuration?: Configuration)
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Creates a shipping label for a purchase order and returns a `transactionId` for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShippingLabelsRequest} body Request body containing one or more shipping labels data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1973,8 +1973,8 @@ export const VendorShippingLabelsApiFactory = function (configuration?: Configur
     const localVarFp = VendorShippingLabelsApiFp(configuration)
     return {
         /**
-         * Returns a shipping label for the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same &#x60;purchaseOrderNumber&#x60; as received in the order.
+         * Returns a shipping label for the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} purchaseOrderNumber The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1982,10 +1982,10 @@ export const VendorShippingLabelsApiFactory = function (configuration?: Configur
             return localVarFp.getShippingLabel(purchaseOrderNumber, options).then((request) => request(axios, basePath));
         },
         /**
-         * Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
-         * @param {string} createdAfter Shipping labels that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} createdBefore Shipping labels that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
-         * @param {string} [shipFromPartyId] The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified, the result will contain orders for all warehouses.
+         * Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} createdAfter Shipping labels that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} createdBefore Shipping labels that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
+         * @param {string} [shipFromPartyId] The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
          * @param {number} [limit] The limit to the number of records returned.
          * @param {'ASC' | 'DESC'} [sortOrder] Sort ASC or DESC by order creation date.
          * @param {string} [nextToken] Used for pagination when there are more ship labels than the specified result size limit. The token value is returned in the previous API call.
@@ -1996,7 +1996,7 @@ export const VendorShippingLabelsApiFactory = function (configuration?: Configur
             return localVarFp.getShippingLabels(createdAfter, createdBefore, shipFromPartyId, limit, sortOrder, nextToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * Creates a shipping label for a purchase order and returns a `transactionId` for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+         * Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitShippingLabelsRequest} body Request body containing one or more shipping labels data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2014,7 +2014,7 @@ export const VendorShippingLabelsApiFactory = function (configuration?: Configur
  */
 export interface VendorShippingLabelsApiGetShippingLabelRequest {
     /**
-     * The purchase order number for which you want to return the shipping label. It should be the same &#x60;purchaseOrderNumber&#x60; as received in the order.
+     * The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
      * @type {string}
      * @memberof VendorShippingLabelsApiGetShippingLabel
      */
@@ -2028,21 +2028,21 @@ export interface VendorShippingLabelsApiGetShippingLabelRequest {
  */
 export interface VendorShippingLabelsApiGetShippingLabelsRequest {
     /**
-     * Shipping labels that became available after this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Shipping labels that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorShippingLabelsApiGetShippingLabels
      */
     readonly createdAfter: string
 
     /**
-     * Shipping labels that became available before this date and time will be included in the result. Must be in &lt;a href&#x3D;\&#39;https://developer-docs.amazon.com/sp-api/docs/iso-8601\&#39;&gt;ISO 8601&lt;/a&gt; date/time format.
+     * Shipping labels that became available before this date and time will be included in the result. Must be in ISO-8601 date/time format.
      * @type {string}
      * @memberof VendorShippingLabelsApiGetShippingLabels
      */
     readonly createdBefore: string
 
     /**
-     * The vendor &#x60;warehouseId&#x60; for order fulfillment. If not specified, the result will contain orders for all warehouses.
+     * The vendor warehouseId for order fulfillment. If not specified, the result will contain orders for all warehouses.
      * @type {string}
      * @memberof VendorShippingLabelsApiGetShippingLabels
      */
@@ -2092,7 +2092,7 @@ export interface VendorShippingLabelsApiSubmitShippingLabelRequestRequest {
  */
 export class VendorShippingLabelsApi extends BaseAPI {
     /**
-     * Returns a shipping label for the `purchaseOrderNumber` that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a shipping label for the purchaseOrderNumber that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorShippingLabelsApiGetShippingLabelRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2103,7 +2103,7 @@ export class VendorShippingLabelsApi extends BaseAPI {
     }
 
     /**
-     * Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the `createdAfter` and `createdBefore` parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorShippingLabelsApiGetShippingLabelsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2114,7 +2114,7 @@ export class VendorShippingLabelsApi extends BaseAPI {
     }
 
     /**
-     * Creates a shipping label for a purchase order and returns a `transactionId` for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+     * Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorShippingLabelsApiSubmitShippingLabelRequestRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

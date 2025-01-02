@@ -618,7 +618,7 @@ export interface DeliveryPolicy {
     message?: DeliveryMessage;
 }
 /**
- * The delivery preferences applied to the destination address. These preferences will be applied when possible and are best effort. This feature is currently supported only in the JP marketplace and not applicable for other marketplaces.
+ * The delivery preferences applied to the destination address. These preferences are applied when possible and are best effort. This feature is currently supported only in the JP marketplace and not applicable for other marketplaces. For eligible orders, the default delivery preference will be to deliver the package unattended at the front door, unless you specify otherwise.
  * @export
  * @interface DeliveryPreferences
  */
@@ -2349,7 +2349,7 @@ export interface ScheduledDeliveryInfo {
     deliveryWindows: Array<DeliveryWindow>;
 }
 /**
- * The shipping method used for the fulfillment order. When this value is `ScheduledDelivery`, choose Ship for the `fulfillmentAction`. Hold is not a valid `fulfillmentAction` value when the `shippingSpeedCategory` value is `ScheduledDelivery`.
+ * The shipping method used for the fulfillment order. When this value is `ScheduledDelivery`, choose `Ship` for the `fulfillmentAction`. `Hold` is not a valid `fulfillmentAction` value when the `shippingSpeedCategory` value is `ScheduledDelivery`. Note: Shipping method service level agreements vary by marketplace. Sellers should refer to the [Seller Central](https://developer-docs.amazon.com/sp-api/docs/seller-central-urls) website in their marketplace for shipping method service level agreements and fulfillment fees.
  * @export
  * @enum {string}
  */
