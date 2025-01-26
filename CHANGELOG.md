@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v8.3.0...v8.4.0) (2025-01-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v1.7.8 ([#1151](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1151)) ([bcf2782](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/bcf27823adafb51748c5b255227bc03232357a9b))
+* **deps:** update dependency axios to v1.7.9 ([#1160](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1160)) ([9653c72](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/9653c7243abb892c2774ef882c3b6fe0e6497ed6))
+
+
+### Features
+
+* updates API models ([#1146](https://github.com/ScaleLeap/selling-partner-api-sdk/issues/1146)) ([d4a4f6e](https://github.com/ScaleLeap/selling-partner-api-sdk/commit/d4a4f6ec47b93ce71ea80ae7325f46159184c64e))
+
 # [8.3.0](https://github.com/ScaleLeap/selling-partner-api-sdk/compare/v8.2.0...v8.3.0) (2024-10-15)
 
 
