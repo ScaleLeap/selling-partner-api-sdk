@@ -62,7 +62,7 @@
     "@types/fancy-log": "2.0.2",
     "@types/jest": "29.5.14",
     "@types/lodash": "4.17.14",
-    "@types/node": "16.18.123",
+    "@types/node": "22.13.4",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "danger": "12.3.3",
